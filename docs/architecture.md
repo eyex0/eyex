@@ -1,115 +1,50 @@
-# Architecture
+# EyeX Technologies - System Architecture
 
-## System Overview
+This document provides a high-level overview of the system architecture of the EyeX Technologies platform.
 
-QORX is an Enterprise AI Operating System built on a modern cloud-native architecture. The system uses a monorepo structure with three workspace packages, a React frontend, and Supabase backend.
+## Overview
 
-```
-┌─────────────────────────────────────────────────────────┐
-│                    Client Layer (Vite + React)          │
-│  @tanstack/react-router  ·  Recharts  ·  Tailwind v4    │
-├─────────────────────────────────────────────────────────┤
-│                    @eyex/agents (AI Layer)              │
-│  AgentOrchestrator ─ routes requests to specialized     │
-│  agents via LangGraph, manages plans, evaluates results  │
-├─────────────────────────────────────────────────────────┤
-│                    @eyex/services (Service Layer)        │
-│  Business logic: Auth, Billing, Metrics, Alerts, ...    │
-├─────────────────────────────────────────────────────────┤
-│              Supabase (Data + Auth + Realtime)          │
-│  PostgreSQL  ·  Row Level Security  ·  Auth             │
-└─────────────────────────────────────────────────────────┘
-```
+The EyeX platform is a full-stack application composed of a modern web frontend, a powerful AI-driven backend, and a robust data layer. The architecture is designed to be scalable, maintainable, and deployable in a containerized environment.
 
-## Core Principles
+## Frontend
 
-- **Clean Architecture**: Separation of concerns across frontend, agents, and services
-- **Type Safety**: Full TypeScript with strict mode across all packages
-- **Multi-tenant**: Organization-based isolation via Supabase RLS
-- **AI-First**: LangGraph-powered agent orchestration for intelligence
+The frontend is a single-page application (SPA) built with **React** and **Vite**. It provides a rich and interactive user interface for interacting with the EyeX platform.
 
-## Frontend Architecture
+-   **Framework/Library:** React 19
+-   **Build Tool:** Vite
+-   **Language:** TypeScript
+-   **Styling:** Tailwind CSS with shadcn/ui components
+-   **Routing:** TanStack Router for client-side routing
+-   **Data Fetching:** TanStack Query for managing server state
 
-```
-src/
-├── components/         # Reusable UI components
-│   ├── layout/         # AppShell, Sidebar, SiteHeader
-│   └── ui/             # Primitives: button, card, input, table, tabs, badge, select
-├── lib/
-│   ├── supabase/       # Supabase client, types, helpers
-│   └── utils.ts        # Shared utilities (cn, etc.)
-├── pages/              # Route-level page components (18 pages)
-├── routes/             # Route definitions
-├── services/           # Frontend service layer (database.service.ts)
-├── main.tsx            # Entry point
-└── index.css           # Tailwind v4 styles
-```
+The frontend is served as a static asset build and is intended to be deployed behind a web server like Nginx.
 
-### Data Flow
+## Backend
 
-1. Page components call `db.*` methods from `src/services/database.service.ts`
-2. `db` methods use the Supabase client from `src/lib/supabase/client.ts`
-3. Supabase enforces RLS policies based on the authenticated user's organization
-4. Real-time subscriptions use Supabase Realtime channels
+The backend is a Python-based application that provides the core business logic, AI capabilities, and API for the platform.
 
-## Agent Architecture
+-   **Framework:** FastAPI, a modern, high-performance web framework for building APIs with Python.
+-   **AI Orchestration:** LangGraph is used to create and manage complex, stateful, multi-agent AI workflows.
+-   **AI Integration:** The backend integrates with Google Gemini via the `langchain-openai` library.
+-   **Database Interaction:** SQLAlchemy is used as the Object-Relational Mapper (ORM) for interacting with the PostgreSQL database.
+-   **Database Migrations:** Alembic is used for managing database schema migrations.
+-   **Asynchronous Operations:** The backend is built to be fully asynchronous, leveraging Python's `asyncio` capabilities.
 
-```
-AgentOrchestrator
-├── SQL Agent          NL→SQL using schema context
-├── Forecast Agent     Time-series forecasting
-├── Root Cause Agent   Metric anomaly analysis
-├── Narrative Agent    Report generation
-├── Insight Agent      KPI insight extraction
-├── Data Quality Agent Data validation
-├── Pre-Mortem Agent   Risk assessment
-└── Action Agent       Action recommendations
-```
+## Data Layer
 
-All agents extend `BaseAgent` from `packages/agents/src/base.ts` and implement:
+The data layer consists of a PostgreSQL database for persistent storage and a Redis instance for caching and short-term data storage.
 
-- `run(context: AgentContext): Promise<AgentOutput>`
-- `getName(): string`
+-   **Database:** PostgreSQL 16
+-   **Caching:** Redis 7
 
-The orchestrator manages:
+Both the database and the cache are managed as services within the Docker Compose setup.
 
-- Execution plans via the Planner
-- Result evaluation via the Evaluator
-- Session state via Memory
+## Authentication
 
-## Service Architecture
+Authentication is handled by **Supabase Auth**. The frontend uses the `supabase-js` library to interact with Supabase for user authentication (signup, login, etc.). The backend verifies JWTs issued by Supabase to authenticate API requests.
 
-```
-packages/services/src/
-├── auth.ts           Auth & user management
-├── billing.ts        Stripe billing integration
-├── alert-engine.ts   Alert rule evaluation
-├── metrics-engine.ts Metrics & analytics
-├── data-import.ts    CSV/Excel import pipeline
-├── data-quality.ts   Data quality checks
-├── embed.ts          Embedded analytics tokens
-├── git-ops.ts        Git-based sync operations
-├── permissions.ts    RBAC enforcement
-├── schema-cache.ts   Schema introspection cache
-├── metric-cache.ts   Redis metric cache
-└── sql-validator.ts  SQL query validation
-```
+## Deployment
 
-## Deployment Architecture
+The entire application is designed to be deployed using **Docker**. A `docker-compose.yml` file is provided to orchestrate the deployment of the frontend, backend, PostgreSQL database, and Redis cache.
 
-```
-┌─────────────┐     ┌──────────────┐     ┌──────────┐
-│  Cloudflare  │────▶│   Nginx      │────▶│  Vite    │
-│  Pages/Docker │    │  Reverse Proxy│    │  Static  │
-└─────────────┘     └──────────────┘     └──────────┘
-                           │
-                    ┌──────┴──────┐
-                    │  API Service │
-                    │  (Docker)   │
-                    └──────┬──────┘
-                           │
-                    ┌──────┴──────┐
-                    │   Redis     │
-                    │   Cache     │
-                    └─────────────┘
-```
+The presence of a `wrangler.jsonc` file also suggests a potential deployment target of Cloudflare Workers, likely for server-side rendering (SSR) or edge functions.
