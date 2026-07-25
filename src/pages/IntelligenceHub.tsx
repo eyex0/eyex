@@ -24,7 +24,7 @@ interface IntelligenceDocument {
 export function IntelligenceHubPage() {
   const [query, setQuery] = useState("");
   const [context, setContext] = useState("");
-  const [sessionId, setSessionId] = useState("demo-" + Date.now());
+  const [sessionId, setSessionId] = useState("session-" + Date.now());
   const [result, setResult] = useState<string | null>(null);
   const [steps, setSteps] = useState<Step[]>([]);
   const [knowledgeKey, setKnowledgeKey] = useState("");

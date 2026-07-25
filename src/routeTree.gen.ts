@@ -24,7 +24,6 @@ import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as DataSourcesRouteImport } from './routes/data-sources'
 import { Route as DocumentsRouteImport } from './routes/documents'
 import { Route as EnterpriseRouteImport } from './routes/enterprise'
-import { Route as EnterpriseDemoRouteImport } from './routes/enterprise-demo'
 import { Route as EnterpriseReportsRouteImport } from './routes/enterprise-reports'
 import { Route as FinanceRouteImport } from './routes/finance'
 import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
@@ -116,11 +115,6 @@ const DocumentsRoute = DocumentsRouteImport.update({
 const EnterpriseRoute = EnterpriseRouteImport.update({
   id: '/enterprise',
   path: '/enterprise',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const EnterpriseDemoRoute = EnterpriseDemoRouteImport.update({
-  id: '/enterprise-demo',
-  path: '/enterprise-demo',
   getParentRoute: () => rootRouteImport,
 } as any)
 const EnterpriseReportsRoute = EnterpriseReportsRouteImport.update({
@@ -225,7 +219,6 @@ export interface FileRoutesByFullPath {
   '/data-sources': typeof DataSourcesRoute
   '/documents': typeof DocumentsRoute
   '/enterprise': typeof EnterpriseRoute
-  '/enterprise-demo': typeof EnterpriseDemoRoute
   '/enterprise-reports': typeof EnterpriseReportsRoute
   '/finance': typeof FinanceRoute
   '/forgot-password': typeof ForgotPasswordRoute
@@ -260,7 +253,6 @@ export interface FileRoutesByTo {
   '/data-sources': typeof DataSourcesRoute
   '/documents': typeof DocumentsRoute
   '/enterprise': typeof EnterpriseRoute
-  '/enterprise-demo': typeof EnterpriseDemoRoute
   '/enterprise-reports': typeof EnterpriseReportsRoute
   '/finance': typeof FinanceRoute
   '/forgot-password': typeof ForgotPasswordRoute
@@ -296,7 +288,6 @@ export interface FileRoutesById {
   '/data-sources': typeof DataSourcesRoute
   '/documents': typeof DocumentsRoute
   '/enterprise': typeof EnterpriseRoute
-  '/enterprise-demo': typeof EnterpriseDemoRoute
   '/enterprise-reports': typeof EnterpriseReportsRoute
   '/finance': typeof FinanceRoute
   '/forgot-password': typeof ForgotPasswordRoute
@@ -333,7 +324,6 @@ export interface FileRouteTypes {
     | '/data-sources'
     | '/documents'
     | '/enterprise'
-    | '/enterprise-demo'
     | '/enterprise-reports'
     | '/finance'
     | '/forgot-password'
@@ -368,7 +358,6 @@ export interface FileRouteTypes {
     | '/data-sources'
     | '/documents'
     | '/enterprise'
-    | '/enterprise-demo'
     | '/enterprise-reports'
     | '/finance'
     | '/forgot-password'
@@ -403,7 +392,6 @@ export interface FileRouteTypes {
     | '/data-sources'
     | '/documents'
     | '/enterprise'
-    | '/enterprise-demo'
     | '/enterprise-reports'
     | '/finance'
     | '/forgot-password'
@@ -439,7 +427,6 @@ export interface RootRouteChildren {
   DataSourcesRoute: typeof DataSourcesRoute
   DocumentsRoute: typeof DocumentsRoute
   EnterpriseRoute: typeof EnterpriseRoute
-  EnterpriseDemoRoute: typeof EnterpriseDemoRoute
   EnterpriseReportsRoute: typeof EnterpriseReportsRoute
   FinanceRoute: typeof FinanceRoute
   ForgotPasswordRoute: typeof ForgotPasswordRoute
@@ -564,13 +551,6 @@ declare module '@tanstack/react-router' {
       path: '/enterprise'
       fullPath: '/enterprise'
       preLoaderRoute: typeof EnterpriseRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/enterprise-demo': {
-      id: '/enterprise-demo'
-      path: '/enterprise-demo'
-      fullPath: '/enterprise-demo'
-      preLoaderRoute: typeof EnterpriseDemoRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/enterprise-reports': {
@@ -711,7 +691,6 @@ const rootRouteChildren: RootRouteChildren = {
   DataSourcesRoute: DataSourcesRoute,
   DocumentsRoute: DocumentsRoute,
   EnterpriseRoute: EnterpriseRoute,
-  EnterpriseDemoRoute: EnterpriseDemoRoute,
   EnterpriseReportsRoute: EnterpriseReportsRoute,
   FinanceRoute: FinanceRoute,
   ForgotPasswordRoute: ForgotPasswordRoute,

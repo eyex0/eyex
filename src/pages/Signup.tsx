@@ -150,7 +150,7 @@ export default function SignupPage() {
                       <Input
                         {...field}
                         type="email"
-                        placeholder="you@example.com"
+                        placeholder="you@yourcorp.com"
                         className="h-11 bg-[#050505] border-[#1A1A1C] text-[#FAFAFA] placeholder:text-[#A1A1AA] focus-visible:ring-[#38BDF8] focus-visible:border-[#38BDF8]"
                       />
                     </FormControl>

@@ -76,8 +76,6 @@ export function DashboardPage() {
                 ))}
               </div>
               <div className="absolute inset-0 flex items-end px-2 opacity-50">
-                 {/* Fake chart placeholder */}
-                 <div className="w-full h-1/2 bg-gradient-to-t from-secondary-fixed-dim/20 to-transparent border-t border-secondary-fixed-dim"></div>
               </div>
             </div>
           </div>

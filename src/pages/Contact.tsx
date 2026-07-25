@@ -76,18 +76,18 @@ export function ContactPage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <div className="relative">
                     <label className="font-label-caps text-label-caps text-outline-variant absolute -top-2.5 left-3 bg-background px-2">FULL_NAME</label>
-                    <input className="w-full bg-transparent border border-outline-variant focus:border-secondary-fixed-dim focus:ring-0 rounded-lg p-4 font-mono-data text-white placeholder-white/10 transition-colors" placeholder="ENTER IDENTITY" type="text" />
+                    <input className="w-full bg-transparent border border-outline-variant focus:border-secondary-fixed-dim focus:ring-0 rounded-lg p-4 font-mono-data text-white placeholder-white/10 transition-colors" placeholder="Your Full Name" type="text" />
                   </div>
                   <div className="relative">
                     <label className="font-label-caps text-label-caps text-outline-variant absolute -top-2.5 left-3 bg-background px-2">EMAIL_ADDRESS</label>
-                    <input className="w-full bg-transparent border border-outline-variant focus:border-secondary-fixed-dim focus:ring-0 rounded-lg p-4 font-mono-data text-white placeholder-white/10 transition-colors" placeholder="NAME@INFRA.CORP" type="email" />
+                    <input className="w-full bg-transparent border border-outline-variant focus:border-secondary-fixed-dim focus:ring-0 rounded-lg p-4 font-mono-data text-white placeholder-white/10 transition-colors" placeholder="your.email@organization.com" type="email" />
                   </div>
                 </div>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <div className="relative">
                     <label className="font-label-caps text-label-caps text-outline-variant absolute -top-2.5 left-3 bg-background px-2">ORGANIZATION</label>
-                    <input className="w-full bg-transparent border border-outline-variant focus:border-secondary-fixed-dim focus:ring-0 rounded-lg p-4 font-mono-data text-white placeholder-white/10 transition-colors" placeholder="ENTITY_NAME" type="text" />
+                    <input className="w-full bg-transparent border border-outline-variant focus:border-secondary-fixed-dim focus:ring-0 rounded-lg p-4 font-mono-data text-white placeholder-white/10 transition-colors" placeholder="Your Organization's Name" type="text" />
                   </div>
                   <div className="relative">
                     <label className="font-label-caps text-label-caps text-outline-variant absolute -top-2.5 left-3 bg-background px-2">INFRASTRUCTURE_SCALE</label>
@@ -102,7 +102,7 @@ export function ContactPage() {
                 
                 <div className="relative">
                   <label className="font-label-caps text-label-caps text-outline-variant absolute -top-2.5 left-3 bg-background px-2">DEPLOYMENT_OBJECTIVES</label>
-                  <textarea className="w-full bg-transparent border border-outline-variant focus:border-secondary-fixed-dim focus:ring-0 rounded-lg p-4 font-mono-data text-white placeholder-white/10 transition-colors" placeholder="DESCRIBE THE SCOPE OF THE VISION REQUIREMENTS..." rows={5}></textarea>
+                  <textarea className="w-full bg-transparent border border-outline-variant focus:border-secondary-fixed-dim focus:ring-0 rounded-lg p-4 font-mono-data text-white placeholder-white/10 transition-colors" placeholder="Briefly describe your project or what you'd like to achieve with EyeX." rows={5}></textarea>
                 </div>
                 
                 <div className="flex items-center gap-3 py-2">

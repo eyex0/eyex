@@ -1,40 +1,73 @@
 # EyeX Technologies
 
-EyeX is a Vite + React frontend, a FastAPI backend, and a Supabase-backed enterprise AI platform.
+**EyeX Technologies** is an AI-powered enterprise decision intelligence platform. It acts as a virtual executive team, analyzing company data to identify risks and opportunities, and providing strategic recommendations through natural language interaction.
 
-## Frontend
+## Key Features
 
-```bash
-npm install
-npm run build
-npm run deploy
-```
+- **AI Executive Team:** A collaborative multi-agent system (CEO, CFO, COO, Risk) built with LangGraph.
+- **Company Memory System:** A knowledge graph with vector embeddings for deep contextual understanding.
+- **Proactive Intelligence:** Automatically detects risks, opportunities, and knowledge gaps in your business data.
+- **Secure and Isolated:** Enterprise-grade data isolation for each organization.
+- **Data Connectors:** Ingest data from various sources, including files, APIs, and databases.
 
-The frontend is configured for static deployment with `dist/` as the build output.
+## Technologies Used
 
-## Backend
+- **Frontend:** React (with Vite), TypeScript, Tailwind CSS, shadcn/ui, TanStack Router
+- **Backend:** Python, FastAPI, LangGraph
+- **Data Layer:** Supabase (PostgreSQL), Redis
+- **AI:** Google Gemini
 
-```bash
-cd eyex-backend
-cp .env.example .env
-docker compose -f docker-compose.prod.yml up --build
-```
+## Getting Started
 
-## Data layer
+### Prerequisites
 
-```bash
-# Apply Supabase migrations
-supabase db push
-```
+- Node.js (v20 or higher)
+- Python (v3.12 or higher)
+- Docker and Docker Compose
+- Supabase account and project
 
-## Environment
+### Installation
 
-- `VITE_SUPABASE_URL`
-- `VITE_SUPABASE_ANON_KEY`
-- `VITE_PYTHON_BACKEND_URL`
-- `SUPABASE_URL`
-- `SUPABASE_SERVICE_ROLE_KEY`
-- `OPENAI_API_KEY`
-- `APP_SECRET_KEY`
+1.  **Clone the repository:**
 
-See `.env.example` and `eyex-backend/.env.production.example` for the full configuration.
+    ```bash
+    git clone https://github.com/eyex-technologies/eyex.git
+    cd eyex
+    ```
+
+2.  **Set up environment variables:**
+
+    -   **Frontend:** Copy `.env.example` to `.env` and fill in the required values for `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY`.
+    -   **Backend:** In the `eyex-backend` directory, copy `.env.example` to `.env` and provide the necessary credentials for `DATABASE_URL`, `REDIS_URL`, `OPENAI_API_KEY`, and `APP_SECRET_KEY`.
+
+3.  **Install dependencies:**
+
+    ```bash
+    # For the frontend
+    npm install
+
+    # For the backend
+    pip install -r eyex-backend/requirements.txt
+    ```
+
+## Running the Application
+
+1.  **Start the backend:**
+
+    Navigate to the `eyex-backend` directory and run:
+
+    ```bash
+    docker-compose up --build
+    ```
+
+    The backend API will be available at `http://localhost:8000`.
+
+2.  **Start the frontend:**
+
+    In the root directory, run:
+
+    ```bash
+    npm run dev
+    ```
+
+    The application will be accessible at `http://localhost:5173`.

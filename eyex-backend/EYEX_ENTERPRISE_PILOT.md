@@ -283,7 +283,7 @@ Connect to any REST API:
 
 ```python
 POST /api/v1/enterprise/connectors/api/fetch
-source=https://api.example.com/v1/metrics
+source=https://api.eyex.tech/v1/metrics
 headers={"Authorization": "Bearer token123"}
 org_id=company_abc
 ```

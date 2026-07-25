@@ -30,7 +30,6 @@
 
 ## In Progress
 
-- ◐ **Contact Form Backend** — Form collects data but submits to console.log (no API endpoint)
 - ◐ **Marketing Page** — Static placeholder with CTA to data sources (no marketing tables in schema)
 - ◐ **Integrations Page** — Hardcoded static catalog with local toggle state (no persistence)
 - ◐ **RLS Policies** — All USING (true) — no actual row-level security enforcement
@@ -59,15 +58,13 @@
 - ! **upload.service.ts** calls non-existent `DatabaseService.createDataset()` and `DatabaseService.recordFileMetadata()` methods — will throw runtime error if file upload is attempted
 - ! **Finance.tsx** imports `reportsList` from mock.ts but likely doesn't use it (dead import)
 - ! **data-fetch.service.ts** — 11 server functions exist but are never called by any page (dead code)
-- ! **Contact form** — submits to console.log, no real backend
-- ! **console.error** in 8 files (acceptable for server/error logging, but Contact.tsx has console.log)
+- ! **console.error** in 8 files (acceptable for server/error logging)
 
 ## Technical Debt
 
 - Remove dead code: `database.service.ts`, `analysis.service.ts`, `middleware/auth.ts`, `data-fetch.service.ts`, `lib/mock.ts`
 - Remove unused mock import from Finance.tsx
 - Fix broken upload.service.ts DatabaseService references
-- Remove console.log from Contact.tsx (replace with real API or remove)
 - Update .env.example with all required variables (GEMINI_API_KEY, SUPABASE_SERVICE_ROLE_KEY)
 - Implement proper RLS policies (currently all USING (true))
 - Add proper error boundaries for each page

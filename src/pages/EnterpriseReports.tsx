@@ -95,8 +95,8 @@ export function EnterpriseReportsPage() {
               </div>
             ) : error ? (
               <div className="p-8 text-center text-xs text-muted-foreground">
-                <p>Report generation requires active company data.</p>
-                <p className="mt-2">Seed demo data or connect a data source first.</p>
+                <p>Error loading report.</p>
+                <p className="mt-2">Please try again later or contact support.</p>
               </div>
             ) : data ? (
               <div className="p-6 space-y-4">
