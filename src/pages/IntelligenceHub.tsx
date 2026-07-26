@@ -39,7 +39,7 @@ export function IntelligenceHubPage() {
       formData.append("query", data.query);
       if (data.context) formData.append("context", data.context);
       formData.append("session_id", data.session_id);
-      const resp = await fetch("http://eyex-api:8000/api/v1/intelligence/analyze", {
+      const resp = await fetch("http://pix-api:8000/api/v1/intelligence/analyze", {
         method: "POST",
         body: formData,
       });
@@ -61,7 +61,7 @@ export function IntelligenceHubPage() {
       formData.append("key", data.key);
       formData.append("value", data.value);
       formData.append("session_id", sessionId);
-      return fetch("http://eyex-api:8000/api/v1/intelligence/knowledge", {
+      return fetch("http://pix-api:8000/api/v1/intelligence/knowledge", {
         method: "POST",
         body: formData,
       });
@@ -98,7 +98,7 @@ export function IntelligenceHubPage() {
     formData.append("file", file);
     formData.append("session_id", sessionId);
     try {
-      const resp = await fetch("http://eyex-api:8000/api/v1/intelligence/documents/upload", {
+      const resp = await fetch("http://pix-api:8000/api/v1/intelligence/documents/upload", {
         method: "POST",
         body: formData,
       });

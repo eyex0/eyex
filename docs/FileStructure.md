@@ -8,8 +8,8 @@ The root directory contains the configuration files for the frontend, Docker, an
 
 -   `.github/`: Contains GitHub Actions workflows for CI/CD.
 -   `docs/`: Contains project documentation.
--   `eyex-backend/`: The Python backend application.
--   `eyex-technologies/`: Seems to be a separate, but related, Python project.
+-   `pix-backend/`: The Python backend application.
+-   `pix-technologies/`: Seems to be a separate, but related, Python project.
 -   `public/`: Public assets for the frontend.
 -   `scripts/`: Utility scripts for the project.
 -   `src/`: The source code for the React frontend application.
@@ -41,9 +41,9 @@ The `src` directory contains the source code for the React frontend application.
 -   `routeTree.gen.ts`: A generated file for TanStack Router that contains the route tree.
 -   `styles.css`: Global CSS styles.
 
-## Backend (`eyex-backend/`)
+## Backend (`pix-backend/`)
 
-The `eyex-backend` directory contains the source code for the Python backend application.
+The `pix-backend` directory contains the source code for the Python backend application.
 
 -   `app/`: The main application code.
     -   `agents/`: Contains the LangGraph agent nodes.

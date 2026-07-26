@@ -11,7 +11,7 @@ This document outlines the identified technical debt in the EyeX Technologies co
 ## Backend
 
 -   **Lack of tests:** While the backend has a good number of tests, the test coverage could be improved. There are still some parts of the code that are not covered by tests.
--   **`eyex-technologies` directory:** There is a directory named `eyex-technologies` at the root of the project that seems to be a separate Python project. It's not clear what its purpose is or if it's still in use. This should be investigated and either integrated into the main backend or removed.
+-   **`pix-technologies` directory:** There is a directory named `pix-technologies` at the root of the project that seems to be a separate Python project. It's not clear what its purpose is or if it's still in use. This should be investigated and either integrated into the main backend or removed.
 
 ## Documentation
 

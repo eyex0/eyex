@@ -31,14 +31,14 @@
 1.  **Clone the repository:**
 
     ```bash
-    git clone https://github.com/eyex-technologies/eyex.git
-    cd eyex
+    git clone https://github.com/pix-technologies/pix.git
+    cd pix
     ```
 
 2.  **Set up environment variables:**
 
     -   **Frontend:** Copy `.env.example` to `.env` and fill in the required values for `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY`.
-    -   **Backend:** In the `eyex-backend` directory, copy `.env.example` to `.env` and provide the necessary credentials for `DATABASE_URL`, `REDIS_URL`, `OPENAI_API_KEY`, and `APP_SECRET_KEY`.
+    -   **Backend:** In the `pix-backend` directory, copy `.env.example` to `.env` and provide the necessary credentials for `DATABASE_URL`, `REDIS_URL`, `OPENAI_API_KEY`, and `APP_SECRET_KEY`.
 
 3.  **Install dependencies:**
 
@@ -47,14 +47,14 @@
     npm install
 
     # For the backend
-    pip install -r eyex-backend/requirements.txt
+    pip install -r pix-backend/requirements.txt
     ```
 
 ## Running the Application
 
 1.  **Start the backend:**
 
-    Navigate to the `eyex-backend` directory and run:
+    Navigate to the `pix-backend` directory and run:
 
     ```bash
     docker-compose up --build

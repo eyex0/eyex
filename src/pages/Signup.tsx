@@ -112,7 +112,7 @@ export default function SignupPage() {
           <h1 className="text-2xl font-display font-medium text-[#FAFAFA] tracking-tight">
             Create your account
           </h1>
-          <p className="text-sm text-[#A1A1AA] font-light">Get started with EyeX Technologies</p>
+          <p className="text-sm text-[#A1A1AA] font-light">Get started with πX Technologies</p>
         </div>
 
         <div className="border border-[#1A1A1C] bg-[#0A0A0C] p-8">

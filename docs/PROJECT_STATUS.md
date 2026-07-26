@@ -75,12 +75,12 @@
 
 | Environment    | URL                                              | Status         |
 | -------------- | ------------------------------------------------ | -------------- |
-| **Production** | `https://eyex-technologies.eyextech.workers.dev` | **LIVE**       |
+| **Production** | `https://pix-technologies.eyextech.workers.dev` | **LIVE**       |
 | Development    | Local (`npx vite dev`)                           | Available      |
 | Staging        | —                                                | Not configured |
 
-**Cloudflare Account:** eyex@outlook.it (Account ID: 651d3213a1bc39f22afc83a1e86d633)
-**Worker Name:** eyex-technologies
+**Cloudflare Account:** contact@pix.tech (Account ID: 651d3213a1bc39f22afc83a1e86d633)
+**Worker Name:** pix-technologies
 
 ## Testing Status
 

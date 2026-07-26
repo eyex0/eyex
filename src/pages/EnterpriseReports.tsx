@@ -4,7 +4,7 @@ import { AppShell } from "@/components/layout/AppShell";
 import { Card, Badge } from "@/components/common/primitives";
 import { Loader2, FileText, TrendingUp, Shield, Lightbulb, Activity, Download } from "lucide-react";
 
-const BASE = "http://eyex-api:8000/api/v1/enterprise";
+const BASE = "http://pix-api:8000/api/v1/enterprise";
 
 interface Risk {
   title: string;

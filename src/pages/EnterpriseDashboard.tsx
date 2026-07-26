@@ -15,7 +15,7 @@ import {
   FileText,
 } from "lucide-react";
 
-const BASE = "http://eyex-api:8000/api/v1/enterprise";
+const BASE = "http://pix-api:8000/api/v1/enterprise";
 
 interface Insight {
   title: string;
