@@ -1,9 +1,0 @@
-# pyproject.toml / setuptools
-from setuptools import find_packages, setup
-
-setup(
-    name="eyex-backend",
-    version="0.1.0",
-    packages=find_packages(),
-    include_package_data=True,
-)
