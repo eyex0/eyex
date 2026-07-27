@@ -656,7 +656,7 @@ async def list_reasoning_patterns(user: dict = Depends(get_current_user)) -> dic
 @enterprise_router.get("/moat/engine/frameworks")
 async def list_decision_frameworks(user: dict = Depends(get_current_user)) -> dict[str, Any]:
     engine = get_intelligence_engine()
-    return engine.list_frameworks()
+    return {"frameworks": engine.list_frameworks(), "count": len(engine.list_frameworks())}
 
 
 @enterprise_router.post("/moat/engine/analyze")

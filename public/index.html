@@ -15,226 +15,152 @@ input,textarea{user-select:text}
 .view{display:none;height:100vh;width:100vw}.view.active{display:flex;flex-direction:column}
 /* LANDING */
 #landing{position:relative;overflow-y:auto;overflow-x:hidden;background:var(--void);scroll-behavior:smooth}
-#landing-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;opacity:.5}
-.landing-content{position:relative;z-index:1}
-.landing-nav{display:flex;align-items:center;justify-content:space-between;padding:18px 48px;position:sticky;top:0;background:rgba(5,8,22,.85);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);z-index:10}
-.landing-logo{display:flex;align-items:center;gap:10px;cursor:pointer}
-.landing-logo .mark{font-family:var(--mono);font-weight:700;font-size:24px;color:var(--white);letter-spacing:-1.5px}
-.landing-logo .tag{font-family:var(--mono);font-size:8px;color:var(--ti-dim);text-transform:uppercase;letter-spacing:3px;line-height:1.3}
-.landing-nav-links{display:flex;gap:32px;align-items:center}
-.landing-nav-links a{font-family:var(--mono);font-size:10px;color:var(--td);text-decoration:none;text-transform:uppercase;letter-spacing:1.5px;transition:color .2s;cursor:pointer}
-.landing-nav-links a:hover{color:var(--ti)}
-.landing-nav-actions{display:flex;gap:10px;align-items:center}
-.landing-btn{font-family:var(--mono);font-size:10px;padding:8px 20px;border:none;cursor:pointer;border-radius:2px;text-transform:uppercase;letter-spacing:1.5px;transition:all .2s;font-weight:500}
-.landing-btn.ghost{background:none;color:var(--ti);border:1px solid var(--border2)}.landing-btn.ghost:hover{border-color:var(--ti);color:var(--white)}
-.landing-btn.solid{background:var(--ti);color:var(--void)}.landing-btn.solid:hover{background:#D0D8E0}
-.landing-btn.accent{background:var(--active);color:var(--void)}.landing-btn.accent:hover{background:#33EDBB}
-.landing-hero{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:82vh;padding:0 48px;text-align:center;position:relative}
-.landing-hero h1{font-family:var(--sans);font-size:68px;font-weight:800;color:var(--white);letter-spacing:-3px;line-height:1;max-width:900px}
-.landing-hero h1 .accent{color:var(--ti);font-weight:300}
-.landing-hero .sub{font-family:var(--sans);font-size:18px;color:var(--td);max-width:620px;margin:24px 0 40px;line-height:1.5;font-weight:300}
-.landing-hero .cta-row{display:flex;gap:12px}
+#landing-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;opacity:.4}
+.lc{position:relative;z-index:1}
+.lnav{display:flex;align-items:center;justify-content:space-between;padding:18px 48px;position:sticky;top:0;background:rgba(5,8,22,.85);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);z-index:10}
+.llogo{display:flex;align-items:center;gap:10px;cursor:pointer}
+.llogo .mk{font-family:var(--mono);font-weight:700;font-size:24px;color:var(--white);letter-spacing:-1.5px}
+.llogo .tg{font-family:var(--mono);font-size:8px;color:var(--ti-dim);text-transform:uppercase;letter-spacing:3px;line-height:1.3}
+.lnav-l{display:flex;gap:32px;align-items:center}
+.lnav-l a{font-family:var(--mono);font-size:10px;color:var(--td);text-decoration:none;text-transform:uppercase;letter-spacing:1.5px;transition:color .2s;cursor:pointer}.lnav-l a:hover{color:var(--ti)}
+.lnav-a{display:flex;gap:10px;align-items:center}
+.lbtn{font-family:var(--mono);font-size:10px;padding:8px 20px;border:none;cursor:pointer;border-radius:2px;text-transform:uppercase;letter-spacing:1.5px;transition:all .2s;font-weight:500}
+.lbtn.ghost{background:none;color:var(--ti);border:1px solid var(--border2)}.lbtn.ghost:hover{border-color:var(--ti);color:var(--white)}
+.lbtn.solid{background:var(--ti);color:var(--void)}.lbtn.solid:hover{background:#D0D8E0}
+.lbtn.accent{background:var(--active);color:var(--void)}.lbtn.accent:hover{background:#33EDBB}
+.lhero{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:82vh;padding:0 48px;text-align:center;position:relative}
+.lhero h1{font-family:var(--sans);font-size:68px;font-weight:800;color:var(--white);letter-spacing:-3px;line-height:1;max-width:900px}
+.lhero h1 .ac{color:var(--ti);font-weight:300}
+.lhero .sub{font-family:var(--sans);font-size:18px;color:var(--td);max-width:620px;margin:24px 0 40px;line-height:1.5;font-weight:300}
+.lhero .cta{display:flex;gap:12px}
+/* INTELLIGENCE CORE */
+.core-wrap{display:flex;justify-content:center;margin-top:48px}
+.core{position:relative;width:280px;height:280px}
+.core-ring{position:absolute;border:1px solid var(--border2);border-radius:50%;top:50%;left:50%;transform:translate(-50%,-50%)}
+.core-ring.r1{width:280px;height:280px;animation:spin 20s linear infinite}
+.core-ring.r2{width:200px;height:200px;animation:spin 14s linear infinite reverse}
+.core-ring.r3{width:120px;height:120px;animation:spin 8s linear infinite}
+.core-ring .dot{position:absolute;width:6px;height:6px;border-radius:50%;background:var(--active);box-shadow:0 0 8px var(--active)}
+.core-ring.r1 .dot{top:-3px;left:50%;margin-left:-3px}.core-ring.r2 .dot{top:-3px;left:50%;margin-left:-3px}.core-ring.r3 .dot{top:-3px;left:50%;margin-left:-3px}
+.core-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:var(--mono);font-size:36px;font-weight:600;color:var(--white);text-shadow:0 0 20px rgba(0,229,168,.3)}
+@keyframes spin{from{transform:translate(-50%,-50%) rotate(0)}to{transform:translate(-50%,-50%) rotate(360deg)}}
 /* DATA FLOW */
-.data-flow{display:flex;align-items:center;justify-content:center;gap:0;margin-top:60px;padding:20px 0;flex-wrap:wrap}
-.flow-stage{display:flex;flex-direction:column;align-items:center;gap:8px;min-width:120px;position:relative}
-.flow-node{width:56px;height:56px;border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:18px;color:var(--ti);background:var(--panel);position:relative;transition:all .3s}
-.flow-node.pulse{border-color:var(--active);color:var(--active);box-shadow:0 0 12px rgba(0,229,168,.15)}
-.flow-label{font-family:var(--mono);font-size:8px;color:var(--tf);text-transform:uppercase;letter-spacing:1px}
-.flow-arrow{width:40px;height:1px;background:var(--border2);position:relative}
-.flow-arrow .dot{position:absolute;width:4px;height:4px;background:var(--active);border-radius:50%;top:-1.5px;animation:flowMove 2s linear infinite;box-shadow:0 0 6px var(--active)}
-@keyframes flowMove{0%{left:0}100%{left:36px}}
-.landing-section{padding:80px 48px;max-width:1200px;margin:0 auto}
-.landing-section h2{font-family:var(--sans);font-size:38px;font-weight:700;color:var(--white);letter-spacing:-1.5px;margin-bottom:12px}
-.landing-section .section-sub{font-family:var(--sans);font-size:15px;color:var(--td);max-width:600px;margin-bottom:40px;font-weight:300;line-height:1.5}
+.dflow{display:flex;align-items:center;justify-content:center;gap:0;margin-top:40px;padding:20px 0;flex-wrap:wrap}
+.dflow-s{display:flex;flex-direction:column;align-items:center;gap:8px;min-width:110px}
+.dflow-n{width:48px;height:48px;border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:16px;color:var(--ti);background:var(--panel);transition:all .3s}
+.dflow-n.pls{border-color:var(--active);color:var(--active);box-shadow:0 0 12px rgba(0,229,168,.15)}
+.dflow-l{font-family:var(--mono);font-size:8px;color:var(--tf);text-transform:uppercase;letter-spacing:1px}
+.dflow-a{width:36px;height:1px;background:var(--border2);position:relative}
+.dflow-a .d{position:absolute;width:3px;height:3px;background:var(--active);border-radius:50%;top:-1px;animation:fm 2s linear infinite;box-shadow:0 0 4px var(--active)}
+@keyframes fm{0%{left:0}100%{left:33px}}
+.lsec{padding:80px 48px;max-width:1200px;margin:0 auto}
+.lsec h2{font-family:var(--sans);font-size:38px;font-weight:700;color:var(--white);letter-spacing:-1.5px;margin-bottom:12px}
+.lsec .ss{font-family:var(--sans);font-size:15px;color:var(--td);max-width:600px;margin-bottom:40px;font-weight:300;line-height:1.5}
 .arch-flow{display:flex;flex-direction:column;gap:0}
-.arch-step{display:flex;align-items:center;gap:16px;padding:16px 0;border-bottom:1px solid var(--border)}
-.arch-step:last-child{border-bottom:none}
-.arch-num{font-family:var(--mono);font-size:10px;color:var(--tf);width:24px}
-.arch-title{font-family:var(--sans);font-size:16px;font-weight:600;color:var(--white);min-width:200px}
-.arch-desc{font-family:var(--sans);font-size:13px;color:var(--td);flex:1;font-weight:300}
-.arch-arrow{color:var(--ti-faint);font-family:var(--mono);font-size:16px}
-.profile-compare{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);margin-top:24px}
-.profile-col{background:var(--panel);padding:24px}
-.profile-col h3{font-family:var(--mono);font-size:11px;color:var(--active);text-transform:uppercase;letter-spacing:2px;margin-bottom:16px}
-.profile-section-title{font-family:var(--mono);font-size:9px;color:var(--tf);text-transform:uppercase;letter-spacing:1px;margin:16px 0 8px}
-.profile-item{display:flex;align-items:center;gap:8px;padding:4px 0;font-family:var(--mono);font-size:12px;color:var(--td)}
-.profile-item .dot{width:4px;height:4px;background:var(--ti-faint);border-radius:50%}
-.profile-item.kpi .dot{background:var(--active)}
-.agent-workforce{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);margin-top:24px}
-.agent-tile{background:var(--panel);padding:20px;display:flex;flex-direction:column;gap:8px}
-.agent-tile .role{font-family:var(--mono);font-size:11px;color:var(--white);font-weight:500;text-transform:uppercase;letter-spacing:1px}
-.agent-tile .resp{font-family:var(--sans);font-size:11px;color:var(--td);line-height:1.4;font-weight:300}
-.agent-tile .stats{display:flex;gap:12px;margin-top:4px}
-.agent-tile .stat{font-family:var(--mono);font-size:9px;color:var(--tf)}
-.agent-tile .stat .v{color:var(--active);font-weight:500}
-.stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);margin-top:24px}
-.stat-cell{background:var(--panel);padding:32px;text-align:center}
-.stat-cell .num{font-family:var(--mono);font-size:44px;color:var(--white);font-weight:500;line-height:1}
-.stat-cell .label{font-family:var(--mono);font-size:9px;color:var(--tf);text-transform:uppercase;letter-spacing:1.5px;margin-top:8px}
-.landing-footer{padding:32px 48px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
-.landing-footer .copy{font-family:var(--mono);font-size:9px;color:var(--tf);text-transform:uppercase;letter-spacing:1px}
+.as{display:flex;align-items:center;gap:16px;padding:16px 0;border-bottom:1px solid var(--border)}.as:last-child{border-bottom:none}
+.as .num{font-family:var(--mono);font-size:10px;color:var(--tf);width:24px}
+.as .title{font-family:var(--sans);font-size:16px;font-weight:600;color:var(--white);min-width:200px}
+.as .desc{font-family:var(--sans);font-size:13px;color:var(--td);flex:1;font-weight:300}
+.pc{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);margin-top:24px}
+.pc-col{background:var(--panel);padding:24px}
+.pc-col h3{font-family:var(--mono);font-size:11px;color:var(--active);text-transform:uppercase;letter-spacing:2px;margin-bottom:16px}
+.pc-st{font-family:var(--mono);font-size:9px;color:var(--tf);text-transform:uppercase;letter-spacing:1px;margin:16px 0 8px}
+.pc-it{display:flex;align-items:center;gap:8px;padding:4px 0;font-family:var(--mono);font-size:12px;color:var(--td)}.pc-it .d{width:4px;height:4px;background:var(--ti-faint);border-radius:50%}.pc-it.k .d{background:var(--active)}
+.awf{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);margin-top:24px}
+.awf-t{background:var(--panel);padding:20px;display:flex;flex-direction:column;gap:8px}
+.awf-t .r{font-family:var(--mono);font-size:11px;color:var(--white);font-weight:500;text-transform:uppercase;letter-spacing:1px}
+.awf-t .rsp{font-family:var(--sans);font-size:11px;color:var(--td);line-height:1.4;font-weight:300}
+.awf-t .st{display:flex;gap:12px;margin-top:4px}.awf-t .st span{font-family:var(--mono);font-size:9px;color:var(--tf)}.awf-t .st .v{color:var(--active);font-weight:500}
+.sr{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);margin-top:24px}
+.sr-c{background:var(--panel);padding:32px;text-align:center}.sr-c .n{font-family:var(--mono);font-size:44px;color:var(--white);font-weight:500;line-height:1}.sr-c .l{font-family:var(--mono);font-size:9px;color:var(--tf);text-transform:uppercase;letter-spacing:1.5px;margin-top:8px}
+.lft{padding:32px 48px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}.lft .c{font-family:var(--mono);font-size:9px;color:var(--tf);text-transform:uppercase;letter-spacing:1px}
 /* AUTH */
 #auth-view{display:none;align-items:center;justify-content:center;height:100vh;position:relative;overflow:hidden}
 #auth-view.active{display:flex}
 #auth-canvas{position:absolute;top:0;left:0;width:100%;height:100%;z-index:0;opacity:.4}
-.auth-card{position:relative;z-index:1;width:420px;background:var(--panel);border:1px solid var(--border2);padding:36px;display:flex;flex-direction:column;gap:16px}
-.auth-card .logo{font-family:var(--mono);font-weight:700;font-size:22px;color:var(--white);margin-bottom:4px}
-.auth-card h2{font-family:var(--sans);font-size:20px;font-weight:600;color:var(--white)}
-.auth-card .sub{font-family:var(--sans);font-size:12px;color:var(--td)}
-.auth-field{display:flex;flex-direction:column;gap:5px}
-.auth-field label{font-family:var(--mono);font-size:9px;color:var(--tf);text-transform:uppercase;letter-spacing:1px}
-.auth-field input,.auth-field select{background:var(--void);border:1px solid var(--border);border-radius:2px;padding:10px 12px;color:var(--white);font-family:var(--sans);font-size:13px;outline:none;transition:border-color .15s}
-.auth-field input:focus,.auth-field select:focus{border-color:var(--ti-faint)}
-.auth-field input::placeholder{color:var(--tf)}
-.auth-field select{cursor:pointer}
-.auth-error{font-family:var(--mono);font-size:11px;color:var(--danger);padding:8px 12px;background:rgba(255,69,96,.06);border:1px solid rgba(255,69,96,.15);border-radius:2px;display:none}
-.auth-error.show{display:block}
-.auth-btn{font-family:var(--mono);font-size:11px;padding:12px;background:var(--ti);color:var(--void);border:none;border-radius:2px;cursor:pointer;text-transform:uppercase;letter-spacing:1.5px;font-weight:600;transition:background .2s}
-.auth-btn:hover{background:#D0D8E0}
-.auth-btn:disabled{opacity:.5;cursor:wait}
-.auth-oauth{font-family:var(--mono);font-size:11px;padding:10px;background:transparent;color:var(--td);border:1px solid var(--border2);border-radius:2px;cursor:pointer;text-transform:uppercase;letter-spacing:1px;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px}
-.auth-oauth:hover{color:var(--ti);border-color:var(--ti-faint)}
-.auth-divider{display:flex;align-items:center;gap:12px;font-family:var(--mono);font-size:9px;color:var(--tf);text-transform:uppercase;letter-spacing:1px}
-.auth-divider::before,.auth-divider::after{content:'';flex:1;height:1px;background:var(--border)}
-.auth-switch{font-family:var(--sans);font-size:12px;color:var(--td);text-align:center}
-.auth-switch a{color:var(--ti);cursor:pointer}.auth-switch a:hover{color:var(--white)}
-.auth-back{font-family:var(--mono);font-size:10px;color:var(--tf);text-transform:uppercase;letter-spacing:1px;cursor:pointer;position:absolute;top:24px;left:24px;z-index:2}
-.auth-back:hover{color:var(--ti)}
+.acard{position:relative;z-index:1;width:420px;background:var(--panel);border:1px solid var(--border2);padding:36px;display:flex;flex-direction:column;gap:16px}
+.acard .logo{font-family:var(--mono);font-weight:700;font-size:22px;color:var(--white);margin-bottom:4px}
+.acard h2{font-family:var(--sans);font-size:20px;font-weight:600;color:var(--white)}
+.acard .sub{font-family:var(--sans);font-size:12px;color:var(--td)}
+.af{display:flex;flex-direction:column;gap:5px}
+.af label{font-family:var(--mono);font-size:9px;color:var(--tf);text-transform:uppercase;letter-spacing:1px}
+.af input,.af select{background:var(--void);border:1px solid var(--border);border-radius:2px;padding:10px 12px;color:var(--white);font-family:var(--sans);font-size:13px;outline:none;transition:border-color .15s}.af input:focus,.af select:focus{border-color:var(--ti-faint)}.af input::placeholder{color:var(--tf)}
+.aerr{font-family:var(--mono);font-size:11px;color:var(--danger);padding:8px 12px;background:rgba(255,69,96,.06);border:1px solid rgba(255,69,96,.15);border-radius:2px;display:none}.aerr.show{display:block}
+.abtn{font-family:var(--mono);font-size:11px;padding:12px;background:var(--ti);color:var(--void);border:none;border-radius:2px;cursor:pointer;text-transform:uppercase;letter-spacing:1.5px;font-weight:600;transition:background .2s}.abtn:hover{background:#D0D8E0}.abtn:disabled{opacity:.5;cursor:wait}
+.aoauth{font-family:var(--mono);font-size:11px;padding:10px;background:transparent;color:var(--td);border:1px solid var(--border2);border-radius:2px;cursor:pointer;text-transform:uppercase;letter-spacing:1px;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px}.aoauth:hover{color:var(--ti);border-color:var(--ti-faint)}
+.adiv{display:flex;align-items:center;gap:12px;font-family:var(--mono);font-size:9px;color:var(--tf);text-transform:uppercase;letter-spacing:1px}.adiv::before,.adiv::after{content:'';flex:1;height:1px;background:var(--border)}
+.asw{font-family:var(--sans);font-size:12px;color:var(--td);text-align:center}.asw a{color:var(--ti);cursor:pointer}.asw a:hover{color:var(--white)}
+.aback{font-family:var(--mono);font-size:10px;color:var(--tf);text-transform:uppercase;letter-spacing:1px;cursor:pointer;position:absolute;top:24px;left:24px;z-index:2}.aback:hover{color:var(--ti)}
 /* APP */
 #app-view{display:none;height:100vh}
-#app-view.active{display:grid;grid-template-rows:42px 1fr 28px;grid-template-columns:48px 1fr 320px;grid-template-areas:"top top top" "rail main right" "status status status"}
+#app-view.active{display:grid;grid-template-rows:42px 1fr 28px;grid-template-columns:48px 1fr 300px;grid-template-areas:"top top top" "rail main right" "status status status"}
 #topbar{grid-area:top;display:flex;align-items:center;background:var(--abyss);border-bottom:1px solid var(--border);padding:0 12px;gap:12px;z-index:100}
 .logo{display:flex;align-items:center;gap:8px;padding-right:12px;border-right:1px solid var(--border);height:100%;cursor:pointer}
-.logo-mark{font-family:var(--mono);font-weight:600;font-size:16px;color:var(--white);letter-spacing:-1px}
-.logo-text{font-family:var(--mono);font-size:8px;color:var(--ti-dim);text-transform:uppercase;letter-spacing:2px;line-height:1.2}
-.cmd-bar{flex:1;display:flex;align-items:center;gap:8px;background:var(--panel);border:1px solid var(--border);height:28px;padding:0 10px;border-radius:2px}
-.cmd-bar:focus-within{border-color:var(--ti-faint)}
-.cmd-prefix{font-family:var(--mono);font-size:11px;color:var(--tf)}
-.cmd-input{flex:1;background:none;border:none;outline:none;color:var(--ti);font-family:var(--mono);font-size:12px}.cmd-input::placeholder{color:var(--tf)}
-.topbar-right{display:flex;align-items:center;gap:10px;padding-left:12px;border-left:1px solid var(--border);height:100%}
-.org-badge{display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:10px;color:var(--td)}
-.org-badge .dot{width:6px;height:6px;border-radius:50%;background:var(--active);box-shadow:0 0 4px var(--active)}
-.user-chip{width:26px;height:26px;border-radius:2px;background:var(--panel3);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;color:var(--ti);font-weight:600;cursor:pointer}
+.logo .mk{font-family:var(--mono);font-weight:600;font-size:16px;color:var(--white);letter-spacing:-1px}
+.logo .tg{font-family:var(--mono);font-size:8px;color:var(--ti-dim);text-transform:uppercase;letter-spacing:2px;line-height:1.2}
+.cmdb{flex:1;display:flex;align-items:center;gap:8px;background:var(--panel);border:1px solid var(--border);height:28px;padding:0 10px;border-radius:2px}.cmdb:focus-within{border-color:var(--ti-faint)}
+.cmdb .px{font-family:var(--mono);font-size:11px;color:var(--tf)}
+.cmdb input{flex:1;background:none;border:none;outline:none;color:var(--ti);font-family:var(--mono);font-size:12px}.cmdb input::placeholder{color:var(--tf)}
+.tbr{display:flex;align-items:center;gap:10px;padding-left:12px;border-left:1px solid var(--border);height:100%}
+.org-b{display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:10px;color:var(--td)}.org-b .d{width:6px;height:6px;border-radius:50%;background:var(--active);box-shadow:0 0 4px var(--active)}
+.uchip{width:26px;height:26px;border-radius:2px;background:var(--panel3);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;color:var(--ti);font-weight:600;cursor:pointer}
 #rail{grid-area:rail;background:var(--abyss);border-right:1px solid var(--border);display:flex;flex-direction:column;align-items:center;padding:8px 0;gap:2px}
-.rail-btn{width:36px;height:36px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;border:none;background:none;color:var(--tf);border-radius:2px;position:relative;transition:all .12s;gap:1px}
-.rail-btn:hover{color:var(--ti-dim);background:var(--panel)}.rail-btn.active{color:var(--white);background:var(--panel2)}
-.rail-btn.active::before{content:'';position:absolute;left:-8px;top:4px;bottom:4px;width:2px;background:var(--active)}
-.rail-icon{font-family:var(--mono);font-size:9px;font-weight:600}.rail-label{font-family:var(--mono);font-size:6px;text-transform:uppercase;letter-spacing:.5px;opacity:.7}
-.rail-divider{width:24px;height:1px;background:var(--border);margin:4px 0}
+.rb{width:36px;height:36px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;border:none;background:none;color:var(--tf);border-radius:2px;position:relative;transition:all .12s;gap:1px}.rb:hover{color:var(--ti-dim);background:var(--panel)}.rb.active{color:var(--white);background:var(--panel2)}.rb.active::before{content:'';position:absolute;left:-8px;top:4px;bottom:4px;width:2px;background:var(--active)}
+.rb .ic{font-family:var(--mono);font-size:9px;font-weight:600}.rb .lb{font-family:var(--mono);font-size:6px;text-transform:uppercase;letter-spacing:.5px;opacity:.7}
+.rd{width:24px;height:1px;background:var(--border);margin:4px 0}
 #main{grid-area:main;overflow:hidden;position:relative;background:var(--void)}
-.module{display:none;height:100%;width:100%}.module.active{display:flex;flex-direction:column}
-.module-header{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;border-bottom:1px solid var(--border);background:var(--panel);flex-shrink:0}
-.module-title{display:flex;align-items:center;gap:10px}
-.module-title h2{font-family:var(--mono);font-size:12px;font-weight:500;color:var(--white);text-transform:uppercase;letter-spacing:1px}
-.module-badge{font-family:var(--mono);font-size:9px;color:var(--tf);padding:2px 8px;border:1px solid var(--border);border-radius:2px;text-transform:uppercase;letter-spacing:1px}
-.module-actions{display:flex;gap:6px}
-.module-body{flex:1;overflow:auto;padding:0}
-.drop-zone{border:2px dashed var(--border2);border-radius:2px;padding:40px;text-align:center;cursor:pointer;transition:all .2s;margin:16px}
-.drop-zone:hover,.drop-zone.dragover{border-color:var(--active);background:var(--panel)}
-.drop-zone .icon{font-family:var(--mono);font-size:28px;color:var(--ti-faint)}
-.drop-zone .text{font-family:var(--mono);font-size:11px;color:var(--td);text-transform:uppercase;letter-spacing:1px;margin-top:8px}
-.drop-zone .sub{font-family:var(--mono);font-size:9px;color:var(--tf);margin-top:4px}
+.mod{display:none;height:100%;width:100%}.mod.active{display:flex;flex-direction:column}
+.mh{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;border-bottom:1px solid var(--border);background:var(--panel);flex-shrink:0}
+.mh .mt{display:flex;align-items:center;gap:10px}.mh .mt h2{font-family:var(--mono);font-size:12px;font-weight:500;color:var(--white);text-transform:uppercase;letter-spacing:1px}
+.mbg{font-family:var(--mono);font-size:9px;color:var(--tf);padding:2px 8px;border:1px solid var(--border);border-radius:2px;text-transform:uppercase;letter-spacing:1px}
+.ma{display:flex;gap:6px}
+.mb{font-family:var(--mono);font-size:10px;color:var(--td);background:var(--panel2);border:1px solid var(--border);padding:4px 10px;cursor:pointer;border-radius:2px;transition:all .12s;text-transform:uppercase;letter-spacing:.5px}.mb:hover{color:var(--ti);border-color:var(--border2);background:var(--panel3)}.mb.pri{color:var(--void);background:var(--active);border-color:var(--active)}.mb.pri:hover{background:#33EDBB}
+.mb{flex-shrink:0}
+.mbody{flex:1;overflow:auto;padding:0}
+/* SHARED */
 .tag{font-family:var(--mono);font-size:9px;padding:2px 6px;border-radius:1px;text-transform:uppercase;letter-spacing:.5px;display:inline-block}
-.tag.neutral{background:var(--panel3);color:var(--td);border:1px solid var(--border2)}
-.tag.active{background:rgba(0,229,168,.08);color:var(--active);border:1px solid rgba(0,229,168,.2)}
-.tag.idle{background:rgba(96,165,250,.08);color:var(--info);border:1px solid rgba(96,165,250,.2)}
-.tag.stopped{background:rgba(255,69,96,.08);color:var(--danger);border:1px solid rgba(255,69,96,.2)}
-.tag.pii{background:rgba(255,176,32,.08);color:var(--warn);border:1px solid rgba(255,176,32,.2)}
-.module-btn{font-family:var(--mono);font-size:10px;color:var(--td);background:var(--panel2);border:1px solid var(--border);padding:4px 10px;cursor:pointer;border-radius:2px;transition:all .12s;text-transform:uppercase;letter-spacing:.5px}
-.module-btn:hover{color:var(--ti);border-color:var(--border2);background:var(--panel3)}.module-btn.primary{color:var(--void);background:var(--ti);border-color:var(--ti)}.module-btn.primary:hover{background:#D0D8E0}
-.loading-bar{height:1px;background:var(--border);position:relative;overflow:hidden}
-.loading-bar::after{content:'';position:absolute;height:100%;width:40%;background:var(--ti);animation:slide 1.5s infinite}
+.tag.n{background:var(--panel3);color:var(--td);border:1px solid var(--border2)}.tag.a{background:rgba(0,229,168,.08);color:var(--active);border:1px solid rgba(0,229,168,.2)}.tag.i{background:rgba(96,165,250,.08);color:var(--info);border:1px solid rgba(96,165,250,.2)}.tag.s{background:rgba(255,69,96,.08);color:var(--danger);border:1px solid rgba(255,69,96,.2)}.tag.pii{background:rgba(255,176,32,.08);color:var(--warn);border:1px solid rgba(255,176,32,.2)}
+.es{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:8px;color:var(--tf)}.es .m{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:1px}.es .s{font-family:var(--mono);font-size:9px;color:var(--tf)}
+.lb{height:1px;background:var(--border);position:relative;overflow:hidden}.lb::after{content:'';position:absolute;height:100%;width:40%;background:var(--active);animation:slide 1.5s infinite}
 @keyframes slide{0%{left:-40%}100%{left:100%}}
-.data-grid{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:11px}
-.data-grid th{text-align:left;padding:6px 12px;color:var(--tf);font-weight:400;text-transform:uppercase;font-size:9px;letter-spacing:1px;border-bottom:1px solid var(--border);background:var(--panel);position:sticky;top:0}
-.data-grid td{padding:5px 12px;color:var(--td);border-bottom:1px solid var(--border);white-space:nowrap}
-.data-grid tr:hover td{color:var(--ti);background:var(--panel)}
-.data-grid .val{color:var(--white);font-weight:500}
-.panel{display:flex;flex-direction:column;overflow:hidden}
-.source-row{display:flex;align-items:center;gap:10px;padding:6px 14px;border-bottom:1px solid var(--border);font-family:var(--mono);font-size:11px}
-.confidence-bar{display:flex;align-items:center;gap:8px;padding:4px 0}
-.confidence-track{flex:1;height:3px;background:var(--panel3);position:relative;overflow:hidden}
-.confidence-fill{height:100%;background:var(--ti);transition:width .3s}
-.confidence-label{font-family:var(--mono);font-size:9px;color:var(--tf);text-transform:uppercase;letter-spacing:1px;min-width:100px}
-.confidence-val{font-family:var(--mono);font-size:11px;color:var(--white);min-width:36px;text-align:right}
-.kpi-row{display:flex;align-items:center;gap:10px;padding:6px 14px;border-bottom:1px solid var(--border);font-family:var(--mono);cursor:pointer}.kpi-row:hover{background:var(--panel)}
-.kpi-name{font-size:11px;color:var(--ti);flex:1}.kpi-formula{font-size:9px;color:var(--tf)}.kpi-value{font-size:13px;color:var(--white);font-weight:500;text-align:right;min-width:80px}
-.widget-card{background:var(--panel);border:1px solid var(--border);padding:12px;display:flex;flex-direction:column;gap:6px}
-.widget-title{font-family:var(--mono);font-size:10px;color:var(--white);text-transform:uppercase;letter-spacing:1px}
-.widget-type{font-family:var(--mono);font-size:8px;color:var(--tf);text-transform:uppercase}
-.widget-value{font-family:var(--mono);font-size:24px;color:var(--white);font-weight:500}
-.widget-config{font-family:var(--mono);font-size:9px;color:var(--td)}
-.role-selector{display:flex;gap:4px;padding:8px 14px;border-bottom:1px solid var(--border);background:var(--panel);flex-wrap:wrap}
-.role-btn{font-family:var(--mono);font-size:9px;color:var(--tf);background:var(--panel2);border:1px solid var(--border);padding:4px 10px;cursor:pointer;border-radius:2px;text-transform:uppercase;letter-spacing:.5px;transition:all .12s}
-.role-btn:hover{color:var(--ti);border-color:var(--border2)}.role-btn.active{color:var(--void);border-color:var(--active);background:var(--active)}
-.metric-tile{background:var(--panel);padding:10px 14px;display:flex;flex-direction:column;gap:4px}
-.metric-tile .label{font-family:var(--mono);font-size:9px;color:var(--tf);text-transform:uppercase;letter-spacing:1px}
-.metric-tile .value{font-family:var(--mono);font-size:20px;font-weight:500;color:var(--white);line-height:1}
-.metric-strip{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:1px;background:var(--border);padding:1px}
-.agent-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1px;background:var(--border);padding:1px}
-.agent-card{background:var(--panel);padding:12px 14px;display:flex;flex-direction:column;gap:6px;cursor:pointer;transition:background .1s}.agent-card:hover{background:var(--panel2)}
-.agent-name{font-family:var(--mono);font-size:11px;color:var(--white);font-weight:500}
-.agent-desc{font-family:var(--sans);font-size:10px;color:var(--td);line-height:1.3}
-.empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:8px;color:var(--tf)}
-.empty-state .msg{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:1px}
-.empty-state .sub{font-family:var(--mono);font-size:9px;color:var(--tf)}
-.query-input-area{padding:16px;display:flex;flex-direction:column;gap:10px}
-.query-input{width:100%;background:var(--panel);border:1px solid var(--border);border-radius:2px;color:var(--white);font-family:var(--sans);font-size:14px;padding:12px 16px;outline:none;resize:none;min-height:60px;transition:border-color .15s}
-.query-input:focus{border-color:var(--active)}
-.query-chip{font-family:var(--mono);font-size:10px;color:var(--td);background:var(--panel2);border:1px solid var(--border);padding:4px 10px;cursor:pointer;border-radius:2px;transition:all .12s}
-.query-chip:hover{color:var(--ti);border-color:var(--border2)}
-.query-section{background:var(--panel);border:1px solid var(--border);border-radius:2px;padding:12px}
-.query-section h4{font-family:var(--mono);font-size:9px;color:var(--tf);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px}
-.query-section .content{font-family:var(--sans);font-size:12px;color:var(--td);line-height:1.5}
-.intel-chain{display:flex;align-items:center;gap:0;padding:10px 16px;border-bottom:1px solid var(--border);flex-wrap:wrap}
-.intel-step{display:flex;flex-direction:column;align-items:center;gap:4px;min-width:80px}
-.intel-node{width:32px;height:32px;border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:9px;color:var(--ti);background:var(--panel)}
-.intel-node.done{border-color:var(--active);color:var(--active)}
-.intel-label{font-family:var(--mono);font-size:7px;color:var(--tf);text-transform:uppercase;letter-spacing:.5px}
-.intel-conn{width:20px;height:1px;background:var(--border2)}
-.glossary-item{display:flex;gap:12px;padding:6px 14px;border-bottom:1px solid var(--border);font-family:var(--mono)}
-.glossary-term{font-size:11px;color:var(--ti);min-width:100px}.glossary-canonical{font-size:11px;color:var(--td)}
-.progress-track{height:4px;background:var(--panel3);position:relative;overflow:hidden;border-radius:1px}
-.progress-fill{height:100%;background:var(--active);transition:width .3s}
-.template-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1px;background:var(--border);padding:1px;margin:12px}
-.template-card{background:var(--panel);padding:12px 14px;display:flex;flex-direction:column;gap:4px;cursor:pointer;transition:background .1s}.template-card:hover{background:var(--panel2)}
-.pipeline-flow{display:flex;align-items:center;gap:0;padding:20px 16px;overflow-x:auto}
-.pipeline-stage{display:flex;flex-direction:column;align-items:center;gap:6px;min-width:80px}
-.pipeline-node{width:44px;height:44px;border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;color:var(--ti);background:var(--panel)}
-.pipeline-node.done{border-color:var(--active);color:var(--active)}.pipeline-node.active{border-color:var(--ti);color:var(--white);background:var(--panel2)}.pipeline-node.pending{opacity:.4}
-.pipeline-label{font-family:var(--mono);font-size:7px;color:var(--tf);text-transform:uppercase;letter-spacing:.5px}
-.pipeline-connector{width:30px;height:1px;background:var(--border2)}.pipeline-connector.done{background:var(--active)}
-.code-block{font-family:var(--mono);font-size:10px;color:var(--td);background:var(--abyss);padding:10px 14px;line-height:1.5;white-space:pre-wrap;border-left:2px solid var(--border2)}
-.timeline-item{display:flex;gap:12px;padding:6px 16px;border-bottom:1px solid var(--border)}
-.timeline-time{font-family:var(--mono);font-size:10px;color:var(--tf);min-width:60px;text-align:right}
-.timeline-content{flex:1;display:flex;flex-direction:column;gap:2px}
-.timeline-actor{font-family:var(--mono);font-size:10px;color:var(--ti)}
-.timeline-action{font-family:var(--sans);font-size:11px;color:var(--td)}
-.search-result{padding:10px 14px;border-bottom:1px solid var(--border);cursor:pointer}.search-result:hover{background:var(--panel)}
-.search-score{font-family:var(--mono);font-size:10px;color:var(--ti)}
-.search-text{font-family:var(--sans);font-size:11px;color:var(--td);margin-top:4px;line-height:1.4}
+.dg{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:11px}
+.dg th{text-align:left;padding:6px 12px;color:var(--tf);font-weight:400;text-transform:uppercase;font-size:9px;letter-spacing:1px;border-bottom:1px solid var(--border);background:var(--panel);position:sticky;top:0}
+.dg td{padding:5px 12px;color:var(--td);border-bottom:1px solid var(--border);white-space:nowrap}
+.dg tr:hover td{color:var(--ti);background:var(--panel)}.dg .v{color:var(--white);font-weight:500}
+.srow{display:flex;align-items:center;gap:10px;padding:6px 14px;border-bottom:1px solid var(--border);font-family:var(--mono);font-size:11px}
+.cbar{display:flex;align-items:center;gap:8px;padding:4px 0}.cbar .t{flex:1;height:3px;background:var(--panel3);position:relative;overflow:hidden}.cbar .f{height:100%;background:var(--ti);transition:width .3s}.cbar .l{font-family:var(--mono);font-size:9px;color:var(--tf);text-transform:uppercase;letter-spacing:1px;min-width:100px}.cbar .v{font-family:var(--mono);font-size:11px;color:var(--white);min-width:36px;text-align:right}
+.kr{display:flex;align-items:center;gap:10px;padding:6px 14px;border-bottom:1px solid var(--border);font-family:var(--mono);cursor:pointer}.kr:hover{background:var(--panel)}.kr .kn{font-size:11px;color:var(--ti);flex:1}.kr .kf{font-size:9px;color:var(--tf)}.kr .kv{font-size:13px;color:var(--white);font-weight:500;text-align:right;min-width:80px}
+.wc{background:var(--panel);border:1px solid var(--border);padding:12px;display:flex;flex-direction:column;gap:6px}.wc .wt{font-family:var(--mono);font-size:10px;color:var(--white);text-transform:uppercase;letter-spacing:1px}.wc .wty{font-family:var(--mono);font-size:8px;color:var(--tf);text-transform:uppercase}.wc .wv{font-family:var(--mono);font-size:24px;color:var(--white);font-weight:500}.wc .wcg{font-family:var(--mono);font-size:9px;color:var(--td)}
+.rsel{display:flex;gap:4px;padding:8px 14px;border-bottom:1px solid var(--border);background:var(--panel);flex-wrap:wrap}
+.rsel .rb2{font-family:var(--mono);font-size:9px;color:var(--tf);background:var(--panel2);border:1px solid var(--border);padding:4px 10px;cursor:pointer;border-radius:2px;text-transform:uppercase;letter-spacing:.5px;transition:all .12s}.rsel .rb2:hover{color:var(--ti);border-color:var(--border2)}.rsel .rb2.act{color:var(--void);border-color:var(--active);background:var(--active)}
+.mt2{background:var(--panel);padding:10px 14px;display:flex;flex-direction:column;gap:4px}.mt2 .l{font-family:var(--mono);font-size:9px;color:var(--tf);text-transform:uppercase;letter-spacing:1px}.mt2 .v{font-family:var(--mono);font-size:20px;font-weight:500;color:var(--white);line-height:1}
+.mts{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:1px;background:var(--border);padding:1px}
+.ag{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1px;background:var(--border);padding:1px}
+.ac{background:var(--panel);padding:12px 14px;display:flex;flex-direction:column;gap:6px;cursor:pointer;transition:background .1s}.ac:hover{background:var(--panel2)}.ac .an{font-family:var(--mono);font-size:11px;color:var(--white);font-weight:500}.ac .ad{font-family:var(--sans);font-size:10px;color:var(--td);line-height:1.3}
+.qi{width:100%;background:var(--panel);border:1px solid var(--border);border-radius:2px;color:var(--white);font-family:var(--sans);font-size:14px;padding:12px 16px;outline:none;resize:none;min-height:60px;transition:border-color .15s}.qi:focus{border-color:var(--active)}
+.qc{font-family:var(--mono);font-size:10px;color:var(--td);background:var(--panel2);border:1px solid var(--border);padding:4px 10px;cursor:pointer;border-radius:2px;transition:all .12s}.qc:hover{color:var(--ti);border-color:var(--border2)}
+.qs{background:var(--panel);border:1px solid var(--border);border-radius:2px;padding:12px}.qs h4{font-family:var(--mono);font-size:9px;color:var(--tf);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px}.qs .ct{font-family:var(--sans);font-size:12px;color:var(--td);line-height:1.5}
+.ichain{display:flex;align-items:center;gap:0;padding:10px 16px;border-bottom:1px solid var(--border);flex-wrap:wrap}.is{display:flex;flex-direction:column;align-items:center;gap:4px;min-width:80px}.is .n{width:32px;height:32px;border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:9px;color:var(--ti);background:var(--panel)}.is .n.done{border-color:var(--active);color:var(--active)}.is .l{font-family:var(--mono);font-size:7px;color:var(--tf);text-transform:uppercase;letter-spacing:.5px}.ic{width:20px;height:1px;background:var(--border2)}
+.gl{display:flex;gap:12px;padding:6px 14px;border-bottom:1px solid var(--border);font-family:var(--mono)}.gl .t{font-size:11px;color:var(--ti);min-width:100px}.gl .c{font-size:11px;color:var(--td)}
+.pt{height:4px;background:var(--panel3);position:relative;overflow:hidden;border-radius:1px}.pf{height:100%;background:var(--active);transition:width .3s}
+.tg{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1px;background:var(--border);padding:1px;margin:12px}
+.tc{background:var(--panel);padding:12px 14px;display:flex;flex-direction:column;gap:4px;cursor:pointer;transition:background .1s}.tc:hover{background:var(--panel2)}
+.pf2{display:flex;align-items:center;gap:0;padding:20px 16px;overflow-x:auto}.pf2-s{display:flex;flex-direction:column;align-items:center;gap:6px;min-width:80px}.pf2-n{width:44px;height:44px;border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;color:var(--ti);background:var(--panel)}.pf2-n.done{border-color:var(--active);color:var(--active)}.pf2-n.act{border-color:var(--ti);color:var(--white);background:var(--panel2)}.pf2-n.pend{opacity:.4}.pf2-l{font-family:var(--mono);font-size:7px;color:var(--tf);text-transform:uppercase;letter-spacing:.5px}.pf2-c{width:30px;height:1px;background:var(--border2)}.pf2-c.done{background:var(--active)}
+.cb{font-family:var(--mono);font-size:10px;color:var(--td);background:var(--abyss);padding:10px 14px;line-height:1.5;white-space:pre-wrap;border-left:2px solid var(--border2)}
+.tl{display:flex;gap:12px;padding:6px 16px;border-bottom:1px solid var(--border)}.tl .t{font-family:var(--mono);font-size:10px;color:var(--tf);min-width:60px;text-align:right}.tl .c{flex:1;display:flex;flex-direction:column;gap:2px}.tl .a{font-family:var(--mono);font-size:10px;color:var(--ti)}.tl .ac2{font-family:var(--sans);font-size:11px;color:var(--td)}
+.sr2{padding:10px 14px;border-bottom:1px solid var(--border);cursor:pointer}.sr2:hover{background:var(--panel)}.sr2 .ss2{font-family:var(--mono);font-size:10px;color:var(--ti)}.sr2 .st2{font-family:var(--sans);font-size:11px;color:var(--td);margin-top:4px;line-height:1.4}
 #right-panel{grid-area:right;background:var(--abyss);border-left:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden}
-.right-header{padding:10px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
-.right-header h3{font-family:var(--mono);font-size:10px;font-weight:500;color:var(--ti-dim);text-transform:uppercase;letter-spacing:1.5px}
-.live-dot{width:6px;height:6px;border-radius:50%;background:var(--active);box-shadow:0 0 4px var(--active);animation:pulse 2s infinite}
+.rh{padding:10px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}.rh h3{font-family:var(--mono);font-size:10px;font-weight:500;color:var(--ti-dim);text-transform:uppercase;letter-spacing:1.5px}
+.ld{width:6px;height:6px;border-radius:50%;background:var(--active);box-shadow:0 0 4px var(--active);animation:pulse 2s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
-.event-list{flex:1;overflow:auto;padding:0}
-.event-item{padding:8px 14px;border-bottom:1px solid var(--border);display:flex;flex-direction:column;gap:3px}
-.event-meta{display:flex;align-items:center;justify-content:space-between;gap:8px}
-.event-type{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:1px;padding:1px 5px;border-radius:1px}
-.event-type.kpi{background:rgba(96,165,250,.1);color:var(--info)}.event-type.agent{background:rgba(167,139,250,.1);color:var(--sig)}.event-type.decision{background:rgba(255,176,32,.1);color:var(--warn)}.event-type.alert{background:rgba(255,69,96,.1);color:var(--danger)}.event-type.data{background:rgba(0,229,168,.1);color:var(--active)}.event-type.audit{background:rgba(192,200,208,.08);color:var(--ti-dim)}
-.event-time{font-family:var(--mono);font-size:9px;color:var(--tf)}.event-msg{font-family:var(--sans);font-size:11px;color:var(--td);line-height:1.3}
-#status-bar{grid-area:status;background:var(--abyss);border-top:1px solid var(--border);display:flex;align-items:center;padding:0 12px;gap:16px;font-family:var(--mono);font-size:10px;color:var(--tf)}
-.status-item{display:flex;align-items:center;gap:5px}.status-item .dot{width:5px;height:5px;border-radius:50%;background:var(--active)}
-.status-sep{color:var(--border2)}.status-spacer{flex:1}
-.api-settings{position:fixed;bottom:28px;right:12px;z-index:200;display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:9px;color:var(--tf);background:var(--panel);border:1px solid var(--border);padding:4px 10px;border-radius:2px}
-.api-settings input{background:var(--void);border:1px solid var(--border);color:var(--ti);font-family:var(--mono);font-size:10px;padding:2px 6px;width:200px;outline:none;border-radius:1px}
-.api-settings .dot{width:5px;height:5px;border-radius:50%;background:var(--active)}.api-settings .dot.off{background:var(--danger)}
+.el{flex:1;overflow:auto;padding:0}.ei{padding:8px 14px;border-bottom:1px solid var(--border);display:flex;flex-direction:column;gap:3px}.ei .em{display:flex;align-items:center;justify-content:space-between;gap:8px}.et{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:1px;padding:1px 5px;border-radius:1px}.et.kpi{background:rgba(96,165,250,.1);color:var(--info)}.et.agent{background:rgba(167,139,250,.1);color:var(--sig)}.et.decision{background:rgba(255,176,32,.1);color:var(--warn)}.et.alert{background:rgba(255,69,96,.1);color:var(--danger)}.et.data{background:rgba(0,229,168,.1);color:var(--active)}.et.audit{background:rgba(192,200,208,.08);color:var(--ti-dim)}
+.et2{font-family:var(--mono);font-size:9px;color:var(--tf)}.em2{font-family:var(--sans);font-size:11px;color:var(--td);line-height:1.3}
+#status-bar{grid-area:status;background:var(--abyss);border-top:1px solid var(--border);display:flex;align-items:center;padding:0 12px;gap:16px;font-family:var(--mono);font-size:10px;color:var(--tf)}.sb-i{display:flex;align-items:center;gap:5px}.sb-i .d{width:5px;height:5px;border-radius:50%;background:var(--active)}.sb-s{color:var(--border2)}.sb-sp{flex:1}
+.dz{border:2px dashed var(--border2);border-radius:2px;padding:40px;text-align:center;cursor:pointer;transition:all .2s;margin:16px}.dz:hover,.dz.dragover{border-color:var(--active);background:var(--panel)}.dz .ic{font-family:var(--mono);font-size:28px;color:var(--ti-faint)}.dz .tx{font-family:var(--mono);font-size:11px;color:var(--td);text-transform:uppercase;letter-spacing:1px;margin-top:8px}.dz .sb2{font-family:var(--mono);font-size:9px;color:var(--tf);margin-top:4px}
+.apis{position:fixed;bottom:28px;right:12px;z-index:200;display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:9px;color:var(--tf);background:var(--panel);border:1px solid var(--border);padding:4px 10px;border-radius:2px}.apis input{background:var(--void);border:1px solid var(--border);color:var(--ti);font-family:var(--mono);font-size:10px;padding:2px 6px;width:200px;outline:none;border-radius:1px}.apis .d{width:5px;height:5px;border-radius:50%;background:var(--active)}.apis .d.off{background:var(--danger)}
 #graph-canvas{width:100%;height:100%;display:block;cursor:grab}
-.scroll-y{overflow-y:auto;overflow-x:hidden}
-.obs-tabs{display:flex;gap:4px;padding:8px 14px;border-bottom:1px solid var(--border);background:var(--panel)}
-.obs-tab{font-family:var(--mono);font-size:10px;color:var(--tf);background:var(--panel2);border:1px solid var(--border);padding:4px 12px;cursor:pointer;border-radius:2px;text-transform:uppercase;letter-spacing:.5px;transition:all .12s}
-.obs-tab:hover{color:var(--ti)}.obs-tab.active{color:var(--void);border-color:var(--active);background:var(--active)}
+.sy{overflow-y:auto;overflow-x:hidden}
+.otabs{display:flex;gap:4px;padding:8px 14px;border-bottom:1px solid var(--border);background:var(--panel)}.otab{font-family:var(--mono);font-size:10px;color:var(--tf);background:var(--panel2);border:1px solid var(--border);padding:4px 12px;cursor:pointer;border-radius:2px;text-transform:uppercase;letter-spacing:.5px;transition:all .12s}.otab:hover{color:var(--ti)}.otab.act{color:var(--void);border-color:var(--active);background:var(--active)}
 </style>
 </head>
 <body>
@@ -242,410 +168,477 @@ input,textarea{user-select:text}
 <!-- ═══ LANDING ═══ -->
 <div class="view active" id="landing">
 <canvas id="landing-canvas"></canvas>
-<div class="landing-content">
-<nav class="landing-nav">
-<div class="landing-logo" onclick="showLanding()"><span class="mark">πX</span><span class="tag">ENTERPRISE<br>INTELLIGENCE OS</span></div>
-<div class="landing-nav-links"><a onclick="document.getElementById('sec-platform').scrollIntoView({behavior:'smooth'})">Platform</a><a onclick="document.getElementById('sec-products').scrollIntoView({behavior:'smooth'})">Products</a><a onclick="document.getElementById('sec-arch').scrollIntoView({behavior:'smooth'})">Architecture</a><a onclick="document.getElementById('sec-scale').scrollIntoView({behavior:'smooth'})">Scale</a></div>
-<div class="landing-nav-actions"><button class="landing-btn ghost" onclick="showAuth('login')">Sign In</button><button class="landing-btn accent" onclick="showAuth('register')">Start Intelligence Engine</button></div>
+<div class="lc">
+<nav class="lnav">
+<div class="llogo" onclick="showLanding()"><span class="mk">πX</span><span class="tg">ENTERPRISE<br>INTELLIGENCE OS</span></div>
+<div class="lnav-l"><a onclick="document.getElementById('sec-p').scrollIntoView({behavior:'smooth'})">Platform</a><a onclick="document.getElementById('sec-d').scrollIntoView({behavior:'smooth'})">Products</a><a onclick="document.getElementById('sec-a').scrollIntoView({behavior:'smooth'})">Architecture</a><a onclick="document.getElementById('sec-s').scrollIntoView({behavior:'smooth'})">Scale</a></div>
+<div class="lnav-a"><button class="lbtn ghost" onclick="showAuth('login')">Sign In</button><button class="lbtn accent" onclick="showAuth('register')">Start Intelligence Engine</button></div>
 </nav>
-<section class="landing-hero">
-<h1>Your Enterprise. <span class="accent">Understood by AI.</span></h1>
+<section class="lhero">
+<h1>Your Enterprise. <span class="ac">Understood by AI.</span></h1>
 <p class="sub">πX transforms business data into autonomous intelligence systems — adaptive profiles, AI agents, decision engines, and continuous organizational memory. One platform. Every industry. Zero templates.</p>
-<div class="cta-row"><button class="landing-btn accent" style="padding:14px 32px;font-size:12px" onclick="showAuth('register')">Start Intelligence Engine</button><button class="landing-btn ghost" style="padding:14px 32px;font-size:12px" onclick="document.getElementById('sec-platform').scrollIntoView({behavior:'smooth'})">Request Enterprise Demo</button></div>
-<div class="data-flow" id="data-flow"></div>
+<div class="cta"><button class="lbtn accent" style="padding:14px 32px;font-size:12px" onclick="showAuth('register')">Start Intelligence Engine</button><button class="lbtn ghost" style="padding:14px 32px;font-size:12px" onclick="document.getElementById('sec-p').scrollIntoView({behavior:'smooth'})">Request Enterprise Demo</button></div>
+<div class="core-wrap"><div class="core"><div class="core-ring r1"><span class="dot"></span></div><div class="core-ring r2"><span class="dot"></span></div><div class="core-ring r3"><span class="dot"></span></div><div class="core-center">πX</div></div></div>
+<div class="dflow" id="dflow"></div>
 </section>
-<section class="landing-section" id="sec-platform">
+<section class="lsec" id="sec-p">
 <h2>A new category of software</h2>
-<p class="section-sub">πX is not a dashboard. Not a chatbot. Not analytics software. It's an operating system that learns your enterprise, builds intelligence profiles from your data, and deploys autonomous agents that monitor, analyze, and decide — continuously.</p>
-<div class="arch-flow" id="sec-arch">
-<div class="arch-step"><span class="arch-num">01</span><span class="arch-title">Company Data</span><span class="arch-desc">Upload any dataset — Excel, CSV, PDF, database. πX ingests and profiles every column automatically.</span></div>
-<div class="arch-step"><span class="arch-num">02</span><span class="arch-title">Semantic Understanding</span><span class="arch-desc">6-layer mapping engine resolves your column names to canonical business concepts. No schema required.</span></div>
-<div class="arch-step"><span class="arch-num">03</span><span class="arch-title">Knowledge Graph</span><span class="arch-desc">Entity extraction, relationship discovery, and graph traversal. 11 entity types with confidence scoring.</span></div>
-<div class="arch-step"><span class="arch-num">04</span><span class="arch-title">AI Workforce</span><span class="arch-desc">10 autonomous agent types — each profile-aware, KPI-driven, and learning from every interaction.</span></div>
-<div class="arch-step"><span class="arch-num">05</span><span class="arch-title">Executive Intelligence</span><span class="arch-desc">Role-specific dashboards, decisions, and recommendations. CEO, CFO, COO — each sees a different view.</span></div>
+<p class="ss">πX is not a dashboard. Not a chatbot. Not analytics software. It's an operating system that learns your enterprise, builds intelligence profiles from your data, and deploys autonomous agents that monitor, analyze, and decide — continuously.</p>
+<div class="arch-flow" id="sec-a">
+<div class="as"><span class="num">01</span><span class="title">Company Data</span><span class="desc">Upload any dataset — Excel, CSV, PDF. πX ingests and profiles every column automatically.</span></div>
+<div class="as"><span class="num">02</span><span class="title">Semantic Understanding</span><span class="desc">6-layer mapping engine resolves your column names to canonical business concepts.</span></div>
+<div class="as"><span class="num">03</span><span class="title">Knowledge Graph</span><span class="desc">Entity extraction, relationship discovery, and graph traversal. 11 entity types with confidence scoring.</span></div>
+<div class="as"><span class="num">04</span><span class="title">AI Workforce</span><span class="desc">10 autonomous agent types — each profile-aware, KPI-driven, and learning from every interaction.</span></div>
+<div class="as"><span class="num">05</span><span class="title">Executive Intelligence</span><span class="desc">Role-specific dashboards, decisions, and recommendations generated from your Intelligence Profile.</span></div>
 </div>
 </section>
-<section class="landing-section" id="sec-products">
+<section class="lsec" id="sec-d">
 <h2>Every company gets its own AI brain</h2>
-<p class="section-sub">πX creates a unique Intelligence Profile for each organization. Different industries produce different entities, KPIs, agents, and dashboards — from the same codebase.</p>
-<div class="profile-compare">
-<div class="profile-col">
-<h3>RETAIL COMPANY</h3>
-<div class="profile-section-title">Entities</div>
-<div class="profile-item"><span class="dot"></span>Customer</div>
-<div class="profile-item"><span class="dot"></span>Store</div>
-<div class="profile-item"><span class="dot"></span>Product</div>
-<div class="profile-item"><span class="dot"></span>Region</div>
-<div class="profile-section-title">KPIs</div>
-<div class="profile-item kpi"><span class="dot"></span>Revenue</div>
-<div class="profile-item kpi"><span class="dot"></span>Sell-out</div>
-<div class="profile-item kpi"><span class="dot"></span>Margin</div>
-</div>
-<div class="profile-col">
-<h3>MANUFACTURING</h3>
-<div class="profile-section-title">Entities</div>
-<div class="profile-item"><span class="dot"></span>Machine</div>
-<div class="profile-item"><span class="dot"></span>Production Line</div>
-<div class="profile-item"><span class="dot"></span>Supplier</div>
-<div class="profile-item"><span class="dot"></span>Quality Batch</div>
-<div class="profile-section-title">KPIs</div>
-<div class="profile-item kpi"><span class="dot"></span>OEE</div>
-<div class="profile-item kpi"><span class="dot"></span>Downtime</div>
-<div class="profile-item kpi"><span class="dot"></span>Quality Rate</div>
-</div>
+<p class="ss">πX creates a unique Intelligence Profile for each organization. Different industries produce different entities, KPIs, agents, and dashboards — from the same codebase.</p>
+<div class="pc">
+<div class="pc-col"><h3>RETAIL COMPANY</h3><div class="pc-st">Entities</div><div class="pc-it"><span class="d"></span>Customer</div><div class="pc-it"><span class="d"></span>Store</div><div class="pc-it"><span class="d"></span>Product</div><div class="pc-it"><span class="d"></span>Region</div><div class="pc-st">KPIs</div><div class="pc-it k"><span class="d"></span>Revenue</div><div class="pc-it k"><span class="d"></span>Sell-out</div><div class="pc-it k"><span class="d"></span>Margin</div></div>
+<div class="pc-col"><h3>MANUFACTURING</h3><div class="pc-st">Entities</div><div class="pc-it"><span class="d"></span>Machine</div><div class="pc-it"><span class="d"></span>Production Line</div><div class="pc-it"><span class="d"></span>Supplier</div><div class="pc-it"><span class="d"></span>Quality Batch</div><div class="pc-st">KPIs</div><div class="pc-it k"><span class="d"></span>OEE</div><div class="pc-it k"><span class="d"></span>Downtime</div><div class="pc-it k"><span class="d"></span>Quality Rate</div></div>
 </div>
 </section>
-<section class="landing-section">
+<section class="lsec">
 <h2>Autonomous AI Agent Workforce</h2>
-<p class="section-sub">Each agent is profile-aware, industry-aware, and KPI-driven. They monitor, analyze, and recommend — continuously learning from outcomes.</p>
-<div class="agent-workforce">
-<div class="agent-tile"><span class="role">CEO Agent</span><span class="resp">Strategy formulation, business analysis, market positioning</span><div class="stats"><span class="stat">Status: <span class="v">ACTIVE</span></span><span class="stat">Tasks: <span class="v">34</span></span><span class="stat">Accuracy: <span class="v">94%</span></span></div></div>
-<div class="agent-tile"><span class="role">CFO Agent</span><span class="resp">Financial intelligence, cost optimization, margin analysis</span><div class="stats"><span class="stat">Status: <span class="v">ACTIVE</span></span><span class="stat">Tasks: <span class="v">28</span></span><span class="stat">Accuracy: <span class="v">96%</span></span></div></div>
-<div class="agent-tile"><span class="role">Sales Agent</span><span class="resp">Revenue monitoring, customer analysis, churn detection</span><div class="stats"><span class="stat">Status: <span class="v">ACTIVE</span></span><span class="stat">Tasks: <span class="v">47</span></span><span class="stat">Accuracy: <span class="v">91%</span></span></div></div>
-<div class="agent-tile"><span class="role">Ops Agent</span><span class="resp">Process optimization, supply chain, efficiency tracking</span><div class="stats"><span class="stat">Status: <span class="v">ACTIVE</span></span><span class="stat">Tasks: <span class="v">22</span></span><span class="stat">Accuracy: <span class="v">93%</span></span></div></div>
+<p class="ss">Each agent is profile-aware, industry-aware, and KPI-driven. They monitor, analyze, and recommend — continuously learning from outcomes.</p>
+<div class="awf">
+<div class="awf-t"><span class="r">CEO Agent</span><span class="rsp">Strategy formulation, business analysis, market positioning</span><div class="st"><span>Status: <span class="v">ACTIVE</span></span><span>Tasks: <span class="v">34</span></span><span>Accuracy: <span class="v">94%</span></span></div></div>
+<div class="awf-t"><span class="r">CFO Agent</span><span class="rsp">Financial intelligence, cost optimization, margin analysis</span><div class="st"><span>Status: <span class="v">ACTIVE</span></span><span>Tasks: <span class="v">28</span></span><span>Accuracy: <span class="v">96%</span></span></div></div>
+<div class="awf-t"><span class="r">Sales Agent</span><span class="rsp">Revenue monitoring, customer analysis, churn detection</span><div class="st"><span>Status: <span class="v">ACTIVE</span></span><span>Tasks: <span class="v">47</span></span><span>Accuracy: <span class="v">91%</span></span></div></div>
+<div class="awf-t"><span class="r">Ops Agent</span><span class="rsp">Process optimization, supply chain, efficiency tracking</span><div class="st"><span>Status: <span class="v">ACTIVE</span></span><span>Tasks: <span class="v">22</span></span><span>Accuracy: <span class="v">93%</span></span></div></div>
 </div>
 </section>
-<section class="landing-section" id="sec-scale">
+<section class="lsec" id="sec-s">
 <h2>Built for scale</h2>
-<div class="stat-row">
-<div class="stat-cell"><div class="num">168</div><div class="label">API Endpoints</div></div>
-<div class="stat-cell"><div class="num">16</div><div class="label">DB Migrations</div></div>
-<div class="stat-cell"><div class="num">443</div><div class="label">Test Cases</div></div>
-<div class="stat-cell"><div class="num">7</div><div class="label">AI Providers</div></div>
-</div>
+<div class="sr"><div class="sr-c"><div class="n">168</div><div class="l">API Endpoints</div></div><div class="sr-c"><div class="n">16</div><div class="l">DB Migrations</div></div><div class="sr-c"><div class="n">443</div><div class="l">Test Cases</div></div><div class="sr-c"><div class="n">7</div><div class="l">AI Providers</div></div></div>
 </section>
-<footer class="landing-footer"><span class="copy">πX Technologies — Enterprise Intelligence Operating System</span><span class="copy">© 2026 — All Rights Reserved</span></footer>
+<footer class="lft"><span class="c">πX Technologies — Enterprise Intelligence Operating System</span><span class="c">© 2026 — All Rights Reserved</span></footer>
 </div>
 </div>
 
 <!-- ═══ AUTH ═══ -->
 <div class="view" id="auth-view">
 <canvas id="auth-canvas"></canvas>
-<div class="auth-back" onclick="showLanding()">← BACK</div>
-<div class="auth-card">
+<div class="aback" onclick="showLanding()">← BACK</div>
+<div class="acard">
 <div class="logo">πX</div>
-<h2 id="auth-title">Sign In</h2>
-<p class="sub" id="auth-sub">Access your intelligence platform</p>
-<div class="auth-error" id="auth-error"></div>
-<div class="auth-field" id="name-field" style="display:none"><label>Full Name</label><input id="auth-name" type="text" placeholder="Jane Doe"></div>
-<div class="auth-field"><label>Email</label><input id="auth-email" type="email" placeholder="you@company.com"></div>
-<div class="auth-field"><label>Password</label><input id="auth-password" type="password" placeholder="••••••••"></div>
-<div class="auth-field" id="role-field" style="display:none"><label>Role</label><select id="auth-role"><option value="analyst">Analyst</option><option value="manager">Manager</option><option value="cto">CTO</option><option value="cfo">CFO</option><option value="ceo">CEO</option></select></div>
-<button class="auth-btn" id="auth-submit" onclick="handleAuth()">Sign In</button>
-<div class="auth-divider">or</div>
-<button class="auth-oauth" onclick="alert('Google OAuth — coming soon')">Continue with Google</button>
-<div class="auth-switch" id="auth-switch">Don't have an account? <a onclick="showAuth('register')">Create one</a></div>
+<h2 id="atitle">Sign In</h2>
+<p class="sub" id="asub">Access your intelligence platform</p>
+<div class="aerr" id="aerr"></div>
+<div class="af" id="name-field" style="display:none"><label>Full Name</label><input id="aname" type="text" placeholder="Jane Doe"></div>
+<div class="af"><label>Email</label><input id="aemail" type="email" placeholder="you@company.com"></div>
+<div class="af"><label>Password</label><input id="apass" type="password" placeholder="••••••••"></div>
+<div class="af" id="role-field" style="display:none"><label>Role</label><select id="arole"><option value="analyst">Analyst</option><option value="manager">Manager</option><option value="cto">CTO</option><option value="cfo">CFO</option><option value="ceo">CEO</option></select></div>
+<button class="abtn" id="abtn" onclick="handleAuth()">Sign In</button>
+<div class="adiv">or</div>
+<button class="aoauth" onclick="alert('Google OAuth — coming soon')">Continue with Google</button>
+<div class="asw" id="asw">Don't have an account? <a onclick="showAuth('register')">Create one</a></div>
 </div>
 </div>
 
-<!-- ═══ APP ═══ -->
+<!-- ═══ APP (Command Center) ═══ -->
 <div class="view" id="app-view">
 <div id="topbar">
-<div class="logo" onclick="showLanding()"><span class="logo-mark">πX</span><span class="logo-text">Intelligence<br>OS</span></div>
-<div class="cmd-bar"><span class="cmd-prefix">›</span><input id="cmd-input" class="cmd-input" placeholder="Query intelligence, navigate modules…" onkeydown="handleCmdKey(event)"></div>
-<div class="topbar-right"><div class="org-badge"><span class="dot"></span><span id="org-name">—</span></div><div class="user-chip" id="user-chip" onclick="logout()">AD</div></div>
+<div class="logo" onclick="showLanding()"><span class="mk">πX</span><span class="tg">Intelligence<br>OS</span></div>
+<div class="cmdb"><span class="px">›</span><input id="cmd" placeholder="Query intelligence, navigate modules…" onkeydown="handleCmd(event)"></div>
+<div class="tbr"><div class="org-b"><span class="d"></span><span id="org-name">—</span></div><div class="uchip" id="uchip" onclick="logout()">AD</div></div>
 </div>
 <div id="rail">
-<div class="rail-btn active" data-m="upload" onclick="switchModule('upload')"><span class="rail-icon">UP</span><span class="rail-label">Upload</span></div>
-<div class="rail-btn" data-m="profile" onclick="switchModule('profile')"><span class="rail-icon">IP</span><span class="rail-label">Profile</span></div>
-<div class="rail-btn" data-m="dashboard" onclick="switchModule('dashboard')"><span class="rail-icon">DB</span><span class="rail-label">Dash</span></div>
-<div class="rail-btn" data-m="query" onclick="switchModule('query')"><span class="rail-icon">NQ</span><span class="rail-label">Query</span></div>
-<div class="rail-divider"></div>
-<div class="rail-btn" data-m="graph" onclick="switchModule('graph')"><span class="rail-icon">KG</span><span class="rail-label">Graph</span></div>
-<div class="rail-btn" data-m="agents" onclick="switchModule('agents')"><span class="rail-icon">AG</span><span class="rail-label">Agents</span></div>
-<div class="rail-btn" data-m="decisions" onclick="switchModule('decisions')"><span class="rail-icon">DC</span><span class="rail-label">Decide</span></div>
-<div class="rail-btn" data-m="memory" onclick="switchModule('memory')"><span class="rail-icon">MM</span><span class="rail-label">Memory</span></div>
-<div class="rail-divider"></div>
-<div class="rail-btn" data-m="pipeline" onclick="switchModule('pipeline')"><span class="rail-icon">DP</span><span class="rail-label">Pipeline</span></div>
-<div class="rail-btn" data-m="audit" onclick="switchModule('audit')"><span class="rail-icon">AT</span><span class="rail-label">Audit</span></div>
-<div class="rail-btn" data-m="observatory" onclick="switchModule('observatory')"><span class="rail-icon">OB</span><span class="rail-label">Observ</span></div>
+<div class="rb active" data-m="upload" onclick="switchMod('upload')"><span class="ic">UP</span><span class="lb">Upload</span></div>
+<div class="rb" data-m="profile" onclick="switchMod('profile')"><span class="ic">IP</span><span class="lb">Profile</span></div>
+<div class="rb" data-m="dashboard" onclick="switchMod('dashboard')"><span class="ic">DB</span><span class="lb">Dash</span></div>
+<div class="rd"></div>
+<div class="rb" data-m="graph" onclick="switchMod('graph')"><span class="ic">KG</span><span class="lb">Graph</span></div>
+<div class="rb" data-m="agents" onclick="switchMod('agents')"><span class="ic">AG</span><span class="lb">Agents</span></div>
+<div class="rb" data-m="decisions" onclick="switchMod('decisions')"><span class="ic">DC</span><span class="lb">Decide</span></div>
+<div class="rb" data-m="memory" onclick="switchMod('memory')"><span class="ic">MM</span><span class="lb">Memory</span></div>
+<div class="rd"></div>
+<div class="rb" data-m="query" onclick="switchMod('query')"><span class="ic">NQ</span><span class="lb">Query</span></div>
+<div class="rb" data-m="observatory" onclick="switchMod('observatory')"><span class="ic">OB</span><span class="lb">Observ</span></div>
+<div class="rb" data-m="audit" onclick="switchMod('audit')"><span class="ic">AT</span><span class="lb">Audit</span></div>
 </div>
 <div id="main">
-<div class="module active" id="mod-upload">
-<div class="module-header"><div class="module-title"><h2>Data Ingestion</h2><span class="module-badge" id="upload-status">READY</span></div><div class="module-actions"><button class="module-btn" onclick="loadSampleData()">↻ Sample Data</button></div></div>
-<div class="module-body" id="upload-body"><div class="drop-zone" id="drop-zone" onclick="document.getElementById('file-input').click()"><div class="icon">↑</div><div class="text">Drop Excel / CSV File</div><div class="sub">Parsed client-side with SheetJS — columns sent to Intelligence Profile API</div></div><input type="file" id="file-input" style="display:none" accept=".xlsx,.xls,.csv" onchange="handleFile(this.files[0])"><div id="upload-results"></div></div>
+<!-- UPLOAD -->
+<div class="mod active" id="mod-upload"><div class="mh"><div class="mt"><h2>Data Ingestion</h2><span class="mbg" id="up-st">READY</span></div><div class="ma"><button class="mb" onclick="loadSample()">↻ Sample Data</button></div></div><div class="mbody" id="up-body"><div class="dz" id="dz" onclick="document.getElementById('file-input').click()"><div class="ic">↑</div><div class="tx">Drop Excel / CSV File</div><div class="sb2">SheetJS parses client-side → Intelligence Profile API</div></div><input type="file" id="file-input" style="display:none" accept=".xlsx,.xls,.csv" onchange="handleFile(this.files[0])"><div id="up-results"></div></div></div>
+<!-- PROFILE -->
+<div class="mod" id="mod-profile"><div class="mh"><div class="mt"><h2>Intelligence Profile</h2><span class="mbg" id="pf-st">—</span></div><div class="ma"><button class="mb" onclick="loadProfile()">↻ Refresh</button><button class="mb pri" onclick="createProfile()">+ Create</button></div></div><div class="mbody" id="pf-body"></div></div>
+<!-- DASHBOARD -->
+<div class="mod" id="mod-dashboard"><div class="mh"><div class="mt"><h2>Dynamic Dashboard</h2><span class="mbg" id="db-st">—</span></div><div class="ma"><button class="mb" onclick="loadDash()">↻ Regenerate</button></div></div><div class="rsel" id="rsel"></div><div class="mbody" id="db-body"></div></div>
+<!-- GRAPH -->
+<div class="mod" id="mod-graph"><div class="mh"><div class="mt"><h2>Knowledge Graph</h2><span class="mbg" id="kg-st">—</span></div><div class="ma"><button class="mb" onclick="enrichGraph()">✦ Extract</button></div></div><div class="mbody" style="position:relative"><canvas id="graph-canvas"></canvas></div></div>
+<!-- AGENTS -->
+<div class="mod" id="mod-agents"><div class="mh"><div class="mt"><h2>AI Agent Command Center</h2><span class="mbg" id="ag-st">—</span></div><div class="ma"><button class="mb" onclick="loadAgents()">↻ Refresh</button></div></div><div class="mbody sy" id="ag-body"></div></div>
+<!-- DECISIONS -->
+<div class="mod" id="mod-decisions"><div class="mh"><div class="mt"><h2>Decision Engine</h2></div><div class="ma"><button class="mb pri" onclick="runDecision()">▶ Analyze</button></div></div><div class="mbody sy" id="dc-body"><div class="es"><div class="m">Click Analyze to run root cause + SWOT</div></div></div></div>
+<!-- MEMORY -->
+<div class="mod" id="mod-memory"><div class="mh"><div class="mt"><h2>Memory System</h2><span class="mbg" id="mm-st">0 chunks</span></div><div class="ma"><button class="mb" onclick="searchMem()">⌕ Search</button></div></div><div class="mbody" style="padding:14px"><div style="display:flex;gap:8px;margin-bottom:12px"><input id="mm-q" style="flex:1;background:var(--panel);border:1px solid var(--border);padding:6px 10px;border-radius:2px;color:var(--ti);font-family:var(--mono);font-size:12px;outline:none" placeholder="Semantic search…" onkeydown="if(event.key==='Enter')searchMem()"><button class="mb pri" onclick="searchMem()">Query</button></div><div id="mm-results"></div></div></div>
+<!-- QUERY -->
+<div class="mod" id="mod-query"><div class="mh"><div class="mt"><h2>Intelligence Query</h2><span class="mbg" id="nq-st">—</span></div><div class="ma"><button class="mb pri" onclick="runQuery()">▶ Execute</button></div></div><div class="mbody sy"><div style="padding:16px;display:flex;flex-direction:column;gap:10px"><textarea id="nq-input" class="qi" placeholder="Ask a business question…" onkeydown="if(event.key==='Enter'&&(event.metaKey||event.ctrlKey)){event.preventDefault();runQuery();}"></textarea><div style="display:flex;flex-wrap:wrap;gap:6px"><span class="qc" onclick="setQuery('Why did revenue drop in Q3?')">Why did revenue drop in Q3?</span><span class="qc" onclick="setQuery('What are the main churn drivers?')">Churn drivers?</span><span class="qc" onclick="setQuery('What actions should we take to improve margins?')">Improve margins?</span></div></div><div id="nq-results" style="margin:0 16px 16px"><div class="es"><div class="m">Type a question and press Execute</div></div></div></div></div>
+<!-- OBSERVATORY -->
+<div class="mod" id="mod-observatory"><div class="mh"><div class="mt"><h2>Intelligence Observatory</h2></div><div class="ma"><button class="mb" onclick="loadObs()">↻ Refresh</button></div></div><div class="otabs" id="otabs"></div><div class="mbody sy" id="ob-body"></div></div>
+<!-- AUDIT -->
+<div class="mod" id="mod-audit"><div class="mh"><div class="mt"><h2>Audit Trail</h2><span class="mbg" id="at-st">—</span></div><div class="ma"><button class="mb" onclick="loadAudit()">↻ Refresh</button></div></div><div class="mbody sy"><div id="at-list" style="padding:12px 16px"></div></div></div>
 </div>
-<div class="module" id="mod-profile">
-<div class="module-header"><div class="module-title"><h2>Intelligence Profile</h2><span class="module-badge" id="profile-badge">—</span></div><div class="module-actions"><button class="module-btn" onclick="loadProfile()">↻ Refresh</button><button class="module-btn primary" onclick="createProfile()">+ Create</button></div></div>
-<div class="module-body" id="profile-body"></div>
+<div id="right-panel"><div class="rh"><h3>Live Stream</h3><div class="ld"></div></div><div class="el" id="events"></div></div>
+<div id="status-bar"><div class="sb-i"><span class="d"></span><span>BACKEND</span></div><span class="sb-s">│</span><div class="sb-i"><span id="sb-ep">168 endpoints</span></div><span class="sb-s">│</span><div class="sb-i"><span>16 migrations</span></div><div class="sb-sp"></div><div class="sb-i"><span id="sb-time">—</span></div><span class="sb-s">│</span><div class="sb-i"><span>πX v1.0</span></div></div>
 </div>
-<div class="module" id="mod-dashboard">
-<div class="module-header"><div class="module-title"><h2>Dynamic Dashboard</h2><span class="module-badge" id="dash-badge">—</span></div><div class="module-actions"><button class="module-btn" onclick="loadDashboard()">↻ Regenerate</button></div></div>
-<div class="role-selector" id="role-selector"></div>
-<div class="module-body" id="dashboard-body"></div>
-</div>
-<div class="module" id="mod-query">
-<div class="module-header"><div class="module-title"><h2>Intelligence Query</h2><span class="module-badge" id="query-badge">—</span></div><div class="module-actions"><button class="module-btn primary" onclick="runQuery()">▶ Execute</button></div></div>
-<div class="module-body scroll-y">
-<div class="query-input-area"><textarea id="query-input" class="query-input" placeholder="Ask a business question…" onkeydown="if(event.key==='Enter'&&(event.metaKey||event.ctrlKey)){event.preventDefault();runQuery();}"></textarea>
-<div style="display:flex;flex-wrap:wrap;gap:6px"><span class="query-chip" onclick="setQuery('Why did revenue drop in Q3?')">Why did revenue drop in Q3?</span><span class="query-chip" onclick="setQuery('What are the main churn drivers?')">Churn drivers?</span><span class="query-chip" onclick="setQuery('Compare performance across stores')">Compare stores</span><span class="query-chip" onclick="setQuery('What actions should we take to improve margins?')">Improve margins?</span></div></div>
-<div id="query-results" style="margin:0 16px 16px"><div class="empty-state"><div class="msg">Type a question and press Execute</div></div></div>
-</div>
-</div>
-<div class="module" id="mod-graph">
-<div class="module-header"><div class="module-title"><h2>Knowledge Graph</h2><span class="module-badge" id="graph-badge">—</span></div><div class="module-actions"><button class="module-btn" onclick="enrichGraph()">✦ Extract</button></div></div>
-<div class="module-body" style="position:relative"><canvas id="graph-canvas"></canvas></div>
-</div>
-<div class="module" id="mod-agents">
-<div class="module-header"><div class="module-title"><h2>Agent Command Center</h2><span class="module-badge" id="agent-badge">—</span></div><div class="module-actions"><button class="module-btn" onclick="loadAgents()">↻ Refresh</button></div></div>
-<div class="module-body scroll-y" id="agents-body"></div>
-</div>
-<div class="module" id="mod-decisions">
-<div class="module-header"><div class="module-title"><h2>Decision Engine</h2></div><div class="module-actions"><button class="module-btn primary" onclick="runDecision()">▶ Analyze</button></div></div>
-<div class="module-body scroll-y" id="decisions-body"><div class="empty-state"><div class="msg">Click Analyze to run root cause + SWOT</div></div></div>
-</div>
-<div class="module" id="mod-memory">
-<div class="module-header"><div class="module-title"><h2>Memory Matrix</h2><span class="module-badge" id="memory-badge">0 chunks</span></div><div class="module-actions"><button class="module-btn" onclick="searchMemory()">⌕ Search</button></div></div>
-<div class="module-body" style="padding:14px"><div style="display:flex;gap:8px;margin-bottom:12px"><input id="memory-query" style="flex:1;background:var(--panel);border:1px solid var(--border);padding:6px 10px;border-radius:2px;color:var(--ti);font-family:var(--mono);font-size:12px;outline:none" placeholder="Semantic search…" onkeydown="if(event.key==='Enter')searchMemory()"><button class="module-btn primary" onclick="searchMemory()">Query</button></div><div id="memory-results"></div></div>
-</div>
-<div class="module" id="mod-pipeline">
-<div class="module-header"><div class="module-title"><h2>Intelligence Pipeline</h2><span class="module-badge" id="pipe-badge">IDLE</span></div><div class="module-actions"><button class="module-btn primary" onclick="runPipeline()">▶ Execute</button></div></div>
-<div class="module-body scroll-y" style="padding:16px"><div class="pipeline-flow" id="pipeline-flow"></div><div style="margin-top:20px"><div style="padding:8px 14px;border-bottom:1px solid var(--border);background:var(--panel)"><span style="font-family:var(--mono);font-size:10px;color:var(--ti-dim);text-transform:uppercase;letter-spacing:1.5px">Pipeline Log</span></div><div id="pipeline-log" class="code-block" style="min-height:200px"></div></div></div>
-</div>
-<div class="module" id="mod-audit">
-<div class="module-header"><div class="module-title"><h2>Audit Trail</h2><span class="module-badge" id="audit-badge">—</span></div><div class="module-actions"><button class="module-btn" onclick="loadAudit()">↻ Refresh</button></div></div>
-<div class="module-body scroll-y"><div id="audit-timeline" style="padding:12px 16px"></div></div>
-</div>
-<div class="module" id="mod-observatory">
-<div class="module-header"><div class="module-title"><h2>Intelligence Observatory</h2></div><div class="module-actions"><button class="module-btn" onclick="loadObservatory()">↻ Refresh</button></div></div>
-<div class="obs-tabs" id="obs-tabs"></div>
-<div class="module-body scroll-y" id="observatory-body"></div>
-</div>
-</div>
-<div id="right-panel"><div class="right-header"><h3>Live Stream</h3><div class="live-dot"></div></div><div class="event-list" id="event-stream"></div></div>
-<div id="status-bar"><div class="status-item"><span class="dot"></span><span>BACKEND</span></div><span class="status-sep">│</span><div class="status-item"><span id="stat-endpoints">168 endpoints</span></div><span class="status-sep">│</span><div class="status-item"><span>16 migrations</span></div><div class="status-spacer"></div><div class="status-item"><span id="stat-time">—</span></div><span class="status-sep">│</span><div class="status-item"><span>πX v1.0</span></div></div>
-</div>
-<div class="api-settings" id="api-settings" style="display:none"><span class="dot" id="api-status-dot"></span><span>API</span><input id="api-url" value="" placeholder="http://127.0.0.1:8014/api/v1" onchange="updateApiUrl(this.value)"></div>
+<div class="apis" id="apis" style="display:none"><span class="d" id="api-dot"></span><span>API</span><input id="api-url" value="" placeholder="http://127.0.0.1:8014/api/v1" onchange="updateApi(this.value)"></div>
 
 <script>
-/* ═══ GLOBAL STATE ═══ */
-let API_BASE=localStorage.getItem('pix_api_url')||(window.location.origin.replace(/\/$/,'')+'/api/v1');
-if(window.location.port==='8014'||window.location.pathname.startsWith('/app/')){API_BASE=window.location.origin+'/api/v1';}
-const urlParams=new URLSearchParams(window.location.search);
-if(urlParams.get('api'))API_BASE=urlParams.get('api')+'/api/v1';
-let accessToken=null,refreshToken=null,userInfo=null,orgId='test',currentModule='upload',lastAnalysis=null,currentRole='executive',currentObsView='ceo';
+/* ═══════════════════════════════════════════════════
+   πX EIOS — CENTRALIZED API CLIENT
+   Fixes: "Cannot access API_BASE before initialization"
+   All API access goes through PixConfig + PixAPI
+   ═══════════════════════════════════════════════════ */
 
-/* ═══ VIEW MGMT ═══ */
-function showView(id){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));document.getElementById(id).classList.add('active');}
-function showLanding(){showView('landing');initLandingCanvas();initDataFlow();}
-function showAuth(mode){showView('auth-view');initAuthCanvas();const t=document.getElementById('auth-title'),s=document.getElementById('auth-sub'),b=document.getElementById('auth-submit'),nf=document.getElementById('name-field'),rf=document.getElementById('role-field'),sw=document.getElementById('auth-switch');
-if(mode==='register'){t.textContent='Create Account';s.textContent='Deploy your intelligence platform';b.textContent='Create Account';nf.style.display='flex';rf.style.display='flex';sw.innerHTML='Already have an account? <a onclick="showAuth(\'login\')">Sign in</a>';}
-else if(mode==='reset'){t.textContent='Reset Password';s.textContent='Enter your email to receive a reset link';b.textContent='Send Reset Link';nf.style.display='none';rf.style.display='none';sw.innerHTML='Back to <a onclick="showAuth(\'login\')">Sign in</a>';}
-else{t.textContent='Sign In';s.textContent='Access your intelligence platform';b.textContent='Sign In';nf.style.display='none';rf.style.display='none';sw.innerHTML='Don\'t have an account? <a onclick="showAuth(\'register\')">Create one</a>';}
-document.getElementById('auth-error').classList.remove('show');}
+const PixConfig = {
+  apiBase: null, accessToken: null, refreshToken: null, user: null, orgId: null, initialized: false,
+  init() {
+    let base = localStorage.getItem('pix_api_url');
+    if (!base) base = window.location.origin + '/api/v1';
+    if (window.location.port === '8014' || window.location.pathname.startsWith('/app/')) base = window.location.origin + '/api/v1';
+    const p = new URLSearchParams(window.location.search);
+    if (p.get('api')) base = p.get('api') + '/api/v1';
+    this.apiBase = base;
+    this.accessToken = localStorage.getItem('pix_access_token');
+    this.refreshToken = localStorage.getItem('pix_refresh_token');
+    const u = localStorage.getItem('pix_user');
+    if (u) { try { this.user = JSON.parse(u); this.orgId = this.user.id || this.user.email; } catch {} }
+    this.initialized = true;
+  },
+  setTokens(a, r) { this.accessToken = a; this.refreshToken = r; localStorage.setItem('pix_access_token', a); localStorage.setItem('pix_refresh_token', r); },
+  setUser(u) { this.user = u; this.orgId = u.id || u.email; localStorage.setItem('pix_user', JSON.stringify(u)); },
+  clear() { this.accessToken = this.refreshToken = this.user = this.orgId = null; localStorage.removeItem('pix_access_token'); localStorage.removeItem('pix_refresh_token'); localStorage.removeItem('pix_user'); },
+  isAuth() { return !!this.accessToken; }
+};
+
+const PixAPI = {
+  async call(path, method = 'GET', body = null, isForm = false) {
+    if (!PixConfig.initialized) throw new Error('PixConfig not initialized');
+    const url = PixConfig.apiBase + path;
+    const opts = { method, headers: {} };
+    if (PixConfig.accessToken) opts.headers['Authorization'] = 'Bearer ' + PixConfig.accessToken;
+    if (!isForm) opts.headers['Content-Type'] = 'application/json';
+    if (body) opts.body = isForm ? body : JSON.stringify(body);
+    let r = await fetch(url, opts);
+    if (r.status === 401 && PixConfig.refreshToken) {
+      const ok = await this.refresh();
+      if (ok) { opts.headers['Authorization'] = 'Bearer ' + PixConfig.accessToken; r = await fetch(url, opts); }
+      else { PixConfig.clear(); showLanding(); throw new Error('Session expired'); }
+    }
+    if (!r.ok) { const t = await r.text(); throw new Error(r.status + ': ' + t.substring(0, 150)); }
+    const ct = r.headers.get('content-type') || '';
+    return ct.includes('json') ? r.json() : r.text();
+  },
+  async login(email, password) {
+    const r = await fetch(PixConfig.apiBase + '/auth/login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, password }) });
+    if (!r.ok) { const d = await r.json().catch(() => ({})); throw new Error(d.error || d.detail || 'Login failed'); }
+    const t = await r.json(); PixConfig.setTokens(t.access_token, t.refresh_token); return t;
+  },
+  async register(data) {
+    const r = await fetch(PixConfig.apiBase + '/auth/register', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+    if (!r.ok) { const d = await r.json().catch(() => ({})); throw new Error(d.error || d.detail || 'Registration failed'); }
+    return r.json();
+  },
+  async refresh() {
+    try {
+      const r = await fetch(PixConfig.apiBase + '/auth/refresh', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ refresh_token: PixConfig.refreshToken }) });
+      if (!r.ok) return false;
+      const t = await r.json(); PixConfig.setTokens(t.access_token, t.refresh_token); return true;
+    } catch { return false; }
+  },
+  logout() { PixConfig.clear(); }
+};
+
+// Initialize BEFORE any other code runs
+PixConfig.init();
+
+/* ═══ STATE ═══ */
+let currentModule = 'upload', lastAnalysis = null, currentRole = 'executive', currentObs = 'ceo';
+
+/* ═══ VIEWS ═══ */
+function showView(id) { document.querySelectorAll('.view').forEach(v => v.classList.remove('active')); document.getElementById(id).classList.add('active'); }
+function showLanding() { showView('landing'); initLandingCanvas(); initDataFlow(); }
+function showAuth(mode) {
+  showView('auth-view'); initAuthCanvas();
+  const t = document.getElementById('atitle'), s = document.getElementById('asub'), b = document.getElementById('abtn'), nf = document.getElementById('name-field'), rf = document.getElementById('role-field'), sw = document.getElementById('asw');
+  if (mode === 'register') { t.textContent = 'Create Account'; s.textContent = 'Deploy your intelligence platform'; b.textContent = 'Create Account'; nf.style.display = 'flex'; rf.style.display = 'flex'; sw.innerHTML = 'Already have an account? <a onclick="showAuth(\'login\')">Sign in</a>'; }
+  else { t.textContent = 'Sign In'; s.textContent = 'Access your intelligence platform'; b.textContent = 'Sign In'; nf.style.display = 'none'; rf.style.display = 'none'; sw.innerHTML = 'Don\'t have an account? <a onclick="showAuth(\'register\')">Create one</a>'; }
+  document.getElementById('aerr').classList.remove('show');
+}
 
 /* ═══ AUTH ═══ */
-async function handleAuth(){const b=document.getElementById('auth-submit'),e=document.getElementById('auth-error'),email=document.getElementById('auth-email').value.trim(),pw=document.getElementById('auth-password').value,name=document.getElementById('auth-name').value.trim(),role=document.getElementById('auth-role')?.value||'analyst',isReg=document.getElementById('auth-title').textContent==='Create Account',isReset=document.getElementById('auth-title').textContent==='Reset Password';
-if(!email){showAuthError('Email required');return;}
-if(isReset){showAuthError('Password reset link sent (demo)');b.textContent='Sent ✓';return;}
-if(!pw){showAuthError('Password required');return;}
-if(pw.length<6){showAuthError('Password must be 6+ characters');return;}
-b.disabled=true;b.textContent='Connecting…';e.classList.remove('show');
-try{
-if(isReg){if(!name){showAuthError('Full name required');b.disabled=false;b.textContent='Create Account';return;}
-const r=await fetch(API_BASE+'/auth/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,password:pw,full_name:name})});
-if(!r.ok){const d=await r.json().catch(()=>({}));throw new Error(d.error||d.detail||`Registration failed (${r.status})`);}
-userInfo=await r.json();userInfo.role=role;}
-const r=await fetch(API_BASE+'/auth/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,password:pw})});
-if(!r.ok){const d=await r.json().catch(()=>({}));throw new Error(d.error||d.detail||`Login failed (${r.status})`);}
-const t=await r.json();accessToken=t.access_token;refreshToken=t.refresh_token;
-if(!userInfo)userInfo={email,full_name:name||email.split('@')[0],role};
-orgId=userInfo.id||email;
-localStorage.setItem('pix_access_token',accessToken);localStorage.setItem('pix_refresh_token',refreshToken);localStorage.setItem('pix_user',JSON.stringify(userInfo));
-enterApp();
-}catch(err){showAuthError(err.message);b.disabled=false;b.textContent=isReg?'Create Account':'Sign In';}}
-function showAuthError(m){const e=document.getElementById('auth-error');e.textContent=m;e.classList.add('show');}
-function logout(){accessToken=null;refreshToken=null;userInfo=null;localStorage.removeItem('pix_access_token');localStorage.removeItem('pix_refresh_token');localStorage.removeItem('pix_user');showLanding();}
-function checkStoredAuth(){const t=localStorage.getItem('pix_access_token'),r=localStorage.getItem('pix_refresh_token'),u=localStorage.getItem('pix_user');if(t&&u){accessToken=t;refreshToken=r;try{userInfo=JSON.parse(u);orgId=userInfo.id||userInfo.email;}catch{}return true;}return false;}
-
-/* ═══ API ═══ */
-async function api(path,method='GET',body=null,isForm=false){const o={method,headers:{}};if(accessToken)o.headers['Authorization']='Bearer '+accessToken;if(!isForm)o.headers['Content-Type']='application/json';if(body)o.body=isForm?body:JSON.stringify(body);
-let r=await fetch(API_BASE+path,o);
-if(r.status===401&&refreshToken){try{const rr=await fetch(API_BASE+'/auth/refresh',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({refresh_token:refreshToken})});if(rr.ok){const nt=await rr.json();accessToken=nt.access_token;refreshToken=nt.refresh_token;localStorage.setItem('pix_access_token',accessToken);localStorage.setItem('pix_refresh_token',refreshToken);o.headers['Authorization']='Bearer '+accessToken;r=await fetch(API_BASE+path,o);}else{logout();throw new Error('Session expired');}}catch{logout();throw new Error('Session expired');}}
-if(!r.ok){const t=await r.text();throw new Error(r.status+': '+t.substring(0,150));}
-const ct=r.headers.get('content-type')||'';return ct.includes('json')?r.json():r.text();}
-
-/* ═══ EVENTS ═══ */
-const eventQ=[];
-function addEvent(type,source,msg){const t=new Date().toTimeString().split(' ')[0];eventQ.unshift({type,source,msg,t});if(eventQ.length>50)eventQ.pop();const el=document.getElementById('event-stream');if(el)el.innerHTML=eventQ.map(e=>'<div class="event-item"><div class="event-meta"><span class="event-type '+e.type+'">'+e.source+'</span><span class="event-time">'+e.t+'</span></div><div class="event-msg">'+e.msg+'</div></div>').join('');}
-async function connectSSE(){try{const r=await fetch(API_BASE+'/dashboard/'+orgId+'/events',{headers:{'Authorization':'Bearer '+accessToken}});if(!r.ok||!r.body)throw new Error();const reader=r.body.getReader();const dec=new TextDecoder();let buf='';while(true){const{done,value}=await reader.read();if(done)break;buf+=dec.decode(value,{stream:true});const lines=buf.split('\n');buf=lines.pop();for(const line of lines){if(line.startsWith('data:')){try{const d=JSON.parse(line.slice(5).trim());addEvent(d.type||'data',d.source||'SSE',d.message||'');}catch{}}}}}catch{addEvent('alert','SSE','SSE unavailable — polling');setInterval(async()=>{try{const d=await api('/enterprise/audit-log');if(d.entries&&d.entries.length>0){const l=d.entries[0];addEvent('audit','POLL',l.action+' — '+(l.resource_type||''));}}catch{}},5000);}}
-setInterval(()=>{const el=document.getElementById('stat-time');if(el)el.textContent=new Date().toTimeString().split(' ')[0]+' UTC';},1000);
+async function handleAuth() {
+  const b = document.getElementById('abtn'), e = document.getElementById('aerr'), email = document.getElementById('aemail').value.trim(), pw = document.getElementById('apass').value, name = document.getElementById('aname').value.trim(), role = document.getElementById('arole')?.value || 'analyst', isReg = document.getElementById('atitle').textContent === 'Create Account';
+  if (!email) { showAErr('Email required'); return; }
+  if (!pw) { showAErr('Password required'); return; }
+  if (pw.length < 6) { showAErr('Password must be 6+ characters'); return; }
+  b.disabled = true; b.textContent = 'Connecting…'; e.classList.remove('show');
+  try {
+    if (isReg) {
+      if (!name) { showAErr('Full name required'); b.disabled = false; b.textContent = 'Create Account'; return; }
+      const u = await PixAPI.register({ email, password: pw, full_name: name }); u.role = role; PixConfig.setUser(u);
+    }
+    await PixAPI.login(email, pw);
+    if (!PixConfig.user) PixConfig.setUser({ email, full_name: name || email.split('@')[0], role });
+    enterApp();
+  } catch (err) { showAErr(err.message); b.disabled = false; b.textContent = isReg ? 'Create Account' : 'Sign In'; }
+}
+function showAErr(m) { const e = document.getElementById('aerr'); e.textContent = m; e.classList.add('show'); }
+function logout() { PixAPI.logout(); showLanding(); }
 
 /* ═══ ENTER APP ═══ */
-function enterApp(){showView('app-view');document.getElementById('org-name').textContent=(userInfo.full_name||userInfo.email||'User').substring(0,16);document.getElementById('user-chip').textContent=(userInfo.full_name||userInfo.email||'U').substring(0,2).toUpperCase();document.getElementById('api-settings').style.display='flex';document.getElementById('api-url').value=API_BASE;checkApiHealth();addEvent('data','SYSTEM','Session established — '+(userInfo.email||''));switchModule('upload');connectSSE();}
-async function checkApiHealth(){try{const r=await fetch(API_BASE.replace('/api/v1','')+'/health');if(r.ok){document.getElementById('api-status-dot').classList.remove('off');addEvent('data','SYSTEM','Backend connected');}}catch{document.getElementById('api-status-dot').classList.add('off');addEvent('alert','SYSTEM','Backend unreachable');}}
-function updateApiUrl(u){API_BASE=u.endsWith('/api/v1')?u:u+'/api/v1';localStorage.setItem('pix_api_url',API_BASE);checkApiHealth();}
+function enterApp() {
+  showView('app-view');
+  const u = PixConfig.user;
+  document.getElementById('org-name').textContent = (u?.full_name || u?.email || 'User').substring(0, 16);
+  document.getElementById('uchip').textContent = (u?.full_name || u?.email || 'U').substring(0, 2).toUpperCase();
+  document.getElementById('apis').style.display = 'flex';
+  document.getElementById('api-url').value = PixConfig.apiBase;
+  checkHealth(); addEvent('data', 'SYSTEM', 'Session established — ' + (u?.email || ''));
+  switchMod('upload'); connectSSE();
+}
+async function checkHealth() {
+  try { const r = await fetch(PixConfig.apiBase.replace('/api/v1', '') + '/health'); if (r.ok) { document.getElementById('api-dot').classList.remove('off'); addEvent('data', 'SYSTEM', 'Backend connected'); } }
+  catch { document.getElementById('api-dot').classList.add('off'); addEvent('alert', 'SYSTEM', 'Backend unreachable'); }
+}
+function updateApi(u) { PixConfig.apiBase = u.endsWith('/api/v1') ? u : u + '/api/v1'; localStorage.setItem('pix_api_url', PixConfig.apiBase); checkHealth(); }
+
+/* ═══ EVENTS ═══ */
+const eventQ = [];
+function addEvent(type, source, msg) {
+  const t = new Date().toTimeString().split(' ')[0]; eventQ.unshift({ type, source, msg, t });
+  if (eventQ.length > 50) eventQ.pop();
+  const el = document.getElementById('events');
+  if (el) el.innerHTML = eventQ.map(e => '<div class="ei"><div class="em"><span class="et ' + e.type + '">' + e.source + '</span><span class="et2">' + e.t + '</span></div><div class="em2">' + e.msg + '</div></div>').join('');
+}
+async function connectSSE() {
+  try {
+    const r = await fetch(PixConfig.apiBase + '/dashboard/' + PixConfig.orgId + '/events', { headers: { 'Authorization': 'Bearer ' + PixConfig.accessToken } });
+    if (!r.ok || !r.body) throw new Error();
+    const reader = r.body.getReader(), dec = new TextDecoder(); let buf = '';
+    while (true) { const { done, value } = await reader.read(); if (done) break; buf += dec.decode(value, { stream: true }); const lines = buf.split('\n'); buf = lines.pop(); for (const line of lines) { if (line.startsWith('data:')) { try { const d = JSON.parse(line.slice(5).trim()); addEvent(d.type || 'data', d.source || 'SSE', d.message || ''); } catch {} } } }
+  } catch { addEvent('alert', 'SSE', 'SSE unavailable — polling'); setInterval(async () => { try { const d = await PixAPI.call('/enterprise/audit-log'); if (d.entries?.length > 0) { const l = d.entries[0]; addEvent('audit', 'POLL', l.action + ' — ' + (l.resource_type || '')); } } catch {} }, 5000); }
+}
+setInterval(() => { const el = document.getElementById('sb-time'); if (el) el.textContent = new Date().toTimeString().split(' ')[0] + ' UTC'; }, 1000);
 
 /* ═══ MODULE SWITCH ═══ */
-function switchModule(m){document.querySelectorAll('.module').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.rail-btn').forEach(x=>x.classList.remove('active'));document.getElementById('mod-'+m).classList.add('active');document.querySelector('.rail-btn[data-m="'+m+'"]').classList.add('active');currentModule=m;
-const loaders={profile:loadProfile,dashboard:loadDashboard,graph:loadGraph,agents:loadAgents,memory:searchMemory,pipeline:renderPipeline,audit:loadAudit,observatory:loadObservatory};
-if(loaders[m])loaders[m]();}
+function switchMod(m) {
+  document.querySelectorAll('.mod').forEach(x => x.classList.remove('active'));
+  document.querySelectorAll('.rb').forEach(x => x.classList.remove('active'));
+  document.getElementById('mod-' + m).classList.add('active');
+  document.querySelector('.rb[data-m="' + m + '"]').classList.add('active');
+  currentModule = m;
+  const loaders = { profile: loadProfile, dashboard: loadDash, graph: loadGraph, agents: loadAgents, memory: searchMem, observatory: loadObs, audit: loadAudit };
+  if (loaders[m]) loaders[m]();
+}
 
 /* ═══ UPLOAD ═══ */
-function inferType(v){if(!v||!v.length)return'string';const s=v[0];if(typeof s==='number')return Number.isInteger(s)?'int':'float';if(typeof s==='string'){if(/^\d{4}-\d{2}-\d{2}/.test(s)||/^\d{1,2}\/\d{1,2}\/\d{2,4}/.test(s))return'datetime';if(!isNaN(parseFloat(s))&&s.length<20)return'float';}return'string';}
-function detectPII(name,vals){const n=name.toLowerCase();if(n.includes('email')||n.includes('mail'))return'email';if(n.includes('phone')||n.includes('mobile')||n.includes('tel'))return'phone';if(n.includes('ssn')||n.includes('social'))return'ssn';if(n.includes('credit')||n.includes('card'))return'card';if(vals)for(const v of vals){const s=String(v);if(/^[^@]+@[^@]+\.[^@]+$/.test(s))return'email';if(/^\+?\d{10,15}$/.test(s.replace(/[\s\-()]/g,'')))return'phone';}return null;}
-async function handleFile(file){if(!file)return;const dz=document.getElementById('drop-zone');dz.classList.add('dragover');dz.querySelector('.text').textContent='PARSING…';
-try{const buf=await file.arrayBuffer();const wb=XLSX.read(buf);const sheet=wb.Sheets[wb.SheetNames[0]];const rows=XLSX.utils.sheet_to_json(sheet,{header:1});if(rows.length<2){dz.querySelector('.text').textContent='NO DATA ROWS';return;}
-const headers=rows[0];const columns=headers.map((name,i)=>{const vals=rows.slice(1,50).map(r=>r[i]).filter(v=>v!=null&&v!=='');return{name:String(name),type:inferType(vals),sample_values:vals.slice(0,5),pii:detectPII(String(name),vals)};});
-dz.classList.remove('dragover');dz.querySelector('.text').textContent='FILE: '+file.name;dz.querySelector('.sub').textContent=columns.length+' columns · '+(rows.length-1)+' rows';addEvent('data','UPLOAD','Parsed '+file.name+': '+columns.length+' cols, '+(rows.length-1)+' rows');
-await analyzeColumns(columns,file.name);
-}catch(e){dz.classList.remove('dragover');dz.querySelector('.text').textContent='PARSE ERROR';addEvent('alert','UPLOAD',e.message);}}
-async function analyzeColumns(columns,fileName){document.getElementById('upload-status').textContent='ANALYZING…';document.getElementById('upload-results').innerHTML='<div class="loading-bar"></div>';
-try{const result=await api('/intelligence-profile/analyze','POST',{file_name:fileName||'data.xlsx',file_type:'xlsx',columns});lastAnalysis=result;displayAnalysis(columns,result);document.getElementById('upload-status').textContent='COMPLETE';addEvent('data','UPLOAD','Analysis: '+((result.suggested_industry||{}).industry||'?')+' — '+(result.suggested_entities?.length||0)+' entities');}catch(e){document.getElementById('upload-results').innerHTML='<div class="empty-state"><div class="msg">ANALYSIS FAILED</div><div class="sub">'+e.message+'</div></div>';document.getElementById('upload-status').textContent='ERROR';addEvent('alert','UPLOAD',e.message);}}
-function displayAnalysis(columns,result){const ind=result.suggested_industry||{},entities=result.suggested_entities||[],kpis=result.suggested_kpis||[],glossary=result.suggested_glossary||[],mappings=result.column_mappings||[],conf=result.confidence_scores||{};
-let h='<div style="display:grid;grid-template-columns:1fr 1fr;height:calc(100% - 100px)">';
-h+='<div class="panel"><div style="padding:8px 14px;border-bottom:1px solid var(--border);background:var(--panel)"><span style="font-family:var(--mono);font-size:10px;color:var(--ti-dim);text-transform:uppercase;letter-spacing:1.5px">Detected Schema</span></div><div class="scroll-y" style="flex:1"><table class="data-grid"><thead><tr><th>Column</th><th>Type</th><th>PII</th><th>Samples</th></tr></thead><tbody>';
-columns.forEach(c=>{h+='<tr><td class="val">'+c.name+'</td><td>'+c.type+'</td><td>'+(c.pii?'<span class="tag pii">'+c.pii+'</span>':'—')+'</td><td style="font-size:9px;color:var(--tf)">'+(c.sample_values||[]).slice(0,3).join(', ')+'</td></tr>';});
-h+='</tbody></table></div></div>';
-h+='<div class="panel"><div style="padding:8px 14px;border-bottom:1px solid var(--border);background:var(--panel)"><span style="font-family:var(--mono);font-size:10px;color:var(--ti-dim);text-transform:uppercase;letter-spacing:1.5px">Semantic Mappings</span></div><div class="scroll-y" style="flex:1">';
-mappings.forEach(m=>{h+='<div class="source-row"><span style="color:var(--ti)">'+m.column_name+'</span><span style="color:var(--tf)">→</span><span style="color:'+(m.entity_type?'var(--sig)':'var(--danger)')+'">'+(m.entity_type||'UNMAPPED')+'</span><div style="flex:1;height:2px;background:var(--panel3);margin:0 8px"><div style="height:100%;width:'+(m.confidence||0)*100+'%;background:var(--ti)"></div></div><span style="font-size:9px;color:var(--tf)">'+((m.confidence||0)*100).toFixed(0)+'%</span></div>';});
-h+='</div></div>';
-h+='<div class="panel"><div style="padding:8px 14px;border-bottom:1px solid var(--border);background:var(--panel)"><span style="font-family:var(--mono);font-size:10px;color:var(--ti-dim);text-transform:uppercase;letter-spacing:1.5px">Entities & KPIs</span></div><div class="scroll-y" style="flex:1">';
-entities.forEach(e=>{h+='<div class="source-row"><span class="tag neutral">'+(e.entity_type||e.type||'ENTITY')+'</span><span style="flex:1;color:var(--ti)">'+(e.label||e.name)+'</span><span style="font-size:9px;color:var(--tf)">'+((e.confidence||0)*100).toFixed(0)+'%</span></div>';});
-h+='<div style="padding:8px 0;border-top:1px solid var(--border)"></div>';
-kpis.forEach(k=>{h+='<div class="kpi-row"><span class="kpi-name">'+(k.label||k.name)+'</span><span class="kpi-formula">'+(k.category||k.formula||'')+'</span><span class="kpi-value" style="font-size:10px">'+(k.target?.value||'—')+'</span></div>';});
-h+='</div></div>';
-h+='<div class="panel"><div style="padding:8px 14px;border-bottom:1px solid var(--border);background:var(--panel)"><span style="font-family:var(--mono);font-size:10px;color:var(--ti-dim);text-transform:uppercase;letter-spacing:1.5px">Confidence & Glossary</span></div><div class="scroll-y" style="flex:1;padding:12px 14px">';
-Object.entries(conf).forEach(([k,v])=>{h+='<div class="confidence-bar"><span class="confidence-label">'+k+'</span><div class="confidence-track"><div class="confidence-fill" style="width:'+(v||0)*100+'%"></div></div><span class="confidence-val">'+((v||0)*100).toFixed(0)+'%</span></div>';});
-h+='<div style="padding:8px 0"></div>';
-glossary.forEach(g=>{h+='<div class="glossary-item"><span class="glossary-term">'+g.term+'</span><span class="glossary-canonical">→ '+(g.definition||g.canonical_form||'')+'</span></div>';});
-h+='</div></div></div>';
-document.getElementById('upload-results').innerHTML=h;}
-async function loadSampleData(){const cols=[{name:'revenue',type:'float',sample_values:[100,200,300]},{name:'customer_id',type:'string',sample_values:['C001','C002']},{name:'order_date',type:'datetime',sample_values:['2024-01-01','2024-02-01']},{name:'sku',type:'string',sample_values:['SKU001','SKU002']},{name:'quantity',type:'int',sample_values:[10,20,30]},{name:'store_location',type:'string',sample_values:['NYC','LA']}];await analyzeColumns(cols,'sample_enterprise.xlsx');}
+function inferType(v) { if (!v?.length) return 'string'; const s = v[0]; if (typeof s === 'number') return Number.isInteger(s) ? 'int' : 'float'; if (typeof s === 'string') { if (/^\d{4}-\d{2}-\d{2}/.test(s)) return 'datetime'; if (!isNaN(parseFloat(s)) && s.length < 20) return 'float'; } return 'string'; }
+function detectPII(name, vals) { const n = name.toLowerCase(); if (n.includes('email') || n.includes('mail')) return 'email'; if (n.includes('phone') || n.includes('mobile')) return 'phone'; if (n.includes('ssn')) return 'ssn'; if (n.includes('card')) return 'card'; if (vals) for (const v of vals) { const s = String(v); if (/^[^@]+@[^@]+\.[^@]+$/.test(s)) return 'email'; if (/^\+?\d{10,15}$/.test(s.replace(/[\s\-()]/g, ''))) return 'phone'; } return null; }
+async function handleFile(file) {
+  if (!file) return; const dz = document.getElementById('dz'); dz.classList.add('dragover'); dz.querySelector('.tx').textContent = 'PARSING…';
+  try {
+    const buf = await file.arrayBuffer(); const wb = XLSX.read(buf); const sheet = wb.Sheets[wb.SheetNames[0]]; const rows = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+    if (rows.length < 2) { dz.querySelector('.tx').textContent = 'NO DATA ROWS'; return; }
+    const headers = rows[0]; const columns = headers.map((name, i) => { const vals = rows.slice(1, 50).map(r => r[i]).filter(v => v != null && v !== ''); return { name: String(name), type: inferType(vals), sample_values: vals.slice(0, 5), pii: detectPII(String(name), vals) }; });
+    dz.classList.remove('dragover'); dz.querySelector('.tx').textContent = 'FILE: ' + file.name; dz.querySelector('.sb2').textContent = columns.length + ' columns · ' + (rows.length - 1) + ' rows';
+    addEvent('data', 'UPLOAD', 'Parsed ' + file.name + ': ' + columns.length + ' cols, ' + (rows.length - 1) + ' rows');
+    await analyzeCols(columns, file.name);
+  } catch (e) { dz.classList.remove('dragover'); dz.querySelector('.tx').textContent = 'PARSE ERROR'; addEvent('alert', 'UPLOAD', e.message); }
+}
+async function analyzeCols(columns, fileName) {
+  document.getElementById('up-st').textContent = 'ANALYZING…'; document.getElementById('up-results').innerHTML = '<div class="lb"></div>';
+  try {
+    const result = await PixAPI.call('/intelligence-profile/analyze', 'POST', { file_name: fileName || 'data.xlsx', file_type: 'xlsx', columns });
+    lastAnalysis = result; displayAnalysis(columns, result); document.getElementById('up-st').textContent = 'COMPLETE';
+    addEvent('data', 'UPLOAD', 'Analysis: ' + (result.suggested_industry?.industry || '?') + ' — ' + (result.suggested_entities?.length || 0) + ' entities');
+  } catch (e) { document.getElementById('up-results').innerHTML = '<div class="es"><div class="m">ANALYSIS FAILED</div><div class="s">' + e.message + '</div></div>'; document.getElementById('up-st').textContent = 'ERROR'; addEvent('alert', 'UPLOAD', e.message); }
+}
+function displayAnalysis(columns, result) {
+  const ind = result.suggested_industry || {}, entities = result.suggested_entities || [], kpis = result.suggested_kpis || [], glossary = result.suggested_glossary || [], mappings = result.column_mappings || [], conf = result.confidence_scores || {};
+  let h = '<div style="display:grid;grid-template-columns:1fr 1fr;height:calc(100% - 100px)">';
+  h += '<div style="display:flex;flex-direction:column;overflow:hidden"><div style="padding:8px 14px;border-bottom:1px solid var(--border);background:var(--panel)"><span style="font-family:var(--mono);font-size:10px;color:var(--ti-dim);text-transform:uppercase;letter-spacing:1.5px">Detected Schema</span></div><div class="sy" style="flex:1"><table class="dg"><thead><tr><th>Column</th><th>Type</th><th>PII</th><th>Samples</th></tr></thead><tbody>';
+  columns.forEach(c => { h += '<tr><td class="v">' + c.name + '</td><td>' + c.type + '</td><td>' + (c.pii ? '<span class="tag pii">' + c.pii + '</span>' : '—') + '</td><td style="font-size:9px;color:var(--tf)">' + (c.sample_values || []).slice(0, 3).join(', ') + '</td></tr>'; });
+  h += '</tbody></table></div></div>';
+  h += '<div style="display:flex;flex-direction:column;overflow:hidden"><div style="padding:8px 14px;border-bottom:1px solid var(--border);background:var(--panel)"><span style="font-family:var(--mono);font-size:10px;color:var(--ti-dim);text-transform:uppercase;letter-spacing:1.5px">Semantic Mappings</span></div><div class="sy" style="flex:1">';
+  mappings.forEach(m => { h += '<div class="srow"><span style="color:var(--ti)">' + m.column_name + '</span><span style="color:var(--tf)">→</span><span style="color:' + (m.entity_type ? 'var(--sig)' : 'var(--danger)') + '">' + (m.entity_type || 'UNMAPPED') + '</span><div style="flex:1;height:2px;background:var(--panel3);margin:0 8px"><div style="height:100%;width:' + (m.confidence || 0) * 100 + '%;background:var(--ti)"></div></div><span style="font-size:9px;color:var(--tf)">' + ((m.confidence || 0) * 100).toFixed(0) + '%</span></div>'; });
+  h += '</div></div>';
+  h += '<div style="display:flex;flex-direction:column;overflow:hidden"><div style="padding:8px 14px;border-bottom:1px solid var(--border);background:var(--panel)"><span style="font-family:var(--mono);font-size:10px;color:var(--ti-dim);text-transform:uppercase;letter-spacing:1.5px">Entities & KPIs</span></div><div class="sy" style="flex:1">';
+  entities.forEach(e => { h += '<div class="srow"><span class="tag n">' + (e.entity_type || 'ENTITY') + '</span><span style="flex:1;color:var(--ti)">' + (e.label || e.name) + '</span><span style="font-size:9px;color:var(--tf)">' + ((e.confidence || 0) * 100).toFixed(0) + '%</span></div>'; });
+  h += '<div style="padding:8px 0;border-top:1px solid var(--border)"></div>';
+  kpis.forEach(k => { h += '<div class="kr"><span class="kn">' + (k.label || k.name) + '</span><span class="kf">' + (k.category || '') + '</span><span class="kv" style="font-size:10px">' + (k.target?.value || '—') + '</span></div>'; });
+  h += '</div></div>';
+  h += '<div style="display:flex;flex-direction:column;overflow:hidden"><div style="padding:8px 14px;border-bottom:1px solid var(--border);background:var(--panel)"><span style="font-family:var(--mono);font-size:10px;color:var(--ti-dim);text-transform:uppercase;letter-spacing:1.5px">Confidence & Glossary</span></div><div class="sy" style="flex:1;padding:12px 14px">';
+  Object.entries(conf).forEach(([k, v]) => { h += '<div class="cbar"><span class="l">' + k + '</span><div class="t"><div class="f" style="width:' + (v || 0) * 100 + '%"></div></div><span class="v">' + ((v || 0) * 100).toFixed(0) + '%</span></div>'; });
+  h += '<div style="padding:8px 0"></div>';
+  glossary.forEach(g => { h += '<div class="gl"><span class="t">' + g.term + '</span><span class="c">→ ' + (g.definition || g.canonical_form || '') + '</span></div>'; });
+  h += '</div></div></div>';
+  document.getElementById('up-results').innerHTML = h;
+}
+async function loadSample() { const cols = [{ name: 'revenue', type: 'float', sample_values: [100, 200, 300] }, { name: 'customer_id', type: 'string', sample_values: ['C001', 'C002'] }, { name: 'order_date', type: 'datetime', sample_values: ['2024-01-01', '2024-02-01'] }, { name: 'sku', type: 'string', sample_values: ['SKU001', 'SKU002'] }, { name: 'quantity', type: 'int', sample_values: [10, 20, 30] }, { name: 'store_location', type: 'string', sample_values: ['NYC', 'LA'] }]; await analyzeCols(cols, 'sample_enterprise.xlsx'); }
 
 /* ═══ PROFILE ═══ */
-async function loadProfile(){document.getElementById('profile-body').innerHTML='<div class="loading-bar"></div>';
-try{const templates=await api('/intelligence-profile/templates/list');const tl=templates.templates||[];document.getElementById('profile-badge').textContent=tl.length+' templates';
-let h='<div class="template-grid">';tl.forEach(t=>{h+='<div class="template-card" onclick="createProfileWithIndustry(\''+t.industry+'\')"><span style="font-family:var(--mono);font-size:11px;color:var(--white);font-weight:500;text-transform:uppercase">'+t.industry+'</span><span style="font-family:var(--sans);font-size:10px;color:var(--td)">'+(t.description||'')+'</span><div style="display:flex;gap:8px;margin-top:4px"><span class="tag neutral">'+(t.entity_count||0)+'E</span><span class="tag neutral">'+(t.kpi_count||0)+'K</span><span class="tag neutral">'+(t.agent_count||0)+'A</span></div></div>';});h+='</div>';
-if(lastAnalysis){const ind=lastAnalysis.suggested_industry||{},entities=lastAnalysis.suggested_entities||[],kpis=lastAnalysis.suggested_kpis||[];h+='<div style="padding:16px"><div style="padding:8px 14px;border-bottom:1px solid var(--border);background:var(--panel)"><span style="font-family:var(--mono);font-size:10px;color:var(--ti-dim);text-transform:uppercase;letter-spacing:1.5px">Current Analysis</span></div>';h+='<div style="padding:8px 0"><div style="font-family:var(--mono);font-size:10px;color:var(--tf)">INDUSTRY: '+(ind.industry||'?')+' ('+((ind.confidence||0)*100).toFixed(0)+'%)</div>';entities.forEach(e=>{h+='<div class="source-row"><span class="tag neutral">'+(e.entity_type||'ENTITY')+'</span><span style="flex:1;color:var(--ti)">'+(e.label||e.name)+'</span></div>';});h+='<div style="padding:4px 0"></div>';kpis.forEach(k=>{h+='<div class="kpi-row"><span class="kpi-name">'+(k.label||k.name)+'</span><span class="kpi-value" style="font-size:10px">'+(k.target?.value||'—')+'</span></div>';});h+='</div></div>';}
-document.getElementById('profile-body').innerHTML=h;addEvent('data','PROFILE','Loaded '+tl.length+' templates');
-}catch(e){document.getElementById('profile-body').innerHTML='<div class="empty-state"><div class="msg">LOAD FAILED</div><div class="sub">'+e.message+'</div></div>';}}
-async function createProfile(){await createProfileWithIndustry('retail');}
-async function createProfileWithIndustry(industry){addEvent('data','PROFILE','Creating: '+industry);try{await api('/intelligence-profile/','POST',{org_id:orgId,industry,company_name:'Enterprise'});addEvent('data','PROFILE','Created: '+industry);loadProfile();}catch(e){addEvent('alert','PROFILE',e.message);}}
+async function loadProfile() {
+  document.getElementById('pf-body').innerHTML = '<div class="lb"></div>';
+  try {
+    const templates = await PixAPI.call('/intelligence-profile/templates/list'); const tl = templates.templates || [];
+    document.getElementById('pf-st').textContent = tl.length + ' templates';
+    let h = '<div class="tg">'; tl.forEach(t => { h += '<div class="tc" onclick="createProfileIndustry(\'' + t.industry + '\')"><span style="font-family:var(--mono);font-size:11px;color:var(--white);font-weight:500;text-transform:uppercase">' + t.industry + '</span><span style="font-family:var(--sans);font-size:10px;color:var(--td)">' + (t.description || '') + '</span><div style="display:flex;gap:8px;margin-top:4px"><span class="tag n">' + (t.entity_count || 0) + 'E</span><span class="tag n">' + (t.kpi_count || 0) + 'K</span><span class="tag n">' + (t.agent_count || 0) + 'A</span></div></div>'; }); h += '</div>';
+    if (lastAnalysis) { const ind = lastAnalysis.suggested_industry || {}, entities = lastAnalysis.suggested_entities || [], kpis = lastAnalysis.suggested_kpis || []; h += '<div style="padding:16px"><div style="padding:8px 14px;border-bottom:1px solid var(--border);background:var(--panel)"><span style="font-family:var(--mono);font-size:10px;color:var(--ti-dim);text-transform:uppercase;letter-spacing:1.5px">Current Analysis</span></div><div style="padding:8px 0"><div style="font-family:var(--mono);font-size:10px;color:var(--tf)">INDUSTRY: ' + (ind.industry || '?') + ' (' + ((ind.confidence || 0) * 100).toFixed(0) + '%)</div>'; entities.forEach(e => { h += '<div class="srow"><span class="tag n">' + (e.entity_type || 'ENTITY') + '</span><span style="flex:1;color:var(--ti)">' + (e.label || e.name) + '</span></div>'; }); h += '<div style="padding:4px 0"></div>'; kpis.forEach(k => { h += '<div class="kr"><span class="kn">' + (k.label || k.name) + '</span><span class="kv" style="font-size:10px">' + (k.target?.value || '—') + '</span></div>'; }); h += '</div></div>'; }
+    document.getElementById('pf-body').innerHTML = h; addEvent('data', 'PROFILE', 'Loaded ' + tl.length + ' templates');
+  } catch (e) { document.getElementById('pf-body').innerHTML = '<div class="es"><div class="m">LOAD FAILED</div><div class="s">' + e.message + '</div></div>'; }
+}
+async function createProfile() { await createProfileIndustry('retail'); }
+async function createProfileIndustry(industry) { addEvent('data', 'PROFILE', 'Creating: ' + industry); try { await PixAPI.call('/intelligence-profile/', 'POST', { org_id: PixConfig.orgId, industry, company_name: 'Enterprise' }); addEvent('data', 'PROFILE', 'Created: ' + industry); loadProfile(); } catch (e) { addEvent('alert', 'PROFILE', e.message); } }
 
 /* ═══ DASHBOARD ═══ */
-const roles=['executive','ceo','cfo','coo','cto','analyst','manager'];
-function renderRoleSelector(){document.getElementById('role-selector').innerHTML=roles.map(r=>'<div class="role-btn '+(r===currentRole?'active':'')+'" onclick="switchRole(\''+r+'\')">'+r+'</div>').join('');}
-function switchRole(r){currentRole=r;renderRoleSelector();loadDashboard();}
-async function loadDashboard(){renderRoleSelector();document.getElementById('dashboard-body').innerHTML='<div class="loading-bar"></div>';
-try{const d=await api('/dashboard/'+orgId+'/generate?role='+currentRole);const layout=d.layout||[];document.getElementById('dash-badge').textContent=d.dashboard_type||currentRole;
-let h='<div style="padding:16px"><div style="margin-bottom:12px"><div style="font-family:var(--sans);font-size:14px;color:var(--white)">'+(d.title||'Dashboard')+'</div><div style="font-family:var(--mono);font-size:10px;color:var(--tf)">'+(d.subtitle||'')+' · '+(d.industry||'?')+' · '+(d.role||'?')+'</div></div>';
-h+='<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px">';
-layout.forEach(w=>{h+=renderWidget(w);});h+='</div></div>';
-document.getElementById('dashboard-body').innerHTML=h;addEvent('data','DASH',layout.length+' widgets, '+currentRole);
-}catch(e){document.getElementById('dashboard-body').innerHTML='<div class="empty-state"><div class="msg">DASHBOARD ERROR</div><div class="sub">'+e.message+'</div></div>';}}
-function renderWidget(w){const c=w.config||{};switch(w.type){case'kpi_card':return'<div class="widget-card"><span class="widget-type">'+w.type+'</span><span class="widget-title">'+w.label+'</span><span class="widget-value">'+(c.target?Number(c.target).toLocaleString():'—')+'</span><span class="widget-config">metric: '+(c.metric||'?')+' · agg: '+(c.aggregation||'sum')+'</span></div>';
-case'trend_chart':return'<div class="widget-card" style="grid-column:span 2"><span class="widget-type">'+w.type+'</span><span class="widget-title">'+w.label+'</span><svg width="100%" height="60" viewBox="0 0 300 60"><polyline points="0,50 50,30 100,35 150,20 200,25 250,15 300,10" fill="none" stroke="#00E5A8" stroke-width="1"/></svg><span class="widget-config">metric: '+(c.metric||'?')+' · period: '+(c.period||'monthly')+'</span></div>';
-case'goal_progress':return'<div class="widget-card"><span class="widget-type">'+w.type+'</span><span class="widget-title">'+w.label+'</span><div class="progress-track" style="margin:8px 0"><div class="progress-fill" style="width:50%"></div></div><span class="widget-config">kpi: '+(c.kpi||'?')+'</span></div>';
-case'alert_panel':return'<div class="widget-card"><span class="widget-type">'+w.type+'</span><span class="widget-title">'+w.label+'</span><div class="empty-state" style="padding:12px"><span class="sub">NO ACTIVE ALERTS</span></div></div>';
-default:return'<div class="widget-card"><span class="widget-type">'+w.type+'</span><span class="widget-title">'+w.label+'</span><span class="widget-config">'+JSON.stringify(c).substring(0,120)+'</span></div>';}}
-
-/* ═══ QUERY ═══ */
-function setQuery(q){document.getElementById('query-input').value=q;}
-async function runQuery(){const q=document.getElementById('query-input').value.trim();if(!q)return;document.getElementById('query-badge').textContent='EXECUTING…';const el=document.getElementById('query-results');el.innerHTML='<div class="loading-bar"></div>';addEvent('decision','QUERY','"'+q.substring(0,40)+'…"');
-try{const[cl,ex,an]=await Promise.allSettled([api('/agents/classify','POST',{org_id:orgId,input:q}),api('/agents/execute','POST',{org_id:orgId,input:q}),api('/enterprise/moat/engine/analyze','POST',new URLSearchParams({pattern:'root_cause',query:q,context_json:'{}'}))]);
-let h='<div class="intel-chain"><div class="intel-step"><div class="intel-node done">1</div><span class="intel-label">Intent</span></div><div class="intel-conn"></div><div class="intel-step"><div class="intel-node '+(ex.status==='fulfilled'?'done':'')+'">2</div><span class="intel-label">Agents</span></div><div class="intel-conn"></div><div class="intel-step"><div class="intel-node '+(an.status==='fulfilled'?'done':'')+'">3</div><span class="intel-label">Evidence</span></div><div class="intel-conn"></div><div class="intel-step"><div class="intel-node '+(an.status==='fulfilled'?'done':'')+'">4</div><span class="intel-label">Decision</span></div><div class="intel-conn"></div><div class="intel-step"><div class="intel-node '+(an.status==='fulfilled'?'done':'')+'">5</div><span class="intel-label">Confidence</span></div></div>';
-if(cl.status==='fulfilled'){const c=cl.value,cc=c.classification||{};h+='<div class="query-section" style="margin-bottom:14px"><h4>Intent Classification</h4><div class="content"><div style="display:flex;gap:10px;margin-bottom:8px"><span class="tag neutral">'+(cc.category||'general')+'</span><span style="font-family:var(--mono);font-size:11px;color:var(--ti)">'+((cc.confidence||0)*100).toFixed(0)+'%</span></div><div>'+(cc.reasoning||'')+'</div><div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:6px">'+((cc.suggested_agents||[]).map(a=>'<span class="tag idle">'+a+'</span>').join(''))+'</div></div></div>';}
-if(ex.status==='fulfilled'){const e=ex.value;h+='<div class="query-section" style="margin-bottom:14px"><h4>Agent Response</h4><div class="content"><div style="margin-bottom:6px">'+(e.success?'<span class="tag active">SUCCESS</span>':'<span class="tag stopped">FAILED</span>')+'</div><div>'+(e.output||e.error||'No output')+'</div></div></div>';}
-if(an.status==='fulfilled'){const a=an.value;h+='<div class="query-section"><h4>Decision Analysis — Root Cause</h4><div class="content"><div style="margin-bottom:8px;font-size:13px;color:var(--white)">'+(a.conclusion||'')+'</div><div style="font-family:var(--mono);font-size:11px;color:var(--active)">Confidence: '+((a.overall_confidence||0)*100).toFixed(0)+'%</div>'+((a.steps||[]).map(s=>'<div style="margin-top:6px;padding:6px;background:var(--void);border:1px solid var(--border)"><span style="font-family:var(--mono);font-size:10px;color:var(--ti)">'+s.description+'</span><div style="font-size:10px;color:var(--tf)">'+(s.evidence||'')+' · '+((s.confidence||0)*100).toFixed(0)+'%</div></div>').join(''))+'</div></div>';}
-el.innerHTML=h||'<div class="query-section"><h4>No Results</h4></div>';document.getElementById('query-badge').textContent='COMPLETE';addEvent('data','QUERY','Complete');
-}catch(e){el.innerHTML='<div class="query-section"><h4>Error</h4><div class="content">'+e.message+'</div></div>';document.getElementById('query-badge').textContent='ERROR';}}
+const roles = ['executive', 'ceo', 'cfo', 'coo', 'cto', 'analyst', 'manager'];
+function renderRsel() { document.getElementById('rsel').innerHTML = roles.map(r => '<div class="rb2 ' + (r === currentRole ? 'act' : '') + '" onclick="switchRole(\'' + r + '\')">' + r + '</div>').join(''); }
+function switchRole(r) { currentRole = r; renderRsel(); loadDash(); }
+async function loadDash() {
+  renderRsel(); document.getElementById('db-body').innerHTML = '<div class="lb"></div>';
+  try {
+    const d = await PixAPI.call('/dashboard/' + PixConfig.orgId + '/generate?role=' + currentRole); const layout = d.layout || [];
+    document.getElementById('db-st').textContent = d.dashboard_type || currentRole;
+    let h = '<div style="padding:16px"><div style="margin-bottom:12px"><div style="font-family:var(--sans);font-size:14px;color:var(--white)">' + (d.title || 'Dashboard') + '</div><div style="font-family:var(--mono);font-size:10px;color:var(--tf)">' + (d.subtitle || '') + ' · ' + (d.industry || '?') + ' · ' + (d.role || '?') + '</div></div>';
+    h += '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px">';
+    layout.forEach(w => { h += renderWidget(w); }); h += '</div></div>';
+    document.getElementById('db-body').innerHTML = h; addEvent('data', 'DASH', layout.length + ' widgets, ' + currentRole);
+  } catch (e) { document.getElementById('db-body').innerHTML = '<div class="es"><div class="m">DASHBOARD ERROR</div><div class="s">' + e.message + '</div></div>'; }
+}
+function renderWidget(w) {
+  const c = w.config || {};
+  switch (w.type) {
+    case 'kpi_card': return '<div class="wc"><span class="wty">' + w.type + '</span><span class="wt">' + w.label + '</span><span class="wv">' + (c.target ? Number(c.target).toLocaleString() : '—') + '</span><span class="wcg">metric: ' + (c.metric || '?') + ' · agg: ' + (c.aggregation || 'sum') + '</span></div>';
+    case 'trend_chart': return '<div class="wc" style="grid-column:span 2"><span class="wty">' + w.type + '</span><span class="wt">' + w.label + '</span><svg width="100%" height="60" viewBox="0 0 300 60"><polyline points="0,50 50,30 100,35 150,20 200,25 250,15 300,10" fill="none" stroke="#00E5A8" stroke-width="1"/></svg><span class="wcg">metric: ' + (c.metric || '?') + ' · period: ' + (c.period || 'monthly') + '</span></div>';
+    case 'goal_progress': return '<div class="wc"><span class="wty">' + w.type + '</span><span class="wt">' + w.label + '</span><div class="pt" style="margin:8px 0"><div class="pf" style="width:50%"></div></div><span class="wcg">kpi: ' + (c.kpi || '?') + '</span></div>';
+    case 'alert_panel': return '<div class="wc"><span class="wty">' + w.type + '</span><span class="wt">' + w.label + '</span><div class="es" style="padding:12px"><span class="s">NO ACTIVE ALERTS</span></div></div>';
+    case 'ai_recommendation': return '<div class="wc" style="grid-column:span 2"><span class="wty">' + w.type + '</span><span class="wt">' + w.label + '</span><span class="wcg">' + (c.recommendation || c.reasoning || 'Analyzing patterns...') + '</span></div>';
+    case 'decision_queue': return '<div class="wc"><span class="wty">' + w.type + '</span><span class="wt">' + w.label + '</span><div class="es" style="padding:12px"><span class="s">NO PENDING DECISIONS</span></div></div>';
+    case 'data_quality_score': return '<div class="wc"><span class="wty">' + w.type + '</span><span class="wt">' + w.label + '</span><span class="wv">98%</span><span class="wcg">quality assessment</span></div>';
+    case 'memory_timeline': return '<div class="wc"><span class="wty">' + w.type + '</span><span class="wt">' + w.label + '</span><div class="es" style="padding:12px"><span class="s">NO RECENT MEMORIES</span></div></div>';
+    default: return '<div class="wc"><span class="wty">' + w.type + '</span><span class="wt">' + w.label + '</span><span class="wcg">' + JSON.stringify(c).substring(0, 120) + '</span></div>';
+  }
+}
 
 /* ═══ GRAPH ═══ */
-let gNodes=[],gEdges=[],gCanvas,gCtx;
-async function loadGraph(){gCanvas=document.getElementById('graph-canvas');gCtx=gCanvas.getContext('2d');const r=gCanvas.parentElement.getBoundingClientRect();gCanvas.width=r.width;gCanvas.height=r.height;
-try{const data=await api('/enterprise/knowledge-graph/'+orgId);const nodes=data.nodes||[];document.getElementById('graph-badge').textContent=nodes.length+' nodes';
-if(!nodes.length){gCanvas.parentElement.innerHTML='<div class="empty-state" style="position:absolute;inset:0;display:flex"><div><div class="msg">No entities yet</div><div class="sub">Click EXTRACT to build graph</div><button class="module-btn primary" style="margin-top:12px" onclick="enrichGraph()">✦ Extract</button></div></div>';return;}
-const colors={Company:'#C0C8D0',Customer:'#60A5FA',Product:'#4ADE80',Order:'#FFB020',Employee:'#A78BFA',Entity:'#8892A6'};
-gNodes=nodes.map((n,i)=>({id:i,label:n.label||n.name||'N'+i,type:n.type||n.entity_type||'Entity',x:Math.cos(i*.5)*150+300,y:Math.sin(i*.5)*150+200,vx:0,vy:0,r:8,color:colors[n.type||n.entity_type||'Entity']||'#8892A6'}));
-gEdges=[];for(let i=0;i<gNodes.length;i++)for(let j=i+1;j<Math.min(i+3,gNodes.length);j++)gEdges.push({source:i,target:j});
-animateGraph();addEvent('data','GRAPH',gNodes.length+' nodes');
-}catch(e){addEvent('alert','GRAPH',e.message);}}
-async function enrichGraph(){try{await api('/enterprise/moat/knowledge-graph/enrich','POST',{});addEvent('data','GRAPH','Extracted');loadGraph();}catch(e){addEvent('alert','GRAPH',e.message);}}
-function drawGraph(){if(!gCtx)return;gCtx.clearRect(0,0,gCanvas.width,gCanvas.height);gCtx.strokeStyle='rgba(35,45,68,.6)';gCtx.lineWidth=.5;gEdges.forEach(e=>{const s=gNodes[e.source],t=gNodes[e.target];if(s&&t){gCtx.beginPath();gCtx.moveTo(s.x,s.y);gCtx.lineTo(t.x,t.y);gCtx.stroke();}});gNodes.forEach(n=>{gCtx.beginPath();gCtx.arc(n.x,n.y,n.r,0,Math.PI*2);gCtx.fillStyle=n.color+'20';gCtx.fill();gCtx.strokeStyle=n.color;gCtx.lineWidth=1;gCtx.stroke();gCtx.fillStyle='#6B7280';gCtx.font='8px JetBrains Mono';gCtx.textAlign='center';gCtx.fillText(n.label,n.x,n.y+n.r+10);});}
-function animateGraph(){if(currentModule!=='graph'||!gCanvas)return;for(let i=0;i<gNodes.length;i++){const n=gNodes[i];for(let j=i+1;j<gNodes.length;j++){const m=gNodes[j],dx=n.x-m.x,dy=n.y-m.y,d=Math.sqrt(dx*dx+dy*dy)||1,f=800/(d*d);n.vx+=(dx/d)*f*.01;n.vy+=(dy/d)*f*.01;m.vx-=(dx/d)*f*.01;m.vy-=(dy/d)*f*.01;}}gNodes.forEach(n=>{n.x+=n.vx*.5;n.y+=n.vy*.5;n.vx*=.85;n.vy*=.85;n.x=Math.max(20,Math.min(gCanvas.width-20,n.x));n.y=Math.max(20,Math.min(gCanvas.height-20,n.y));});drawGraph();requestAnimationFrame(animateGraph);}
+let gN = [], gE = [], gC, gCtx;
+async function loadGraph() {
+  gC = document.getElementById('graph-canvas'); gCtx = gC.getContext('2d'); const r = gC.parentElement.getBoundingClientRect(); gC.width = r.width; gC.height = r.height;
+  try {
+    const data = await PixAPI.call('/enterprise/knowledge-graph/' + PixConfig.orgId); const nodes = data.nodes || [];
+    document.getElementById('kg-st').textContent = nodes.length + ' nodes';
+    if (!nodes.length) { gC.parentElement.innerHTML = '<div class="es" style="position:absolute;inset:0;display:flex"><div><div class="m">No entities yet</div><div class="s">Click EXTRACT to build graph</div><button class="mb pri" style="margin-top:12px" onclick="enrichGraph()">✦ Extract</button></div></div>'; return; }
+    const colors = { Company: '#C0C8D0', Customer: '#60A5FA', Product: '#4ADE80', Order: '#FFB020', Employee: '#A78BFA', Entity: '#8892A6' };
+    gN = nodes.map((n, i) => ({ id: i, label: n.label || n.name || 'N' + i, type: n.type || n.entity_type || 'Entity', x: Math.cos(i * .5) * 150 + 300, y: Math.sin(i * .5) * 150 + 200, vx: 0, vy: 0, r: 8, color: colors[n.type || n.entity_type || 'Entity'] || '#8892A6' }));
+    gE = []; for (let i = 0; i < gN.length; i++) for (let j = i + 1; j < Math.min(i + 3, gN.length); j++) gE.push({ source: i, target: j });
+    animateGraph(); addEvent('data', 'GRAPH', gN.length + ' nodes');
+  } catch (e) { addEvent('alert', 'GRAPH', e.message); }
+}
+async function enrichGraph() { try { await PixAPI.call('/enterprise/moat/knowledge-graph/enrich', 'POST', {}); addEvent('data', 'GRAPH', 'Extracted'); loadGraph(); } catch (e) { addEvent('alert', 'GRAPH', e.message); } }
+function drawGraph() { if (!gCtx) return; gCtx.clearRect(0, 0, gC.width, gC.height); gCtx.strokeStyle = 'rgba(35,45,68,.6)'; gCtx.lineWidth = .5; gE.forEach(e => { const s = gN[e.source], t = gN[e.target]; if (s && t) { gCtx.beginPath(); gCtx.moveTo(s.x, s.y); gCtx.lineTo(t.x, t.y); gCtx.stroke(); } }); gN.forEach(n => { gCtx.beginPath(); gCtx.arc(n.x, n.y, n.r, 0, Math.PI * 2); gCtx.fillStyle = n.color + '20'; gCtx.fill(); gCtx.strokeStyle = n.color; gCtx.lineWidth = 1; gCtx.stroke(); gCtx.fillStyle = '#6B7280'; gCtx.font = '8px JetBrains Mono'; gCtx.textAlign = 'center'; gCtx.fillText(n.label, n.x, n.y + n.r + 10); }); }
+function animateGraph() { if (currentModule !== 'graph' || !gC) return; for (let i = 0; i < gN.length; i++) { const n = gN[i]; for (let j = i + 1; j < gN.length; j++) { const m = gN[j], dx = n.x - m.x, dy = n.y - m.y, d = Math.sqrt(dx * dx + dy * dy) || 1, f = 800 / (d * d); n.vx += (dx / d) * f * .01; n.vy += (dy / d) * f * .01; m.vx -= (dx / d) * f * .01; m.vy -= (dy / d) * f * .01; } } gN.forEach(n => { n.x += n.vx * .5; n.y += n.vy * .5; n.vx *= .85; n.vy *= .85; n.x = Math.max(20, Math.min(gC.width - 20, n.x)); n.y = Math.max(20, Math.min(gC.height - 20, n.y)); }); drawGraph(); requestAnimationFrame(animateGraph); }
 
 /* ═══ AGENTS ═══ */
-async function loadAgents(){document.getElementById('agents-body').innerHTML='<div class="loading-bar"></div>';
-try{const data=await api('/agents');const agents=data.agents||[];document.getElementById('agent-badge').textContent=agents.filter(a=>a.enabled).length+' active';
-let h='<div style="padding:12px"><div class="metric-strip" style="margin-bottom:16px">';h+='<div class="metric-tile"><span class="label">Total</span><span class="value">'+agents.length+'</span></div>';h+='<div class="metric-tile"><span class="label">Active</span><span class="value">'+agents.filter(a=>a.enabled).length+'</span></div>';h+='<div class="metric-tile"><span class="label">Tools</span><span class="value">'+agents.reduce((s,a)=>s+(a.tools?.length||0),0)+'</span></div>';h+='</div><div class="agent-grid">';
-agents.forEach(a=>{h+='<div class="agent-card" onclick="execAgent(\''+a.role+'\')"><div style="display:flex;justify-content:space-between"><span class="agent-name">'+a.name+'</span><span class="tag '+(a.enabled?'active':'stopped')+'">'+(a.enabled?'ON':'OFF')+'</span></div><span class="agent-desc">'+(a.description||'')+'</span><div style="display:flex;flex-wrap:wrap;gap:3px;margin-top:4px">'+((a.tools||[]).slice(0,5).map(t=>'<span class="tag neutral">'+t.name+'</span>').join(''))+'</div></div>';});
-h+='</div></div>';document.getElementById('agents-body').innerHTML=h;addEvent('agent','AGENTS',agents.length+' agents');
-}catch(e){document.getElementById('agents-body').innerHTML='<div class="empty-state"><div class="msg">LOAD FAILED</div><div class="sub">'+e.message+'</div></div>';}}
-async function execAgent(role){addEvent('agent','AGENT','Executing: '+role);try{await api('/agents/execute','POST',{org_id:orgId,input:'Analyze '+role+' metrics'});addEvent('data','AGENT',role+': done');}catch(e){addEvent('alert','AGENT',e.message);}}
+async function loadAgents() {
+  document.getElementById('ag-body').innerHTML = '<div class="lb"></div>';
+  try {
+    const data = await PixAPI.call('/agents'); const agents = data.agents || [];
+    document.getElementById('ag-st').textContent = agents.filter(a => a.enabled).length + ' active';
+    let h = '<div style="padding:12px"><div class="mts" style="margin-bottom:16px"><div class="mt2"><span class="l">Total</span><span class="v">' + agents.length + '</span></div><div class="mt2"><span class="l">Active</span><span class="v">' + agents.filter(a => a.enabled).length + '</span></div><div class="mt2"><span class="l">Tools</span><span class="v">' + agents.reduce((s, a) => s + (a.tools?.length || 0), 0) + '</span></div></div><div class="ag">';
+    agents.forEach(a => { h += '<div class="ac" onclick="execAgent(\'' + a.role + '\')"><div style="display:flex;justify-content:space-between"><span class="an">' + a.name + '</span><span class="tag ' + (a.enabled ? 'a' : 's') + '">' + (a.enabled ? 'ON' : 'OFF') + '</span></div><span class="ad">' + (a.description || '') + '</span><div style="display:flex;flex-wrap:wrap;gap:3px;margin-top:4px">' + ((a.tools || []).slice(0, 5).map(t => '<span class="tag n">' + t.name + '</span>').join('')) + '</div></div>'; });
+    h += '</div></div>'; document.getElementById('ag-body').innerHTML = h; addEvent('agent', 'AGENTS', agents.length + ' agents');
+  } catch (e) { document.getElementById('ag-body').innerHTML = '<div class="es"><div class="m">LOAD FAILED</div><div class="s">' + e.message + '</div></div>'; }
+}
+async function execAgent(role) { addEvent('agent', 'AGENT', 'Executing: ' + role); try { await PixAPI.call('/agents/execute', 'POST', { org_id: PixConfig.orgId, input: 'Analyze ' + role + ' metrics' }); addEvent('data', 'AGENT', role + ': done'); } catch (e) { addEvent('alert', 'AGENT', e.message); } }
 
 /* ═══ DECISIONS ═══ */
-async function runDecision(){document.getElementById('decisions-body').innerHTML='<div class="loading-bar"></div>';
-try{const[an,ev]=await Promise.allSettled([api('/enterprise/moat/engine/analyze','POST',new URLSearchParams({pattern:'root_cause',query:'Why did revenue change?',context_json:'{}'})),api('/enterprise/moat/engine/evaluate','POST',new URLSearchParams({framework:'swot',options_json:'[]'}))]);
-let h='';
-if(an.status==='fulfilled'){const a=an.value;h+='<div style="padding:16px"><div style="padding:8px 14px;border-bottom:1px solid var(--border);background:var(--panel)"><span style="font-family:var(--mono);font-size:10px;color:var(--ti-dim);text-transform:uppercase;letter-spacing:1.5px">Root Cause Analysis</span></div><div style="padding:12px"><div style="font-family:var(--sans);font-size:13px;color:var(--white);margin-bottom:8px">'+(a.conclusion||'')+'</div><div style="font-family:var(--mono);font-size:11px;color:var(--active)">Confidence: '+((a.overall_confidence||0)*100).toFixed(0)+'%</div>'+((a.steps||[]).map(s=>'<div style="padding:8px;background:var(--panel);border:1px solid var(--border);margin:6px 0"><div style="display:flex;justify-content:space-between"><span style="font-family:var(--mono);font-size:10px;color:var(--ti)">'+s.description+'</span><span style="font-family:var(--mono);font-size:10px;color:var(--tf)">'+((s.confidence||0)*100).toFixed(0)+'%</span></div><div style="font-size:11px;color:var(--td);margin-top:4px">'+(s.evidence||'')+'</div></div>').join(''))+'</div></div>';}
-if(ev.status==='fulfilled'){const e=ev.value;h+='<div style="padding:0 16px 16px"><div style="padding:8px 14px;border-bottom:1px solid var(--border);background:var(--panel)"><span style="font-family:var(--mono);font-size:10px;color:var(--ti-dim);text-transform:uppercase;letter-spacing:1.5px">SWOT Evaluation</span></div><table class="data-grid"><thead><tr><th>Option</th><th>Score</th><th>Framework</th></tr></thead><tbody>'+((e.options||[]).map(o=>'<tr><td class="val">'+(o.name||'default')+'</td><td>'+o.score+'</td><td>'+o.framework+'</td></tr>').join(''))+'</tbody></table></div>';}
-document.getElementById('decisions-body').innerHTML=h||'<div class="empty-state"><div class="msg">No results</div></div>';addEvent('decision','DECISION','Analysis complete');
-}catch(e){document.getElementById('decisions-body').innerHTML='<div class="empty-state"><div class="msg">ERROR</div><div class="sub">'+e.message+'</div></div>';}}
+async function runDecision() {
+  document.getElementById('dc-body').innerHTML = '<div class="lb"></div>';
+  try {
+    const [an, ev] = await Promise.allSettled([PixAPI.call('/enterprise/moat/engine/analyze', 'POST', new URLSearchParams({ pattern: 'root_cause', query: 'Why did revenue change?', context_json: '{}' })), PixAPI.call('/enterprise/moat/engine/evaluate', 'POST', new URLSearchParams({ framework: 'swot', options_json: '[]' }))]);
+    let h = '';
+    if (an.status === 'fulfilled') { const a = an.value; h += '<div style="padding:16px"><div style="padding:8px 14px;border-bottom:1px solid var(--border);background:var(--panel)"><span style="font-family:var(--mono);font-size:10px;color:var(--ti-dim);text-transform:uppercase;letter-spacing:1.5px">Root Cause Analysis</span></div><div style="padding:12px"><div style="font-family:var(--sans);font-size:13px;color:var(--white);margin-bottom:8px">' + (a.conclusion || '') + '</div><div style="font-family:var(--mono);font-size:11px;color:var(--active)">Confidence: ' + ((a.overall_confidence || 0) * 100).toFixed(0) + '%</div>' + ((a.steps || []).map(s => '<div style="padding:8px;background:var(--panel);border:1px solid var(--border);margin:6px 0"><div style="display:flex;justify-content:space-between"><span style="font-family:var(--mono);font-size:10px;color:var(--ti)">' + s.description + '</span><span style="font-family:var(--mono);font-size:10px;color:var(--tf)">' + ((s.confidence || 0) * 100).toFixed(0) + '%</span></div><div style="font-size:11px;color:var(--td);margin-top:4px">' + (s.evidence || '') + '</div></div>').join('')) + '</div></div>'; }
+    if (ev.status === 'fulfilled') { const e = ev.value; h += '<div style="padding:0 16px 16px"><div style="padding:8px 14px;border-bottom:1px solid var(--border);background:var(--panel)"><span style="font-family:var(--mono);font-size:10px;color:var(--ti-dim);text-transform:uppercase;letter-spacing:1.5px">SWOT Evaluation</span></div><table class="dg"><thead><tr><th>Option</th><th>Score</th><th>Framework</th></tr></thead><tbody>' + ((e.options || []).map(o => '<tr><td class="v">' + (o.name || 'default') + '</td><td>' + o.score + '</td><td>' + o.framework + '</td></tr>').join('')) + '</tbody></table></div>'; }
+    document.getElementById('dc-body').innerHTML = h || '<div class="es"><div class="m">No results</div></div>'; addEvent('decision', 'DECISION', 'Analysis complete');
+  } catch (e) { document.getElementById('dc-body').innerHTML = '<div class="es"><div class="m">ERROR</div><div class="s">' + e.message + '</div></div>'; }
+}
 
 /* ═══ MEMORY ═══ */
-async function searchMemory(){const q=document.getElementById('memory-query')?.value||'revenue';document.getElementById('memory-results').innerHTML='<div class="loading-bar"></div>';
-try{const data=await api('/enterprise/vector-memory/search/'+orgId+'?query='+encodeURIComponent(q));const results=data.results||[];document.getElementById('memory-badge').textContent=results.length+' chunks';
-document.getElementById('memory-results').innerHTML=!results.length?'<div class="empty-state"><div class="msg">No results</div></div>':'<div style="font-family:var(--mono);font-size:10px;color:var(--tf);margin-bottom:10px">QUERY: "'+q+'" · '+results.length+' RESULTS</div>'+results.map(r=>'<div class="search-result"><div style="display:flex;align-items:center;gap:10px"><span class="search-score">'+((r.score||0)*100).toFixed(1)+'%</span><div style="flex:1;height:2px;background:var(--panel3)"><div style="height:100%;width:'+(r.score||0)*100+'%;background:var(--ti)"></div></div></div><div class="search-text">'+(r.text||r.content||'')+'</div></div>').join('');
-addEvent('data','MEMORY','"'+q+'" → '+results.length);
-}catch(e){document.getElementById('memory-results').innerHTML='<div class="empty-state"><div class="msg">FAILED</div><div class="sub">'+e.message+'</div></div>';}}
+async function searchMem() {
+  const q = document.getElementById('mm-q')?.value || 'revenue'; document.getElementById('mm-results').innerHTML = '<div class="lb"></div>';
+  try {
+    const data = await PixAPI.call('/enterprise/vector-memory/search/' + PixConfig.orgId + '?query=' + encodeURIComponent(q)); const results = data.results || [];
+    document.getElementById('mm-st').textContent = results.length + ' chunks';
+    document.getElementById('mm-results').innerHTML = !results.length ? '<div class="es"><div class="m">No results</div></div>' : '<div style="font-family:var(--mono);font-size:10px;color:var(--tf);margin-bottom:10px">QUERY: "' + q + '" · ' + results.length + ' RESULTS</div>' + results.map(r => '<div class="sr2"><div style="display:flex;align-items:center;gap:10px"><span class="ss2">' + ((r.score || 0) * 100).toFixed(1) + '%</span><div style="flex:1;height:2px;background:var(--panel3)"><div style="height:100%;width:' + (r.score || 0) * 100 + '%;background:var(--ti)"></div></div></div><div class="st2">' + (r.text || r.content || '') + '</div></div>').join('');
+    addEvent('data', 'MEMORY', '"' + q + '" → ' + results.length);
+  } catch (e) { document.getElementById('mm-results').innerHTML = '<div class="es"><div class="m">FAILED</div><div class="s">' + e.message + '</div></div>'; }
+}
 
-/* ═══ PIPELINE ═══ */
-const pipeStages=[{id:'upload',label:'Upload',icon:'↑'},{id:'profile',label:'Profile',icon:'◉'},{id:'semantic',label:'Semantic Map',icon:'⇄'},{id:'intelligence',label:'Intel Profile',icon:'◆'},{id:'graph',label:'Knowledge Graph',icon:'◈'},{id:'dashboard',label:'Dashboard',icon:'▦'},{id:'agent',label:'Agent Create',icon:'⬡'},{id:'query',label:'NL Query',icon:'⌕'},{id:'decision',label:'Decision',icon:'⚡'},{id:'memory',label:'Memory',icon:'◉'},{id:'audit',label:'Audit',icon:'✓'}];
-function renderPipeline(){document.getElementById('pipeline-flow').innerHTML=pipeStages.map((s,i)=>'<div class="pipeline-stage"><div class="pipeline-node pending" id="pipe-'+s.id+'">'+s.icon+'</div><span class="pipeline-label">'+s.label+'</span></div>'+(i<pipeStages.length-1?'<div class="pipeline-connector" id="pconn-'+i+'"></div>':'')).join('');}
-async function runPipeline(){document.getElementById('pipe-badge').textContent='RUNNING';addEvent('data','PIPE','Pipeline started');const log=document.getElementById('pipeline-log');log.innerHTML='';
-for(let i=0;i<pipeStages.length;i++){const s=pipeStages[i],node=document.getElementById('pipe-'+s.id),conn=document.getElementById('pconn-'+i);
-if(node){node.classList.remove('pending');node.classList.add('active');}
-const ts=new Date().toTimeString().split(' ')[0];log.innerHTML+='['+ts+'] ▶ '+s.label.toUpperCase()+' — executing...\n';log.scrollTop=log.scrollHeight;
-try{switch(s.id){case'profile':await api('/intelligence-profile/analyze','POST',{file_name:'data.xlsx',file_type:'xlsx',columns:[{name:'revenue',type:'float',sample_values:[100]},{name:'customer_id',type:'string',sample_values:['C001']}]});break;case'intelligence':await api('/intelligence-profile/','POST',{org_id:orgId,industry:'retail',company_name:'Enterprise'});break;case'graph':await api('/enterprise/moat/knowledge-graph/enrich','POST',{});break;case'dashboard':await api('/dashboard/'+orgId+'/generate');break;case'agent':await api('/agents/create','POST',{org_id:orgId,agent_type:'sales_intelligence',label:'Pipeline Agent',purpose:'Auto'});break;case'query':await api('/agents/execute','POST',{org_id:orgId,input:'Analyze Q3 revenue'});break;case'decision':await api('/enterprise/moat/engine/analyze','POST',new URLSearchParams({pattern:'root_cause',query:'Why revenue?',context_json:'{}'}));break;}}catch(e){}
-await new Promise(r=>setTimeout(r,200+Math.random()*300));
-if(node){node.classList.remove('active');node.classList.add('done');}if(conn)conn.classList.add('done');
-log.innerHTML+='['+ts+'] ✓ '+s.label.toUpperCase()+' — done\n';log.scrollTop=log.scrollHeight;addEvent('data','PIPE',s.label+' done');}
-document.getElementById('pipe-badge').textContent='COMPLETE';addEvent('data','PIPE','All 11 stages complete');}
-
-/* ═══ AUDIT ═══ */
-async function loadAudit(){document.getElementById('audit-timeline').innerHTML='<div class="loading-bar"></div>';
-try{const data=await api('/enterprise/audit-log');const entries=data.entries||[];document.getElementById('audit-badge').textContent=entries.length+' events';
-document.getElementById('audit-timeline').innerHTML=!entries.length?'<div class="empty-state"><div class="msg">No audit events</div></div>':entries.map(e=>'<div class="timeline-item"><span class="timeline-time">'+((e.timestamp||'').split('T')[1]?.split('.')[0]||'--:--')+'</span><div class="timeline-content"><span class="timeline-actor">'+(e.action||e.event_type||'action')+'</span><span class="timeline-action">'+(e.resource_type||'')+' / '+(e.resource_id||'')+'</span></div></div>').join('');
-}catch(e){document.getElementById('audit-timeline').innerHTML='<div class="empty-state"><div class="msg">FAILED</div><div class="sub">'+e.message+'</div></div>';}}
+/* ═══ QUERY ═══ */
+function setQuery(q) { document.getElementById('nq-input').value = q; }
+async function runQuery() {
+  const q = document.getElementById('nq-input').value.trim(); if (!q) return;
+  document.getElementById('nq-st').textContent = 'EXECUTING…'; const el = document.getElementById('nq-results'); el.innerHTML = '<div class="lb"></div>'; addEvent('decision', 'QUERY', '"' + q.substring(0, 40) + '…"');
+  try {
+    const [cl, ex, an] = await Promise.allSettled([PixAPI.call('/agents/classify', 'POST', { org_id: PixConfig.orgId, input: q }), PixAPI.call('/agents/execute', 'POST', { org_id: PixConfig.orgId, input: q }), PixAPI.call('/enterprise/moat/engine/analyze', 'POST', new URLSearchParams({ pattern: 'root_cause', query: q, context_json: '{}' }))]);
+    let h = '<div class="ichain"><div class="is"><div class="n done">1</div><span class="l">Intent</span></div><div class="ic"></div><div class="is"><div class="n ' + (ex.status === 'fulfilled' ? 'done' : '') + '">2</div><span class="l">Agents</span></div><div class="ic"></div><div class="is"><div class="n ' + (an.status === 'fulfilled' ? 'done' : '') + '">3</div><span class="l">Evidence</span></div><div class="ic"></div><div class="is"><div class="n ' + (an.status === 'fulfilled' ? 'done' : '') + '">4</div><span class="l">Decision</span></div><div class="ic"></div><div class="is"><div class="n ' + (an.status === 'fulfilled' ? 'done' : '') + '">5</div><span class="l">Confidence</span></div></div>';
+    if (cl.status === 'fulfilled') { const c = cl.value, cc = c.classification || {}; h += '<div class="qs" style="margin-bottom:14px"><h4>Intent Classification</h4><div class="ct"><div style="display:flex;gap:10px;margin-bottom:8px"><span class="tag n">' + (cc.category || 'general') + '</span><span style="font-family:var(--mono);font-size:11px;color:var(--ti)">' + ((cc.confidence || 0) * 100).toFixed(0) + '%</span></div><div>' + (cc.reasoning || '') + '</div><div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:6px">' + ((cc.suggested_agents || []).map(a => '<span class="tag i">' + a + '</span>').join('')) + '</div></div></div>'; }
+    if (ex.status === 'fulfilled') { const e = ex.value; h += '<div class="qs" style="margin-bottom:14px"><h4>Agent Response</h4><div class="ct"><div style="margin-bottom:6px">' + (e.success ? '<span class="tag a">SUCCESS</span>' : '<span class="tag s">FAILED</span>') + '</div><div>' + (e.output || e.error || 'No output') + '</div></div></div>'; }
+    if (an.status === 'fulfilled') { const a = an.value; h += '<div class="qs"><h4>Decision Analysis — Root Cause</h4><div class="ct"><div style="margin-bottom:8px;font-size:13px;color:var(--white)">' + (a.conclusion || '') + '</div><div style="font-family:var(--mono);font-size:11px;color:var(--active)">Confidence: ' + ((a.overall_confidence || 0) * 100).toFixed(0) + '%</div>' + ((a.steps || []).map(s => '<div style="margin-top:6px;padding:6px;background:var(--void);border:1px solid var(--border)"><span style="font-family:var(--mono);font-size:10px;color:var(--ti)">' + s.description + '</span><div style="font-size:10px;color:var(--tf)">' + (s.evidence || '') + ' · ' + ((s.confidence || 0) * 100).toFixed(0) + '%</div></div>').join('')) + '</div></div>'; }
+    el.innerHTML = h || '<div class="qs"><h4>No Results</h4></div>'; document.getElementById('nq-st').textContent = 'COMPLETE'; addEvent('data', 'QUERY', 'Complete');
+  } catch (e) { el.innerHTML = '<div class="qs"><h4>Error</h4><div class="ct">' + e.message + '</div></div>'; document.getElementById('nq-st').textContent = 'ERROR'; }
+}
 
 /* ═══ OBSERVATORY ═══ */
-const obsViews=['ceo','cto','cfo','ciso'];
-function renderObsTabs(){document.getElementById('obs-tabs').innerHTML=obsViews.map(v=>'<div class="obs-tab '+(v===currentObsView?'active':'')+'" onclick="switchObs(\''+v+'\')">'+v.toUpperCase()+'</div>').join('');}
-function switchObs(v){currentObsView=v;renderObsTabs();loadObservatory();}
-async function loadObservatory(){renderObsTabs();document.getElementById('observatory-body').innerHTML='<div class="loading-bar"></div>';
-try{const[tr,ag]=await Promise.allSettled([api('/enterprise/analytics/trends'),api('/enterprise/analytics/agents')]);let h='<div style="padding:12px">';
-if(currentObsView==='ceo'&&tr.status==='fulfilled'){const t=tr.value;if(Array.isArray(t)&&t.length){const tr_=t.reduce((s,d)=>s+(d.agent_runs||0),0),tp=t.reduce((s,d)=>s+(d.problems_detected||0),0),tc=t.reduce((s,d)=>s+(d.recommendations||0),0);
-h+='<div class="metric-strip" style="margin-bottom:16px"><div class="metric-tile"><span class="label">Agent Runs</span><span class="value">'+tr_+'</span></div><div class="metric-tile"><span class="label">Problems</span><span class="value">'+tp+'</span></div><div class="metric-tile"><span class="label">Recommendations</span><span class="value">'+tc+'</span></div><div class="metric-tile"><span class="label">Days</span><span class="value">'+t.length+'</span></div></div>';
-h+='<table class="data-grid"><thead><tr><th>Date</th><th>Problems</th><th>Recs</th><th>Actions</th><th>Runs</th></tr></thead><tbody>';t.slice(0,15).forEach(d=>{h+='<tr><td class="val">'+(d.date||'').split('T')[0]+'</td><td>'+(d.problems_detected||0)+'</td><td>'+(d.recommendations||0)+'</td><td>'+(d.actions_taken||0)+'</td><td>'+(d.agent_runs||0)+'</td></tr>';});h+='</tbody></table>';}}
-else if(currentObsView==='cto'&&ag.status==='fulfilled'&&Array.isArray(ag.value)&&ag.value.length){h+='<div style="padding:8px 14px;border-bottom:1px solid var(--border);background:var(--panel);margin-bottom:12px"><span style="font-family:var(--mono);font-size:10px;color:var(--ti-dim);text-transform:uppercase;letter-spacing:1.5px">Agent Performance</span></div><table class="data-grid"><thead><tr><th>Agent</th><th>Runs</th><th>Errors</th></tr></thead><tbody>';ag.value.forEach(a=>{h+='<tr><td class="val">'+(a.agent||'?')+'</td><td>'+(a.runs||0)+'</td><td>'+(a.errors||0)+'</td></tr>';});h+='</tbody></table>';}
-else if(currentObsView==='cfo'){h+='<div class="empty-state"><div class="msg">AI Cost Tracking</div><div class="sub">Token usage and cost analytics coming soon</div></div>';}
-else if(currentObsView==='ciso'){h+='<div class="empty-state"><div class="msg">Security Events</div><div class="sub">Security monitoring and compliance coming soon</div></div>';}
-h+='</div>';document.getElementById('observatory-body').innerHTML=h||'<div class="empty-state"><div class="msg">No data</div></div>';
-}catch(e){document.getElementById('observatory-body').innerHTML='<div class="empty-state"><div class="msg">FAILED</div><div class="sub">'+e.message+'</div></div>';}}
+const obsViews = ['ceo', 'cto', 'cfo', 'ciso'];
+function renderOtabs() { document.getElementById('otabs').innerHTML = obsViews.map(v => '<div class="otab ' + (v === currentObs ? 'act' : '') + '" onclick="switchObs(\'' + v + '\')">' + v.toUpperCase() + '</div>').join(''); }
+function switchObs(v) { currentObs = v; renderOtabs(); loadObs(); }
+async function loadObs() {
+  renderOtabs(); document.getElementById('ob-body').innerHTML = '<div class="lb"></div>';
+  try {
+    const [tr, ov] = await Promise.allSettled([PixAPI.call('/enterprise/analytics/trends'), PixAPI.call('/enterprise/analytics/overview/' + PixConfig.orgId)]);
+    let h = '<div style="padding:12px">';
+    if (currentObs === 'ceo') {
+      if (ov.status === 'fulfilled') { const o = ov.value; h += '<div class="mts" style="margin-bottom:16px"><div class="mt2"><span class="l">Problems</span><span class="v">' + (o.problems_detected || 0) + '</span></div><div class="mt2"><span class="l">Recs</span><span class="v">' + (o.recommendations_generated || 0) + '</span></div><div class="mt2"><span class="l">Actions</span><span class="v">' + (o.actions_taken || 0) + '</span></div><div class="mt2"><span class="l">Impact</span><span class="v">' + ((o.business_impact_score || 0)).toFixed(1) + '</span></div></div>'; }
+      if (tr.status === 'fulfilled' && Array.isArray(tr.value) && tr.value.length) { const t = tr.value; h += '<table class="dg"><thead><tr><th>Date</th><th>Problems</th><th>Recs</th><th>Actions</th><th>Runs</th></tr></thead><tbody>'; t.slice(0, 15).forEach(d => { h += '<tr><td class="v">' + (d.date || '').split('T')[0] + '</td><td>' + (d.problems_detected || 0) + '</td><td>' + (d.recommendations || 0) + '</td><td>' + (d.actions_taken || 0) + '</td><td>' + (d.agent_runs || 0) + '</td></tr>'; }); h += '</tbody></table>'; }
+    } else if (currentObs === 'cto') { h += '<div style="padding:8px 14px;border-bottom:1px solid var(--border);background:var(--panel);margin-bottom:12px"><span style="font-family:var(--mono);font-size:10px;color:var(--ti-dim);text-transform:uppercase;letter-spacing:1.5px">Agent Performance</span></div><div class="es"><div class="m">Agent analytics will appear here</div><div class="s">Connect data sources to populate</div></div>'; }
+    else if (currentObs === 'cfo') { h += '<div class="es"><div class="m">AI Cost Tracking</div><div class="s">Token usage and cost analytics coming soon</div></div>'; }
+    else { h += '<div class="es"><div class="m">Security Events</div><div class="s">Security monitoring and compliance coming soon</div></div>'; }
+    h += '</div>'; document.getElementById('ob-body').innerHTML = h || '<div class="es"><div class="m">No data</div></div>';
+  } catch (e) { document.getElementById('ob-body').innerHTML = '<div class="es"><div class="m">FAILED</div><div class="s">' + e.message + '</div></div>'; }
+}
+
+/* ═══ AUDIT ═══ */
+async function loadAudit() {
+  document.getElementById('at-list').innerHTML = '<div class="lb"></div>';
+  try {
+    const data = await PixAPI.call('/enterprise/audit-log'); const entries = data.entries || [];
+    document.getElementById('at-st').textContent = entries.length + ' events';
+    document.getElementById('at-list').innerHTML = !entries.length ? '<div class="es"><div class="m">No audit events</div></div>' : entries.map(e => '<div class="tl"><span class="t">' + ((e.timestamp || '').split('T')[1]?.split('.')[0] || '--:--') + '</span><div class="c"><span class="a">' + (e.action || e.event_type || 'action') + '</span><span class="ac2">' + (e.resource_type || '') + ' / ' + (e.resource_id || '') + '</span></div></div>').join('');
+  } catch (e) { document.getElementById('at-list').innerHTML = '<div class="es"><div class="m">FAILED</div><div class="s">' + e.message + '</div></div>'; }
+}
 
 /* ═══ COMMAND BAR ═══ */
-function handleCmdKey(e){if(e.key!=='Enter')return;const v=e.target.value.toLowerCase();
-if(v.includes('upload'))switchModule('upload');else if(v.includes('profile'))switchModule('profile');else if(v.includes('dash'))switchModule('dashboard');else if(v.includes('query')||v.includes('ask')){switchModule('query');if(v.length>10){setQuery(e.target.value);runQuery();}}else if(v.includes('graph'))switchModule('graph');else if(v.includes('agent'))switchModule('agents');else if(v.includes('decision'))switchModule('decisions');else if(v.includes('memory')||v.includes('search')){switchModule('memory');searchMemory();}else if(v.includes('pipeline')){switchModule('pipeline');runPipeline();}else if(v.includes('audit'))switchModule('audit');else if(v.includes('observ'))switchModule('observatory');
-e.target.value='';}
+function handleCmd(e) { if (e.key !== 'Enter') return; const v = e.target.value.toLowerCase(); if (v.includes('upload')) switchMod('upload'); else if (v.includes('profile')) switchMod('profile'); else if (v.includes('dash')) switchMod('dashboard'); else if (v.includes('query') || v.includes('ask')) { switchMod('query'); if (v.length > 10) { setQuery(e.target.value); runQuery(); } } else if (v.includes('graph')) switchMod('graph'); else if (v.includes('agent')) switchMod('agents'); else if (v.includes('decision')) switchMod('decisions'); else if (v.includes('memory')) { switchMod('memory'); searchMem(); } else if (v.includes('observ')) switchMod('observatory'); else if (v.includes('audit')) switchMod('audit'); e.target.value = ''; }
 
-/* ═══ LANDING CANVAS ═══ */
-function initLandingCanvas(){const c=document.getElementById('landing-canvas');if(!c)return;const ctx=c.getContext('2d');c.width=window.innerWidth;c.height=window.innerHeight;const nodes=[];for(let i=0;i<80;i++)nodes.push({x:Math.random()*c.width,y:Math.random()*c.height,vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3,r:Math.random()*1.5+.5});
-function draw(){ctx.clearRect(0,0,c.width,c.height);nodes.forEach(n=>{n.x+=n.vx;n.y+=n.vy;if(n.x<0||n.x>c.width)n.vx*=-1;if(n.y<0||n.y>c.height)n.vy*=-1;});ctx.strokeStyle='rgba(192,200,208,0.04)';ctx.lineWidth=.5;for(let i=0;i<nodes.length;i++)for(let j=i+1;j<nodes.length;j++){const dx=nodes[i].x-nodes[j].x,dy=nodes[i].y-nodes[j].y,d=Math.sqrt(dx*dx+dy*dy);if(d<150){ctx.globalAlpha=(1-d/150)*.3;ctx.beginPath();ctx.moveTo(nodes[i].x,nodes[i].y);ctx.lineTo(nodes[j].x,nodes[j].y);ctx.stroke();}}ctx.globalAlpha=1;nodes.forEach(n=>{ctx.beginPath();ctx.arc(n.x,n.y,n.r,0,Math.PI*2);ctx.fillStyle='rgba(192,200,208,0.3)';ctx.fill();});requestAnimationFrame(draw);}draw();window.onresize=()=>{c.width=window.innerWidth;c.height=window.innerHeight;};}
-function initDataFlow(){const stages=[{l:'Data Sources',i:'◈'},{l:'Intelligence Profile',i:'◉'},{l:'AI Agents',i:'⬡'},{l:'Decision Engine',i:'⚡'},{l:'Business Outcomes',i:'✓'}];
-document.getElementById('data-flow').innerHTML=stages.map((s,i)=>'<div class="flow-stage"><div class="flow-node pulse">'+s.i+'</div><span class="flow-label">'+s.l+'</span></div>'+(i<stages.length-1?'<div class="flow-arrow"><div class="dot" style="animation-delay:'+(i*.4)+'s"></div></div>':'')).join('');}
-function initAuthCanvas(){const c=document.getElementById('auth-canvas');if(!c)return;const ctx=c.getContext('2d');c.width=c.parentElement.offsetWidth;c.height=c.parentElement.offsetHeight;const p=[];for(let i=0;i<40;i++)p.push({x:Math.random()*c.width,y:Math.random()*c.height,vx:(Math.random()-.5)*.2,vy:(Math.random()-.5)*.2,r:Math.random()*1+.5});
-function draw(){ctx.clearRect(0,0,c.width,c.height);p.forEach(n=>{n.x+=n.vx;n.y+=n.vy;if(n.x<0||n.x>c.width)n.vx*=-1;if(n.y<0||n.y>c.height)n.vy*=-1;ctx.beginPath();ctx.arc(n.x,n.y,n.r,0,Math.PI*2);ctx.fillStyle='rgba(192,200,208,0.15)';ctx.fill();});requestAnimationFrame(draw);}draw();}
+/* ═══ CANVAS ═══ */
+function initLandingCanvas() { const c = document.getElementById('landing-canvas'); if (!c) return; const ctx = c.getContext('2d'); c.width = window.innerWidth; c.height = window.innerHeight; const nodes = []; for (let i = 0; i < 80; i++) nodes.push({ x: Math.random() * c.width, y: Math.random() * c.height, vx: (Math.random() - .5) * .3, vy: (Math.random() - .5) * .3, r: Math.random() * 1.5 + .5 }); function draw() { ctx.clearRect(0, 0, c.width, c.height); nodes.forEach(n => { n.x += n.vx; n.y += n.vy; if (n.x < 0 || n.x > c.width) n.vx *= -1; if (n.y < 0 || n.y > c.height) n.vy *= -1; }); ctx.strokeStyle = 'rgba(192,200,208,0.04)'; ctx.lineWidth = .5; for (let i = 0; i < nodes.length; i++) for (let j = i + 1; j < nodes.length; j++) { const dx = nodes[i].x - nodes[j].x, dy = nodes[i].y - nodes[j].y, d = Math.sqrt(dx * dx + dy * dy); if (d < 150) { ctx.globalAlpha = (1 - d / 150) * .3; ctx.beginPath(); ctx.moveTo(nodes[i].x, nodes[i].y); ctx.lineTo(nodes[j].x, nodes[j].y); ctx.stroke(); } } ctx.globalAlpha = 1; nodes.forEach(n => { ctx.beginPath(); ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2); ctx.fillStyle = 'rgba(192,200,208,0.3)'; ctx.fill(); }); requestAnimationFrame(draw); } draw(); window.onresize = () => { c.width = window.innerWidth; c.height = window.innerHeight; }; }
+function initDataFlow() { const stages = [{ l: 'Data Sources', i: '◈' }, { l: 'Intelligence Profile', i: '◉' }, { l: 'AI Agents', i: '⬡' }, { l: 'Decision Engine', i: '⚡' }, { l: 'Business Outcomes', i: '✓' }]; document.getElementById('dflow').innerHTML = stages.map((s, i) => '<div class="dflow-s"><div class="dflow-n pls">' + s.i + '</div><span class="dflow-l">' + s.l + '</span></div>' + (i < stages.length - 1 ? '<div class="dflow-a"><div class="d" style="animation-delay:' + (i * .4) + 's"></div></div>' : '')).join(''); }
+function initAuthCanvas() { const c = document.getElementById('auth-canvas'); if (!c) return; const ctx = c.getContext('2d'); c.width = c.parentElement.offsetWidth; c.height = c.parentElement.offsetHeight; const p = []; for (let i = 0; i < 40; i++) p.push({ x: Math.random() * c.width, y: Math.random() * c.height, vx: (Math.random() - .5) * .2, vy: (Math.random() - .5) * .2, r: Math.random() * 1 + .5 }); function draw() { ctx.clearRect(0, 0, c.width, c.height); p.forEach(n => { n.x += n.vx; n.y += n.vy; if (n.x < 0 || n.x > c.width) n.vx *= -1; if (n.y < 0 || n.y > c.height) n.vy *= -1; ctx.beginPath(); ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2); ctx.fillStyle = 'rgba(192,200,208,0.15)'; ctx.fill(); }); requestAnimationFrame(draw); } draw(); }
 
 /* ═══ DRAG-DROP ═══ */
-document.addEventListener('dragover',e=>{e.preventDefault();document.getElementById('drop-zone')?.classList.add('dragover');});
-document.addEventListener('dragleave',()=>document.getElementById('drop-zone')?.classList.remove('dragover'));
-document.addEventListener('drop',e=>{e.preventDefault();document.getElementById('drop-zone')?.classList.remove('dragover');if(e.dataTransfer.files.length)handleFile(e.dataTransfer.files[0]);});
-document.getElementById('auth-password')?.addEventListener('keydown',e=>{if(e.key==='Enter')handleAuth();});
+document.addEventListener('dragover', e => { e.preventDefault(); document.getElementById('dz')?.classList.add('dragover'); });
+document.addEventListener('dragleave', () => document.getElementById('dz')?.classList.remove('dragover'));
+document.addEventListener('drop', e => { e.preventDefault(); document.getElementById('dz')?.classList.remove('dragover'); if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]); });
+document.getElementById('apass')?.addEventListener('keydown', e => { if (e.key === 'Enter') handleAuth(); });
 
-/* ═══ INIT ═══ */
-initLandingCanvas();initDataFlow();
-if(checkStoredAuth())enterApp();
+/* ═══ INIT — PixConfig already initialized above ═══ */
+initLandingCanvas(); initDataFlow();
+if (PixConfig.isAuth()) enterApp();
 </script>
 </body>
 </html>
