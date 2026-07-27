@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>JTX — Enterprise Intelligence Operating System</title>
+<title>πX — Enterprise Intelligence Operating System</title>
 <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
@@ -236,18 +236,7 @@ input,textarea{user-select:text}
 <canvas id="landing-canvas"></canvas>
 <div class="lc">
 <nav class="lnav">
-<div class="llogo" onclick="showLanding()" style="gap:12px"><div style="color:var(--white)"><svg width="48" height="26" viewBox="0 0 96 52" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <!-- Top crossbar shared across J-T -->
-  <rect x="0" y="0" width="68" height="10" fill="currentColor"/>
-  <!-- J: left vertical stem, hooks right at bottom -->
-  <rect x="0" y="0" width="10" height="40" fill="currentColor"/>
-  <path d="M0 32 L10 32 L10 42 Q10 52 20 52 L28 52 L28 44 L20 44 Q18 44 18 42 L18 32 L10 32 Z" fill="currentColor"/>
-  <!-- T: center vertical stem -->
-  <rect x="29" y="0" width="10" height="52" fill="currentColor"/>
-  <!-- X: two diagonals, right half -->
-  <path d="M56 0 L96 0 L96 10 L72 52 L56 52 L56 42 L74 10 L56 10 Z" fill="currentColor"/>
-  <path d="M96 42 L96 52 L80 52 L56 10 L56 0 L72 0 Z" fill="currentColor"/>
-</svg></div><span class="tg">ENTERPRISE<br>INTELLIGENCE OS</span></div>
+<div class="llogo" onclick="showLanding()"><span class="mk">πX</span><span class="tg">ENTERPRISE<br>INTELLIGENCE OS</span></div>
 <div class="lnav-l"><a onclick="document.getElementById('sec-p').scrollIntoView({behavior:'smooth'})">Platform</a><a onclick="document.getElementById('sec-uc').scrollIntoView({behavior:'smooth'})">Use Cases</a><a onclick="document.getElementById('sec-a').scrollIntoView({behavior:'smooth'})">Architecture</a><a onclick="document.getElementById('sec-sec').scrollIntoView({behavior:'smooth'})">Security</a><a onclick="document.getElementById('sec-faq').scrollIntoView({behavior:'smooth'})">FAQ</a></div>
 <div class="lnav-a"><button class="lbtn ghost" onclick="showAuth('login')">Sign In</button><button class="lbtn accent" onclick="showAuth('register')">Start Intelligence Engine</button></div>
 </nav>
@@ -255,7 +244,7 @@ input,textarea{user-select:text}
 <h1>Your company becomes an <span class="ac">autonomous intelligence system</span></h1>
 <p class="sub">πX transforms enterprise data into autonomous decisions — intelligence profiles, AI agents, and decision engines that learn your business continuously.</p>
 <div class="cta"><button class="lbtn accent" style="padding:14px 32px;font-size:12px" onclick="showAuth('register')">Deploy Intelligence Engine</button><button class="lbtn ghost" style="padding:14px 32px;font-size:12px" onclick="document.getElementById('sec-p').scrollIntoView({behavior:'smooth'})">See How It Works</button></div>
-<div class="core-wrap"><div class="core"><div class="core-ring r1"><span class="dot"></span></div><div class="core-ring r2"><span class="dot"></span></div><div class="core-ring r3"><span class="dot"></span></div><div class="core-center" style="display:flex;align-items:center;justify-content:center;width:80px;height:80px;color:var(--white);opacity:.9"><svg width="56" height="30" viewBox="0 0 96 52" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="68" height="10" fill="currentColor"/><rect x="0" y="0" width="10" height="40" fill="currentColor"/><path d="M0 32 L10 32 L10 42 Q10 52 20 52 L28 52 L28 44 L20 44 Q18 44 18 42 L18 32 L10 32 Z" fill="currentColor"/><rect x="29" y="0" width="10" height="52" fill="currentColor"/><path d="M56 0 L96 0 L96 10 L72 52 L56 52 L56 42 L74 10 L56 10 Z" fill="currentColor"/><path d="M96 42 L96 52 L80 52 L56 10 L56 0 L72 0 Z" fill="currentColor"/></svg></div></div></div>
+<div class="core-wrap"><div class="core"><div class="core-ring r1"><span class="dot"></span></div><div class="core-ring r2"><span class="dot"></span></div><div class="core-ring r3"><span class="dot"></span></div><div class="core-center">πX</div></div></div>
 <div class="dflow" id="dflow"></div>
 </section>
 <div class="trust"><span class="trust-l">RETAIL GROUP</span><span class="trust-l">MANUFACTURING CO</span><span class="trust-l">FINANCE PARTNERS</span><span class="trust-l">LOGISTICS FIRM</span><span class="trust-l">SAAS STARTUP</span><span class="trust-l">HEALTHCARE SYSTEMS</span></div>
@@ -291,7 +280,7 @@ input,textarea{user-select:text}
 <div class="faq-i" onclick="this.classList.toggle('open')"><div class="faq-q">Is my data secure?</div><div class="faq-a">Yes. Row-level security provides tenant isolation, PII detection masks sensitive fields before AI processing, and every AI action is logged in an immutable audit trail with chain integrity verification.</div></div>
 </div>
 </section>
-<footer class="lft"><span class="c">JTX Technologies — Enterprise Intelligence Operating System</span><span class="c">© 2026 — All Rights Reserved</span></footer>
+<footer class="lft"><span class="c">πX Technologies — Enterprise Intelligence Operating System</span><span class="c">© 2026 — All Rights Reserved</span></footer>
 </div>
 </div>
 
@@ -300,43 +289,7 @@ input,textarea{user-select:text}
 <canvas id="auth-canvas"></canvas>
 <div class="aback" onclick="showLanding()">← BACK</div>
 <div class="acard">
-<div class="logo" style="color:var(--white);margin-bottom:4px"><svg width="40" height="22" viewBox="0 0 96 52" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <rect x="0" y="0" width="68" height="10" fill="currentColor"/>
-  <rect x="0" y="0" width="10" height="40" fill="currentColor"/>
-  <path d="M0 32 L10 32 L10 42 Q10 52 20 52 L28 52 L28 44 L20 44 Q18 44 18 42 L18 32 L10 32 Z" fill="currentColor"/>
-  <rect x="29" y="0" width="10" height="52" fill="currentColor"/>
-  <path d="M56 0 L96 0 L96 10 L72 52 L56 52 L56 42 L74 10 L56 10 Z" fill="currentColor"/>
-  <path d="M96 42 L96 52 L80 52 L56 10 L56 0 L72 0 Z" fill="currentColor"/>
-</svg></div>
-<h2 id="atitle">Sign In</h2>
-<p class="sub" id="asub">Access your intelligence platform</p>
-<div class="aerr" id="aerr"></div>
-<div class="af" id="name-field" style="display:none"><label>Full Name</label><input id="aname" type="text" placeholder="Jane Doe"></div>
-<div class="af"><label>Email</label><input id="aemail" type="email" placeholder="you@company.com"></div>
-<div class="af"><label>Password</label><input id="apass" type="password" placeholder="••••••••"></div>
-<div class="af" id="role-field" style="display:none"><label>Role</label><select id="arole"><option value="analyst">Analyst</option><option value="manager">Manager</option><option value="cto">CTO</option><option value="cfo">CFO</option><option value="ceo">CEO</option></select></div>
-<button class="abtn" id="abtn" onclick="handleAuth()">Sign In</button>
-<div class="adiv">or</div>
-<button class="aoauth" id="google-btn" onclick="googleOAuth()">Continue with Google</button>
-<div class="asw" id="asw">Don't have an account? <a onclick="showAuth('register')">Create one</a></div>
-</div>
-</div>
-
-<!-- ═══ COMMAND CENTER ═══ -->
-<div class="view" id="app-view">
-<div id="topbar">
-<div class="logo" onclick="showLanding()" style="gap:8px"><div style="color:var(--white)"><svg width="48" height="26" viewBox="0 0 96 52" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <!-- Top crossbar shared across J-T -->
-  <rect x="0" y="0" width="68" height="10" fill="currentColor"/>
-  <!-- J: left vertical stem, hooks right at bottom -->
-  <rect x="0" y="0" width="10" height="40" fill="currentColor"/>
-  <path d="M0 32 L10 32 L10 42 Q10 52 20 52 L28 52 L28 44 L20 44 Q18 44 18 42 L18 32 L10 32 Z" fill="currentColor"/>
-  <!-- T: center vertical stem -->
-  <rect x="29" y="0" width="10" height="52" fill="currentColor"/>
-  <!-- X: two diagonals, right half -->
-  <path d="M56 0 L96 0 L96 10 L72 52 L56 52 L56 42 L74 10 L56 10 Z" fill="currentColor"/>
-  <path d="M96 42 L96 52 L80 52 L56 10 L56 0 L72 0 Z" fill="currentColor"/>
-</svg></div><span class="tg">Intelligence<br>OS</span></div>
+<div class="logo" onclick="showLanding()"><span class="mk">πX</span><span class="tg">Intelligence<br>OS</span></div>
 <div class="cmdb"><span class="px">›</span><input id="cmd" placeholder="Query intelligence, navigate modules…" onkeydown="handleCmd(event)" onfocus="openPalette()"><span class="kbd">⌘K</span></div>
 <div class="tbr"><div class="org-b"><span class="d"></span><span id="org-name">—</span></div><div class="uchip" id="uchip" onclick="logout()">AD</div></div>
 </div>
