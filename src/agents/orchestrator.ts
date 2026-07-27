@@ -10,7 +10,7 @@ import { ActionAgent } from "./action-agent";
 import { generateText } from "./llm";
 import type { AgentContext, AgentResult } from "./types";
 
-const ROUTER_PROMPT = `You are the EyeX Agent Orchestrator. Given a user request, classify which agent should handle it.
+const ROUTER_PROMPT = `You are the πX Agent Orchestrator. Given a user request, classify which agent should handle it.
 Respond with ONLY the agent name from this list:
 - AnalyticsAgent: data analysis, dashboard generation, chart creation
 - ForecastAgent: predictions, forecasting, projections, trends
@@ -135,7 +135,7 @@ Which agent should handle this?`,
     const generalResponse = await generateText(
       `User says: "${lastMessage}"
 ${context.data ? `Context: ${JSON.stringify(context.data)}` : ""}
-Respond helpfully as the EyeX AI Copilot. Be concise and professional.`,
+Respond helpfully as the πX AI Copilot. Be concise and professional.`,
       { temperature: 0.5 },
     );
 

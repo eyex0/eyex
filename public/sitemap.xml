@@ -1,37 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://eyex-technologies.eyextech.workers.dev/</loc>
+    <loc>https://pix-technologies.pixtech.workers.dev/</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://eyex-technologies.eyextech.workers.dev/dashboard</loc>
+    <loc>https://pix-technologies.pixtech.workers.dev/dashboard</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://eyex-technologies.eyextech.workers.dev/ai-chat</loc>
+    <loc>https://pix-technologies.pixtech.workers.dev/ai-chat</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://eyex-technologies.eyextech.workers.dev/analytics</loc>
+    <loc>https://pix-technologies.pixtech.workers.dev/analytics</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://eyex-technologies.eyextech.workers.dev/documents</loc>
+    <loc>https://pix-technologies.pixtech.workers.dev/documents</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://eyex-technologies.eyextech.workers.dev/api</loc>
+    <loc>https://pix-technologies.pixtech.workers.dev/api</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://eyex-technologies.eyextech.workers.dev/about</loc>
+    <loc>https://pix-technologies.pixtech.workers.dev/about</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>

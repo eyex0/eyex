@@ -40,7 +40,7 @@ def extract_main_and_header(html_path):
     return convert_html_to_jsx(header), convert_html_to_jsx(main_content), convert_html_to_jsx(footer)
 
 base_dir = r"C:\Users\MontaserAbdalla\Downloads\stitch_ (4)\stitch_"
-screens = ["eyex_desktop_1", "eyex_desktop_2", "eyex_desktop_3", "eyex_desktop_4"]
+screens = ["pix_desktop_1", "pix_desktop_2", "pix_desktop_3", "pix_desktop_4"]
 
 for screen in screens:
     path = os.path.join(base_dir, screen, "code.html")

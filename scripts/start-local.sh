@@ -1,18 +1,18 @@
 #!/usr/bin/env bash
-# Start a complete local EyeX development environment.
+# Start a complete local πX development environment.
 # Requires Docker, Docker Compose, Python, and npm.
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-BACKEND_DIR="$ROOT/eyex-backend"
+BACKEND_DIR="$ROOT/pix-backend"
 FRONTEND_DIR="$ROOT"
 PID_FILE="$ROOT/.local-pids"
 
 wait_postgres() {
-    local container="${1:-eyex-postgres}"
+    local container="${1:-pix-postgres}"
     echo "==> Waiting for Postgres container '$container' to be ready..."
     for _ in $(seq 1 60); do
-        if docker exec "$container" pg_isready -U eyex >/dev/null 2>&1; then
+        if docker exec "$container" pg_isready -U pix >/dev/null 2>&1; then
             echo "Postgres is ready."
             return
         fi
@@ -22,7 +22,7 @@ wait_postgres() {
     exit 1
 }
 
-echo "==> EyeX local dev start"
+echo "==> πX local dev start"
 
 if [ ! -f "$BACKEND_DIR/.env" ]; then
     echo "ERROR: Backend .env not found. Copy $BACKEND_DIR/.env.example to $BACKEND_DIR/.env and fill in real values." >&2
@@ -87,7 +87,7 @@ for _ in $(seq 1 30); do
 done
 
 echo ""
-echo "EyeX local environment is starting."
+echo "πX local environment is starting."
 echo "  Backend:   http://localhost:8000"
 echo "  Frontend:  http://localhost:3000"
 echo "  Health:    http://localhost:8000/health"

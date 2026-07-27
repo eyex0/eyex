@@ -527,7 +527,7 @@ export function AiChatPage() {
             </div>
             <div className="text-center mt-3">
               <p className="text-[9px] text-eye-text/30 uppercase tracking-[0.3em] font-mono">
-                EyeX Technologies Unified Intelligence Interface &bull; Authorized Personnel Only
+                πX Technologies Unified Intelligence Interface &bull; Authorized Personnel Only
               </p>
             </div>
           </div>

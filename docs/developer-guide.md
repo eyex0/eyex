@@ -12,8 +12,8 @@
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-org/eyex-technologies.git
-cd eyex-technologies
+git clone https://github.com/your-org/pix-technologies.git
+cd pix-technologies
 
 # Install dependencies
 npm install
@@ -29,7 +29,7 @@ npm run dev
 ## Project Structure
 
 ```
-eyex-technologies/
+pix-technologies/
 ├── src/                    # Frontend application
 │   ├── components/         # UI components
 │   │   ├── layout/         # Shell, sidebar, header
@@ -109,6 +109,6 @@ npm run test -w packages/services
 docker compose up --build
 
 # Or run frontend only
-docker build -t eyex-frontend -f Dockerfile .
-docker run -p 80:80 eyex-frontend
+docker build -t pix-frontend -f Dockerfile .
+docker run -p 80:80 pix-frontend
 ```

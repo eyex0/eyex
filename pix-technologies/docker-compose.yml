@@ -1,0 +1,95 @@
+version: "3.9"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: pix-api
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - ENV=production
+      - POSTGRES_SERVER=db
+      - REDIS_URL=redis://redis:6379/0
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    env_file:
+      - .env
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    volumes:
+      - ./app:/app/app
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    networks:
+      - pix-net
+
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: pix-worker
+    restart: unless-stopped
+    environment:
+      - ENV=production
+      - POSTGRES_SERVER=db
+      - REDIS_URL=redis://redis:6379/0
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    env_file:
+      - .env
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    command: python -m app.graph.runner
+    networks:
+      - pix-net
+
+  db:
+    image: postgres:16-alpine
+    container_name: pix-db
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=pix
+      - POSTGRES_PASSWORD=pix_secret
+      - POSTGRES_DB=pix
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U pix"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - pix-net
+
+  redis:
+    image: redis:7-alpine
+    container_name: pix-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    command: redis-server --appendonly yes
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - pix-net
+
+volumes:
+  postgres-data:
+  redis-data:
+
+networks:
+  pix-net:
+    driver: bridge

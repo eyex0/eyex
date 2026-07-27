@@ -1,0 +1,92 @@
+name: EyeX Backend CI
+
+on:
+  push:
+    branches: [main, release/*]
+    paths:
+      - "eyex-backend/**"
+  pull_request:
+    branches: [main, release/*]
+    paths:
+      - "eyex-backend/**"
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./eyex-backend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Ruff lint
+        run: ruff check app --select F401,F821,F841,F402,E711,E712,E741,N818,UP042
+      - name: Ruff format check
+        run: ruff format --check app
+
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./eyex-backend
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: eyex
+          POSTGRES_PASSWORD: eyex_password
+          POSTGRES_DB: eyex
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+      redis:
+        image: redis:7-alpine
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 6379:6379
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Run migrations
+        env:
+          DATABASE_URL: postgresql+asyncpg://eyex:eyex_password@localhost:5432/eyex
+          REDIS_URL: redis://localhost:6379/0
+          APP_SECRET_KEY: ci-test-secret-key-32-bytes-long!!
+        run: alembic upgrade head
+      - name: Run tests
+        env:
+          DATABASE_URL: postgresql+asyncpg://eyex:eyex_password@localhost:5432/eyex
+          REDIS_URL: redis://localhost:6379/0
+          APP_SECRET_KEY: ci-test-secret-key-32-bytes-long!!
+        run: pytest -q --tb=short
+
+  build:
+    runs-on: ubuntu-latest
+    needs: [lint, test]
+    defaults:
+      run:
+        working-directory: ./eyex-backend
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build production image
+        run: docker build -f Dockerfile.prod -t eyex/backend:rc1 .
+      - name: Image size
+        run: docker images eyex/backend:rc1 --format "{{.Size}}"

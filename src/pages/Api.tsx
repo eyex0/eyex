@@ -32,7 +32,7 @@ interface ApiKeyRecord {
 
 function generateApiKey(): string {
   const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  let key = "eyex_live_";
+  let key = "pix_live_";
   for (let i = 0; i < 48; i++) {
     key += chars.charAt(Math.floor(Math.random() * chars.length));
   }
@@ -390,7 +390,7 @@ export function ApiPage() {
                   header with every request:
                 </p>
                 <div className="mt-3 bg-eye-bg rounded border border-eye-border p-4 font-mono text-xs text-white/80">
-                  <span className="text-primary-brand">Authorization</span>: Bearer eyex_live_***
+                  <span className="text-primary-brand">Authorization</span>: Bearer pix_live_***
                 </div>
               </div>
               <div>
@@ -428,7 +428,7 @@ export function ApiPage() {
               </div>
             </div>
             <div className="text-[10px] text-eye-text flex items-center gap-2">
-              <span>&copy; 2024 EYEX TECHNOLOGIES INC.</span>
+              <span>&copy; 2024 πX TECHNOLOGIES INC.</span>
               <span className="h-1 w-1 bg-eye-text rounded-full" />
               <a className="hover:text-primary-brand" href="#">
                 TERMS OF SERVICE

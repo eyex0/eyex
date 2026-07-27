@@ -5,12 +5,12 @@ import { ProtectedRoute } from "@/components/auth/protected-route";
 export const Route = createFileRoute("/marketing")({
   head: () => ({
     meta: [
-      { title: "Marketing | EyeX Technologies" },
+      { title: "Marketing | πX Technologies" },
       {
         name: "description",
         content: "Marketing campaign management with AI-driven audience targeting.",
       },
-      { property: "og:title", content: "Marketing | EyeX Technologies" },
+      { property: "og:title", content: "Marketing | πX Technologies" },
       {
         property: "og:description",
         content: "Marketing campaign management with AI-driven audience targeting.",

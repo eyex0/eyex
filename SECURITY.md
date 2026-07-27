@@ -1,4 +1,4 @@
-# EyeX Technologies — Security Notice
+# πX Technologies — Security Notice
 
 ## Exposed credentials
 

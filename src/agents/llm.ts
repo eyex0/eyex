@@ -15,7 +15,7 @@ function getClient(): GoogleGenAI {
     }
     client = new GoogleGenAI({
       apiKey,
-      httpOptions: { headers: { "User-Agent": "eyex-agents" } },
+      httpOptions: { headers: { "User-Agent": "pix-agents" } },
     });
   }
   return client;

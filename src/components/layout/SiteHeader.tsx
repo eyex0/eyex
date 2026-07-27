@@ -10,7 +10,7 @@ export function SiteHeader() {
       <div className="flex items-center gap-4">
         <span className="material-symbols-outlined text-primary font-headline-md text-headline-md">visibility</span>
         <Link to="/" className="font-headline-md text-headline-md font-bold tracking-tighter text-primary dark:text-primary">
-          EyeX
+          πX
         </Link>
       </div>
       <nav className="hidden md:flex gap-10 items-center">

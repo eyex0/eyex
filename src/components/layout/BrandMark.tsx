@@ -7,7 +7,7 @@ export function BrandMark({ className = "" }: { className?: string }) {
         <Eye size={16} className="text-primary" />
       </span>
       <span className="font-display font-medium text-[15px] tracking-tight leading-none">
-        EyeX <span className="text-eye-text font-light">Technologies</span>
+        πX <span className="text-eye-text font-light">Technologies</span>
       </span>
     </span>
   );

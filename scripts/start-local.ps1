@@ -1,7 +1,7 @@
 #!/usr/bin/env pwsh
 <#
 .SYNOPSIS
-    Start a complete local EyeX development environment.
+    Start a complete local πX development environment.
 
 .DESCRIPTION
     Requires Docker and Docker Compose for Postgres/Redis.
@@ -15,7 +15,7 @@ Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
 
 $Root = Split-Path -Parent $PSScriptRoot
-$BackendDir = Join-Path $Root "eyex-backend"
+$BackendDir = Join-Path $Root "pix-backend"
 $FrontendDir = $Root
 $PidFile = Join-Path $Root ".local-pids"
 
@@ -24,11 +24,11 @@ function Test-Command($Name) {
 }
 
 function Wait-Postgres {
-    param([string]$Container = "eyex-postgres")
+    param([string]$Container = "pix-postgres")
     Write-Host "Waiting for Postgres container '$Container' to be ready..."
     $attempts = 0
     while ($attempts -lt 60) {
-        $ready = & docker exec $Container pg_isready -U eyex 2>$null
+        $ready = & docker exec $Container pg_isready -U pix 2>$null
         if ($LASTEXITCODE -eq 0) {
             Write-Host "Postgres is ready."
             return
@@ -40,10 +40,10 @@ function Wait-Postgres {
 }
 
 # --- Preconditions ---
-Write-Host "==> EyeX local dev start"
+Write-Host "==> πX local dev start"
 
 if (-not (Test-Path (Join-Path $BackendDir ".env"))) {
-    throw "Backend .env not found. Copy eyex-backend/.env.example to eyex-backend/.env and fill in real values."
+    throw "Backend .env not found. Copy pix-backend/.env.example to pix-backend/.env and fill in real values."
 }
 
 if (-not (Test-Command "docker")) {
@@ -138,7 +138,7 @@ if (-not $frontendReady) {
 }
 
 Write-Host ""
-Write-Host "EyeX local environment is starting."
+Write-Host "πX local environment is starting."
 Write-Host "  Backend:   http://localhost:8000"
 Write-Host "  Frontend:  http://localhost:3000"
 Write-Host "  Health:    http://localhost:8000/health"

@@ -83,7 +83,7 @@
 
 - **Changed:** Replaced real credentials in `.env.example` with placeholder values.
 - **Changed:** Added `SECURITY.md` with exposed-credential notice and rotation instructions.
-- **Changed:** Verified `.env` and `eyex-backend/.env` are not tracked by git.
+- **Changed:** Verified `.env` and `pix-backend/.env` are not tracked by git.
 - **Files modified:** `.env.example`, `SECURITY.md`
 - **Tests:** 390 passed, 0 failed, 0 warnings
 - **Result:** Future secret commits prevented; rotation instructions documented.
@@ -97,7 +97,7 @@
 - **Changed:** Added production infrastructure: `Dockerfile.prod`, `docker-compose.prod.yml`, `.env.production.example`, `scripts/backup.sh`, `scripts/entrypoint.sh`.
 - **Changed:** Added CI/CD: `.github/workflows/ci.yml` (lint/test/build), `.github/workflows/deploy.yml` (staging/production deploy).
 - **Changed:** Eliminated all pytest warnings by fixing agent fallback test mocks.
-- **Files modified:** 60+ files across `eyex-backend/`
+- **Files modified:** 60+ files across `pix-backend/`
 - **Tests:** 390 passed, 0 failed, 0 warnings
 - **Result:** EyeX RC1 is ready for production deployment
 
@@ -180,7 +180,7 @@
 
 ### Feature: Initial Setup
 
-- **Changed:** Merged eyex_tech codebase (src/, configs, package.json)
+- **Changed:** Merged pix_tech codebase (src/, configs, package.json)
 - **Changed:** Custom AI agent framework (8 agents + orchestrator)
 - **Changed:** Replaced Material Symbols with lucide-react
 - **Changed:** Cloudflare Workers deployment

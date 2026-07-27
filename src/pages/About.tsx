@@ -35,7 +35,7 @@ export function AboutPage() {
             <span className="font-label-caps text-label-caps text-secondary-fixed-dim block mb-4 uppercase">Navigation Systems</span>
             <h2 className="font-headline-md text-headline-md text-primary mb-6">Autonomous Navigation</h2>
             <p className="font-body-md text-body-md text-on-surface-variant mb-8 leading-relaxed">
-              EyeX provides sub-millimeter spatial awareness for autonomous platforms. Our proprietary optical-flow algorithms enable high-speed processing in unpredictable environments, from aerial drones to terrestrial logistics fleets.
+              πX provides sub-millimeter spatial awareness for autonomous platforms. Our proprietary optical-flow algorithms enable high-speed processing in unpredictable environments, from aerial drones to terrestrial logistics fleets.
             </p>
             <ul className="space-y-4">
               <li className="flex items-start gap-3 border-b border-white/5 pb-4">
@@ -95,7 +95,7 @@ export function AboutPage() {
             <span className="font-label-caps text-label-caps text-secondary-fixed-dim block mb-4 uppercase">Robotic Logistics</span>
             <h2 className="font-headline-md text-headline-md text-primary mb-6">Industrial Automation</h2>
             <p className="font-body-md text-body-md text-on-surface-variant mb-8 leading-relaxed">
-              Scale production with machine vision that never blinks. From defect detection on high-speed assembly lines to collaborative robotics in smart factories, EyeX ensures absolute consistency in every cycle.
+              Scale production with machine vision that never blinks. From defect detection on high-speed assembly lines to collaborative robotics in smart factories, πX ensures absolute consistency in every cycle.
             </p>
             <button className="group flex items-center gap-3 text-primary font-label-caps text-label-caps uppercase tracking-widest">
               Technical Datasheet 
@@ -118,11 +118,11 @@ export function AboutPage() {
                 <div className="w-3 h-3 rounded-full bg-surface-tint/40"></div>
                 <div className="w-3 h-3 rounded-full bg-secondary-fixed-dim/40"></div>
               </div>
-              <div className="text-on-surface-variant font-mono-data text-[12px]">eyex_main.py</div>
+              <div className="text-on-surface-variant font-mono-data text-[12px]">pix_main.py</div>
               <button className="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors text-[18px]">content_copy</button>
             </div>
             <div className="p-8 font-mono-data text-mono-data text-[14px] leading-relaxed overflow-x-auto">
-              <pre className="text-[#888]"><code><span className="text-secondary-fixed-dim">import</span> eyex_core <span className="text-secondary-fixed-dim">as</span> ex
+              <pre className="text-[#888]"><code><span className="text-secondary-fixed-dim">import</span> pix_core <span className="text-secondary-fixed-dim">as</span> ex
 {"\n"}
 <span className="text-[#555]"># Initialize optical cluster with neural prioritization</span>
 cluster = ex.VisionCluster(config=<span className="text-[#00eefc]">"ultra_low_latency"</span>)

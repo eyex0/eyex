@@ -5,7 +5,7 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-  /* EyeX brand palette */
+  /* πX brand palette */
   --color-eye-bg: #050505;
   --color-eye-surface: #0a0a0c;
   --color-eye-border: #1a1a1c;
@@ -103,7 +103,7 @@
   --color-ring-offset-background: var(--background);
 }
 
-/* Force dark aesthetic globally: EyeX site is dark-only. */
+/* Force dark aesthetic globally: πX site is dark-only. */
 :root {
   --background: #050505;
   --foreground: #fafafa;

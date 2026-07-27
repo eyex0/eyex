@@ -14,7 +14,7 @@ export function HomePage() {
             <span className="font-mono-data text-[10px] tracking-widest uppercase">System Active: Core V4.0</span>
           </div>
           <div className="flex justify-center mb-12">
-            <img alt="EyeX Core Logo" className="w-48 h-48 neural-glow object-contain" src="https://lh3.googleusercontent.com/aida/AP1WRLsLbZ-VBDg4luluTD5SP6JG-zi3fZuUZCz24SsHbZ-G6d-IcrtOpBdQK_fmKdZewh9zFqvdGS70AlmHCQwT-R6FpGS64_pNJyFEwF2Zdy4FjmTQI_bmblpZGmzW00Rf5qoDQpC6tswbvpxabWQzGMgOU_TgklJRfei-RUV6aNyaumREl0ffcQjFoMv4FB9Ctl7dugvriBUThq_M_Iu-8z4e8Pb_2k6q2vedMAai9Nt9XG807sPWQB3wOhZl" />
+            <img alt="πX Core Logo" className="w-48 h-48 neural-glow object-contain" src="https://lh3.googleusercontent.com/aida/AP1WRLsLbZ-VBDg4luluTD5SP6JG-zi3fZuUZCz24SsHbZ-G6d-IcrtOpBdQK_fmKdZewh9zFqvdGS70AlmHCQwT-R6FpGS64_pNJyFEwF2Zdy4FjmTQI_bmblpZGmzW00Rf5qoDQpC6tswbvpxabWQzGMgOU_TgklJRfei-RUV6aNyaumREl0ffcQjFoMv4FB9Ctl7dugvriBUThq_M_Iu-8z4e8Pb_2k6q2vedMAai9Nt9XG807sPWQB3wOhZl" />
           </div>
           <h1 className="font-display-lg text-[64px] md:text-[96px] leading-[1.1] tracking-tighter text-primary">
             The Future of <span className="text-secondary-fixed-dim italic">Vision AI</span>

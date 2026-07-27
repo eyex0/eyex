@@ -92,10 +92,10 @@ createPortalSession(returnUrl: string): Promise<{ url: string }>
 getUsage(): Promise<Record<string, number>>
 ```
 
-## Agent Packages (`@eyex/agents`)
+## Agent Packages (`@pix/agents`)
 
 ```typescript
-import { AgentOrchestrator } from '@eyex/agents';
+import { AgentOrchestrator } from '@pix/agents';
 
 const orchestrator = new AgentOrchestrator({
   openaiApiKey: string;
@@ -112,10 +112,10 @@ const result = await orchestrator.execute({
 });
 ```
 
-## Service Packages (`@eyex/services`)
+## Service Packages (`@pix/services`)
 
 ```typescript
-import { SQLValidator } from "@eyex/services";
+import { SQLValidator } from "@pix/services";
 
 const validator = new SQLValidator();
 const result = await validator.validate("SELECT * FROM users");

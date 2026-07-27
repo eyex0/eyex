@@ -1,4 +1,4 @@
--- EyeX Technologies — Enterprise Tables Migration
+-- πX Technologies — Enterprise Tables Migration
 -- Migration 001: Add missing enterprise, AI, and data intelligence tables
 -- Also fixes RLS policies from open (true) to proper org-scoped access
 

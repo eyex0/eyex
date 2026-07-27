@@ -5,7 +5,7 @@ import { ProtectedRoute } from "@/components/auth/protected-route";
 export const Route = createFileRoute("/billing")({
   head: () => ({
     meta: [
-      { title: "Billing | EyeX Technologies" },
+      { title: "Billing | πX Technologies" },
       { name: "description", content: "Manage subscription and invoices" },
     ],
   }),

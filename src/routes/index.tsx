@@ -4,13 +4,13 @@ import { HomePage } from "@/pages/Home";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "EyeX Technologies — Intelligence, Architected" },
+      { title: "πX Technologies — Intelligence, Architected" },
       {
         name: "description",
         content:
           "Foundational intelligence infrastructure for the next generation of global enterprise. Secured by design, engineered for scale.",
       },
-      { property: "og:title", content: "EyeX Technologies — Intelligence, Architected" },
+      { property: "og:title", content: "πX Technologies — Intelligence, Architected" },
       {
         property: "og:description",
         content:

@@ -4,15 +4,15 @@ import { AboutPage } from "@/pages/About";
 export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
-      { title: "About EyeX Technologies — Origin" },
+      { title: "About πX Technologies — Origin" },
       {
         name: "description",
-        content: "The people, principles and origin story behind EyeX Technologies.",
+        content: "The people, principles and origin story behind πX Technologies.",
       },
-      { property: "og:title", content: "About EyeX Technologies — Origin" },
+      { property: "og:title", content: "About πX Technologies — Origin" },
       {
         property: "og:description",
-        content: "The people, principles and origin story behind EyeX Technologies.",
+        content: "The people, principles and origin story behind πX Technologies.",
       },
       { property: "og:type", content: "website" },
     ],

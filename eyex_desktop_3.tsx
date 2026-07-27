@@ -133,11 +133,11 @@
 <div className="w-3 h-3 rounded-full bg-surface-tint/40"></div>
 <div className="w-3 h-3 rounded-full bg-secondary-fixed-dim/40"></div>
 </div>
-<div className="text-on-surface-variant font-mono-data text-[12px]">eyex_main.py</div>
+<div className="text-on-surface-variant font-mono-data text-[12px]">pix_main.py</div>
 <button className="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors text-[18px]" data-icon="content_copy">content_copy</button>
 </div>
 <div className="p-8 font-mono-data text-mono-data text-[14px] leading-relaxed overflow-x-auto">
-<pre className="text-[#888]"><code><span className="text-secondary-fixed-dim">import</span> eyex_core <span className="text-secondary-fixed-dim">as</span> ex
+<pre className="text-[#888]"><code><span className="text-secondary-fixed-dim">import</span> pix_core <span className="text-secondary-fixed-dim">as</span> ex
 
 <span className="text-[#555]"># Initialize optical cluster with neural prioritization</span>
 cluster = ex.VisionCluster(config=<span className="text-[#00eefc]">"ultra_low_latency"</span>)

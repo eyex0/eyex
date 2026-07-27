@@ -75,7 +75,7 @@ export function AdminPage() {
             <Server className="w-8 h-8 text-primary-brand" />
             <div>
               <h1 className="text-2xl font-bold text-on-surface">System Admin</h1>
-              <p className="text-sm text-outline font-mono">EyeX Backend — Python API Gateway</p>
+              <p className="text-sm text-outline font-mono">πX Backend — Python API Gateway</p>
             </div>
           </div>
 

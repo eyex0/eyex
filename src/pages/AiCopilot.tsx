@@ -86,7 +86,7 @@ export function AiCopilotPage() {
           <Search className="text-eye-text mr-4 w-5 h-5" />
           <input
             className="flex-1 bg-transparent border-none focus:ring-0 text-on-background placeholder:text-eye-text text-base"
-            placeholder="Command EyeX..."
+            placeholder="Command πX..."
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
@@ -280,7 +280,7 @@ export function AiCopilotPage() {
             </div>
           </div>
           <div className="flex items-center gap-1.5">
-            <span className="font-mono text-[10px] text-primary-brand/80">EYEX CORE v2.4.0</span>
+            <span className="font-mono text-[10px] text-primary-brand/80">πX CORE v2.4.0</span>
             <div className="w-1.5 h-1.5 bg-primary-brand rounded-full shadow-[0_0_8px_#38BDF8]" />
           </div>
         </div>

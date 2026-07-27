@@ -6,17 +6,17 @@ services:
     ports:
       - "80:80"
     depends_on:
-      - eyex-api
+      - pix-api
     restart: unless-stopped
 
-  eyex-api:
+  pix-api:
     build:
-      context: ./eyex-backend
+      context: ./pix-backend
       dockerfile: Dockerfile.prod
     ports:
       - "8000:8000"
     env_file:
-      - ./eyex-backend/.env
+      - ./pix-backend/.env
     depends_on:
       postgres:
         condition: service_healthy
@@ -26,18 +26,18 @@ services:
 
   postgres:
     image: postgres:16-alpine
-    container_name: eyex-postgres
+    container_name: pix-postgres
     restart: unless-stopped
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_USER: eyex
-      POSTGRES_PASSWORD: eyex_password
-      POSTGRES_DB: eyex
+      POSTGRES_USER: pix
+      POSTGRES_PASSWORD: pix_password
+      POSTGRES_DB: pix
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U eyex"]
+      test: ["CMD-SHELL", "pg_isready -U pix"]
       interval: 5s
       timeout: 5s
       retries: 5

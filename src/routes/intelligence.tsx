@@ -5,7 +5,7 @@ import { ProtectedRoute } from "@/components/auth/protected-route";
 export const Route = createFileRoute("/intelligence")({
   head: () => ({
     meta: [
-      { title: "Intelligence Hub | EyeX Technologies" },
+      { title: "Intelligence Hub | πX Technologies" },
       { name: "description", content: "AI-powered business decision intelligence platform" },
     ],
   }),

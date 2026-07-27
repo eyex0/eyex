@@ -5,7 +5,7 @@ export function SiteFooter() {
         <div className="col-span-1 md:col-span-1 space-y-6">
           <div className="flex items-center gap-3">
             <span className="material-symbols-outlined text-primary text-2xl">visibility</span>
-            <span className="font-label-caps text-label-caps text-primary text-xl">EyeX</span>
+            <span className="font-label-caps text-label-caps text-primary text-xl">πX</span>
           </div>
           <p className="font-body-md text-on-surface-variant opacity-60 max-w-xs">
             Engineering the next generation of visual intelligence. High-performance, low-latency, mission-ready.
@@ -23,7 +23,7 @@ export function SiteFooter() {
         <div className="space-y-6">
           <h5 className="font-label-caps text-label-caps text-primary uppercase tracking-widest">Company</h5>
           <ul className="space-y-4 font-mono-data text-mono-data text-on-surface-variant">
-            <li><a className="hover:text-secondary-fixed-dim underline decoration-transparent hover:decoration-secondary-fixed-dim transition-all" href="/about">About EyeX</a></li>
+            <li><a className="hover:text-secondary-fixed-dim underline decoration-transparent hover:decoration-secondary-fixed-dim transition-all" href="/about">About πX</a></li>
             <li><a className="hover:text-secondary-fixed-dim underline decoration-transparent hover:decoration-secondary-fixed-dim transition-all" href="#">Careers</a></li>
             <li><a className="hover:text-secondary-fixed-dim underline decoration-transparent hover:decoration-secondary-fixed-dim transition-all" href="/contact">Contact</a></li>
             <li><a className="hover:text-secondary-fixed-dim underline decoration-transparent hover:decoration-secondary-fixed-dim transition-all" href="#">Privacy</a></li>
@@ -40,7 +40,7 @@ export function SiteFooter() {
         </div>
       </div>
       <div className="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-white/5">
-        <span className="font-mono-data text-mono-data text-on-surface-variant/40">© 2024 EYEX CORE. ALL RIGHTS RESERVED.</span>
+        <span className="font-mono-data text-mono-data text-on-surface-variant/40">© 2024 πX CORE. ALL RIGHTS RESERVED.</span>
         <div className="flex gap-8 mt-4 md:mt-0 font-mono-data text-mono-data text-on-surface-variant/40">
           <span>V4.0.2</span>
           <span>STATUS: STABLE</span>

@@ -20,7 +20,7 @@ function buildOrganizationName(authUser: User): string {
     (authUser.user_metadata?.full_name as string | undefined)?.trim() ||
     (authUser.user_metadata?.company_name as string | undefined)?.trim() ||
     authUser.email?.split("@")[0] ||
-    "EyeX Organization"
+    "πX Organization"
   );
 }
 
@@ -30,7 +30,7 @@ function buildOrganizationSlug(name: string): string {
       .toLowerCase()
       .replace(/[^a-z0-9]+/g, "-")
       .replace(/^-+|-+$/g, "")
-      .slice(0, 48) || "eyex-org"
+      .slice(0, 48) || "pix-org"
   );
 }
 
