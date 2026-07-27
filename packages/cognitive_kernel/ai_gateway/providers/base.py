@@ -64,6 +64,21 @@ class StreamChunk:
     metadata: dict = field(default_factory=dict)
 
 
+@dataclass
+class EmbedRequest:
+    texts: list[str]
+    model: str = "text-embedding-3-small"
+    metadata: dict[str, Any] = field(default_factory=dict)
+
+
+@dataclass
+class EmbedResponse:
+    embeddings: list[list[float]]
+    model: str
+    token_count: int = 0
+    cached: bool = False
+
+
 class AIProvider(ABC):
     """Abstract base class for all AI providers."""
 

@@ -1,3 +1,4 @@
-from .control_plane import PX_AI
-
-__all__ = ["PX_AI"]
+"""πX Cognitive Kernel — core intelligence packages."""
+# Individual sub-packages are imported directly to avoid circular dependencies.
+# from packages.cognitive_kernel.dashboard_engine import ...
+# from packages.cognitive_kernel.intelligence_profile import ...
