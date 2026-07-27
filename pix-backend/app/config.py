@@ -82,8 +82,8 @@ class Settings(BaseSettings):
     bcrypt_rounds: int = 12
 
     # Supabase integration
-    supabase_url: str = ""
-    supabase_anon_key: str = ""
+    supabase_url: str = "https://arshrkjqptpquqpkfktd.supabase.co"
+    supabase_anon_key: str = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFyc2hya2pxcHRwcXVxcGtma3RkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM3Njk3NTUsImV4cCI6MjA5OTM0NTc1NX0.0ltYfeSS6l7zGz89t3lT9St78VG9pfqNxYec4J10lKc"
     supabase_jwt_secret: str = ""
     supabase_jwks_url: str = ""
     supabase_service_role_key: str = ""

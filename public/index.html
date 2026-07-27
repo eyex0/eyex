@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>πX — Enterprise Intelligence Operating System</title>
 <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600&family=Inter:wght@300;400;500;600;700;800&display=swap');
 :root{--void:#050816;--abyss:#030509;--panel:#0A0F1E;--panel2:#0D1322;--panel3:#111828;--border:#1C2538;--border2:#232D44;--ti:#C0C8D0;--ti-dim:#6B7280;--ti-faint:#3A4258;--white:#FFF;--active:#00E5A8;--warn:#FFB020;--danger:#FF4560;--info:#60A5FA;--sig:#A78BFA;--td:#8892A6;--tf:#4A5268;--mono:'JetBrains Mono',monospace;--sans:'Inter',sans-serif}
@@ -233,7 +234,7 @@ input,textarea{user-select:text}
 <div class="af" id="role-field" style="display:none"><label>Role</label><select id="arole"><option value="analyst">Analyst</option><option value="manager">Manager</option><option value="cto">CTO</option><option value="cfo">CFO</option><option value="ceo">CEO</option></select></div>
 <button class="abtn" id="abtn" onclick="handleAuth()">Sign In</button>
 <div class="adiv">or</div>
-<button class="aoauth" onclick="alert('Google OAuth — coming soon')">Continue with Google</button>
+<button class="aoauth" id="google-btn" onclick="googleOAuth()">Continue with Google</button>
 <div class="asw" id="asw">Don't have an account? <a onclick="showAuth('register')">Create one</a></div>
 </div>
 </div>
@@ -295,6 +296,14 @@ input,textarea{user-select:text}
 
 const PixConfig = {
   apiBase: null, accessToken: null, refreshToken: null, user: null, orgId: null, initialized: false,
+  supabaseUrl: 'https://arshrkjqptpquqpkfktd.supabase.co',
+  supabaseAnonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFyc2hya2pxcHRwcXVxcGtma3RkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM3Njk3NTUsImV4cCI6MjA5OTM0NTc1NX0.0ltYfeSS6l7zGz89t3lT9St78VG9pfqNxYec4J10lKc',
+  supabase: null,
+  initSupabase() {
+    if (window.supabase && !this.supabase) {
+      this.supabase = window.supabase.createClient(this.supabaseUrl, this.supabaseAnonKey);
+    }
+  },
   init() {
     let base = localStorage.getItem('pix_api_url');
     if (!base) base = window.location.origin + '/api/v1';
@@ -352,8 +361,136 @@ const PixAPI = {
   logout() { PixConfig.clear(); }
 };
 
+
+// Decode JWT payload (base64)
+function decodeJWT(token) {
+  const parts = token.split('.');
+  if (parts.length !== 3) return null;
+  try { return JSON.parse(atob(parts[1])); } catch { return null; }
+}
+
+// Google OAuth via Supabase
+async function googleOAuth() {
+  const btn = document.querySelector('.aoauth');
+  if (!btn) return;
+  btn.disabled = true;
+  btn.textContent = 'Redirecting to Google…';
+  document.getElementById('aerr').classList.remove('show');
+  
+  if (!PixConfig.supabase) {
+    showAErr('Supabase client failed to load. Check your connection and retry.');
+    btn.disabled = false;
+    btn.textContent = 'Continue with Google';
+    return;
+  }
+  
+  const { error } = await PixConfig.supabase.auth.signInWithOAuth({
+    provider: 'google',
+    options: { redirectTo: window.location.origin }
+  });
+  
+  if (error) {
+    const msg = error.message || 'OAuth failed';
+    if (msg.includes('cancelled') || msg.includes('popup')) {
+      showAErr('Google sign-in was cancelled.');
+    } else if (msg.includes('expired')) {
+      showAErr('Google session expired. Please try again.');
+    } else {
+      showAErr('Google OAuth error: ' + msg);
+    }
+    btn.disabled = false;
+    btn.textContent = 'Continue with Google';
+  }
+}
+
+// Handle OAuth callback — runs on page load when returning from Google
+async function handleOAuthCallback() {
+  if (!PixConfig.supabase) { PixConfig.initSupabase(); }
+  if (!PixConfig.supabase) return false;
+  
+  // Check URL for error params (OAuth error redirect)
+  const urlParams = new URLSearchParams(window.location.search);
+  const errParam = urlParams.get('error') || urlParams.get('error_description');
+  if (errParam) {
+    const errDesc = urlParams.get('error_description') || urlParams.get('error');
+    if (errDesc.includes('cancelled')) {
+      showAErr('Google sign-in was cancelled.');
+    } else {
+      showAErr('Google OAuth error: ' + errDesc);
+    }
+    // Clean URL
+    history.replaceState(null, '', window.location.pathname);
+    return false;
+  }
+  
+  // Check for Supabase session (handles both hash redirect and persisted session)
+  try {
+    const { data: { session }, error } = await PixConfig.supabase.auth.getSession();
+    
+    if (error) {
+      if (error.message.includes('expired')) {
+        showAErr('Your Google session expired. Please sign in again.');
+      } else if (error.message.includes('session_not_found') || error.message.includes('invalid')) {
+        // No session — normal, user hasn't logged in yet
+        return false;
+      } else {
+        showAErr('Session error: ' + error.message);
+      }
+      // Clean URL hash if present
+      if (window.location.hash) history.replaceState(null, '', window.location.pathname);
+      return false;
+    }
+    
+    if (!session) {
+      // No session — check if we already have a πX token from email login
+      return false;
+    }
+    
+    // We have a Supabase session — exchange for πX JWT
+    const r = await fetch(PixConfig.apiBase + '/auth/google', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ supabase_access_token: session.access_token })
+    });
+    
+    if (!r.ok) {
+      const d = await r.json().catch(() => ({}));
+      throw new Error(d.error || d.detail || 'Token exchange failed');
+    }
+    
+    const tokens = await r.json();
+    PixConfig.setTokens(tokens.access_token, tokens.refresh_token);
+    
+    // Get user info from Supabase
+    const { data: { user }, error: userErr } = await PixConfig.supabase.auth.getUser();
+    if (userErr || !user) throw new Error('Failed to get user info from Supabase');
+    
+    // Decode JWT to get user ID
+    const payload = decodeJWT(tokens.access_token);
+    const userId = payload?.sub || user.email;
+    
+    PixConfig.setUser({
+      email: user.email,
+      full_name: user.user_metadata?.full_name || user.user_metadata?.name || user.email.split('@')[0],
+      id: userId,
+      provider: 'google'
+    });
+    
+    // Clean URL hash if present (remove OAuth tokens from address bar)
+    if (window.location.hash) history.replaceState(null, '', window.location.pathname);
+    
+    return true; // OAuth success — enter app
+  } catch (e) {
+    showAErr(e.message);
+    // Clean URL
+    if (window.location.hash) history.replaceState(null, '', window.location.pathname);
+    return false;
+  }
+}
+
 // Initialize BEFORE any other code runs
 PixConfig.init();
+PixConfig.initSupabase();
 
 /* ═══ STATE ═══ */
 let currentModule = 'upload', lastAnalysis = null, currentRole = 'executive', currentObs = 'ceo';
@@ -638,7 +775,37 @@ document.getElementById('apass')?.addEventListener('keydown', e => { if (e.key =
 
 /* ═══ INIT — PixConfig already initialized above ═══ */
 initLandingCanvas(); initDataFlow();
-if (PixConfig.isAuth()) enterApp();
+// Check for OAuth callback first, then fall back to stored auth
+  (async () => {
+    const oauthOk = await handleOAuthCallback();
+    if (oauthOk) {
+      enterApp();
+    } else if (PixConfig.isAuth()) {
+      enterApp();
+    }
+  })();
+  // Listen for Supabase auth state changes (handles token refresh)
+  if (PixConfig.supabase) {
+    PixConfig.supabase.auth.onAuthStateChange(async (event, session) => {
+      if (event === 'SIGNED_OUT') {
+        PixAPI.logout();
+        showLanding();
+      } else if (event === 'TOKEN_REFRESHED' && session) {
+        // Re-exchange refreshed Supabase token for πX JWT
+        try {
+          const r = await fetch(PixConfig.apiBase + '/auth/google', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ supabase_access_token: session.access_token })
+          });
+          if (r.ok) {
+            const tokens = await r.json();
+            PixConfig.setTokens(tokens.access_token, tokens.refresh_token);
+          }
+        } catch {}
+      }
+    });
+  }
 </script>
 </body>
 </html>
