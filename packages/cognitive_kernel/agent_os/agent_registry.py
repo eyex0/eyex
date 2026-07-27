@@ -104,7 +104,7 @@ class AgentRegistry:
             purpose="Stock analysis, demand prediction, replenishment recommendations",
             industry="retail",
             role="coo",
-            tools=["query_database", "search_memory", "forecast_tool", "generate_report", "create_decision"],
+            tools=["query_database", "search_memory", "forecast_tool", "generate_report"],
             knowledge_access=["product", "store", "supplier"],
             data_access=["inventory", "stock_levels", "demand"],
             kpis_monitored=["inventory_turnover", "stockout_rate"],
