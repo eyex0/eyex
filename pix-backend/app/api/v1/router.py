@@ -17,6 +17,8 @@ from app.api.v1.status import status_router
 from app.api.v1.trust import trust_router
 from app.api.v1.workspaces import workspaces_router
 from app.api.v1.ingestion import ingestion_router
+from app.api.v1.knowledge_graph import knowledge_router
+from app.api.v1.decisions import decisions_router
 
 api_v1_router = APIRouter(prefix="/api/v1")
 api_v1_router.include_router(health_router)
@@ -37,3 +39,5 @@ api_v1_router.include_router(gtm_router)
 api_v1_router.include_router(trust_router)
 api_v1_router.include_router(cognitive_data_router)
 api_v1_router.include_router(ingestion_router)
+api_v1_router.include_router(knowledge_router)
+api_v1_router.include_router(decisions_router)
