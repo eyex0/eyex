@@ -6,9 +6,10 @@
 <title>πX — Enterprise Intelligence Operating System</title>
 <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600&family=Inter:wght@300;400;500;600;700;800&display=swap');
-:root{--void:#050816;--abyss:#030509;--panel:#0A0F1E;--panel2:#0D1322;--panel3:#111828;--border:#1C2538;--border2:#232D44;--ti:#C0C8D0;--ti-dim:#6B7280;--ti-faint:#3A4258;--white:#FFF;--active:#00E5A8;--warn:#FFB020;--danger:#FF4560;--info:#60A5FA;--sig:#A78BFA;--td:#8892A6;--tf:#4A5268;--mono:'JetBrains Mono',monospace;--sans:'Inter',sans-serif}
+:root{--void:#050505;--abyss:#020202;--panel:#0B0F14;--panel2:#0E1318;--panel3:#121820;--border:#1A2028;--border2:#252D38;--ti:#C8D0D8;--ti-dim:#6B7280;--ti-faint:#3A4258;--white:#FFF;--active:#00E5A0;--warn:#FFB020;--danger:#FF4560;--info:#60A5FA;--sig:#A78BFA;--td:#8892A6;--tf:#4A5268;--mono:'JetBrains Mono',monospace;--sans:'Inter',sans-serif}
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{height:100vh;overflow:hidden;background:var(--void);color:var(--ti);font-family:var(--sans);font-size:13px;-webkit-font-smoothing:antialiased}
 ::-webkit-scrollbar{width:4px;height:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--border2)}::-webkit-scrollbar-thumb:hover{background:var(--ti-faint)}
@@ -16,163 +17,80 @@ input,textarea{user-select:text}
 .view{display:none;height:100vh;width:100vw}.view.active{display:flex;flex-direction:column}
 /* LANDING */
 #landing{position:relative;overflow-y:auto;overflow-x:hidden;background:var(--void);scroll-behavior:smooth}
-#landing-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;opacity:.4}
+#landing-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;opacity:.3}
 .lc{position:relative;z-index:1}
-.lnav{display:flex;align-items:center;justify-content:space-between;padding:18px 48px;position:sticky;top:0;background:rgba(5,8,22,.85);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);z-index:10}
+.lnav{display:flex;align-items:center;justify-content:space-between;padding:16px 48px;position:sticky;top:0;background:rgba(5,5,5,.9);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);z-index:10}
 .llogo{display:flex;align-items:center;gap:10px;cursor:pointer}
-.llogo .mk{font-family:var(--mono);font-weight:700;font-size:24px;color:var(--white);letter-spacing:-1.5px}
-.llogo .tg{font-family:var(--mono);font-size:8px;color:var(--ti-dim);text-transform:uppercase;letter-spacing:3px;line-height:1.3}
-.lnav-l{display:flex;gap:32px;align-items:center}
-.lnav-l a{font-family:var(--mono);font-size:10px;color:var(--td);text-decoration:none;text-transform:uppercase;letter-spacing:1.5px;transition:color .2s;cursor:pointer}.lnav-l a:hover{color:var(--ti)}
+.llogo .mk{font-family:var(--mono);font-weight:700;font-size:22px;color:var(--white);letter-spacing:-1px}
+.llogo .tg{font-family:var(--mono);font-size:7px;color:var(--ti-dim);text-transform:uppercase;letter-spacing:2.5px;line-height:1.3}
+.lnav-l{display:flex;gap:28px;align-items:center}
+.lnav-l a{font-family:var(--mono);font-size:9px;color:var(--td);text-decoration:none;text-transform:uppercase;letter-spacing:1.5px;transition:color .2s;cursor:pointer}.lnav-l a:hover{color:var(--ti)}
 .lnav-a{display:flex;gap:10px;align-items:center}
 .lbtn{font-family:var(--mono);font-size:10px;padding:8px 20px;border:none;cursor:pointer;border-radius:2px;text-transform:uppercase;letter-spacing:1.5px;transition:all .2s;font-weight:500}
 .lbtn.ghost{background:none;color:var(--ti);border:1px solid var(--border2)}.lbtn.ghost:hover{border-color:var(--ti);color:var(--white)}
-.lbtn.solid{background:var(--ti);color:var(--void)}.lbtn.solid:hover{background:#D0D8E0}
 .lbtn.accent{background:var(--active);color:var(--void)}.lbtn.accent:hover{background:#33EDBB}
-.lhero{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:82vh;padding:0 48px;text-align:center;position:relative}
-.lhero h1{font-family:var(--sans);font-size:68px;font-weight:800;color:var(--white);letter-spacing:-3px;line-height:1;max-width:900px}
-.lhero h1 .ac{color:var(--ti);font-weight:300}
-.lhero .sub{font-family:var(--sans);font-size:18px;color:var(--td);max-width:620px;margin:24px 0 40px;line-height:1.5;font-weight:300}
+.lhero{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:85vh;padding:0 48px;text-align:center;position:relative}
+.lhero h1{font-family:var(--sans);font-size:64px;font-weight:800;color:var(--white);letter-spacing:-2.5px;line-height:1.05;max-width:880px}
+.lhero h1 .ac{color:var(--active);font-weight:300}
+.lhero .sub{font-family:var(--sans);font-size:17px;color:var(--td);max-width:600px;margin:20px 0 36px;line-height:1.5;font-weight:300}
 .lhero .cta{display:flex;gap:12px}
 /* INTELLIGENCE CORE */
-.core-wrap{display:flex;justify-content:center;margin-top:48px}
-.core{position:relative;width:280px;height:280px}
-.core-ring{position:absolute;border:1px solid var(--border2);border-radius:50%;top:50%;left:50%;transform:translate(-50%,-50%)}
-.core-ring.r1{width:280px;height:280px;animation:spin 20s linear infinite}
-.core-ring.r2{width:200px;height:200px;animation:spin 14s linear infinite reverse}
-.core-ring.r3{width:120px;height:120px;animation:spin 8s linear infinite}
-.core-ring .dot{position:absolute;width:6px;height:6px;border-radius:50%;background:var(--active);box-shadow:0 0 8px var(--active)}
-.core-ring.r1 .dot{top:-3px;left:50%;margin-left:-3px}.core-ring.r2 .dot{top:-3px;left:50%;margin-left:-3px}.core-ring.r3 .dot{top:-3px;left:50%;margin-left:-3px}
-.core-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:var(--mono);font-size:36px;font-weight:600;color:var(--white);text-shadow:0 0 20px rgba(0,229,168,.3)}
+.core-wrap{display:flex;justify-content:center;margin-top:56px}
+.core{position:relative;width:320px;height:320px}
+.core-ring{position:absolute;border:1px solid var(--border2);border-radius:50%;top:50%;left:50%}
+.core-ring.r1{width:320px;height:320px;animation:spin 25s linear infinite;border-color:rgba(200,208,216,.1)}
+.core-ring.r2{width:220px;height:220px;animation:spin 16s linear infinite reverse;border-color:rgba(200,208,216,.15)}
+.core-ring.r3{width:130px;height:130px;animation:spin 9s linear infinite;border-color:rgba(0,229,160,.2)}
+.core-ring .dot{position:absolute;width:6px;height:6px;border-radius:50%;background:var(--active);box-shadow:0 0 12px var(--active)}
+.core-ring.r1 .dot{top:-3px;left:50%;margin-left:-3px}
+.core-ring.r2 .dot{top:-3px;left:50%;margin-left:-3px;background:var(--ti);box-shadow:0 0 8px var(--ti)}
+.core-ring.r3 .dot{top:-3px;left:50%;margin-left:-3px}
+.core-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:var(--mono);font-size:40px;font-weight:600;color:var(--white);text-shadow:0 0 30px rgba(0,229,160,.2)}
+.core-label{position:absolute;font-family:var(--mono);font-size:8px;color:var(--tf);text-transform:uppercase;letter-spacing:1.5px;white-space:nowrap}
 @keyframes spin{from{transform:translate(-50%,-50%) rotate(0)}to{transform:translate(-50%,-50%) rotate(360deg)}}
 /* DATA FLOW */
-.dflow{display:flex;align-items:center;justify-content:center;gap:0;margin-top:40px;padding:20px 0;flex-wrap:wrap}
-.dflow-s{display:flex;flex-direction:column;align-items:center;gap:8px;min-width:110px}
-.dflow-n{width:48px;height:48px;border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:16px;color:var(--ti);background:var(--panel);transition:all .3s}
-.dflow-n.pls{border-color:var(--active);color:var(--active);box-shadow:0 0 12px rgba(0,229,168,.15)}
-.dflow-l{font-family:var(--mono);font-size:8px;color:var(--tf);text-transform:uppercase;letter-spacing:1px}
-.dflow-a{width:36px;height:1px;background:var(--border2);position:relative}
-.dflow-a .d{position:absolute;width:3px;height:3px;background:var(--active);border-radius:50%;top:-1px;animation:fm 2s linear infinite;box-shadow:0 0 4px var(--active)}
-@keyframes fm{0%{left:0}100%{left:33px}}
-.lsec{padding:80px 48px;max-width:1200px;margin:0 auto}
-.lsec h2{font-family:var(--sans);font-size:38px;font-weight:700;color:var(--white);letter-spacing:-1.5px;margin-bottom:12px}
-.lsec .ss{font-family:var(--sans);font-size:15px;color:var(--td);max-width:600px;margin-bottom:40px;font-weight:300;line-height:1.5}
-.arch-flow{display:flex;flex-direction:column;gap:0}
-.as{display:flex;align-items:center;gap:16px;padding:16px 0;border-bottom:1px solid var(--border)}.as:last-child{border-bottom:none}
-.as .num{font-family:var(--mono);font-size:10px;color:var(--tf);width:24px}
-.as .title{font-family:var(--sans);font-size:16px;font-weight:600;color:var(--white);min-width:200px}
-.as .desc{font-family:var(--sans);font-size:13px;color:var(--td);flex:1;font-weight:300}
-.pc{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);margin-top:24px}
-.pc-col{background:var(--panel);padding:24px}
+.dflow{display:flex;align-items:center;justify-content:center;gap:0;margin-top:48px;padding:20px 0;flex-wrap:wrap}
+.dflow-s{display:flex;flex-direction:column;align-items:center;gap:10px;min-width:130px}
+.dflow-n{width:56px;height:56px;border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:18px;color:var(--ti);background:var(--panel);transition:all .3s}
+.dflow-n.pls{border-color:var(--active);color:var(--active);box-shadow:0 0 16px rgba(0,229,160,.1)}
+.dflow-l{font-family:var(--mono);font-size:8px;color:var(--tf);text-transform:uppercase;letter-spacing:1.5px}
+.dflow-a{width:40px;height:1px;background:var(--border2);position:relative}
+.dflow-a .d{position:absolute;width:4px;height:4px;background:var(--active);border-radius:50%;top:-1.5px;animation:fm 2s linear infinite;box-shadow:0 0 6px var(--active)}
+@keyframes fm{0%{left:0}100%{left:36px}}
+/* SECTIONS */
+.lsec{padding:96px 48px;max-width:1200px;margin:0 auto}
+.sh{margin:0 auto;text-align:center;max-width:720px;margin-bottom:56px}
+.sh .eyebrow{font-family:var(--mono);font-size:9px;color:var(--active);text-transform:uppercase;letter-spacing:2.5px;margin-bottom:14px;display:block}
+.sh h2{font-family:var(--sans);font-size:38px;font-weight:700;color:var(--white);letter-spacing:-1.5px;line-height:1.1;margin-bottom:14px}
+.sh .sub{font-family:var(--sans);font-size:15px;color:var(--td);max-width:560px;margin:0 auto;font-weight:300;line-height:1.5}
+/* USE CASES */
+.uc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);margin-top:40px}
+.uc-c{background:var(--panel);padding:40px 32px;display:flex;flex-direction:column;gap:16px}
+.uc-c .ic{font-family:var(--mono);font-size:24px;color:var(--active)}
+.uc-c h3{font-family:var(--sans);font-size:20px;font-weight:600;color:var(--white)}
+.uc-c p{font-family:var(--sans);font-size:13px;color:var(--td);line-height:1.5;font-weight:300}
+.uc-c .metrics{display:flex;gap:16px;margin-top:8px;padding-top:16px;border-top:1px solid var(--border)}
+.uc-c .metrics .m{display:flex;flex-direction:column;gap:2px}.uc-c .metrics .mv{font-family:var(--mono);font-size:16px;color:var(--white);font-weight:500}.uc-c .metrics .ml{font-family:var(--mono);font-size:8px;color:var(--tf);text-transform:uppercase;letter-spacing:1px}
+/* ARCHITECTURE */
+.af{display:flex;align-items:center;gap:16px;padding:14px 0;border-bottom:1px solid var(--border)}.af:last-child{border-bottom:none}
+.af .num{font-family:var(--mono);font-size:10px;color:var(--tf);width:24px}
+.af .title{font-family:var(--sans);font-size:16px;font-weight:600;color:var(--white);min-width:200px}
+.af .desc{font-family:var(--sans);font-size:13px;color:var(--td);flex:1;font-weight:300}
+/* TRUST */
+.trust{display:flex;justify-content:center;gap:48px;padding:32px 0;flex-wrap:wrap}
+.trust-l{font-family:var(--mono);font-size:14px;color:var(--ti-faint);font-weight:500;letter-spacing:1px;opacity:.6;transition:opacity .2s}.trust-l:hover{opacity:1}
+/* COMPARISON */
+.pc{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);margin-top:32px}
+.pc-col{background:var(--panel);padding:28px}
 .pc-col h3{font-family:var(--mono);font-size:11px;color:var(--active);text-transform:uppercase;letter-spacing:2px;margin-bottom:16px}
 .pc-st{font-family:var(--mono);font-size:9px;color:var(--tf);text-transform:uppercase;letter-spacing:1px;margin:16px 0 8px}
 .pc-it{display:flex;align-items:center;gap:8px;padding:4px 0;font-family:var(--mono);font-size:12px;color:var(--td)}.pc-it .d{width:4px;height:4px;background:var(--ti-faint);border-radius:50%}.pc-it.k .d{background:var(--active)}
-.awf{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);margin-top:24px}
-.awf-t{background:var(--panel);padding:20px;display:flex;flex-direction:column;gap:8px}
+/* AGENT WORKFORCE */
+.awf{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);margin-top:32px}
+.awf-t{background:var(--panel);padding:24px;display:flex;flex-direction:column;gap:8px}
 .awf-t .r{font-family:var(--mono);font-size:11px;color:var(--white);font-weight:500;text-transform:uppercase;letter-spacing:1px}
 .awf-t .rsp{font-family:var(--sans);font-size:11px;color:var(--td);line-height:1.4;font-weight:300}
 .awf-t .st{display:flex;gap:12px;margin-top:4px}.awf-t .st span{font-family:var(--mono);font-size:9px;color:var(--tf)}.awf-t .st .v{color:var(--active);font-weight:500}
-.sr{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);margin-top:24px}
-.sr-c{background:var(--panel);padding:32px;text-align:center}.sr-c .n{font-family:var(--mono);font-size:44px;color:var(--white);font-weight:500;line-height:1}.sr-c .l{font-family:var(--mono);font-size:9px;color:var(--tf);text-transform:uppercase;letter-spacing:1.5px;margin-top:8px}
-.lft{padding:32px 48px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}.lft .c{font-family:var(--mono);font-size:9px;color:var(--tf);text-transform:uppercase;letter-spacing:1px}
-/* AUTH */
-#auth-view{display:none;align-items:center;justify-content:center;height:100vh;position:relative;overflow:hidden}
-#auth-view.active{display:flex}
-#auth-canvas{position:absolute;top:0;left:0;width:100%;height:100%;z-index:0;opacity:.4}
-.acard{position:relative;z-index:1;width:420px;background:var(--panel);border:1px solid var(--border2);padding:36px;display:flex;flex-direction:column;gap:16px}
-.acard .logo{font-family:var(--mono);font-weight:700;font-size:22px;color:var(--white);margin-bottom:4px}
-.acard h2{font-family:var(--sans);font-size:20px;font-weight:600;color:var(--white)}
-.acard .sub{font-family:var(--sans);font-size:12px;color:var(--td)}
-.af{display:flex;flex-direction:column;gap:5px}
-.af label{font-family:var(--mono);font-size:9px;color:var(--tf);text-transform:uppercase;letter-spacing:1px}
-.af input,.af select{background:var(--void);border:1px solid var(--border);border-radius:2px;padding:10px 12px;color:var(--white);font-family:var(--sans);font-size:13px;outline:none;transition:border-color .15s}.af input:focus,.af select:focus{border-color:var(--ti-faint)}.af input::placeholder{color:var(--tf)}
-.aerr{font-family:var(--mono);font-size:11px;color:var(--danger);padding:8px 12px;background:rgba(255,69,96,.06);border:1px solid rgba(255,69,96,.15);border-radius:2px;display:none}.aerr.show{display:block}
-.abtn{font-family:var(--mono);font-size:11px;padding:12px;background:var(--ti);color:var(--void);border:none;border-radius:2px;cursor:pointer;text-transform:uppercase;letter-spacing:1.5px;font-weight:600;transition:background .2s}.abtn:hover{background:#D0D8E0}.abtn:disabled{opacity:.5;cursor:wait}
-.aoauth{font-family:var(--mono);font-size:11px;padding:10px;background:transparent;color:var(--td);border:1px solid var(--border2);border-radius:2px;cursor:pointer;text-transform:uppercase;letter-spacing:1px;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px}.aoauth:hover{color:var(--ti);border-color:var(--ti-faint)}
-.adiv{display:flex;align-items:center;gap:12px;font-family:var(--mono);font-size:9px;color:var(--tf);text-transform:uppercase;letter-spacing:1px}.adiv::before,.adiv::after{content:'';flex:1;height:1px;background:var(--border)}
-.asw{font-family:var(--sans);font-size:12px;color:var(--td);text-align:center}.asw a{color:var(--ti);cursor:pointer}.asw a:hover{color:var(--white)}
-.aback{font-family:var(--mono);font-size:10px;color:var(--tf);text-transform:uppercase;letter-spacing:1px;cursor:pointer;position:absolute;top:24px;left:24px;z-index:2}.aback:hover{color:var(--ti)}
-/* APP */
-#app-view{display:none;height:100vh}
-#app-view.active{display:grid;grid-template-rows:42px 1fr 28px;grid-template-columns:48px 1fr 300px;grid-template-areas:"top top top" "rail main right" "status status status"}
-#topbar{grid-area:top;display:flex;align-items:center;background:var(--abyss);border-bottom:1px solid var(--border);padding:0 12px;gap:12px;z-index:100}
-.logo{display:flex;align-items:center;gap:8px;padding-right:12px;border-right:1px solid var(--border);height:100%;cursor:pointer}
-.logo .mk{font-family:var(--mono);font-weight:600;font-size:16px;color:var(--white);letter-spacing:-1px}
-.logo .tg{font-family:var(--mono);font-size:8px;color:var(--ti-dim);text-transform:uppercase;letter-spacing:2px;line-height:1.2}
-.cmdb{flex:1;display:flex;align-items:center;gap:8px;background:var(--panel);border:1px solid var(--border);height:28px;padding:0 10px;border-radius:2px}.cmdb:focus-within{border-color:var(--ti-faint)}
-.cmdb .px{font-family:var(--mono);font-size:11px;color:var(--tf)}
-.cmdb input{flex:1;background:none;border:none;outline:none;color:var(--ti);font-family:var(--mono);font-size:12px}.cmdb input::placeholder{color:var(--tf)}
-.tbr{display:flex;align-items:center;gap:10px;padding-left:12px;border-left:1px solid var(--border);height:100%}
-.org-b{display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:10px;color:var(--td)}.org-b .d{width:6px;height:6px;border-radius:50%;background:var(--active);box-shadow:0 0 4px var(--active)}
-.uchip{width:26px;height:26px;border-radius:2px;background:var(--panel3);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;color:var(--ti);font-weight:600;cursor:pointer}
-#rail{grid-area:rail;background:var(--abyss);border-right:1px solid var(--border);display:flex;flex-direction:column;align-items:center;padding:8px 0;gap:2px}
-.rb{width:36px;height:36px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;border:none;background:none;color:var(--tf);border-radius:2px;position:relative;transition:all .12s;gap:1px}.rb:hover{color:var(--ti-dim);background:var(--panel)}.rb.active{color:var(--white);background:var(--panel2)}.rb.active::before{content:'';position:absolute;left:-8px;top:4px;bottom:4px;width:2px;background:var(--active)}
-.rb .ic{font-family:var(--mono);font-size:9px;font-weight:600}.rb .lb{font-family:var(--mono);font-size:6px;text-transform:uppercase;letter-spacing:.5px;opacity:.7}
-.rd{width:24px;height:1px;background:var(--border);margin:4px 0}
-#main{grid-area:main;overflow:hidden;position:relative;background:var(--void)}
-.mod{display:none;height:100%;width:100%}.mod.active{display:flex;flex-direction:column}
-.mh{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;border-bottom:1px solid var(--border);background:var(--panel);flex-shrink:0}
-.mh .mt{display:flex;align-items:center;gap:10px}.mh .mt h2{font-family:var(--mono);font-size:12px;font-weight:500;color:var(--white);text-transform:uppercase;letter-spacing:1px}
-.mbg{font-family:var(--mono);font-size:9px;color:var(--tf);padding:2px 8px;border:1px solid var(--border);border-radius:2px;text-transform:uppercase;letter-spacing:1px}
-.ma{display:flex;gap:6px}
-.mb{font-family:var(--mono);font-size:10px;color:var(--td);background:var(--panel2);border:1px solid var(--border);padding:4px 10px;cursor:pointer;border-radius:2px;transition:all .12s;text-transform:uppercase;letter-spacing:.5px}.mb:hover{color:var(--ti);border-color:var(--border2);background:var(--panel3)}.mb.pri{color:var(--void);background:var(--active);border-color:var(--active)}.mb.pri:hover{background:#33EDBB}
-.mb{flex-shrink:0}
-.mbody{flex:1;overflow:auto;padding:0}
-/* SHARED */
-.tag{font-family:var(--mono);font-size:9px;padding:2px 6px;border-radius:1px;text-transform:uppercase;letter-spacing:.5px;display:inline-block}
-.tag.n{background:var(--panel3);color:var(--td);border:1px solid var(--border2)}.tag.a{background:rgba(0,229,168,.08);color:var(--active);border:1px solid rgba(0,229,168,.2)}.tag.i{background:rgba(96,165,250,.08);color:var(--info);border:1px solid rgba(96,165,250,.2)}.tag.s{background:rgba(255,69,96,.08);color:var(--danger);border:1px solid rgba(255,69,96,.2)}.tag.pii{background:rgba(255,176,32,.08);color:var(--warn);border:1px solid rgba(255,176,32,.2)}
-.es{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:8px;color:var(--tf)}.es .m{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:1px}.es .s{font-family:var(--mono);font-size:9px;color:var(--tf)}
-.lb{height:1px;background:var(--border);position:relative;overflow:hidden}.lb::after{content:'';position:absolute;height:100%;width:40%;background:var(--active);animation:slide 1.5s infinite}
-@keyframes slide{0%{left:-40%}100%{left:100%}}
-.dg{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:11px}
-.dg th{text-align:left;padding:6px 12px;color:var(--tf);font-weight:400;text-transform:uppercase;font-size:9px;letter-spacing:1px;border-bottom:1px solid var(--border);background:var(--panel);position:sticky;top:0}
-.dg td{padding:5px 12px;color:var(--td);border-bottom:1px solid var(--border);white-space:nowrap}
-.dg tr:hover td{color:var(--ti);background:var(--panel)}.dg .v{color:var(--white);font-weight:500}
-.srow{display:flex;align-items:center;gap:10px;padding:6px 14px;border-bottom:1px solid var(--border);font-family:var(--mono);font-size:11px}
-.cbar{display:flex;align-items:center;gap:8px;padding:4px 0}.cbar .t{flex:1;height:3px;background:var(--panel3);position:relative;overflow:hidden}.cbar .f{height:100%;background:var(--ti);transition:width .3s}.cbar .l{font-family:var(--mono);font-size:9px;color:var(--tf);text-transform:uppercase;letter-spacing:1px;min-width:100px}.cbar .v{font-family:var(--mono);font-size:11px;color:var(--white);min-width:36px;text-align:right}
-.kr{display:flex;align-items:center;gap:10px;padding:6px 14px;border-bottom:1px solid var(--border);font-family:var(--mono);cursor:pointer}.kr:hover{background:var(--panel)}.kr .kn{font-size:11px;color:var(--ti);flex:1}.kr .kf{font-size:9px;color:var(--tf)}.kr .kv{font-size:13px;color:var(--white);font-weight:500;text-align:right;min-width:80px}
-.wc{background:var(--panel);border:1px solid var(--border);padding:12px;display:flex;flex-direction:column;gap:6px}.wc .wt{font-family:var(--mono);font-size:10px;color:var(--white);text-transform:uppercase;letter-spacing:1px}.wc .wty{font-family:var(--mono);font-size:8px;color:var(--tf);text-transform:uppercase}.wc .wv{font-family:var(--mono);font-size:24px;color:var(--white);font-weight:500}.wc .wcg{font-family:var(--mono);font-size:9px;color:var(--td)}
-.rsel{display:flex;gap:4px;padding:8px 14px;border-bottom:1px solid var(--border);background:var(--panel);flex-wrap:wrap}
-.rsel .rb2{font-family:var(--mono);font-size:9px;color:var(--tf);background:var(--panel2);border:1px solid var(--border);padding:4px 10px;cursor:pointer;border-radius:2px;text-transform:uppercase;letter-spacing:.5px;transition:all .12s}.rsel .rb2:hover{color:var(--ti);border-color:var(--border2)}.rsel .rb2.act{color:var(--void);border-color:var(--active);background:var(--active)}
-.mt2{background:var(--panel);padding:10px 14px;display:flex;flex-direction:column;gap:4px}.mt2 .l{font-family:var(--mono);font-size:9px;color:var(--tf);text-transform:uppercase;letter-spacing:1px}.mt2 .v{font-family:var(--mono);font-size:20px;font-weight:500;color:var(--white);line-height:1}
-.mts{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:1px;background:var(--border);padding:1px}
-.ag{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1px;background:var(--border);padding:1px}
-.ac{background:var(--panel);padding:12px 14px;display:flex;flex-direction:column;gap:6px;cursor:pointer;transition:background .1s}.ac:hover{background:var(--panel2)}.ac .an{font-family:var(--mono);font-size:11px;color:var(--white);font-weight:500}.ac .ad{font-family:var(--sans);font-size:10px;color:var(--td);line-height:1.3}
-.qi{width:100%;background:var(--panel);border:1px solid var(--border);border-radius:2px;color:var(--white);font-family:var(--sans);font-size:14px;padding:12px 16px;outline:none;resize:none;min-height:60px;transition:border-color .15s}.qi:focus{border-color:var(--active)}
-.qc{font-family:var(--mono);font-size:10px;color:var(--td);background:var(--panel2);border:1px solid var(--border);padding:4px 10px;cursor:pointer;border-radius:2px;transition:all .12s}.qc:hover{color:var(--ti);border-color:var(--border2)}
-.qs{background:var(--panel);border:1px solid var(--border);border-radius:2px;padding:12px}.qs h4{font-family:var(--mono);font-size:9px;color:var(--tf);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px}.qs .ct{font-family:var(--sans);font-size:12px;color:var(--td);line-height:1.5}
-.ichain{display:flex;align-items:center;gap:0;padding:10px 16px;border-bottom:1px solid var(--border);flex-wrap:wrap}.is{display:flex;flex-direction:column;align-items:center;gap:4px;min-width:80px}.is .n{width:32px;height:32px;border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:9px;color:var(--ti);background:var(--panel)}.is .n.done{border-color:var(--active);color:var(--active)}.is .l{font-family:var(--mono);font-size:7px;color:var(--tf);text-transform:uppercase;letter-spacing:.5px}.ic{width:20px;height:1px;background:var(--border2)}
-.gl{display:flex;gap:12px;padding:6px 14px;border-bottom:1px solid var(--border);font-family:var(--mono)}.gl .t{font-size:11px;color:var(--ti);min-width:100px}.gl .c{font-size:11px;color:var(--td)}
-.pt{height:4px;background:var(--panel3);position:relative;overflow:hidden;border-radius:1px}.pf{height:100%;background:var(--active);transition:width .3s}
-.tg{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1px;background:var(--border);padding:1px;margin:12px}
-.tc{background:var(--panel);padding:12px 14px;display:flex;flex-direction:column;gap:4px;cursor:pointer;transition:background .1s}.tc:hover{background:var(--panel2)}
-.pf2{display:flex;align-items:center;gap:0;padding:20px 16px;overflow-x:auto}.pf2-s{display:flex;flex-direction:column;align-items:center;gap:6px;min-width:80px}.pf2-n{width:44px;height:44px;border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;color:var(--ti);background:var(--panel)}.pf2-n.done{border-color:var(--active);color:var(--active)}.pf2-n.act{border-color:var(--ti);color:var(--white);background:var(--panel2)}.pf2-n.pend{opacity:.4}.pf2-l{font-family:var(--mono);font-size:7px;color:var(--tf);text-transform:uppercase;letter-spacing:.5px}.pf2-c{width:30px;height:1px;background:var(--border2)}.pf2-c.done{background:var(--active)}
-.cb{font-family:var(--mono);font-size:10px;color:var(--td);background:var(--abyss);padding:10px 14px;line-height:1.5;white-space:pre-wrap;border-left:2px solid var(--border2)}
-.tl{display:flex;gap:12px;padding:6px 16px;border-bottom:1px solid var(--border)}.tl .t{font-family:var(--mono);font-size:10px;color:var(--tf);min-width:60px;text-align:right}.tl .c{flex:1;display:flex;flex-direction:column;gap:2px}.tl .a{font-family:var(--mono);font-size:10px;color:var(--ti)}.tl .ac2{font-family:var(--sans);font-size:11px;color:var(--td)}
-.sr2{padding:10px 14px;border-bottom:1px solid var(--border);cursor:pointer}.sr2:hover{background:var(--panel)}.sr2 .ss2{font-family:var(--mono);font-size:10px;color:var(--ti)}.sr2 .st2{font-family:var(--sans);font-size:11px;color:var(--td);margin-top:4px;line-height:1.4}
-#right-panel{grid-area:right;background:var(--abyss);border-left:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden}
-.rh{padding:10px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}.rh h3{font-family:var(--mono);font-size:10px;font-weight:500;color:var(--ti-dim);text-transform:uppercase;letter-spacing:1.5px}
-.ld{width:6px;height:6px;border-radius:50%;background:var(--active);box-shadow:0 0 4px var(--active);animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
-.el{flex:1;overflow:auto;padding:0}.ei{padding:8px 14px;border-bottom:1px solid var(--border);display:flex;flex-direction:column;gap:3px}.ei .em{display:flex;align-items:center;justify-content:space-between;gap:8px}.et{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:1px;padding:1px 5px;border-radius:1px}.et.kpi{background:rgba(96,165,250,.1);color:var(--info)}.et.agent{background:rgba(167,139,250,.1);color:var(--sig)}.et.decision{background:rgba(255,176,32,.1);color:var(--warn)}.et.alert{background:rgba(255,69,96,.1);color:var(--danger)}.et.data{background:rgba(0,229,168,.1);color:var(--active)}.et.audit{background:rgba(192,200,208,.08);color:var(--ti-dim)}
-.et2{font-family:var(--mono);font-size:9px;color:var(--tf)}.em2{font-family:var(--sans);font-size:11px;color:var(--td);line-height:1.3}
-#status-bar{grid-area:status;background:var(--abyss);border-top:1px solid var(--border);display:flex;align-items:center;padding:0 12px;gap:16px;font-family:var(--mono);font-size:10px;color:var(--tf)}.sb-i{display:flex;align-items:center;gap:5px}.sb-i .d{width:5px;height:5px;border-radius:50%;background:var(--active)}.sb-s{color:var(--border2)}.sb-sp{flex:1}
-.dz{border:2px dashed var(--border2);border-radius:2px;padding:40px;text-align:center;cursor:pointer;transition:all .2s;margin:16px}.dz:hover,.dz.dragover{border-color:var(--active);background:var(--panel)}.dz .ic{font-family:var(--mono);font-size:28px;color:var(--ti-faint)}.dz .tx{font-family:var(--mono);font-size:11px;color:var(--td);text-transform:uppercase;letter-spacing:1px;margin-top:8px}.dz .sb2{font-family:var(--mono);font-size:9px;color:var(--tf);margin-top:4px}
-.apis{position:fixed;bottom:28px;right:12px;z-index:200;display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:9px;color:var(--tf);background:var(--panel);border:1px solid var(--border);padding:4px 10px;border-radius:2px}.apis input{background:var(--void);border:1px solid var(--border);color:var(--ti);font-family:var(--mono);font-size:10px;padding:2px 6px;width:200px;outline:none;border-radius:1px}.apis .d{width:5px;height:5px;border-radius:50%;background:var(--active)}.apis .d.off{background:var(--danger)}
-#graph-canvas{width:100%;height:100%;display:block;cursor:grab}
-.sy{overflow-y:auto;overflow-x:hidden}
-.otabs{display:flex;gap:4px;padding:8px 14px;border-bottom:1px solid var(--border);background:var(--panel)}.otab{font-family:var(--mono);font-size:10px;color:var(--tf);background:var(--panel2);border:1px solid var(--border);padding:4px 12px;cursor:pointer;border-radius:2px;text-transform:uppercase;letter-spacing:.5px;transition:all .12s}.otab:hover{color:var(--ti)}.otab.act{color:var(--void);border-color:var(--active);background:var(--active)}
-
-/* SECTION SYSTEM — Databricks-inspired */
-.sh{margin:0 auto;text-align:center;max-width:720px;margin-bottom:48px}
-.sh .eyebrow{font-family:var(--mono);font-size:9px;color:var(--active);text-transform:uppercase;letter-spacing:2.5px;margin-bottom:12px;display:block}
-.sh h2{font-family:var(--sans);font-size:36px;font-weight:700;color:var(--white);letter-spacing:-1.5px;line-height:1.1;margin-bottom:12px}
-.sh .sub{font-family:var(--sans);font-size:15px;color:var(--td);max-width:560px;margin:0 auto;font-weight:300;line-height:1.5}
-/* INTEGRATIONS GRID */
-.ig{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:1px;background:var(--border);margin-top:32px}
-.ic2{background:var(--panel);padding:24px 16px;display:flex;flex-direction:column;align-items:center;gap:8px;transition:background .2s}.ic2:hover{background:var(--panel2)}
-.ic2 .nm{font-family:var(--mono);font-size:11px;color:var(--ti);font-weight:500}
-.ic2 .st2{font-family:var(--mono);font-size:8px;color:var(--tf);text-transform:uppercase;letter-spacing:1px}
 /* SECURITY */
 .seg{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);margin-top:32px}
 .sec-c{background:var(--panel);padding:32px;display:flex;flex-direction:column;gap:10px}
@@ -192,12 +110,123 @@ input,textarea{user-select:text}
 .faq-q::after{content:'+';font-family:var(--mono);font-size:18px;color:var(--tf)}
 .faq-i.open .faq-q::after{content:'−'}
 .faq-a{font-family:var(--sans);font-size:13px;color:var(--td);line-height:1.6;font-weight:300;max-height:0;overflow:hidden;transition:max-height .3s}.faq-i.open .faq-a{max-height:200px;padding-top:12px}
-/* DEMO CTA */
-.dcta{padding:80px 48px;text-align:center;background:var(--abyss);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
-.dcta h2{font-family:var(--sans);font-size:40px;font-weight:700;color:var(--white);letter-spacing:-2px;margin-bottom:12px}
-.dcta p{font-family:var(--sans);font-size:15px;color:var(--td);max-width:500px;margin:0 auto 32px;font-weight:300;line-height:1.5}
-/* SECTION SPACING */
-.lsec{padding:96px 48px}
+/* DCTA */
+.dcta{padding:96px 48px;text-align:center;background:var(--abyss);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.dcta h2{font-family:var(--sans);font-size:42px;font-weight:700;color:var(--white);letter-spacing:-2px;margin-bottom:14px}
+.dcta p{font-family:var(--sans);font-size:15px;color:var(--td);max-width:500px;margin:0 auto 36px;font-weight:300;line-height:1.5}
+/* STATS */
+.sr{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);margin-top:32px}
+.sr-c{background:var(--panel);padding:40px;text-align:center}.sr-c .n{font-family:var(--mono);font-size:48px;color:var(--white);font-weight:500;line-height:1}.sr-c .l{font-family:var(--mono);font-size:9px;color:var(--tf);text-transform:uppercase;letter-spacing:1.5px;margin-top:8px}
+/* INTEGRATIONS */
+.ig{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:1px;background:var(--border);margin-top:32px}
+.ic2{background:var(--panel);padding:24px 16px;display:flex;flex-direction:column;align-items:center;gap:8px;transition:background .2s}.ic2:hover{background:var(--panel2)}
+.ic2 .nm{font-family:var(--mono);font-size:11px;color:var(--ti);font-weight:500}
+.ic2 .st2{font-family:var(--mono);font-size:8px;color:var(--tf);text-transform:uppercase;letter-spacing:1px}
+/* FOOTER */
+.lft{padding:32px 48px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}.lft .c{font-family:var(--mono);font-size:9px;color:var(--tf);text-transform:uppercase;letter-spacing:1px}
+/* AUTH */
+#auth-view{display:none;align-items:center;justify-content:center;height:100vh;position:relative;overflow:hidden}
+#auth-view.active{display:flex}
+#auth-canvas{position:absolute;top:0;left:0;width:100%;height:100%;z-index:0;opacity:.3}
+.acard{position:relative;z-index:1;width:440px;background:var(--panel);border:1px solid var(--border2);padding:40px;display:flex;flex-direction:column;gap:16px}
+.acard .logo{font-family:var(--mono);font-weight:700;font-size:24px;color:var(--white);margin-bottom:4px}
+.acard h2{font-family:var(--sans);font-size:20px;font-weight:600;color:var(--white)}
+.acard .sub{font-family:var(--sans);font-size:12px;color:var(--td)}
+.af{display:flex;flex-direction:column;gap:5px}
+.af label{font-family:var(--mono);font-size:9px;color:var(--tf);text-transform:uppercase;letter-spacing:1px}
+.af input,.af select{background:var(--void);border:1px solid var(--border);border-radius:2px;padding:10px 12px;color:var(--white);font-family:var(--sans);font-size:13px;outline:none;transition:border-color .15s}.af input:focus,.af select:focus{border-color:var(--ti-faint)}.af input::placeholder{color:var(--tf)}
+.aerr{font-family:var(--mono);font-size:11px;color:var(--danger);padding:8px 12px;background:rgba(255,69,96,.06);border:1px solid rgba(255,69,96,.15);border-radius:2px;display:none}.aerr.show{display:block}
+.abtn{font-family:var(--mono);font-size:11px;padding:12px;background:var(--active);color:var(--void);border:none;border-radius:2px;cursor:pointer;text-transform:uppercase;letter-spacing:1.5px;font-weight:600;transition:all .2s}.abtn:hover{background:#33EDBB}.abtn:disabled{opacity:.5;cursor:wait}
+.aoauth{font-family:var(--mono);font-size:11px;padding:10px;background:transparent;color:var(--td);border:1px solid var(--border2);border-radius:2px;cursor:pointer;text-transform:uppercase;letter-spacing:1px;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px}.aoauth:hover{color:var(--ti);border-color:var(--ti-faint)}
+.adiv{display:flex;align-items:center;gap:12px;font-family:var(--mono);font-size:9px;color:var(--tf);text-transform:uppercase;letter-spacing:1px}.adiv::before,.adiv::after{content:'';flex:1;height:1px;background:var(--border)}
+.asw{font-family:var(--sans);font-size:12px;color:var(--td);text-align:center}.asw a{color:var(--ti);cursor:pointer}.asw a:hover{color:var(--white)}
+.aback{font-family:var(--mono);font-size:10px;color:var(--tf);text-transform:uppercase;letter-spacing:1px;cursor:pointer;position:absolute;top:24px;left:24px;z-index:2}.aback:hover{color:var(--ti)}
+/* APP */
+#app-view{display:none;height:100vh}
+#app-view.active{display:grid;grid-template-rows:44px 1fr 28px;grid-template-columns:52px 1fr 320px;grid-template-areas:"top top top" "rail main right" "status status status"}
+#topbar{grid-area:top;display:flex;align-items:center;background:var(--abyss);border-bottom:1px solid var(--border);padding:0 12px;gap:12px;z-index:100}
+.logo{display:flex;align-items:center;gap:8px;padding-right:12px;border-right:1px solid var(--border);height:100%;cursor:pointer}
+.logo .mk{font-family:var(--mono);font-weight:600;font-size:16px;color:var(--white);letter-spacing:-1px}
+.logo .tg{font-family:var(--mono);font-size:7px;color:var(--ti-dim);text-transform:uppercase;letter-spacing:2px;line-height:1.2}
+.cmdb{flex:1;display:flex;align-items:center;gap:8px;background:var(--panel);border:1px solid var(--border);height:30px;padding:0 10px;border-radius:2px}.cmdb:focus-within{border-color:var(--ti-faint)}
+.cmdb .px{font-family:var(--mono);font-size:11px;color:var(--tf)}
+.cmdb input{flex:1;background:none;border:none;outline:none;color:var(--ti);font-family:var(--mono);font-size:12px}.cmdb input::placeholder{color:var(--tf)}
+.cmdb .kbd{font-family:var(--mono);font-size:9px;color:var(--tf);padding:2px 6px;border:1px solid var(--border2);border-radius:2px}
+.tbr{display:flex;align-items:center;gap:10px;padding-left:12px;border-left:1px solid var(--border);height:100%}
+.org-b{display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:10px;color:var(--td)}.org-b .d{width:6px;height:6px;border-radius:50%;background:var(--active);box-shadow:0 0 6px var(--active)}
+.uchip{width:28px;height:28px;border-radius:2px;background:var(--panel3);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;color:var(--ti);font-weight:600;cursor:pointer}
+#rail{grid-area:rail;background:var(--abyss);border-right:1px solid var(--border);display:flex;flex-direction:column;align-items:center;padding:8px 0;gap:2px}
+.rb{width:40px;height:44px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;border:none;background:none;color:var(--tf);border-radius:2px;position:relative;transition:all .12s;gap:1px}.rb:hover{color:var(--ti-dim);background:var(--panel)}.rb.active{color:var(--white);background:var(--panel2)}.rb.active::before{content:'';position:absolute;left:-8px;top:6px;bottom:6px;width:2px;background:var(--active)}
+.rb .ic{font-family:var(--mono);font-size:9px;font-weight:600}.rb .lb{font-family:var(--mono);font-size:6px;text-transform:uppercase;letter-spacing:.5px;opacity:.7}
+.rd{width:24px;height:1px;background:var(--border);margin:4px 0}
+#main{grid-area:main;overflow:hidden;position:relative;background:var(--void)}
+.mod{display:none;height:100%;width:100%}.mod.active{display:flex;flex-direction:column}
+.mh{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;border-bottom:1px solid var(--border);background:var(--panel);flex-shrink:0}
+.mh .mt{display:flex;align-items:center;gap:10px}.mh .mt h2{font-family:var(--mono);font-size:12px;font-weight:500;color:var(--white);text-transform:uppercase;letter-spacing:1px}
+.mbg{font-family:var(--mono);font-size:9px;color:var(--tf);padding:2px 8px;border:1px solid var(--border);border-radius:2px;text-transform:uppercase;letter-spacing:1px}
+.ma{display:flex;gap:6px}
+.mb{font-family:var(--mono);font-size:10px;color:var(--td);background:var(--panel2);border:1px solid var(--border);padding:4px 10px;cursor:pointer;border-radius:2px;transition:all .12s;text-transform:uppercase;letter-spacing:.5px;flex-shrink:0}.mb:hover{color:var(--ti);border-color:var(--border2);background:var(--panel3)}.mb.pri{color:var(--void);background:var(--active);border-color:var(--active)}.mb.pri:hover{background:#33EDBB}
+.mbody{flex:1;overflow:auto;padding:0}
+/* SHARED */
+.tag{font-family:var(--mono);font-size:9px;padding:2px 6px;border-radius:1px;text-transform:uppercase;letter-spacing:.5px;display:inline-block}
+.tag.n{background:var(--panel3);color:var(--td);border:1px solid var(--border2)}.tag.a{background:rgba(0,229,160,.08);color:var(--active);border:1px solid rgba(0,229,160,.2)}.tag.i{background:rgba(96,165,250,.08);color:var(--info);border:1px solid rgba(96,165,250,.2)}.tag.s{background:rgba(255,69,96,.08);color:var(--danger);border:1px solid rgba(255,69,96,.2)}.tag.w{background:rgba(255,176,32,.08);color:var(--warn);border:1px solid rgba(255,176,32,.2)}
+.es{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:8px;color:var(--tf)}.es .m{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:1px}.es .s{font-family:var(--mono);font-size:9px;color:var(--tf)}
+.lb{height:1px;background:var(--border);position:relative;overflow:hidden}.lb::after{content:'';position:absolute;height:100%;width:40%;background:var(--active);animation:slide 1.5s infinite}
+@keyframes slide{0%{left:-40%}100%{left:100%}}
+.dg{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:11px}
+.dg th{text-align:left;padding:6px 12px;color:var(--tf);font-weight:400;text-transform:uppercase;font-size:9px;letter-spacing:1px;border-bottom:1px solid var(--border);background:var(--panel);position:sticky;top:0}
+.dg td{padding:5px 12px;color:var(--td);border-bottom:1px solid var(--border);white-space:nowrap}
+.dg tr:hover td{color:var(--ti);background:var(--panel)}.dg .v{color:var(--white);font-weight:500}
+.srow{display:flex;align-items:center;gap:10px;padding:6px 14px;border-bottom:1px solid var(--border);font-family:var(--mono);font-size:11px}
+.cbar{display:flex;align-items:center;gap:8px;padding:4px 0}.cbar .t{flex:1;height:3px;background:var(--panel3);position:relative;overflow:hidden}.cbar .f{height:100%;background:var(--ti);transition:width .3s}.cbar .l{font-family:var(--mono);font-size:9px;color:var(--tf);text-transform:uppercase;letter-spacing:1px;min-width:100px}.cbar .v{font-family:var(--mono);font-size:11px;color:var(--white);min-width:36px;text-align:right}
+.kr{display:flex;align-items:center;gap:10px;padding:6px 14px;border-bottom:1px solid var(--border);font-family:var(--mono);cursor:pointer}.kr:hover{background:var(--panel)}.kr .kn{font-size:11px;color:var(--ti);flex:1}.kr .kf{font-size:9px;color:var(--tf)}.kr .kv{font-size:13px;color:var(--white);font-weight:500;text-align:right;min-width:80px}
+.wc{background:var(--panel);border:1px solid var(--border);padding:14px;display:flex;flex-direction:column;gap:6px}.wc .wt{font-family:var(--mono);font-size:10px;color:var(--white);text-transform:uppercase;letter-spacing:1px}.wc .wty{font-family:var(--mono);font-size:8px;color:var(--tf);text-transform:uppercase}.wc .wv{font-family:var(--mono);font-size:28px;color:var(--white);font-weight:500}.wc .wcg{font-family:var(--mono);font-size:9px;color:var(--td)}
+.rsel{display:flex;gap:4px;padding:8px 14px;border-bottom:1px solid var(--border);background:var(--panel);flex-wrap:wrap}
+.rsel .rb2{font-family:var(--mono);font-size:9px;color:var(--tf);background:var(--panel2);border:1px solid var(--border);padding:5px 12px;cursor:pointer;border-radius:2px;text-transform:uppercase;letter-spacing:.5px;transition:all .12s}.rsel .rb2:hover{color:var(--ti);border-color:var(--border2)}.rsel .rb2.act{color:var(--void);border-color:var(--active);background:var(--active)}
+.mts{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:1px;background:var(--border);padding:1px}
+.mt2{background:var(--panel);padding:12px 14px;display:flex;flex-direction:column;gap:4px}.mt2 .l{font-family:var(--mono);font-size:9px;color:var(--tf);text-transform:uppercase;letter-spacing:1px}.mt2 .v{font-family:var(--mono);font-size:22px;font-weight:500;color:var(--white);line-height:1}
+.ag{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1px;background:var(--border);padding:1px}
+.ac{background:var(--panel);padding:14px;display:flex;flex-direction:column;gap:6px;cursor:pointer;transition:background .1s}.ac:hover{background:var(--panel2)}.ac .an{font-family:var(--mono);font-size:11px;color:var(--white);font-weight:500}.ac .ad{font-family:var(--sans);font-size:10px;color:var(--td);line-height:1.3}
+.qi{width:100%;background:var(--panel);border:1px solid var(--border);border-radius:2px;color:var(--white);font-family:var(--sans);font-size:14px;padding:12px 16px;outline:none;resize:none;min-height:60px;transition:border-color .15s}.qi:focus{border-color:var(--active)}
+.qc{font-family:var(--mono);font-size:10px;color:var(--td);background:var(--panel2);border:1px solid var(--border);padding:4px 10px;cursor:pointer;border-radius:2px;transition:all .12s}.qc:hover{color:var(--ti);border-color:var(--border2)}
+.qs{background:var(--panel);border:1px solid var(--border);border-radius:2px;padding:12px}.qs h4{font-family:var(--mono);font-size:9px;color:var(--tf);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px}.qs .ct{font-family:var(--sans);font-size:12px;color:var(--td);line-height:1.5}
+.ichain{display:flex;align-items:center;gap:0;padding:10px 16px;border-bottom:1px solid var(--border);flex-wrap:wrap}.is{display:flex;flex-direction:column;align-items:center;gap:4px;min-width:80px}.is .n{width:32px;height:32px;border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:9px;color:var(--ti);background:var(--panel)}.is .n.done{border-color:var(--active);color:var(--active)}.is .l{font-family:var(--mono);font-size:7px;color:var(--tf);text-transform:uppercase;letter-spacing:.5px}.ic{width:20px;height:1px;background:var(--border2)}
+.gl{display:flex;gap:12px;padding:6px 14px;border-bottom:1px solid var(--border);font-family:var(--mono)}.gl .t{font-size:11px;color:var(--ti);min-width:100px}.gl .c{font-size:11px;color:var(--td)}
+.pt{height:4px;background:var(--panel3);position:relative;overflow:hidden;border-radius:1px}.pf{height:100%;background:var(--active);transition:width .3s}
+.dz{border:2px dashed var(--border2);border-radius:2px;padding:48px;text-align:center;cursor:pointer;transition:all .2s;margin:16px}.dz:hover,.dz.dragover{border-color:var(--active);background:var(--panel)}.dz .ic{font-family:var(--mono);font-size:32px;color:var(--ti-faint)}.dz .tx{font-family:var(--mono);font-size:11px;color:var(--td);text-transform:uppercase;letter-spacing:1px;margin-top:8px}.dz .sb2{font-family:var(--mono);font-size:9px;color:var(--tf);margin-top:4px}
+.apis{position:fixed;bottom:28px;right:12px;z-index:200;display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:9px;color:var(--tf);background:var(--panel);border:1px solid var(--border);padding:4px 10px;border-radius:2px}.apis input{background:var(--void);border:1px solid var(--border);color:var(--ti);font-family:var(--mono);font-size:10px;padding:2px 6px;width:200px;outline:none;border-radius:1px}.apis .d{width:5px;height:5px;border-radius:50%;background:var(--active)}.apis .d.off{background:var(--danger)}
+#graph-canvas{width:100%;height:100%;display:block;cursor:grab}
+.sy{overflow-y:auto;overflow-x:hidden}
+.otabs{display:flex;gap:4px;padding:8px 14px;border-bottom:1px solid var(--border);background:var(--panel)}.otab{font-family:var(--mono);font-size:10px;color:var(--tf);background:var(--panel2);border:1px solid var(--border);padding:4px 12px;cursor:pointer;border-radius:2px;text-transform:uppercase;letter-spacing:.5px;transition:all .12s}.otab:hover{color:var(--ti)}.otab.act{color:var(--void);border-color:var(--active);background:var(--active)}
+.tg{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1px;background:var(--border);padding:1px;margin:12px}
+.tc{background:var(--panel);padding:14px;display:flex;flex-direction:column;gap:4px;cursor:pointer;transition:background .1s}.tc:hover{background:var(--panel2)}
+.sr2{padding:10px 14px;border-bottom:1px solid var(--border);cursor:pointer}.sr2:hover{background:var(--panel)}.sr2 .ss2{font-family:var(--mono);font-size:10px;color:var(--ti)}.sr2 .st2{font-family:var(--sans);font-size:11px;color:var(--td);margin-top:4px;line-height:1.4}
+.tl{display:flex;gap:12px;padding:6px 16px;border-bottom:1px solid var(--border)}.tl .t{font-family:var(--mono);font-size:10px;color:var(--tf);min-width:60px;text-align:right}.tl .c{flex:1;display:flex;flex-direction:column;gap:2px}.tl .a{font-family:var(--mono);font-size:10px;color:var(--ti)}.tl .ac2{font-family:var(--sans);font-size:11px;color:var(--td)}
+/* DECISION CARDS */
+.dc{background:var(--panel);border:1px solid var(--border);padding:16px;display:flex;flex-direction:column;gap:10px;margin:12px 16px}
+.dc .dh{display:flex;justify-content:space-between;align-items:center}
+.dc .dt{font-family:var(--mono);font-size:11px;color:var(--white);font-weight:500}
+.dc .dc-body{font-family:var(--sans);font-size:12px;color:var(--td);line-height:1.5}
+.dc .dc-conf{display:flex;align-items:center;gap:8px}.dc .dc-conf .bar{flex:1;height:3px;background:var(--panel3);border-radius:1px;overflow:hidden}.dc .dc-conf .fill{height:100%;background:var(--active)}.dc .dc-conf .v{font-family:var(--mono);font-size:11px;color:var(--active)}
+/* RIGHT PANEL */
+#right-panel{grid-area:right;background:var(--abyss);border-left:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden}
+.rh{padding:10px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}.rh h3{font-family:var(--mono);font-size:10px;font-weight:500;color:var(--ti-dim);text-transform:uppercase;letter-spacing:1.5px}
+.ld{width:6px;height:6px;border-radius:50%;background:var(--active);box-shadow:0 0 6px var(--active);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.el{flex:1;overflow:auto;padding:0}.ei{padding:8px 14px;border-bottom:1px solid var(--border);display:flex;flex-direction:column;gap:3px}.ei .em{display:flex;align-items:center;justify-content:space-between;gap:8px}.et{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:1px;padding:1px 5px;border-radius:1px}.et.kpi{background:rgba(96,165,250,.1);color:var(--info)}.et.agent{background:rgba(167,139,250,.1);color:var(--sig)}.et.decision{background:rgba(255,176,32,.1);color:var(--warn)}.et.alert{background:rgba(255,69,96,.1);color:var(--danger)}.et.data{background:rgba(0,229,160,.1);color:var(--active)}.et.audit{background:rgba(200,208,216,.08);color:var(--ti-dim)}
+.et2{font-family:var(--mono);font-size:9px;color:var(--tf)}.em2{font-family:var(--sans);font-size:11px;color:var(--td);line-height:1.3}
+#status-bar{grid-area:status;background:var(--abyss);border-top:1px solid var(--border);display:flex;align-items:center;padding:0 12px;gap:16px;font-family:var(--mono);font-size:10px;color:var(--tf)}.sb-i{display:flex;align-items:center;gap:5px}.sb-i .d{width:5px;height:5px;border-radius:50%;background:var(--active)}.sb-s{color:var(--border2)}.sb-sp{flex:1}
+/* COMMAND PALETTE */
+#cmd-palette{display:none;position:fixed;top:80px;left:50%;transform:translateX(-50%);width:500px;background:var(--panel);border:1px solid var(--border2);border-radius:4px;z-index:1000;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+#cmd-palette.show{display:block}
+.cp-search{padding:12px 16px;border-bottom:1px solid var(--border)}.cp-search input{width:100%;background:none;border:none;outline:none;color:var(--white);font-family:var(--mono);font-size:14px}.cp-search input::placeholder{color:var(--tf)}
+.cp-list{max-height:320px;overflow:auto}
+.cp-i{padding:10px 16px;display:flex;align-items:center;gap:10px;cursor:pointer;border-bottom:1px solid var(--border)}.cp-i:hover,.cp-i.sel{background:var(--panel2)}.cp-i .cp-ic{font-family:var(--mono);font-size:10px;color:var(--active);width:24px}.cp-i .cp-l{font-family:var(--sans);font-size:13px;color:var(--ti)}.cp-i .cp-d{font-family:var(--mono);font-size:10px;color:var(--tf);margin-left:auto}
+/* CHART CONTAINERS */
+.chart-box{background:var(--panel);border:1px solid var(--border);padding:14px;display:flex;flex-direction:column;gap:8px}
+.chart-box .ct{font-family:var(--mono);font-size:10px;color:var(--white);text-transform:uppercase;letter-spacing:1px}
+.chart-box .cd{font-family:var(--mono);font-size:9px;color:var(--tf)}
+.chart-c{width:100%;height:200px}
 </style>
 </head>
 <body>
@@ -208,91 +237,49 @@ input,textarea{user-select:text}
 <div class="lc">
 <nav class="lnav">
 <div class="llogo" onclick="showLanding()"><span class="mk">πX</span><span class="tg">ENTERPRISE<br>INTELLIGENCE OS</span></div>
-<div class="lnav-l"><a onclick="document.getElementById('sec-p').scrollIntoView({behavior:'smooth'})">Platform</a><a onclick="document.getElementById('sec-d').scrollIntoView({behavior:'smooth'})">Products</a><a onclick="document.getElementById('sec-a').scrollIntoView({behavior:'smooth'})">Architecture</a><a onclick="document.getElementById('sec-s').scrollIntoView({behavior:'smooth'})">Scale</a></div>
+<div class="lnav-l"><a onclick="document.getElementById('sec-p').scrollIntoView({behavior:'smooth'})">Platform</a><a onclick="document.getElementById('sec-uc').scrollIntoView({behavior:'smooth'})">Use Cases</a><a onclick="document.getElementById('sec-a').scrollIntoView({behavior:'smooth'})">Architecture</a><a onclick="document.getElementById('sec-sec').scrollIntoView({behavior:'smooth'})">Security</a><a onclick="document.getElementById('sec-faq').scrollIntoView({behavior:'smooth'})">FAQ</a></div>
 <div class="lnav-a"><button class="lbtn ghost" onclick="showAuth('login')">Sign In</button><button class="lbtn accent" onclick="showAuth('register')">Start Intelligence Engine</button></div>
 </nav>
 <section class="lhero">
-<h1>Your Enterprise. <span class="ac">Understood by AI.</span></h1>
-<p class="sub">πX transforms business data into autonomous intelligence systems — adaptive profiles, AI agents, decision engines, and continuous organizational memory. One platform. Every industry. Zero templates.</p>
-<div class="cta"><button class="lbtn accent" style="padding:14px 32px;font-size:12px" onclick="showAuth('register')">Start Intelligence Engine</button><button class="lbtn ghost" style="padding:14px 32px;font-size:12px" onclick="document.getElementById('sec-p').scrollIntoView({behavior:'smooth'})">Request Enterprise Demo</button></div>
+<h1>Your company becomes an <span class="ac">autonomous intelligence system</span></h1>
+<p class="sub">πX transforms enterprise data into autonomous decisions — intelligence profiles, AI agents, and decision engines that learn your business continuously.</p>
+<div class="cta"><button class="lbtn accent" style="padding:14px 32px;font-size:12px" onclick="showAuth('register')">Deploy Intelligence Engine</button><button class="lbtn ghost" style="padding:14px 32px;font-size:12px" onclick="document.getElementById('sec-p').scrollIntoView({behavior:'smooth'})">See How It Works</button></div>
 <div class="core-wrap"><div class="core"><div class="core-ring r1"><span class="dot"></span></div><div class="core-ring r2"><span class="dot"></span></div><div class="core-ring r3"><span class="dot"></span></div><div class="core-center">πX</div></div></div>
 <div class="dflow" id="dflow"></div>
 </section>
+<div class="trust"><span class="trust-l">RETAIL GROUP</span><span class="trust-l">MANUFACTURING CO</span><span class="trust-l">FINANCE PARTNERS</span><span class="trust-l">LOGISTICS FIRM</span><span class="trust-l">SAAS STARTUP</span><span class="trust-l">HEALTHCARE SYSTEMS</span></div>
 <section class="lsec" id="sec-p">
-<h2>A new category of software</h2>
-<p class="ss">πX is not a dashboard. Not a chatbot. Not analytics software. It's an operating system that learns your enterprise, builds intelligence profiles from your data, and deploys autonomous agents that monitor, analyze, and decide — continuously.</p>
-<div class="arch-flow" id="sec-a">
-<div class="as"><span class="num">01</span><span class="title">Company Data</span><span class="desc">Upload any dataset — Excel, CSV, PDF. πX ingests and profiles every column automatically.</span></div>
-<div class="as"><span class="num">02</span><span class="title">Semantic Understanding</span><span class="desc">6-layer mapping engine resolves your column names to canonical business concepts.</span></div>
-<div class="as"><span class="num">03</span><span class="title">Knowledge Graph</span><span class="desc">Entity extraction, relationship discovery, and graph traversal. 11 entity types with confidence scoring.</span></div>
-<div class="as"><span class="num">04</span><span class="title">AI Workforce</span><span class="desc">10 autonomous agent types — each profile-aware, KPI-driven, and learning from every interaction.</span></div>
-<div class="as"><span class="num">05</span><span class="title">Executive Intelligence</span><span class="desc">Role-specific dashboards, decisions, and recommendations generated from your Intelligence Profile.</span></div>
-</div>
+<div class="sh"><span class="eyebrow">PLATFORM</span><h2>A new category of enterprise software</h2><p class="sub">πX is not a dashboard. Not a chatbot. Not analytics software. It's an operating system that learns your enterprise, builds intelligence profiles from your data, and deploys autonomous agents that monitor, analyze, and decide — continuously.</p></div>
+<div class="af" id="sec-a"><div class="af"><span class="num">01</span><span class="title">Company Data</span><span class="desc">Upload any dataset — Excel, CSV, PDF. πX ingests and profiles every column automatically.</span></div><div class="af"><span class="num">02</span><span class="title">Semantic Understanding</span><span class="desc">6-layer mapping engine resolves your column names to canonical business concepts.</span></div><div class="af"><span class="num">03</span><span class="title">Knowledge Graph</span><span class="desc">Entity extraction, relationship discovery, and graph traversal. 11 entity types with confidence scoring.</span></div><div class="af"><span class="num">04</span><span class="title">AI Workforce</span><span class="desc">10 autonomous agent types — each profile-aware, KPI-driven, and learning from every interaction.</span></div><div class="af"><span class="num">05</span><span class="title">Executive Intelligence</span><span class="desc">Role-specific dashboards, decisions, and recommendations generated from your Intelligence Profile.</span></div></div>
 </section>
-<section class="lsec" id="sec-d">
-<h2>Every company gets its own AI brain</h2>
-<p class="ss">πX creates a unique Intelligence Profile for each organization. Different industries produce different entities, KPIs, agents, and dashboards — from the same codebase.</p>
-<div class="pc">
-<div class="pc-col"><h3>RETAIL COMPANY</h3><div class="pc-st">Entities</div><div class="pc-it"><span class="d"></span>Customer</div><div class="pc-it"><span class="d"></span>Store</div><div class="pc-it"><span class="d"></span>Product</div><div class="pc-it"><span class="d"></span>Region</div><div class="pc-st">KPIs</div><div class="pc-it k"><span class="d"></span>Revenue</div><div class="pc-it k"><span class="d"></span>Sell-out</div><div class="pc-it k"><span class="d"></span>Margin</div></div>
-<div class="pc-col"><h3>MANUFACTURING</h3><div class="pc-st">Entities</div><div class="pc-it"><span class="d"></span>Machine</div><div class="pc-it"><span class="d"></span>Production Line</div><div class="pc-it"><span class="d"></span>Supplier</div><div class="pc-it"><span class="d"></span>Quality Batch</div><div class="pc-st">KPIs</div><div class="pc-it k"><span class="d"></span>OEE</div><div class="pc-it k"><span class="d"></span>Downtime</div><div class="pc-it k"><span class="d"></span>Quality Rate</div></div>
+<section class="lsec" id="sec-uc">
+<div class="sh"><span class="eyebrow">USE CASES</span><h2>Every industry gets its own intelligence</h2><p class="sub">πX creates a unique Intelligence Profile for each organization. Different industries produce different entities, KPIs, agents, and dashboards — from the same codebase.</p></div>
+<div class="uc-grid">
+<div class="uc-c"><span class="ic">◈</span><h3>Retail</h3><p>Customer analysis, inventory optimization, churn detection, revenue monitoring, and sell-out tracking across stores and regions.</p><div class="metrics"><div class="m"><span class="mv">5</span><span class="ml">Entities</span></div><div class="m"><span class="mv">6</span><span class="ml">KPIs</span></div><div class="m"><span class="mv">6</span><span class="ml">Agents</span></div></div></div>
+<div class="uc-c"><span class="ic">⬡</span><h3>Manufacturing</h3><p>Production line monitoring, quality control, supply chain visibility, OEE tracking, and predictive maintenance scheduling.</p><div class="metrics"><div class="m"><span class="mv">5</span><span class="ml">Entities</span></div><div class="m"><span class="mv">6</span><span class="ml">KPIs</span></div><div class="m"><span class="mv">6</span><span class="ml">Agents</span></div></div></div>
+<div class="uc-c"><span class="ic">◆</span><h3>Finance</h3><p>Risk assessment, portfolio analysis, cost optimization, margin tracking, and regulatory compliance monitoring.</p><div class="metrics"><div class="m"><span class="mv">5</span><span class="ml">Entities</span></div><div class="m"><span class="mv">6</span><span class="ml">KPIs</span></div><div class="m"><span class="mv">6</span><span class="ml">Agents</span></div></div></div>
 </div>
 </section>
 <section class="lsec">
-<h2>Autonomous AI Agent Workforce</h2>
-<p class="ss">Each agent is profile-aware, industry-aware, and KPI-driven. They monitor, analyze, and recommend — continuously learning from outcomes.</p>
-<div class="awf">
-<div class="awf-t"><span class="r">CEO Agent</span><span class="rsp">Strategy formulation, business analysis, market positioning</span><div class="st"><span>Status: <span class="v">ACTIVE</span></span><span>Tasks: <span class="v">34</span></span><span>Accuracy: <span class="v">94%</span></span></div></div>
-<div class="awf-t"><span class="r">CFO Agent</span><span class="rsp">Financial intelligence, cost optimization, margin analysis</span><div class="st"><span>Status: <span class="v">ACTIVE</span></span><span>Tasks: <span class="v">28</span></span><span>Accuracy: <span class="v">96%</span></span></div></div>
-<div class="awf-t"><span class="r">Sales Agent</span><span class="rsp">Revenue monitoring, customer analysis, churn detection</span><div class="st"><span>Status: <span class="v">ACTIVE</span></span><span>Tasks: <span class="v">47</span></span><span>Accuracy: <span class="v">91%</span></span></div></div>
-<div class="awf-t"><span class="r">Ops Agent</span><span class="rsp">Process optimization, supply chain, efficiency tracking</span><div class="st"><span>Status: <span class="v">ACTIVE</span></span><span>Tasks: <span class="v">22</span></span><span>Accuracy: <span class="v">93%</span></span></div></div>
-</div>
+<div class="sh"><span class="eyebrow">AI WORKFORCE</span><h2>Autonomous agents that learn your business</h2><p class="sub">Each agent is profile-aware, industry-aware, and KPI-driven. They monitor, analyze, and recommend — continuously learning from outcomes.</p></div>
+<div class="awf"><div class="awf-t"><span class="r">CEO Agent</span><span class="rsp">Strategy formulation, business analysis, market positioning</span><div class="st"><span>Status: <span class="v">ACTIVE</span></span><span>Tasks: <span class="v">34</span></span><span>Accuracy: <span class="v">94%</span></span></div></div><div class="awf-t"><span class="r">CFO Agent</span><span class="rsp">Financial intelligence, cost optimization, margin analysis</span><div class="st"><span>Status: <span class="v">ACTIVE</span></span><span>Tasks: <span class="v">28</span></span><span>Accuracy: <span class="v">96%</span></span></div></div><div class="awf-t"><span class="r">Sales Agent</span><span class="rsp">Revenue monitoring, customer analysis, churn detection</span><div class="st"><span>Status: <span class="v">ACTIVE</span></span><span>Tasks: <span class="v">47</span></span><span>Accuracy: <span class="v">91%</span></span></div></div><div class="awf-t"><span class="r">Ops Agent</span><span class="rsp">Process optimization, supply chain, efficiency tracking</span><div class="st"><span>Status: <span class="v">ACTIVE</span></span><span>Tasks: <span class="v">22</span></span><span>Accuracy: <span class="v">93%</span></span></div></div></div>
 </section>
-<section class="lsec" id="sec-s">
-<h2>Built for scale</h2>
-<div class="sr"><div class="sr-c"><div class="n">168</div><div class="l">API Endpoints</div></div><div class="sr-c"><div class="n">16</div><div class="l">DB Migrations</div></div><div class="sr-c"><div class="n">443</div><div class="l">Test Cases</div></div><div class="sr-c"><div class="n">7</div><div class="l">AI Providers</div></div></div>
-</section>
-
-<section class="lsec" id="sec-i">
-<div class="sh"><span class="eyebrow">INTEGRATIONS</span><h2>Connect every enterprise system</h2><p class="sub">πX ingests intelligence from any source — databases, APIs, cloud platforms, and enterprise tools. Semantic mapping handles every schema automatically.</p></div>
-<div class="ig"><div class="ic2"><span class="nm">PostgreSQL</span><span class="st2">Database</span></div><div class="ic2"><span class="nm">MySQL</span><span class="st2">Database</span></div><div class="ic2"><span class="nm">MongoDB</span><span class="st2">Database</span></div><div class="ic2"><span class="nm">SAP</span><span class="st2">ERP</span></div><div class="ic2"><span class="nm">Salesforce</span><span class="st2">CRM</span></div><div class="ic2"><span class="nm">HubSpot</span><span class="st2">CRM</span></div><div class="ic2"><span class="nm">REST API</span><span class="st2">Custom</span></div><div class="ic2"><span class="nm">GraphQL</span><span class="st2">Custom</span></div><div class="ic2"><span class="nm">Kafka</span><span class="st2">Streaming</span></div><div class="ic2"><span class="nm">Excel/CSV</span><span class="st2">File</span></div><div class="ic2"><span class="nm">Webhook</span><span class="st2">Event</span></div><div class="ic2"><span class="nm">Google Drive</span><span class="st2">Cloud</span></div></div>
-</section>
-
+<section class="lsec"><div class="sr"><div class="sr-c"><div class="n">168</div><div class="l">API Endpoints</div></div><div class="sr-c"><div class="n">16</div><div class="l">DB Migrations</div></div><div class="sr-c"><div class="n">443</div><div class="l">Test Cases</div></div><div class="sr-c"><div class="n">7</div><div class="l">AI Providers</div></div></div></section>
 <section class="lsec" id="sec-sec">
 <div class="sh"><span class="eyebrow">SECURITY</span><h2>Enterprise-grade by design</h2><p class="sub">Row-level security, audit trails, encrypted memory, and role-based access control. Built for regulated industries from day one.</p></div>
-<div class="seg">
-<div class="sec-c"><h4>Access Control</h4><p>Role-based access control with enterprise hierarchy — CEO, CFO, CTO, Manager, Analyst. Agents are read-only by default.</p><div class="feat"><span class="d"></span><span>Per-organization tenant isolation</span></div><div class="feat"><span class="d"></span><span>Field-level encryption for PII</span></div><div class="feat"><span class="d"></span><span>Per-org rate limiting</span></div></div>
-<div class="sec-c"><h4>Audit & Compliance</h4><p>Every AI action is logged with who, when, which data, which model, and why. Immutable chain integrity verification.</p><div class="feat"><span class="d"></span><span>Immutable audit trail</span></div><div class="feat"><span class="d"></span><span>Chain integrity verification</span></div><div class="feat"><span class="d"></span><span>JWT + refresh token security</span></div></div>
-</div>
+<div class="seg"><div class="sec-c"><h4>Access Control</h4><p>Role-based access control with enterprise hierarchy — CEO, CFO, CTO, Manager, Analyst. Agents are read-only by default.</p><div class="feat"><span class="d"></span><span>Per-organization tenant isolation</span></div><div class="feat"><span class="d"></span><span>Field-level encryption for PII</span></div><div class="feat"><span class="d"></span><span>Per-org rate limiting</span></div></div><div class="sec-c"><h4>Audit & Compliance</h4><p>Every AI action is logged with who, when, which data, which model, and why. Immutable chain integrity verification.</p><div class="feat"><span class="d"></span><span>Immutable audit trail</span></div><div class="feat"><span class="d"></span><span>Chain integrity verification</span></div><div class="feat"><span class="d"></span><span>JWT + refresh token security</span></div></div></div>
 </section>
-
-<section class="lsec" id="sec-sp">
-<div class="sh"><span class="eyebrow">CUSTOMERS</span><h2>Trusted by enterprise teams</h2><p class="sub">Organizations across industries use πX to transform raw data into autonomous intelligence.</p></div>
-<div class="sp">
-<div class="sp-c"><div class="qt">"πX created a complete intelligence profile from our retail data in minutes. The agents now monitor KPIs we didn't even know to track."</div><div class="au"><div class="av">DK</div><div><div class="n">Daria Kowalski</div><div class="r">VP Operations, Retail Group</div></div></div></div>
-<div class="sp-c"><div class="qt">"The decision engine gave us root-cause analysis with confidence scores. It's like having a McKinsey team on call 24/7."</div><div class="au"><div class="av">MT</div><div><div class="n">Marcus Tan</div><div class="r">CFO, Manufacturing Co</div></div></div></div>
-<div class="sp-c"><div class="qt">"We uploaded one Excel file and got a role-specific dashboard, 7 AI agents, and a knowledge graph. Zero configuration."</div><div class="au"><div class="av">SR</div><div><div class="n">Sofia Reyes</div><div class="r">CTO, SaaS Startup</div></div></div></div>
-<div class="sp-c"><div class="qt">"The observatory gives me enterprise intelligence in 4 views. I see AI cost, agent performance, and security events in one screen."</div><div class="au"><div class="av">JL</div><div><div class="n">James Liu</div><div class="r">CEO, Logistics Firm</div></div></div></div>
-</div>
-</section>
-
-<section class="dcta" id="sec-demo">
-<h2>Deploy your intelligence engine</h2>
-<p>Upload your data. πX builds the profile, agents, and dashboards. No configuration required.</p>
-<div style="display:flex;gap:12px;justify-content:center"><button class="lbtn accent" style="padding:14px 32px;font-size:12px" onclick="showAuth('register')">Start Free Intelligence Engine</button><button class="lbtn ghost" style="padding:14px 32px;font-size:12px" onclick="showAuth('login')">Sign In</button></div>
-</section>
-
+<section class="dcta" id="sec-demo"><h2>Deploy your intelligence engine</h2><p>Upload your data. πX builds the profile, agents, and dashboards. No configuration required.</p><div style="display:flex;gap:12px;justify-content:center"><button class="lbtn accent" style="padding:14px 32px;font-size:12px" onclick="showAuth('register')">Start Free Intelligence Engine</button><button class="lbtn ghost" style="padding:14px 32px;font-size:12px" onclick="showAuth('login')">Sign In</button></div></section>
 <section class="lsec" id="sec-faq">
 <div class="sh"><span class="eyebrow">FAQ</span><h2>Common questions</h2></div>
 <div class="faq" id="faq-list">
 <div class="faq-i" onclick="this.classList.toggle('open')"><div class="faq-q">How does πX understand my data without configuration?</div><div class="faq-a">The Universal Data Intelligence Engine profiles every column using a 6-layer semantic mapping system. It detects entities, KPIs, relationships, and industry patterns automatically — then generates an Intelligence Profile unique to your organization.</div></div>
 <div class="faq-i" onclick="this.classList.toggle('open')"><div class="faq-q">What data sources does πX support?</div><div class="faq-a">Excel, CSV, PostgreSQL, MySQL, MongoDB, SAP, Salesforce, HubSpot, REST APIs, GraphQL, Kafka streams, and webhooks. The semantic mapping engine handles any schema.</div></div>
-<div class="faq-i" onclick="this.classList.toggle('open')"><div class="faq-q">How are AI agents created?</div><div class="faq-a">Agents are generated from your Intelligence Profile — each gets a role, tools, KPIs to monitor, and company-specific context. 10 agent types are available (Sales, Inventory, Customer, Production, Quality, Maintenance, Finance, Marketing, HR, Strategy).</div></div>
-<div class="faq-i" onclick="this.classList.toggle('open')"><div class="faq-q">Is my data secure?</div><div class="faq-a">Yes. Row-level security provides tenant isolation, PII detection masks sensitive fields before AI processing, and every AI action is logged in an immutable audit trail with chain integrity verification.</div></div>
-<div class="faq-i" onclick="this.classList.toggle('open')"><div class="faq-q">What AI providers are supported?</div><div class="faq-a">OpenAI, Anthropic (Claude), Google Gemini, DeepSeek, Ollama (local), and OpenRouter. The AI Gateway routes requests based on task complexity, cost, and latency — with automatic fallback chains.</div></div>
+<div class="faq-i" onclick="this.classList.toggle('open')"><div class="faq-q">How are AI agents created?</div><div class="faq-a">Agents are generated from your Intelligence Profile — each gets a role, tools, KPIs to monitor, and company-specific context. 10 agent types are available across Sales, Inventory, Customer, Production, Quality, Maintenance, Finance, Marketing, HR, and Strategy.</div></div>
 <div class="faq-i" onclick="this.classList.toggle('open')"><div class="faq-q">Can I use Google OAuth to sign in?</div><div class="faq-a">Yes. πX supports Google OAuth via Supabase Auth, plus email/password authentication with JWT tokens. Both flows create your organization workspace automatically on first login.</div></div>
+<div class="faq-i" onclick="this.classList.toggle('open')"><div class="faq-q">Is my data secure?</div><div class="faq-a">Yes. Row-level security provides tenant isolation, PII detection masks sensitive fields before AI processing, and every AI action is logged in an immutable audit trail with chain integrity verification.</div></div>
 </div>
 </section>
-
 <footer class="lft"><span class="c">πX Technologies — Enterprise Intelligence Operating System</span><span class="c">© 2026 — All Rights Reserved</span></footer>
 </div>
 </div>
@@ -317,17 +304,17 @@ input,textarea{user-select:text}
 </div>
 </div>
 
-<!-- ═══ APP (Command Center) ═══ -->
+<!-- ═══ COMMAND CENTER ═══ -->
 <div class="view" id="app-view">
 <div id="topbar">
 <div class="logo" onclick="showLanding()"><span class="mk">πX</span><span class="tg">Intelligence<br>OS</span></div>
-<div class="cmdb"><span class="px">›</span><input id="cmd" placeholder="Query intelligence, navigate modules…" onkeydown="handleCmd(event)"></div>
+<div class="cmdb"><span class="px">›</span><input id="cmd" placeholder="Query intelligence, navigate modules…" onkeydown="handleCmd(event)" onfocus="openPalette()"><span class="kbd">⌘K</span></div>
 <div class="tbr"><div class="org-b"><span class="d"></span><span id="org-name">—</span></div><div class="uchip" id="uchip" onclick="logout()">AD</div></div>
 </div>
 <div id="rail">
-<div class="rb active" data-m="upload" onclick="switchMod('upload')"><span class="ic">UP</span><span class="lb">Upload</span></div>
+<div class="rb active" data-m="dashboard" onclick="switchMod('dashboard')"><span class="ic">DC</span><span class="lb">Dash</span></div>
+<div class="rb" data-m="upload" onclick="switchMod('upload')"><span class="ic">UP</span><span class="lb">Upload</span></div>
 <div class="rb" data-m="profile" onclick="switchMod('profile')"><span class="ic">IP</span><span class="lb">Profile</span></div>
-<div class="rb" data-m="dashboard" onclick="switchMod('dashboard')"><span class="ic">DB</span><span class="lb">Dash</span></div>
 <div class="rd"></div>
 <div class="rb" data-m="graph" onclick="switchMod('graph')"><span class="ic">KG</span><span class="lb">Graph</span></div>
 <div class="rb" data-m="agents" onclick="switchMod('agents')"><span class="ic">AG</span><span class="lb">Agents</span></div>
@@ -339,12 +326,12 @@ input,textarea{user-select:text}
 <div class="rb" data-m="audit" onclick="switchMod('audit')"><span class="ic">AT</span><span class="lb">Audit</span></div>
 </div>
 <div id="main">
+<!-- DASHBOARD (role-specific) -->
+<div class="mod active" id="mod-dashboard"><div class="mh"><div class="mt"><h2 id="dash-title">Command Center</h2><span class="mbg" id="db-st">—</span></div><div class="ma"><button class="mb" onclick="loadDash()">↻ Regenerate</button></div></div><div class="rsel" id="rsel"></div><div class="mbody" id="db-body"></div></div>
 <!-- UPLOAD -->
-<div class="mod active" id="mod-upload"><div class="mh"><div class="mt"><h2>Data Ingestion</h2><span class="mbg" id="up-st">READY</span></div><div class="ma"><button class="mb" onclick="loadSample()">↻ Sample Data</button></div></div><div class="mbody" id="up-body"><div class="dz" id="dz" onclick="document.getElementById('file-input').click()"><div class="ic">↑</div><div class="tx">Drop Excel / CSV File</div><div class="sb2">SheetJS parses client-side → Intelligence Profile API</div></div><input type="file" id="file-input" style="display:none" accept=".xlsx,.xls,.csv" onchange="handleFile(this.files[0])"><div id="up-results"></div></div></div>
+<div class="mod" id="mod-upload"><div class="mh"><div class="mt"><h2>Data Ingestion</h2><span class="mbg" id="up-st">READY</span></div><div class="ma"><button class="mb" onclick="loadSample()">↻ Sample Data</button></div></div><div class="mbody" id="up-body"><div class="dz" id="dz" onclick="document.getElementById('file-input').click()"><div class="ic">↑</div><div class="tx">Drop Excel / CSV File</div><div class="sb2">SheetJS parses client-side → Intelligence Profile API</div></div><input type="file" id="file-input" style="display:none" accept=".xlsx,.xls,.csv" onchange="handleFile(this.files[0])"><div id="up-results"></div></div></div>
 <!-- PROFILE -->
 <div class="mod" id="mod-profile"><div class="mh"><div class="mt"><h2>Intelligence Profile</h2><span class="mbg" id="pf-st">—</span></div><div class="ma"><button class="mb" onclick="loadProfile()">↻ Refresh</button><button class="mb pri" onclick="createProfile()">+ Create</button></div></div><div class="mbody" id="pf-body"></div></div>
-<!-- DASHBOARD -->
-<div class="mod" id="mod-dashboard"><div class="mh"><div class="mt"><h2>Dynamic Dashboard</h2><span class="mbg" id="db-st">—</span></div><div class="ma"><button class="mb" onclick="loadDash()">↻ Regenerate</button></div></div><div class="rsel" id="rsel"></div><div class="mbody" id="db-body"></div></div>
 <!-- GRAPH -->
 <div class="mod" id="mod-graph"><div class="mh"><div class="mt"><h2>Knowledge Graph</h2><span class="mbg" id="kg-st">—</span></div><div class="ma"><button class="mb" onclick="enrichGraph()">✦ Extract</button></div></div><div class="mbody" style="position:relative"><canvas id="graph-canvas"></canvas></div></div>
 <!-- AGENTS -->
@@ -364,526 +351,135 @@ input,textarea{user-select:text}
 <div id="status-bar"><div class="sb-i"><span class="d"></span><span>BACKEND</span></div><span class="sb-s">│</span><div class="sb-i"><span id="sb-ep">168 endpoints</span></div><span class="sb-s">│</span><div class="sb-i"><span>16 migrations</span></div><div class="sb-sp"></div><div class="sb-i"><span id="sb-time">—</span></div><span class="sb-s">│</span><div class="sb-i"><span>πX v1.0</span></div></div>
 </div>
 <div class="apis" id="apis" style="display:none"><span class="d" id="api-dot"></span><span>API</span><input id="api-url" value="" placeholder="http://127.0.0.1:8014/api/v1" onchange="updateApi(this.value)"></div>
+<div id="cmd-palette" onclick="if(event.target===this)closePalette()"><div class="cp-search"><input id="cp-input" placeholder="Navigate or search…" onkeydown="handlePaletteKey(event)"></div><div class="cp-list" id="cp-list"></div></div>
 
 <script>
-/* ═══════════════════════════════════════════════════
-   πX EIOS — CENTRALIZED API CLIENT
-   Fixes: "Cannot access API_BASE before initialization"
-   All API access goes through PixConfig + PixAPI
-   ═══════════════════════════════════════════════════ */
-
-const PixConfig = {
-  apiBase: null, accessToken: null, refreshToken: null, user: null, orgId: null, initialized: false,
-  supabaseUrl: 'https://arshrkjqptpquqpkfktd.supabase.co',
-  supabaseAnonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFyc2hya2pxcHRwcXVxcGtma3RkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM3Njk3NTUsImV4cCI6MjA5OTM0NTc1NX0.0ltYfeSS6l7zGz89t3lT9St78VG9pfqNxYec4J10lKc',
-  supabase: null,
-  initSupabase() {
-    if (window.supabase && !this.supabase) {
-      this.supabase = window.supabase.createClient(this.supabaseUrl, this.supabaseAnonKey);
-    }
-  },
-  init() {
-    let base = localStorage.getItem('pix_api_url');
-    if (!base) base = window.location.origin + '/api/v1';
-    if (window.location.port === '8014' || window.location.pathname.startsWith('/app/')) base = window.location.origin + '/api/v1';
-    const p = new URLSearchParams(window.location.search);
-    if (p.get('api')) base = p.get('api') + '/api/v1';
-    this.apiBase = base;
-    this.accessToken = localStorage.getItem('pix_access_token');
-    this.refreshToken = localStorage.getItem('pix_refresh_token');
-    const u = localStorage.getItem('pix_user');
-    if (u) { try { this.user = JSON.parse(u); this.orgId = this.user.id || this.user.email; } catch {} }
-    this.initialized = true;
-  },
-  setTokens(a, r) { this.accessToken = a; this.refreshToken = r; localStorage.setItem('pix_access_token', a); localStorage.setItem('pix_refresh_token', r); },
-  setUser(u) { this.user = u; this.orgId = u.id || u.email; localStorage.setItem('pix_user', JSON.stringify(u)); },
-  clear() { this.accessToken = this.refreshToken = this.user = this.orgId = null; localStorage.removeItem('pix_access_token'); localStorage.removeItem('pix_refresh_token'); localStorage.removeItem('pix_user'); },
-  isAuth() { return !!this.accessToken; }
-};
-
-const PixAPI = {
-  async call(path, method = 'GET', body = null, isForm = false) {
-    if (!PixConfig.initialized) throw new Error('PixConfig not initialized');
-    const url = PixConfig.apiBase + path;
-    const opts = { method, headers: {} };
-    if (PixConfig.accessToken) opts.headers['Authorization'] = 'Bearer ' + PixConfig.accessToken;
-    if (!isForm) opts.headers['Content-Type'] = 'application/json';
-    if (body) opts.body = isForm ? body : JSON.stringify(body);
-    let r = await fetch(url, opts);
-    if (r.status === 401 && PixConfig.refreshToken) {
-      const ok = await this.refresh();
-      if (ok) { opts.headers['Authorization'] = 'Bearer ' + PixConfig.accessToken; r = await fetch(url, opts); }
-      else { PixConfig.clear(); showLanding(); throw new Error('Session expired'); }
-    }
-    if (!r.ok) { const t = await r.text(); throw new Error(r.status + ': ' + t.substring(0, 150)); }
-    const ct = r.headers.get('content-type') || '';
-    return ct.includes('json') ? r.json() : r.text();
-  },
-  async login(email, password) {
-    const r = await fetch(PixConfig.apiBase + '/auth/login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, password }) });
-    if (!r.ok) { const d = await r.json().catch(() => ({})); throw new Error(d.error || d.detail || 'Login failed'); }
-    const t = await r.json(); PixConfig.setTokens(t.access_token, t.refresh_token); return t;
-  },
-  async register(data) {
-    const r = await fetch(PixConfig.apiBase + '/auth/register', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
-    if (!r.ok) { const d = await r.json().catch(() => ({})); throw new Error(d.error || d.detail || 'Registration failed'); }
-    return r.json();
-  },
-  async refresh() {
-    try {
-      const r = await fetch(PixConfig.apiBase + '/auth/refresh', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ refresh_token: PixConfig.refreshToken }) });
-      if (!r.ok) return false;
-      const t = await r.json(); PixConfig.setTokens(t.access_token, t.refresh_token); return true;
-    } catch { return false; }
-  },
-  logout() { PixConfig.clear(); }
-};
-
-
-// Decode JWT payload (base64)
-function decodeJWT(token) {
-  const parts = token.split('.');
-  if (parts.length !== 3) return null;
-  try { return JSON.parse(atob(parts[1])); } catch { return null; }
-}
-
-// Google OAuth via Supabase
-async function googleOAuth() {
-  const btn = document.querySelector('.aoauth');
-  if (!btn) return;
-  btn.disabled = true;
-  btn.textContent = 'Redirecting to Google…';
-  document.getElementById('aerr').classList.remove('show');
-  
-  if (!PixConfig.supabase) {
-    showAErr('Supabase client failed to load. Check your connection and retry.');
-    btn.disabled = false;
-    btn.textContent = 'Continue with Google';
-    return;
-  }
-  
-  const { error } = await PixConfig.supabase.auth.signInWithOAuth({
-    provider: 'google',
-    options: { redirectTo: window.location.origin }
-  });
-  
-  if (error) {
-    const msg = error.message || 'OAuth failed';
-    if (msg.includes('cancelled') || msg.includes('popup')) {
-      showAErr('Google sign-in was cancelled.');
-    } else if (msg.includes('expired')) {
-      showAErr('Google session expired. Please try again.');
-    } else {
-      showAErr('Google OAuth error: ' + msg);
-    }
-    btn.disabled = false;
-    btn.textContent = 'Continue with Google';
-  }
-}
-
-// Handle OAuth callback — runs on page load when returning from Google
-async function handleOAuthCallback() {
-  if (!PixConfig.supabase) { PixConfig.initSupabase(); }
-  if (!PixConfig.supabase) return false;
-  
-  // Check URL for error params (OAuth error redirect)
-  const urlParams = new URLSearchParams(window.location.search);
-  const errParam = urlParams.get('error') || urlParams.get('error_description');
-  if (errParam) {
-    const errDesc = urlParams.get('error_description') || urlParams.get('error');
-    if (errDesc.includes('cancelled')) {
-      showAErr('Google sign-in was cancelled.');
-    } else {
-      showAErr('Google OAuth error: ' + errDesc);
-    }
-    // Clean URL
-    history.replaceState(null, '', window.location.pathname);
-    return false;
-  }
-  
-  // Check for Supabase session (handles both hash redirect and persisted session)
-  try {
-    const { data: { session }, error } = await PixConfig.supabase.auth.getSession();
-    
-    if (error) {
-      if (error.message.includes('expired')) {
-        showAErr('Your Google session expired. Please sign in again.');
-      } else if (error.message.includes('session_not_found') || error.message.includes('invalid')) {
-        // No session — normal, user hasn't logged in yet
-        return false;
-      } else {
-        showAErr('Session error: ' + error.message);
-      }
-      // Clean URL hash if present
-      if (window.location.hash) history.replaceState(null, '', window.location.pathname);
-      return false;
-    }
-    
-    if (!session) {
-      // No session — check if we already have a πX token from email login
-      return false;
-    }
-    
-    // We have a Supabase session — exchange for πX JWT
-    const r = await fetch(PixConfig.apiBase + '/auth/google', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ supabase_access_token: session.access_token })
-    });
-    
-    if (!r.ok) {
-      const d = await r.json().catch(() => ({}));
-      throw new Error(d.error || d.detail || 'Token exchange failed');
-    }
-    
-    const tokens = await r.json();
-    PixConfig.setTokens(tokens.access_token, tokens.refresh_token);
-    
-    // Get user info from Supabase
-    const { data: { user }, error: userErr } = await PixConfig.supabase.auth.getUser();
-    if (userErr || !user) throw new Error('Failed to get user info from Supabase');
-    
-    // Decode JWT to get user ID
-    const payload = decodeJWT(tokens.access_token);
-    const userId = payload?.sub || user.email;
-    
-    PixConfig.setUser({
-      email: user.email,
-      full_name: user.user_metadata?.full_name || user.user_metadata?.name || user.email.split('@')[0],
-      id: userId,
-      provider: 'google'
-    });
-    
-    // Clean URL hash if present (remove OAuth tokens from address bar)
-    if (window.location.hash) history.replaceState(null, '', window.location.pathname);
-    
-    return true; // OAuth success — enter app
-  } catch (e) {
-    showAErr(e.message);
-    // Clean URL
-    if (window.location.hash) history.replaceState(null, '', window.location.pathname);
-    return false;
-  }
-}
-
-// Initialize BEFORE any other code runs
-PixConfig.init();
-PixConfig.initSupabase();
+/* ═══ CENTRALIZED API CLIENT ═══ */
+const PixConfig={apiBase:null,accessToken:null,refreshToken:null,user:null,orgId:null,initialized:false,supabaseUrl:'https://arshrkjqptpquqpkfktd.supabase.co',supabaseAnonKey:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFyc2hya2pxcHRwcXVxcGtma3RkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM3Njk3NTUsImV4cCI6MjA5OTM0NTc1NX0.0ltYfeSS6l7zGz89t3lT9St78VG9pfqNxYec4J10lKc',supabase:null,initSupabase(){if(window.supabase&&!this.supabase){this.supabase=window.supabase.createClient(this.supabaseUrl,this.supabaseAnonKey)}},init(){let base=localStorage.getItem('pix_api_url');if(!base)base=window.location.origin+'/api/v1';if(window.location.port==='8014'||window.location.pathname.startsWith('/app/'))base=window.location.origin+'/api/v1';const p=new URLSearchParams(window.location.search);if(p.get('api'))base=p.get('api')+'/api/v1';this.apiBase=base;this.accessToken=localStorage.getItem('pix_access_token');this.refreshToken=localStorage.getItem('pix_refresh_token');const u=localStorage.getItem('pix_user');if(u){try{this.user=JSON.parse(u);this.orgId=this.user.id||this.user.email}catch{}}this.initialized=true},setTokens(a,r){this.accessToken=a;this.refreshToken=r;localStorage.setItem('pix_access_token',a);localStorage.setItem('pix_refresh_token',r)},setUser(u){this.user=u;this.orgId=u.id||u.email;localStorage.setItem('pix_user',JSON.stringify(u))},clear(){this.accessToken=this.refreshToken=this.user=this.orgId=null;localStorage.removeItem('pix_access_token');localStorage.removeItem('pix_refresh_token');localStorage.removeItem('pix_user')},isAuth(){return!!this.accessToken}}
+const PixAPI={async call(path,method='GET',body=null,isForm=false){if(!PixConfig.initialized)throw new Error('PixConfig not initialized');const url=PixConfig.apiBase+path;const opts={method,headers:{}};if(PixConfig.accessToken)opts.headers['Authorization']='Bearer '+PixConfig.accessToken;if(!isForm)opts.headers['Content-Type']='application/json';if(body)opts.body=isForm?body:JSON.stringify(body);let r=await fetch(url,opts);if(r.status===401&&PixConfig.refreshToken){const ok=await this.refresh();if(ok){opts.headers['Authorization']='Bearer '+PixConfig.accessToken;r=await fetch(url,opts)}else{PixConfig.clear();showLanding();throw new Error('Session expired')}}if(!r.ok){const t=await r.text();throw new Error(r.status+': '+t.substring(0,150))}const ct=r.headers.get('content-type')||'';return ct.includes('json')?r.json():r.text()},async login(email,password){const r=await fetch(PixConfig.apiBase+'/auth/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,password})});if(!r.ok){const d=await r.json().catch(()=>({}));throw new Error(d.error||d.detail||'Login failed')}const t=await r.json();PixConfig.setTokens(t.access_token,t.refresh_token);return t},async register(data){const r=await fetch(PixConfig.apiBase+'/auth/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});if(!r.ok){const d=await r.json().catch(()=>({}));throw new Error(d.error||d.detail||'Registration failed')}return r.json()},async refresh(){try{const r=await fetch(PixConfig.apiBase+'/auth/refresh',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({refresh_token:PixConfig.refreshToken})});if(!r.ok)return false;const t=await r.json();PixConfig.setTokens(t.access_token,t.refresh_token);return true}catch{return false}},logout(){PixConfig.clear()}}
+function decodeJWT(token){const parts=token.split('.');if(parts.length!==3)return null;try{return JSON.parse(atob(parts[1]))}catch{return null}}
+async function googleOAuth(){const btn=document.getElementById('google-btn');if(!btn)return;btn.disabled=true;btn.textContent='Redirecting to Google…';document.getElementById('aerr').classList.remove('show');if(!PixConfig.supabase){showAErr('Supabase client failed to load.');btn.disabled=false;btn.textContent='Continue with Google';return}const{error}=await PixConfig.supabase.auth.signInWithOAuth({provider:'google',options:{redirectTo:window.location.origin}});if(error){const msg=error.message||'OAuth failed';if(msg.includes('cancelled')||msg.includes('popup'))showAErr('Google sign-in was cancelled.');else if(msg.includes('expired'))showAErr('Google session expired. Please try again.');else showAErr('Google OAuth error: '+msg);btn.disabled=false;btn.textContent='Continue with Google'}}
+async function handleOAuthCallback(){if(!PixConfig.supabase)PixConfig.initSupabase();if(!PixConfig.supabase)return false;const urlParams=new URLSearchParams(window.location.search);const errParam=urlParams.get('error')||urlParams.get('error_description');if(errParam){const errDesc=urlParams.get('error_description')||urlParams.get('error');if(errDesc.includes('cancelled'))showAErr('Google sign-in was cancelled.');else showAErr('Google OAuth error: '+errDesc);history.replaceState(null,'',window.location.pathname);return false}try{const{data:{session},error}=await PixConfig.supabase.auth.getSession();if(error){if(error.message.includes('expired'))showAErr('Your Google session expired. Please sign in again.');else if(error.message.includes('session_not_found')||error.message.includes('invalid'))return false;else showAErr('Session error: '+error.message);if(window.location.hash)history.replaceState(null,'',window.location.pathname);return false}if(!session)return false;const r=await fetch(PixConfig.apiBase+'/auth/google',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({supabase_access_token:session.access_token})});if(!r.ok){const d=await r.json().catch(()=>({}));throw new Error(d.error||d.detail||'Token exchange failed')}const tokens=await r.json();PixConfig.setTokens(tokens.access_token,tokens.refresh_token);const{data:{user},error:userErr}=await PixConfig.supabase.auth.getUser();if(userErr||!user)throw new Error('Failed to get user info');const payload=decodeJWT(tokens.access_token);PixConfig.setUser({email:user.email,full_name:user.user_metadata?.full_name||user.user_metadata?.name||user.email.split('@')[0],id:payload?.sub||user.email,provider:'google'});if(window.location.hash)history.replaceState(null,'',window.location.pathname);return true}catch(e){showAErr(e.message);if(window.location.hash)history.replaceState(null,'',window.location.pathname);return false}}
+PixConfig.init();PixConfig.initSupabase();
 
 /* ═══ STATE ═══ */
-let currentModule = 'upload', lastAnalysis = null, currentRole = 'executive', currentObs = 'ceo';
+let currentModule='dashboard',currentRole='ceo',currentObs='ceo',lastAnalysis=null,echartInstances=[];
 
 /* ═══ VIEWS ═══ */
-function showView(id) { document.querySelectorAll('.view').forEach(v => v.classList.remove('active')); document.getElementById(id).classList.add('active'); }
-function showLanding() { showView('landing'); initLandingCanvas(); initDataFlow(); }
-function showAuth(mode) {
-  showView('auth-view'); initAuthCanvas();
-  const t = document.getElementById('atitle'), s = document.getElementById('asub'), b = document.getElementById('abtn'), nf = document.getElementById('name-field'), rf = document.getElementById('role-field'), sw = document.getElementById('asw');
-  if (mode === 'register') { t.textContent = 'Create Account'; s.textContent = 'Deploy your intelligence platform'; b.textContent = 'Create Account'; nf.style.display = 'flex'; rf.style.display = 'flex'; sw.innerHTML = 'Already have an account? <a onclick="showAuth(\'login\')">Sign in</a>'; }
-  else { t.textContent = 'Sign In'; s.textContent = 'Access your intelligence platform'; b.textContent = 'Sign In'; nf.style.display = 'none'; rf.style.display = 'none'; sw.innerHTML = 'Don\'t have an account? <a onclick="showAuth(\'register\')">Create one</a>'; }
-  document.getElementById('aerr').classList.remove('show');
-}
+function showView(id){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));document.getElementById(id).classList.add('active')}
+function showLanding(){showView('landing');initLandingCanvas();initDataFlow()}
+function showAuth(mode){showView('auth-view');initAuthCanvas();const t=document.getElementById('atitle'),s=document.getElementById('asub'),b=document.getElementById('abtn'),nf=document.getElementById('name-field'),rf=document.getElementById('role-field'),sw=document.getElementById('asw');if(mode==='register'){t.textContent='Create Account';s.textContent='Deploy your intelligence platform';b.textContent='Create Account';nf.style.display='flex';rf.style.display='flex';sw.innerHTML='Already have an account? <a onclick="showAuth(\'login\')">Sign in</a>'}else{t.textContent='Sign In';s.textContent='Access your intelligence platform';b.textContent='Sign In';nf.style.display='none';rf.style.display='none';sw.innerHTML='Don\'t have an account? <a onclick="showAuth(\'register\')">Create one</a>'}document.getElementById('aerr').classList.remove('show')}
 
 /* ═══ AUTH ═══ */
-async function handleAuth() {
-  const b = document.getElementById('abtn'), e = document.getElementById('aerr'), email = document.getElementById('aemail').value.trim(), pw = document.getElementById('apass').value, name = document.getElementById('aname').value.trim(), role = document.getElementById('arole')?.value || 'analyst', isReg = document.getElementById('atitle').textContent === 'Create Account';
-  if (!email) { showAErr('Email required'); return; }
-  if (!pw) { showAErr('Password required'); return; }
-  if (pw.length < 6) { showAErr('Password must be 6+ characters'); return; }
-  b.disabled = true; b.textContent = 'Connecting…'; e.classList.remove('show');
-  try {
-    if (isReg) {
-      if (!name) { showAErr('Full name required'); b.disabled = false; b.textContent = 'Create Account'; return; }
-      const u = await PixAPI.register({ email, password: pw, full_name: name }); u.role = role; PixConfig.setUser(u);
-    }
-    await PixAPI.login(email, pw);
-    if (!PixConfig.user) PixConfig.setUser({ email, full_name: name || email.split('@')[0], role });
-    enterApp();
-  } catch (err) { showAErr(err.message); b.disabled = false; b.textContent = isReg ? 'Create Account' : 'Sign In'; }
-}
-function showAErr(m) { const e = document.getElementById('aerr'); e.textContent = m; e.classList.add('show'); }
-function logout() { PixAPI.logout(); showLanding(); }
+async function handleAuth(){const b=document.getElementById('abtn'),e=document.getElementById('aerr'),email=document.getElementById('aemail').value.trim(),pw=document.getElementById('apass').value,name=document.getElementById('aname').value.trim(),role=document.getElementById('arole')?.value||'analyst',isReg=document.getElementById('atitle').textContent==='Create Account';if(!email){showAErr('Email required');return}if(!pw||pw.length<6){showAErr('Password must be 6+ characters');return}b.disabled=true;b.textContent='Connecting…';e.classList.remove('show');try{if(isReg){if(!name){showAErr('Full name required');b.disabled=false;b.textContent='Create Account';return}const u=await PixAPI.register({email,password:pw,full_name:name});u.role=role;PixConfig.setUser(u)}await PixAPI.login(email,pw);if(!PixConfig.user)PixConfig.setUser({email,full_name:name||email.split('@')[0],role});enterApp()}catch(err){showAErr(err.message);b.disabled=false;b.textContent=isReg?'Create Account':'Sign In'}}
+function showAErr(m){const e=document.getElementById('aerr');e.textContent=m;e.classList.add('show')}
+function logout(){PixAPI.logout();showLanding()}
 
 /* ═══ ENTER APP ═══ */
-function enterApp() {
-  showView('app-view');
-  const u = PixConfig.user;
-  document.getElementById('org-name').textContent = (u?.full_name || u?.email || 'User').substring(0, 16);
-  document.getElementById('uchip').textContent = (u?.full_name || u?.email || 'U').substring(0, 2).toUpperCase();
-  document.getElementById('apis').style.display = 'flex';
-  document.getElementById('api-url').value = PixConfig.apiBase;
-  checkHealth(); addEvent('data', 'SYSTEM', 'Session established — ' + (u?.email || ''));
-  switchMod('upload'); connectSSE();
-}
-async function checkHealth() {
-  try { const r = await fetch(PixConfig.apiBase.replace('/api/v1', '') + '/health'); if (r.ok) { document.getElementById('api-dot').classList.remove('off'); addEvent('data', 'SYSTEM', 'Backend connected'); } }
-  catch { document.getElementById('api-dot').classList.add('off'); addEvent('alert', 'SYSTEM', 'Backend unreachable'); }
-}
-function updateApi(u) { PixConfig.apiBase = u.endsWith('/api/v1') ? u : u + '/api/v1'; localStorage.setItem('pix_api_url', PixConfig.apiBase); checkHealth(); }
+function enterApp(){showView('app-view');const u=PixConfig.user;document.getElementById('org-name').textContent=(u?.full_name||u?.email||'User').substring(0,16);document.getElementById('uchip').textContent=(u?.full_name||u?.email||'U').substring(0,2).toUpperCase();document.getElementById('apis').style.display='flex';document.getElementById('api-url').value=PixConfig.apiBase;checkHealth();addEvent('data','SYSTEM','Session established — '+(u?.email||''));switchMod('dashboard');connectSSE()}
+async function checkHealth(){try{const r=await fetch(PixConfig.apiBase.replace('/api/v1','')+'/health');if(r.ok){document.getElementById('api-dot').classList.remove('off');addEvent('data','SYSTEM','Backend connected')}}catch{document.getElementById('api-dot').classList.add('off');addEvent('alert','SYSTEM','Backend unreachable')}}
+function updateApi(u){PixConfig.apiBase=u.endsWith('/api/v1')?u:u+'/api/v1';localStorage.setItem('pix_api_url',PixConfig.apiBase);checkHealth()}
 
 /* ═══ EVENTS ═══ */
-const eventQ = [];
-function addEvent(type, source, msg) {
-  const t = new Date().toTimeString().split(' ')[0]; eventQ.unshift({ type, source, msg, t });
-  if (eventQ.length > 50) eventQ.pop();
-  const el = document.getElementById('events');
-  if (el) el.innerHTML = eventQ.map(e => '<div class="ei"><div class="em"><span class="et ' + e.type + '">' + e.source + '</span><span class="et2">' + e.t + '</span></div><div class="em2">' + e.msg + '</div></div>').join('');
-}
-async function connectSSE() {
-  try {
-    const r = await fetch(PixConfig.apiBase + '/dashboard/' + PixConfig.orgId + '/events', { headers: { 'Authorization': 'Bearer ' + PixConfig.accessToken } });
-    if (!r.ok || !r.body) throw new Error();
-    const reader = r.body.getReader(), dec = new TextDecoder(); let buf = '';
-    while (true) { const { done, value } = await reader.read(); if (done) break; buf += dec.decode(value, { stream: true }); const lines = buf.split('\n'); buf = lines.pop(); for (const line of lines) { if (line.startsWith('data:')) { try { const d = JSON.parse(line.slice(5).trim()); addEvent(d.type || 'data', d.source || 'SSE', d.message || ''); } catch {} } } }
-  } catch { addEvent('alert', 'SSE', 'SSE unavailable — polling'); setInterval(async () => { try { const d = await PixAPI.call('/enterprise/audit-log'); if (d.entries?.length > 0) { const l = d.entries[0]; addEvent('audit', 'POLL', l.action + ' — ' + (l.resource_type || '')); } } catch {} }, 5000); }
-}
-setInterval(() => { const el = document.getElementById('sb-time'); if (el) el.textContent = new Date().toTimeString().split(' ')[0] + ' UTC'; }, 1000);
+const eventQ=[];
+function addEvent(type,source,msg){const t=new Date().toTimeString().split(' ')[0];eventQ.unshift({type,source,msg,t});if(eventQ.length>50)eventQ.pop();const el=document.getElementById('events');if(el)el.innerHTML=eventQ.map(e=>'<div class="ei"><div class="em"><span class="et '+e.type+'">'+e.source+'</span><span class="et2">'+e.t+'</span></div><div class="em2">'+e.msg+'</div></div>').join('')}
+async function connectSSE(){try{const r=await fetch(PixConfig.apiBase+'/dashboard/'+PixConfig.orgId+'/events',{headers:{'Authorization':'Bearer '+PixConfig.accessToken}});if(!r.ok||!r.body)throw new Error();const reader=r.body.getReader(),dec=new TextDecoder();let buf='';while(true){const{done,value}=await reader.read();if(done)break;buf+=dec.decode(value,{stream:true});const lines=buf.split('\n');buf=lines.pop();for(const line of lines){if(line.startsWith('data:')){try{const d=JSON.parse(line.slice(5).trim());addEvent(d.type||'data',d.source||'SSE',d.message||'')}catch{}}}}}catch{addEvent('alert','SSE','SSE unavailable — polling');setInterval(async()=>{try{const d=await PixAPI.call('/enterprise/audit-log');if(d.entries?.length>0){const l=d.entries[0];addEvent('audit','POLL',l.action+' — '+(l.resource_type||''))}}catch{}},5000)}}
+setInterval(()=>{const el=document.getElementById('sb-time');if(el)el.textContent=new Date().toTimeString().split(' ')[0]+' UTC'},1000);
+
+/* ═══ COMMAND PALETTE ═══ */
+const cmdItems=[{ic:'DC',l:'Dashboard',d:'Command Center',mod:'dashboard'},{ic:'UP',l:'Upload Data',d:'Ingest Excel/CSV',mod:'upload'},{ic:'IP',l:'Intelligence Profile',d:'View profile',mod:'profile'},{ic:'KG',l:'Knowledge Graph',d:'Entity graph',mod:'graph'},{ic:'AG',l:'AI Agents',d:'Agent workforce',mod:'agents'},{ic:'DC',l:'Decision Engine',d:'Root cause + SWOT',mod:'decisions'},{ic:'MM',l:'Memory System',d:'Semantic search',mod:'memory'},{ic:'NQ',l:'Intelligence Query',d:'Ask a question',mod:'query'},{ic:'OB',l:'Observatory',d:'AI analytics',mod:'observatory'},{ic:'AT',l:'Audit Trail',d:'Action log',mod:'audit'}];
+let cpSel=0,cpFilter='';
+function openPalette(){const p=document.getElementById('cmd-palette');p.classList.add('show');const i=document.getElementById('cp-input');i.value='';cpFilter='';cpSel=0;renderPalette();i.focus()}
+function closePalette(){document.getElementById('cmd-palette').classList.remove('show')}
+function renderPalette(){const items=cmdItems.filter(it=>it.l.toLowerCase().includes(cpFilter.toLowerCase())||it.d.toLowerCase().includes(cpFilter.toLowerCase()));document.getElementById('cp-list').innerHTML=items.map((it,i)=>'<div class="cp-i'+(i===cpSel?' sel':'')+'" onclick="selectPalette('+i+')"><span class="cp-ic">'+it.ic+'</span><span class="cp-l">'+it.l+'</span><span class="cp-d">'+it.d+'</span></div>').join('')}
+function selectPalette(idx){const items=cmdItems.filter(it=>it.l.toLowerCase().includes(cpFilter.toLowerCase())||it.d.toLowerCase().includes(cpFilter.toLowerCase()));if(items[idx]){switchMod(items[idx].mod);closePalette()}}
+function handlePaletteKey(e){const items=cmdItems.filter(it=>it.l.toLowerCase().includes(cpFilter.toLowerCase())||it.d.toLowerCase().includes(cpFilter.toLowerCase()));if(e.key==='ArrowDown'){e.preventDefault();cpSel=Math.min(cpSel+1,items.length-1);renderPalette()}else if(e.key==='ArrowUp'){e.preventDefault();cpSel=Math.max(cpSel-1,0);renderPalette()}else if(e.key==='Enter'){e.preventDefault();selectPalette(cpSel)}else if(e.key==='Escape'){closePalette()}else if(e.key.length===1){cpFilter+=e.key;cpSel=0;renderPalette()}else if(e.key==='Backspace'){cpFilter=cpFilter.slice(0,-1);cpSel=0;renderPalette()}}
+document.addEventListener('keydown',e=>{if((e.metaKey||e.ctrlKey)&&e.key==='k'){e.preventDefault();if(document.getElementById('app-view').classList.contains('active'))openPalette()}else if(e.key==='Escape'){closePalette()}});
 
 /* ═══ MODULE SWITCH ═══ */
-function switchMod(m) {
-  document.querySelectorAll('.mod').forEach(x => x.classList.remove('active'));
-  document.querySelectorAll('.rb').forEach(x => x.classList.remove('active'));
-  document.getElementById('mod-' + m).classList.add('active');
-  document.querySelector('.rb[data-m="' + m + '"]').classList.add('active');
-  currentModule = m;
-  const loaders = { profile: loadProfile, dashboard: loadDash, graph: loadGraph, agents: loadAgents, memory: searchMem, observatory: loadObs, audit: loadAudit };
-  if (loaders[m]) loaders[m]();
-}
+function switchMod(m){document.querySelectorAll('.mod').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.rb').forEach(x=>x.classList.remove('active'));document.getElementById('mod-'+m).classList.add('active');document.querySelector('.rb[data-m="'+m+'"]').classList.add('active');currentModule=m;echartInstances.forEach(c=>c.dispose());echartInstances=[];const loaders={profile:loadProfile,dashboard:loadDash,graph:loadGraph,agents:loadAgents,memory:searchMem,observatory:loadObs,audit:loadAudit};if(loaders[m])loaders[m]()}
+
+/* ═══ ECHARTS HELPERS ═══ */
+function getAxisColor(){return '#4A5268'}
+function getTextColor(){return '#C8D0D8'}
+function makeChart(containerId,option){const el=document.getElementById(containerId);if(!el)return null;const c=echarts.init(el);c.setOption(option);echartInstances.push(c);return c}
+function trendChartOption(title,data){return{backgroundColor:'transparent',grid:{left:40,right:20,top:30,bottom:25},xAxis:{type:'category',data:data.map(d=>d.x),axisLine:{lineStyle:{color:'#1A2028'}},axisLabel:{color:getAxisColor(),fontSize:9,fontFamily:'JetBrains Mono'},axisTick:{show:false}},yAxis:{type:'value',axisLine:{show:false},splitLine:{lineStyle:{color:'#1A2028'}},axisLabel:{color:getAxisColor(),fontSize:9,fontFamily:'JetBrains Mono'}},series:[{name:title,type:'line',data:data.map(d=>d.y),smooth:true,symbol:'none',lineStyle:{color:'#00E5A0',width:2},areaStyle:{color:{type:'linear',x:0,y:0,x2:0,y2:1,colorStops:[{offset:0,color:'rgba(0,229,160,.15)'},{offset:1,color:'rgba(0,229,160,0)'}]}}}]}}
+function gaugeChartOption(title,value){return{backgroundColor:'transparent',series:[{type:'gauge',startAngle:200,endAngle:-20,min:0,max:100,radius:'90%',center:['50%','55%'],axisLine:{lineStyle:{width:6,color:[[0.6,'#FF4560'],[0.8,'#FFB020'],[1,'#00E5A0']]}},axisTick:{show:false},splitLine:{show:false},axisLabel:{show:false},pointer:{width:3,length:'60%'},detail:{valueAnimation:true,formatter:'{value}%',color:'#C8D0D8',fontSize:14,fontFamily:'JetBrains Mono',offsetCenter:[0,'30px']},title:{show:false},data:[{value:Math.round(value)}]}]}}
+function barChartOption(title,data){return{backgroundColor:'transparent',grid:{left:40,right:20,top:30,bottom:25},xAxis:{type:'category',data:data.map(d=>d.x),axisLine:{lineStyle:{color:'#1A2028'}},axisLabel:{color:getAxisColor(),fontSize:9,fontFamily:'JetBrains Mono',rotate:30},axisTick:{show:false}},yAxis:{type:'value',axisLine:{show:false},splitLine:{lineStyle:{color:'#1A2028'}},axisLabel:{color:getAxisColor(),fontSize:9,fontFamily:'JetBrains Mono'}},series:[{type:'bar',data:data.map(d=>d.y),itemStyle:{color:'#00E5A0'},barWidth:'40%'}]}}
+function radarChartOption(data){return{backgroundColor:'transparent',radar:{indicator:data.map(d=>({name:d.name,max:100})),axisName:{color:'#8892A6',fontSize:9,fontFamily:'JetBrains Mono'},splitLine:{lineStyle:{color:'#1A2028'}},splitArea:{areaStyle:{color:['transparent','rgba(200,208,216,.02)']}},axisLine:{lineStyle:{color:'#1A2028'}}},series:[{type:'radar',data:[{value:data.map(d=>d.value),areaStyle:{color:'rgba(0,229,160,.1)'},lineStyle:{color:'#00E5A0'},itemStyle:{color:'#00E5A0'}}]}]}}
+
+/* ═══ DASHBOARD (role-specific) ═══ */
+const roles=['ceo','cfo','coo','cto','executive','analyst','manager'];
+function renderRsel(){document.getElementById('rsel').innerHTML=roles.map(r=>'<div class="rb2 '+(r===currentRole?'act':'')+'" onclick="switchRole(\''+r+'\')">'+r.toUpperCase()+'</div>').join('')}
+function switchRole(r){currentRole=r;renderRsel();loadDash()}
+async function loadDash(){renderRsel();document.getElementById('db-body').innerHTML='<div class="lb"></div>';try{const d=await PixAPI.call('/dashboard/'+PixConfig.orgId+'/generate?role='+currentRole);const layout=d.layout||[];document.getElementById('db-st').textContent=d.dashboard_type||currentRole;document.getElementById('dash-title').textContent=currentRole.toUpperCase()+' Command Center';let h='<div style="padding:16px"><div style="margin-bottom:14px"><div style="font-family:var(--sans);font-size:16px;color:var(--white)">'+(d.title||'Dashboard')+'</div><div style="font-family:var(--mono);font-size:10px;color:var(--tf)">'+(d.subtitle||'')+' · '+(d.industry||'?')+' · '+(d.role||'?')+'</div></div>';h+='<div id="dash-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:12px">';h+='</div></div>';document.getElementById('db-body').innerHTML=h;const grid=document.getElementById('dash-grid');layout.forEach((w,i)=>{grid.insertAdjacentHTML('beforeend',renderWidget(w,i))});setTimeout(()=>{layout.forEach((w,i)=>{if(w.type==='trend_chart'||w.type==='forecast_chart'){renderTrendWidget(w,i)}else if(w.type==='distribution_chart'){renderDistWidget(w,i)}else if(w.type==='goal_progress'){renderGoalWidget(w,i)}else if(w.type==='data_quality_score'){renderQualityWidget(w,i)}})},100);addEvent('data','DASH',layout.length+' widgets, '+currentRole)}catch(e){document.getElementById('db-body').innerHTML='<div class="es"><div class="m">DASHBOARD ERROR</div><div class="s">'+e.message+'</div></div>'}}
+function renderWidget(w,i){const c=w.config||{};switch(w.type){case 'kpi_card':return '<div class="wc" id="w'+i+'"><span class="wty">'+w.type+'</span><span class="wt">'+w.label+'</span><span class="wv">'+(c.target?Number(c.target).toLocaleString():'—')+'</span><span class="wcg">metric: '+(c.metric||'?')+' · '+(c.aggregation||'sum')+'</span></div>';case 'alert_panel':return '<div class="wc" id="w'+i+'"><span class="wty">'+w.type+'</span><span class="wt">'+w.label+'</span><div class="es" style="padding:12px"><span class="s">NO ACTIVE ALERTS</span></div></div>';case 'ai_recommendation':return '<div class="wc" id="w'+i+'" style="grid-column:span 2"><span class="wty">'+w.type+'</span><span class="wt">'+w.label+'</span><span class="wcg">'+(c.recommendation||c.reasoning||'Analyzing patterns...')+'</span></div>';case 'decision_queue':return '<div class="wc" id="w'+i+'"><span class="wty">'+w.type+'</span><span class="wt">'+w.label+'</span><div class="es" style="padding:12px"><span class="s">NO PENDING DECISIONS</span></div></div>';case 'memory_timeline':return '<div class="wc" id="w'+i+'"><span class="wty">'+w.type+'</span><span class="wt">'+w.label+'</span><div class="es" style="padding:12px"><span class="s">NO RECENT MEMORIES</span></div></div>';case 'trend_chart':return '<div class="chart-box" id="w'+i+'" style="grid-column:span 2"><span class="ct">'+w.label+'</span><span class="cd">trend · '+(c.metric||'?')+'</span><div class="chart-c" id="chart-'+i+'"></div></div>';case 'forecast_chart':return '<div class="chart-box" id="w'+i+'" style="grid-column:span 2"><span class="ct">'+w.label+'</span><span class="cd">forecast · '+(c.metric||'?')+'</span><div class="chart-c" id="chart-'+i+'"></div></div>';case 'distribution_chart':return '<div class="chart-box" id="w'+i+'" style="grid-column:span 2"><span class="ct">'+w.label+'</span><span class="cd">distribution</span><div class="chart-c" id="chart-'+i+'"></div></div>';case 'goal_progress':return '<div class="chart-box" id="w'+i+'"><span class="ct">'+w.label+'</span><span class="cd">kpi: '+(c.kpi||'?')+'</span><div class="chart-c" id="chart-'+i+'"></div></div>';case 'data_quality_score':return '<div class="chart-box" id="w'+i+'"><span class="ct">'+w.label+'</span><span class="cd">quality assessment</span><div class="chart-c" id="chart-'+i+'"></div></div>';case 'knowledge_graph_view':return '<div class="wc" id="w'+i+'"><span class="wty">'+w.type+'</span><span class="wt">'+w.label+'</span><span class="wcg">See Knowledge Graph module</span></div>';case 'agent_status':return '<div class="wc" id="w'+i+'"><span class="wty">'+w.type+'</span><span class="wt">'+w.label+'</span><span class="wcg">See AI Agents module</span></div>';case 'workflow_monitor':return '<div class="wc" id="w'+i+'"><span class="wty">'+w.type+'</span><span class="wt">'+w.label+'</span><div class="es" style="padding:12px"><span class="s">NO ACTIVE WORKFLOWS</span></div></div>';default:return '<div class="wc" id="w'+i+'"><span class="wty">'+w.type+'</span><span class="wt">'+w.label+'</span><span class="wcg">'+JSON.stringify(c).substring(0,120)+'</span></div>'}}
+function renderTrendWidget(w,i){const data=[];for(let d=0;d<12;d++)data.push({x:['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][d],y:Math.round(50+Math.random()*50+Math.sin(d)*20)});makeChart('chart-'+i,trendChartOption(w.label,data))}
+function renderDistWidget(w,i){const data=[{x:'Region A',y:35},{x:'Region B',y:28},{x:'Region C',y:22},{x:'Region D',y:15}];makeChart('chart-'+i,barChartOption(w.label,data))}
+function renderGoalWidget(w,i){makeChart('chart-'+i,gaugeChartOption(w.label,72))}
+function renderQualityWidget(w,i){makeChart('chart-'+i,gaugeChartOption(w.label,98))}
 
 /* ═══ UPLOAD ═══ */
-function inferType(v) { if (!v?.length) return 'string'; const s = v[0]; if (typeof s === 'number') return Number.isInteger(s) ? 'int' : 'float'; if (typeof s === 'string') { if (/^\d{4}-\d{2}-\d{2}/.test(s)) return 'datetime'; if (!isNaN(parseFloat(s)) && s.length < 20) return 'float'; } return 'string'; }
-function detectPII(name, vals) { const n = name.toLowerCase(); if (n.includes('email') || n.includes('mail')) return 'email'; if (n.includes('phone') || n.includes('mobile')) return 'phone'; if (n.includes('ssn')) return 'ssn'; if (n.includes('card')) return 'card'; if (vals) for (const v of vals) { const s = String(v); if (/^[^@]+@[^@]+\.[^@]+$/.test(s)) return 'email'; if (/^\+?\d{10,15}$/.test(s.replace(/[\s\-()]/g, ''))) return 'phone'; } return null; }
-async function handleFile(file) {
-  if (!file) return; const dz = document.getElementById('dz'); dz.classList.add('dragover'); dz.querySelector('.tx').textContent = 'PARSING…';
-  try {
-    const buf = await file.arrayBuffer(); const wb = XLSX.read(buf); const sheet = wb.Sheets[wb.SheetNames[0]]; const rows = XLSX.utils.sheet_to_json(sheet, { header: 1 });
-    if (rows.length < 2) { dz.querySelector('.tx').textContent = 'NO DATA ROWS'; return; }
-    const headers = rows[0]; const columns = headers.map((name, i) => { const vals = rows.slice(1, 50).map(r => r[i]).filter(v => v != null && v !== ''); return { name: String(name), type: inferType(vals), sample_values: vals.slice(0, 5), pii: detectPII(String(name), vals) }; });
-    dz.classList.remove('dragover'); dz.querySelector('.tx').textContent = 'FILE: ' + file.name; dz.querySelector('.sb2').textContent = columns.length + ' columns · ' + (rows.length - 1) + ' rows';
-    addEvent('data', 'UPLOAD', 'Parsed ' + file.name + ': ' + columns.length + ' cols, ' + (rows.length - 1) + ' rows');
-    await analyzeCols(columns, file.name);
-  } catch (e) { dz.classList.remove('dragover'); dz.querySelector('.tx').textContent = 'PARSE ERROR'; addEvent('alert', 'UPLOAD', e.message); }
-}
-async function analyzeCols(columns, fileName) {
-  document.getElementById('up-st').textContent = 'ANALYZING…'; document.getElementById('up-results').innerHTML = '<div class="lb"></div>';
-  try {
-    const result = await PixAPI.call('/intelligence-profile/analyze', 'POST', { file_name: fileName || 'data.xlsx', file_type: 'xlsx', columns });
-    lastAnalysis = result; displayAnalysis(columns, result); document.getElementById('up-st').textContent = 'COMPLETE';
-    addEvent('data', 'UPLOAD', 'Analysis: ' + (result.suggested_industry?.industry || '?') + ' — ' + (result.suggested_entities?.length || 0) + ' entities');
-  } catch (e) { document.getElementById('up-results').innerHTML = '<div class="es"><div class="m">ANALYSIS FAILED</div><div class="s">' + e.message + '</div></div>'; document.getElementById('up-st').textContent = 'ERROR'; addEvent('alert', 'UPLOAD', e.message); }
-}
-function displayAnalysis(columns, result) {
-  const ind = result.suggested_industry || {}, entities = result.suggested_entities || [], kpis = result.suggested_kpis || [], glossary = result.suggested_glossary || [], mappings = result.column_mappings || [], conf = result.confidence_scores || {};
-  let h = '<div style="display:grid;grid-template-columns:1fr 1fr;height:calc(100% - 100px)">';
-  h += '<div style="display:flex;flex-direction:column;overflow:hidden"><div style="padding:8px 14px;border-bottom:1px solid var(--border);background:var(--panel)"><span style="font-family:var(--mono);font-size:10px;color:var(--ti-dim);text-transform:uppercase;letter-spacing:1.5px">Detected Schema</span></div><div class="sy" style="flex:1"><table class="dg"><thead><tr><th>Column</th><th>Type</th><th>PII</th><th>Samples</th></tr></thead><tbody>';
-  columns.forEach(c => { h += '<tr><td class="v">' + c.name + '</td><td>' + c.type + '</td><td>' + (c.pii ? '<span class="tag pii">' + c.pii + '</span>' : '—') + '</td><td style="font-size:9px;color:var(--tf)">' + (c.sample_values || []).slice(0, 3).join(', ') + '</td></tr>'; });
-  h += '</tbody></table></div></div>';
-  h += '<div style="display:flex;flex-direction:column;overflow:hidden"><div style="padding:8px 14px;border-bottom:1px solid var(--border);background:var(--panel)"><span style="font-family:var(--mono);font-size:10px;color:var(--ti-dim);text-transform:uppercase;letter-spacing:1.5px">Semantic Mappings</span></div><div class="sy" style="flex:1">';
-  mappings.forEach(m => { h += '<div class="srow"><span style="color:var(--ti)">' + m.column_name + '</span><span style="color:var(--tf)">→</span><span style="color:' + (m.entity_type ? 'var(--sig)' : 'var(--danger)') + '">' + (m.entity_type || 'UNMAPPED') + '</span><div style="flex:1;height:2px;background:var(--panel3);margin:0 8px"><div style="height:100%;width:' + (m.confidence || 0) * 100 + '%;background:var(--ti)"></div></div><span style="font-size:9px;color:var(--tf)">' + ((m.confidence || 0) * 100).toFixed(0) + '%</span></div>'; });
-  h += '</div></div>';
-  h += '<div style="display:flex;flex-direction:column;overflow:hidden"><div style="padding:8px 14px;border-bottom:1px solid var(--border);background:var(--panel)"><span style="font-family:var(--mono);font-size:10px;color:var(--ti-dim);text-transform:uppercase;letter-spacing:1.5px">Entities & KPIs</span></div><div class="sy" style="flex:1">';
-  entities.forEach(e => { h += '<div class="srow"><span class="tag n">' + (e.entity_type || 'ENTITY') + '</span><span style="flex:1;color:var(--ti)">' + (e.label || e.name) + '</span><span style="font-size:9px;color:var(--tf)">' + ((e.confidence || 0) * 100).toFixed(0) + '%</span></div>'; });
-  h += '<div style="padding:8px 0;border-top:1px solid var(--border)"></div>';
-  kpis.forEach(k => { h += '<div class="kr"><span class="kn">' + (k.label || k.name) + '</span><span class="kf">' + (k.category || '') + '</span><span class="kv" style="font-size:10px">' + (k.target?.value || '—') + '</span></div>'; });
-  h += '</div></div>';
-  h += '<div style="display:flex;flex-direction:column;overflow:hidden"><div style="padding:8px 14px;border-bottom:1px solid var(--border);background:var(--panel)"><span style="font-family:var(--mono);font-size:10px;color:var(--ti-dim);text-transform:uppercase;letter-spacing:1.5px">Confidence & Glossary</span></div><div class="sy" style="flex:1;padding:12px 14px">';
-  Object.entries(conf).forEach(([k, v]) => { h += '<div class="cbar"><span class="l">' + k + '</span><div class="t"><div class="f" style="width:' + (v || 0) * 100 + '%"></div></div><span class="v">' + ((v || 0) * 100).toFixed(0) + '%</span></div>'; });
-  h += '<div style="padding:8px 0"></div>';
-  glossary.forEach(g => { h += '<div class="gl"><span class="t">' + g.term + '</span><span class="c">→ ' + (g.definition || g.canonical_form || '') + '</span></div>'; });
-  h += '</div></div></div>';
-  document.getElementById('up-results').innerHTML = h;
-}
-async function loadSample() { const cols = [{ name: 'revenue', type: 'float', sample_values: [100, 200, 300] }, { name: 'customer_id', type: 'string', sample_values: ['C001', 'C002'] }, { name: 'order_date', type: 'datetime', sample_values: ['2024-01-01', '2024-02-01'] }, { name: 'sku', type: 'string', sample_values: ['SKU001', 'SKU002'] }, { name: 'quantity', type: 'int', sample_values: [10, 20, 30] }, { name: 'store_location', type: 'string', sample_values: ['NYC', 'LA'] }]; await analyzeCols(cols, 'sample_enterprise.xlsx'); }
+function inferType(v){if(!v?.length)return'string';const s=v[0];if(typeof s==='number')return Number.isInteger(s)?'int':'float';if(typeof s==='string'){if(/^\d{4}-\d{2}-\d{2}/.test(s))return'datetime';if(!isNaN(parseFloat(s))&&s.length<20)return'float'}return'string'}
+function detectPII(name,vals){const n=name.toLowerCase();if(n.includes('email')||n.includes('mail'))return'email';if(n.includes('phone')||n.includes('mobile'))return'phone';if(n.includes('ssn'))return'ssn';if(n.includes('card'))return'card';if(vals)for(const v of vals){const s=String(v);if(/^[^@]+@[^@]+\.[^@]+$/.test(s))return'email';if(/^\+?\d{10,15}$/.test(s.replace(/[\s\-()]/g,'')))return'phone'}return null}
+async function handleFile(file){if(!file)return;const dz=document.getElementById('dz');dz.classList.add('dragover');dz.querySelector('.tx').textContent='PARSING…';try{const buf=await file.arrayBuffer();const wb=XLSX.read(buf);const sheet=wb.Sheets[wb.SheetNames[0]];const rows=XLSX.utils.sheet_to_json(sheet,{header:1});if(rows.length<2){dz.querySelector('.tx').textContent='NO DATA ROWS';return}const headers=rows[0];const columns=headers.map((name,i)=>{const vals=rows.slice(1,50).map(r=>r[i]).filter(v=>v!=null&&v!=='');return{name:String(name),type:inferType(vals),sample_values:vals.slice(0,5),pii:detectPII(String(name),vals)}});dz.classList.remove('dragover');dz.querySelector('.tx').textContent='FILE: '+file.name;dz.querySelector('.sb2').textContent=columns.length+' columns · '+(rows.length-1)+' rows';addEvent('data','UPLOAD','Parsed '+file.name+': '+columns.length+' cols, '+(rows.length-1)+' rows');await analyzeCols(columns,file.name)}catch(e){dz.classList.remove('dragover');dz.querySelector('.tx').textContent='PARSE ERROR';addEvent('alert','UPLOAD',e.message)}}
+async function analyzeCols(columns,fileName){document.getElementById('up-st').textContent='ANALYZING…';document.getElementById('up-results').innerHTML='<div class="lb"></div>';try{const result=await PixAPI.call('/intelligence-profile/analyze','POST',{file_name:fileName||'data.xlsx',file_type:'xlsx',columns});lastAnalysis=result;displayAnalysis(columns,result);document.getElementById('up-st').textContent='COMPLETE';addEvent('data','UPLOAD','Analysis: '+(result.suggested_industry?.industry||'?')+' — '+(result.suggested_entities?.length||0)+' entities')}catch(e){document.getElementById('up-results').innerHTML='<div class="es"><div class="m">ANALYSIS FAILED</div><div class="s">'+e.message+'</div></div>';document.getElementById('up-st').textContent='ERROR'}}
+function displayAnalysis(columns,result){const ind=result.suggested_industry||{},entities=result.suggested_entities||[],kpis=result.suggested_kpis||[],glossary=result.suggested_glossary||[],mappings=result.column_mappings||[],conf=result.confidence_scores||{};let h='<div style="display:grid;grid-template-columns:1fr 1fr;height:calc(100% - 100px)"><div style="display:flex;flex-direction:column;overflow:hidden"><div style="padding:8px 14px;border-bottom:1px solid var(--border);background:var(--panel)"><span style="font-family:var(--mono);font-size:10px;color:var(--ti-dim);text-transform:uppercase;letter-spacing:1.5px">Detected Schema</span></div><div class="sy" style="flex:1"><table class="dg"><thead><tr><th>Column</th><th>Type</th><th>PII</th><th>Samples</th></tr></thead><tbody>';columns.forEach(c=>{h+='<tr><td class="v">'+c.name+'</td><td>'+c.type+'</td><td>'+(c.pii?'<span class="tag w">'+c.pii+'</span>':'—')+'</td><td style="font-size:9px;color:var(--tf)">'+(c.sample_values||[]).slice(0,3).join(', ')+'</td></tr>'});h+='</tbody></table></div></div><div style="display:flex;flex-direction:column;overflow:hidden"><div style="padding:8px 14px;border-bottom:1px solid var(--border);background:var(--panel)"><span style="font-family:var(--mono);font-size:10px;color:var(--ti-dim);text-transform:uppercase;letter-spacing:1.5px">Semantic Mappings</span></div><div class="sy" style="flex:1">';mappings.forEach(m=>{h+='<div class="srow"><span style="color:var(--ti)">'+m.column_name+'</span><span style="color:var(--tf)">→</span><span style="color:'+(m.entity_type?'var(--sig)':'var(--danger)')+'">'+(m.entity_type||'UNMAPPED')+'</span><div style="flex:1;height:2px;background:var(--panel3);margin:0 8px"><div style="height:100%;width:'+(m.confidence||0)*100+'%;background:var(--ti)"></div></div><span style="font-size:9px;color:var(--tf)">'+((m.confidence||0)*100).toFixed(0)+'%</span></div>'});h+='</div></div><div style="display:flex;flex-direction:column;overflow:hidden"><div style="padding:8px 14px;border-bottom:1px solid var(--border);background:var(--panel)"><span style="font-family:var(--mono);font-size:10px;color:var(--ti-dim);text-transform:uppercase;letter-spacing:1.5px">Entities & KPIs</span></div><div class="sy" style="flex:1">';entities.forEach(e=>{h+='<div class="srow"><span class="tag n">'+(e.entity_type||'ENTITY')+'</span><span style="flex:1;color:var(--ti)">'+(e.label||e.name)+'</span><span style="font-size:9px;color:var(--tf)">'+((e.confidence||0)*100).toFixed(0)+'%</span></div>'});h+='<div style="padding:8px 0;border-top:1px solid var(--border)"></div>';kpis.forEach(k=>{h+='<div class="kr"><span class="kn">'+(k.label||k.name)+'</span><span class="kf">'+(k.category||'')+'</span><span class="kv" style="font-size:10px">'+(k.target?.value||'—')+'</span></div>'});h+='</div></div><div style="display:flex;flex-direction:column;overflow:hidden"><div style="padding:8px 14px;border-bottom:1px solid var(--border);background:var(--panel)"><span style="font-family:var(--mono);font-size:10px;color:var(--ti-dim);text-transform:uppercase;letter-spacing:1.5px">Confidence & Glossary</span></div><div class="sy" style="flex:1;padding:12px 14px">';Object.entries(conf).forEach(([k,v])=>{h+='<div class="cbar"><span class="l">'+k+'</span><div class="t"><div class="f" style="width:'+(v||0)*100+'%"></div></div><span class="v">'+((v||0)*100).toFixed(0)+'%</span></div>'});h+='<div style="padding:8px 0"></div>';glossary.forEach(g=>{h+='<div class="gl"><span class="t">'+g.term+'</span><span class="c">→ '+(g.definition||g.canonical_form||'')+'</span></div>'});h+='</div></div></div>';document.getElementById('up-results').innerHTML=h}
+async function loadSample(){const cols=[{name:'revenue',type:'float',sample_values:[100,200,300]},{name:'customer_id',type:'string',sample_values:['C001','C002']},{name:'order_date',type:'datetime',sample_values:['2024-01-01','2024-02-01']},{name:'sku',type:'string',sample_values:['SKU001','SKU002']},{name:'quantity',type:'int',sample_values:[10,20,30]},{name:'store_location',type:'string',sample_values:['NYC','LA']}];await analyzeCols(cols,'sample_enterprise.xlsx')}
 
 /* ═══ PROFILE ═══ */
-async function loadProfile() {
-  document.getElementById('pf-body').innerHTML = '<div class="lb"></div>';
-  try {
-    const templates = await PixAPI.call('/intelligence-profile/templates/list'); const tl = templates.templates || [];
-    document.getElementById('pf-st').textContent = tl.length + ' templates';
-    let h = '<div class="tg">'; tl.forEach(t => { h += '<div class="tc" onclick="createProfileIndustry(\'' + t.industry + '\')"><span style="font-family:var(--mono);font-size:11px;color:var(--white);font-weight:500;text-transform:uppercase">' + t.industry + '</span><span style="font-family:var(--sans);font-size:10px;color:var(--td)">' + (t.description || '') + '</span><div style="display:flex;gap:8px;margin-top:4px"><span class="tag n">' + (t.entity_count || 0) + 'E</span><span class="tag n">' + (t.kpi_count || 0) + 'K</span><span class="tag n">' + (t.agent_count || 0) + 'A</span></div></div>'; }); h += '</div>';
-    if (lastAnalysis) { const ind = lastAnalysis.suggested_industry || {}, entities = lastAnalysis.suggested_entities || [], kpis = lastAnalysis.suggested_kpis || []; h += '<div style="padding:16px"><div style="padding:8px 14px;border-bottom:1px solid var(--border);background:var(--panel)"><span style="font-family:var(--mono);font-size:10px;color:var(--ti-dim);text-transform:uppercase;letter-spacing:1.5px">Current Analysis</span></div><div style="padding:8px 0"><div style="font-family:var(--mono);font-size:10px;color:var(--tf)">INDUSTRY: ' + (ind.industry || '?') + ' (' + ((ind.confidence || 0) * 100).toFixed(0) + '%)</div>'; entities.forEach(e => { h += '<div class="srow"><span class="tag n">' + (e.entity_type || 'ENTITY') + '</span><span style="flex:1;color:var(--ti)">' + (e.label || e.name) + '</span></div>'; }); h += '<div style="padding:4px 0"></div>'; kpis.forEach(k => { h += '<div class="kr"><span class="kn">' + (k.label || k.name) + '</span><span class="kv" style="font-size:10px">' + (k.target?.value || '—') + '</span></div>'; }); h += '</div></div>'; }
-    document.getElementById('pf-body').innerHTML = h; addEvent('data', 'PROFILE', 'Loaded ' + tl.length + ' templates');
-  } catch (e) { document.getElementById('pf-body').innerHTML = '<div class="es"><div class="m">LOAD FAILED</div><div class="s">' + e.message + '</div></div>'; }
-}
-async function createProfile() { await createProfileIndustry('retail'); }
-async function createProfileIndustry(industry) { addEvent('data', 'PROFILE', 'Creating: ' + industry); try { await PixAPI.call('/intelligence-profile/', 'POST', { org_id: PixConfig.orgId, industry, company_name: 'Enterprise' }); addEvent('data', 'PROFILE', 'Created: ' + industry); loadProfile(); } catch (e) { addEvent('alert', 'PROFILE', e.message); } }
-
-/* ═══ DASHBOARD ═══ */
-const roles = ['executive', 'ceo', 'cfo', 'coo', 'cto', 'analyst', 'manager'];
-function renderRsel() { document.getElementById('rsel').innerHTML = roles.map(r => '<div class="rb2 ' + (r === currentRole ? 'act' : '') + '" onclick="switchRole(\'' + r + '\')">' + r + '</div>').join(''); }
-function switchRole(r) { currentRole = r; renderRsel(); loadDash(); }
-async function loadDash() {
-  renderRsel(); document.getElementById('db-body').innerHTML = '<div class="lb"></div>';
-  try {
-    const d = await PixAPI.call('/dashboard/' + PixConfig.orgId + '/generate?role=' + currentRole); const layout = d.layout || [];
-    document.getElementById('db-st').textContent = d.dashboard_type || currentRole;
-    let h = '<div style="padding:16px"><div style="margin-bottom:12px"><div style="font-family:var(--sans);font-size:14px;color:var(--white)">' + (d.title || 'Dashboard') + '</div><div style="font-family:var(--mono);font-size:10px;color:var(--tf)">' + (d.subtitle || '') + ' · ' + (d.industry || '?') + ' · ' + (d.role || '?') + '</div></div>';
-    h += '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px">';
-    layout.forEach(w => { h += renderWidget(w); }); h += '</div></div>';
-    document.getElementById('db-body').innerHTML = h; addEvent('data', 'DASH', layout.length + ' widgets, ' + currentRole);
-  } catch (e) { document.getElementById('db-body').innerHTML = '<div class="es"><div class="m">DASHBOARD ERROR</div><div class="s">' + e.message + '</div></div>'; }
-}
-function renderWidget(w) {
-  const c = w.config || {};
-  switch (w.type) {
-    case 'kpi_card': return '<div class="wc"><span class="wty">' + w.type + '</span><span class="wt">' + w.label + '</span><span class="wv">' + (c.target ? Number(c.target).toLocaleString() : '—') + '</span><span class="wcg">metric: ' + (c.metric || '?') + ' · agg: ' + (c.aggregation || 'sum') + '</span></div>';
-    case 'trend_chart': return '<div class="wc" style="grid-column:span 2"><span class="wty">' + w.type + '</span><span class="wt">' + w.label + '</span><svg width="100%" height="60" viewBox="0 0 300 60"><polyline points="0,50 50,30 100,35 150,20 200,25 250,15 300,10" fill="none" stroke="#00E5A8" stroke-width="1"/></svg><span class="wcg">metric: ' + (c.metric || '?') + ' · period: ' + (c.period || 'monthly') + '</span></div>';
-    case 'goal_progress': return '<div class="wc"><span class="wty">' + w.type + '</span><span class="wt">' + w.label + '</span><div class="pt" style="margin:8px 0"><div class="pf" style="width:50%"></div></div><span class="wcg">kpi: ' + (c.kpi || '?') + '</span></div>';
-    case 'alert_panel': return '<div class="wc"><span class="wty">' + w.type + '</span><span class="wt">' + w.label + '</span><div class="es" style="padding:12px"><span class="s">NO ACTIVE ALERTS</span></div></div>';
-    case 'ai_recommendation': return '<div class="wc" style="grid-column:span 2"><span class="wty">' + w.type + '</span><span class="wt">' + w.label + '</span><span class="wcg">' + (c.recommendation || c.reasoning || 'Analyzing patterns...') + '</span></div>';
-    case 'decision_queue': return '<div class="wc"><span class="wty">' + w.type + '</span><span class="wt">' + w.label + '</span><div class="es" style="padding:12px"><span class="s">NO PENDING DECISIONS</span></div></div>';
-    case 'data_quality_score': return '<div class="wc"><span class="wty">' + w.type + '</span><span class="wt">' + w.label + '</span><span class="wv">98%</span><span class="wcg">quality assessment</span></div>';
-    case 'memory_timeline': return '<div class="wc"><span class="wty">' + w.type + '</span><span class="wt">' + w.label + '</span><div class="es" style="padding:12px"><span class="s">NO RECENT MEMORIES</span></div></div>';
-    default: return '<div class="wc"><span class="wty">' + w.type + '</span><span class="wt">' + w.label + '</span><span class="wcg">' + JSON.stringify(c).substring(0, 120) + '</span></div>';
-  }
-}
+async function loadProfile(){document.getElementById('pf-body').innerHTML='<div class="lb"></div>';try{const templates=await PixAPI.call('/intelligence-profile/templates/list');const tl=templates.templates||[];document.getElementById('pf-st').textContent=tl.length+' templates';let h='<div class="tg">';tl.forEach(t=>{h+='<div class="tc" onclick="createProfileIndustry(\''+t.industry+'\')"><span style="font-family:var(--mono);font-size:11px;color:var(--white);font-weight:500;text-transform:uppercase">'+t.industry+'</span><span style="font-family:var(--sans);font-size:10px;color:var(--td)">'+(t.description||'')+'</span><div style="display:flex;gap:8px;margin-top:4px"><span class="tag n">'+(t.entity_count||0)+'E</span><span class="tag n">'+(t.kpi_count||0)+'K</span><span class="tag n">'+(t.agent_count||0)+'A</span></div></div>'});h+='</div>';document.getElementById('pf-body').innerHTML=h;addEvent('data','PROFILE','Loaded '+tl.length+' templates')}catch(e){document.getElementById('pf-body').innerHTML='<div class="es"><div class="m">LOAD FAILED</div><div class="s">'+e.message+'</div></div>'}}
+async function createProfile(){await createProfileIndustry('retail')}
+async function createProfileIndustry(industry){addEvent('data','PROFILE','Creating: '+industry);try{await PixAPI.call('/intelligence-profile/','POST',{org_id:PixConfig.orgId,industry,company_name:'Enterprise'});addEvent('data','PROFILE','Created: '+industry);loadProfile()}catch(e){addEvent('alert','PROFILE',e.message)}}
 
 /* ═══ GRAPH ═══ */
-let gN = [], gE = [], gC, gCtx;
-async function loadGraph() {
-  gC = document.getElementById('graph-canvas'); gCtx = gC.getContext('2d'); const r = gC.parentElement.getBoundingClientRect(); gC.width = r.width; gC.height = r.height;
-  try {
-    const data = await PixAPI.call('/enterprise/knowledge-graph/' + PixConfig.orgId); const nodes = data.nodes || [];
-    document.getElementById('kg-st').textContent = nodes.length + ' nodes';
-    if (!nodes.length) { gC.parentElement.innerHTML = '<div class="es" style="position:absolute;inset:0;display:flex"><div><div class="m">No entities yet</div><div class="s">Click EXTRACT to build graph</div><button class="mb pri" style="margin-top:12px" onclick="enrichGraph()">✦ Extract</button></div></div>'; return; }
-    const colors = { Company: '#C0C8D0', Customer: '#60A5FA', Product: '#4ADE80', Order: '#FFB020', Employee: '#A78BFA', Entity: '#8892A6' };
-    gN = nodes.map((n, i) => ({ id: i, label: n.label || n.name || 'N' + i, type: n.type || n.entity_type || 'Entity', x: Math.cos(i * .5) * 150 + 300, y: Math.sin(i * .5) * 150 + 200, vx: 0, vy: 0, r: 8, color: colors[n.type || n.entity_type || 'Entity'] || '#8892A6' }));
-    gE = []; for (let i = 0; i < gN.length; i++) for (let j = i + 1; j < Math.min(i + 3, gN.length); j++) gE.push({ source: i, target: j });
-    animateGraph(); addEvent('data', 'GRAPH', gN.length + ' nodes');
-  } catch (e) { addEvent('alert', 'GRAPH', e.message); }
-}
-async function enrichGraph() { try { await PixAPI.call('/enterprise/moat/knowledge-graph/enrich', 'POST', {}); addEvent('data', 'GRAPH', 'Extracted'); loadGraph(); } catch (e) { addEvent('alert', 'GRAPH', e.message); } }
-function drawGraph() { if (!gCtx) return; gCtx.clearRect(0, 0, gC.width, gC.height); gCtx.strokeStyle = 'rgba(35,45,68,.6)'; gCtx.lineWidth = .5; gE.forEach(e => { const s = gN[e.source], t = gN[e.target]; if (s && t) { gCtx.beginPath(); gCtx.moveTo(s.x, s.y); gCtx.lineTo(t.x, t.y); gCtx.stroke(); } }); gN.forEach(n => { gCtx.beginPath(); gCtx.arc(n.x, n.y, n.r, 0, Math.PI * 2); gCtx.fillStyle = n.color + '20'; gCtx.fill(); gCtx.strokeStyle = n.color; gCtx.lineWidth = 1; gCtx.stroke(); gCtx.fillStyle = '#6B7280'; gCtx.font = '8px JetBrains Mono'; gCtx.textAlign = 'center'; gCtx.fillText(n.label, n.x, n.y + n.r + 10); }); }
-function animateGraph() { if (currentModule !== 'graph' || !gC) return; for (let i = 0; i < gN.length; i++) { const n = gN[i]; for (let j = i + 1; j < gN.length; j++) { const m = gN[j], dx = n.x - m.x, dy = n.y - m.y, d = Math.sqrt(dx * dx + dy * dy) || 1, f = 800 / (d * d); n.vx += (dx / d) * f * .01; n.vy += (dy / d) * f * .01; m.vx -= (dx / d) * f * .01; m.vy -= (dy / d) * f * .01; } } gN.forEach(n => { n.x += n.vx * .5; n.y += n.vy * .5; n.vx *= .85; n.vy *= .85; n.x = Math.max(20, Math.min(gC.width - 20, n.x)); n.y = Math.max(20, Math.min(gC.height - 20, n.y)); }); drawGraph(); requestAnimationFrame(animateGraph); }
+let gN=[],gE=[],gC,gCtx;async function loadGraph(){gC=document.getElementById('graph-canvas');gCtx=gC.getContext('2d');const r=gC.parentElement.getBoundingClientRect();gC.width=r.width;gC.height=r.height;try{const data=await PixAPI.call('/enterprise/knowledge-graph/'+PixConfig.orgId);const nodes=data.nodes||[];document.getElementById('kg-st').textContent=nodes.length+' nodes';if(!nodes.length){gC.parentElement.innerHTML='<div class="es" style="position:absolute;inset:0;display:flex"><div><div class="m">No entities yet</div><div class="s">Click EXTRACT to build graph</div><button class="mb pri" style="margin-top:12px" onclick="enrichGraph()">✦ Extract</button></div></div>';return}const colors={Company:'#C8D0D8',Customer:'#60A5FA',Product:'#4ADE80',Order:'#FFB020',Employee:'#A78BFA',Entity:'#8892A6'};gN=nodes.map((n,i)=>({id:i,label:n.label||n.name||'N'+i,type:n.type||n.entity_type||'Entity',x:Math.cos(i*.5)*150+300,y:Math.sin(i*.5)*150+200,vx:0,vy:0,r:8,color:colors[n.type||n.entity_type||'Entity']||'#8892A6'}));gE=[];for(let i=0;i<gN.length;i++)for(let j=i+1;j<Math.min(i+3,gN.length);j++)gE.push({source:i,target:j});animateGraph();addEvent('data','GRAPH',gN.length+' nodes')}catch(e){addEvent('alert','GRAPH',e.message)}}
+async function enrichGraph(){try{await PixAPI.call('/enterprise/moat/knowledge-graph/enrich','POST',{});addEvent('data','GRAPH','Extracted');loadGraph()}catch(e){addEvent('alert','GRAPH',e.message)}}
+function drawGraph(){if(!gCtx)return;gCtx.clearRect(0,0,gC.width,gC.height);gCtx.strokeStyle='rgba(37,45,56,.6)';gCtx.lineWidth=.5;gE.forEach(e=>{const s=gN[e.source],t=gN[e.target];if(s&&t){gCtx.beginPath();gCtx.moveTo(s.x,s.y);gCtx.lineTo(t.x,t.y);gCtx.stroke()}});gN.forEach(n=>{gCtx.beginPath();gCtx.arc(n.x,n.y,n.r,0,Math.PI*2);gCtx.fillStyle=n.color+'20';gCtx.fill();gCtx.strokeStyle=n.color;gCtx.lineWidth=1;gCtx.stroke();gCtx.fillStyle='#6B7280';gCtx.font='8px JetBrains Mono';gCtx.textAlign='center';gCtx.fillText(n.label,n.x,n.y+n.r+10)})}
+function animateGraph(){if(currentModule!=='graph'||!gC)return;for(let i=0;i<gN.length;i++){const n=gN[i];for(let j=i+1;j<gN.length;j++){const m=gN[j],dx=n.x-m.x,dy=n.y-m.y,d=Math.sqrt(dx*dx+dy*dy)||1,f=800/(d*d);n.vx+=(dx/d)*f*.01;n.vy+=(dy/d)*f*.01;m.vx-=(dx/d)*f*.01;m.vy-=(dy/d)*f*.01}n.x+=n.vx*.5;n.y+=n.vy*.5;n.vx*=.85;n.vy*=.85;n.x=Math.max(20,Math.min(gC.width-20,n.x));n.y=Math.max(20,Math.min(gC.height-20,n.y))}drawGraph();requestAnimationFrame(animateGraph)}
 
 /* ═══ AGENTS ═══ */
-async function loadAgents() {
-  document.getElementById('ag-body').innerHTML = '<div class="lb"></div>';
-  try {
-    const data = await PixAPI.call('/agents'); const agents = data.agents || [];
-    document.getElementById('ag-st').textContent = agents.filter(a => a.enabled).length + ' active';
-    let h = '<div style="padding:12px"><div class="mts" style="margin-bottom:16px"><div class="mt2"><span class="l">Total</span><span class="v">' + agents.length + '</span></div><div class="mt2"><span class="l">Active</span><span class="v">' + agents.filter(a => a.enabled).length + '</span></div><div class="mt2"><span class="l">Tools</span><span class="v">' + agents.reduce((s, a) => s + (a.tools?.length || 0), 0) + '</span></div></div><div class="ag">';
-    agents.forEach(a => { h += '<div class="ac" onclick="execAgent(\'' + a.role + '\')"><div style="display:flex;justify-content:space-between"><span class="an">' + a.name + '</span><span class="tag ' + (a.enabled ? 'a' : 's') + '">' + (a.enabled ? 'ON' : 'OFF') + '</span></div><span class="ad">' + (a.description || '') + '</span><div style="display:flex;flex-wrap:wrap;gap:3px;margin-top:4px">' + ((a.tools || []).slice(0, 5).map(t => '<span class="tag n">' + t.name + '</span>').join('')) + '</div></div>'; });
-    h += '</div></div>'; document.getElementById('ag-body').innerHTML = h; addEvent('agent', 'AGENTS', agents.length + ' agents');
-  } catch (e) { document.getElementById('ag-body').innerHTML = '<div class="es"><div class="m">LOAD FAILED</div><div class="s">' + e.message + '</div></div>'; }
-}
-async function execAgent(role) { addEvent('agent', 'AGENT', 'Executing: ' + role); try { await PixAPI.call('/agents/execute', 'POST', { org_id: PixConfig.orgId, input: 'Analyze ' + role + ' metrics' }); addEvent('data', 'AGENT', role + ': done'); } catch (e) { addEvent('alert', 'AGENT', e.message); } }
+async function loadAgents(){document.getElementById('ag-body').innerHTML='<div class="lb"></div>';try{const data=await PixAPI.call('/agents');const agents=data.agents||[];document.getElementById('ag-st').textContent=agents.filter(a=>a.enabled).length+' active';let h='<div style="padding:12px"><div class="mts" style="margin-bottom:16px"><div class="mt2"><span class="l">Total</span><span class="v">'+agents.length+'</span></div><div class="mt2"><span class="l">Active</span><span class="v">'+agents.filter(a=>a.enabled).length+'</span></div><div class="mt2"><span class="l">Tools</span><span class="v">'+agents.reduce((s,a)=>s+(a.tools?.length||0),0)+'</span></div></div><div class="ag">';agents.forEach(a=>{h+='<div class="ac" onclick="execAgent(\''+a.role+'\')"><div style="display:flex;justify-content:space-between"><span class="an">'+a.name+'</span><span class="tag '+(a.enabled?'a':'s')+'">'+(a.enabled?'ON':'OFF')+'</span></div><span class="ad">'+(a.description||'')+'</span><div style="display:flex;flex-wrap:wrap;gap:3px;margin-top:4px">'+((a.tools||[]).slice(0,5).map(t=>'<span class="tag n">'+t.name+'</span>').join(''))+'</div></div>'});h+='</div></div>';document.getElementById('ag-body').innerHTML=h;addEvent('agent','AGENTS',agents.length+' agents')}catch(e){document.getElementById('ag-body').innerHTML='<div class="es"><div class="m">LOAD FAILED</div><div class="s">'+e.message+'</div></div>'}}
+async function execAgent(role){addEvent('agent','AGENT','Executing: '+role);try{await PixAPI.call('/agents/execute','POST',{org_id:PixConfig.orgId,input:'Analyze '+role+' metrics'});addEvent('data','AGENT',role+': done')}catch(e){addEvent('alert','AGENT',e.message)}}
 
 /* ═══ DECISIONS ═══ */
-async function runDecision() {
-  document.getElementById('dc-body').innerHTML = '<div class="lb"></div>';
-  try {
-    const [an, ev] = await Promise.allSettled([PixAPI.call('/enterprise/moat/engine/analyze', 'POST', new URLSearchParams({ pattern: 'root_cause', query: 'Why did revenue change?', context_json: '{}' })), PixAPI.call('/enterprise/moat/engine/evaluate', 'POST', new URLSearchParams({ framework: 'swot', options_json: '[]' }))]);
-    let h = '';
-    if (an.status === 'fulfilled') { const a = an.value; h += '<div style="padding:16px"><div style="padding:8px 14px;border-bottom:1px solid var(--border);background:var(--panel)"><span style="font-family:var(--mono);font-size:10px;color:var(--ti-dim);text-transform:uppercase;letter-spacing:1.5px">Root Cause Analysis</span></div><div style="padding:12px"><div style="font-family:var(--sans);font-size:13px;color:var(--white);margin-bottom:8px">' + (a.conclusion || '') + '</div><div style="font-family:var(--mono);font-size:11px;color:var(--active)">Confidence: ' + ((a.overall_confidence || 0) * 100).toFixed(0) + '%</div>' + ((a.steps || []).map(s => '<div style="padding:8px;background:var(--panel);border:1px solid var(--border);margin:6px 0"><div style="display:flex;justify-content:space-between"><span style="font-family:var(--mono);font-size:10px;color:var(--ti)">' + s.description + '</span><span style="font-family:var(--mono);font-size:10px;color:var(--tf)">' + ((s.confidence || 0) * 100).toFixed(0) + '%</span></div><div style="font-size:11px;color:var(--td);margin-top:4px">' + (s.evidence || '') + '</div></div>').join('')) + '</div></div>'; }
-    if (ev.status === 'fulfilled') { const e = ev.value; h += '<div style="padding:0 16px 16px"><div style="padding:8px 14px;border-bottom:1px solid var(--border);background:var(--panel)"><span style="font-family:var(--mono);font-size:10px;color:var(--ti-dim);text-transform:uppercase;letter-spacing:1.5px">SWOT Evaluation</span></div><table class="dg"><thead><tr><th>Option</th><th>Score</th><th>Framework</th></tr></thead><tbody>' + ((e.options || []).map(o => '<tr><td class="v">' + (o.name || 'default') + '</td><td>' + o.score + '</td><td>' + o.framework + '</td></tr>').join('')) + '</tbody></table></div>'; }
-    document.getElementById('dc-body').innerHTML = h || '<div class="es"><div class="m">No results</div></div>'; addEvent('decision', 'DECISION', 'Analysis complete');
-  } catch (e) { document.getElementById('dc-body').innerHTML = '<div class="es"><div class="m">ERROR</div><div class="s">' + e.message + '</div></div>'; }
-}
+async function runDecision(){document.getElementById('dc-body').innerHTML='<div class="lb"></div>';try{const[an,ev]=await Promise.allSettled([PixAPI.call('/enterprise/moat/engine/analyze','POST',new URLSearchParams({pattern:'root_cause',query:'Why did revenue change?',context_json:'{}'})),PixAPI.call('/enterprise/moat/engine/evaluate','POST',new URLSearchParams({framework:'swot',options_json:'[]'}))]);let h='';if(an.status==='fulfilled'){const a=an.value;h+='<div class="dc"><div class="dh"><span class="dt">Root Cause Analysis</span><span class="tag a">'+((a.overall_confidence||0)*100).toFixed(0)+'%</span></div><div class="dc-body">'+(a.conclusion||'')+'</div><div class="dc-conf"><div class="bar"><div class="fill" style="width:'+(a.overall_confidence||0)*100+'%"></div></div><span class="v">'+((a.overall_confidence||0)*100).toFixed(0)+'%</span></div>'+(a.steps||[]).map(s=>'<div style="padding:8px;background:var(--void);border:1px solid var(--border);margin-top:6px"><div style="display:flex;justify-content:space-between"><span style="font-family:var(--mono);font-size:10px;color:var(--ti)">'+s.description+'</span><span style="font-family:var(--mono);font-size:10px;color:var(--tf)">'+((s.confidence||0)*100).toFixed(0)+'%</span></div><div style="font-size:11px;color:var(--td);margin-top:4px">'+(s.evidence||'')+'</div></div>').join('')+'</div>'}if(ev.status==='fulfilled'){const e=ev.value;h+='<div class="dc"><div class="dh"><span class="dt">SWOT Evaluation</span></div><table class="dg"><thead><tr><th>Option</th><th>Score</th><th>Framework</th></tr></thead><tbody>'+((e.options||[]).map(o=>'<tr><td class="v">'+(o.name||'default')+'</td><td>'+o.score+'</td><td>'+o.framework+'</td></tr>').join(''))+'</tbody></table></div>'}document.getElementById('dc-body').innerHTML=h||'<div class="es"><div class="m">No results</div></div>';addEvent('decision','DECISION','Analysis complete')}catch(e){document.getElementById('dc-body').innerHTML='<div class="es"><div class="m">ERROR</div><div class="s">'+e.message+'</div></div>'}}
 
 /* ═══ MEMORY ═══ */
-async function searchMem() {
-  const q = document.getElementById('mm-q')?.value || 'revenue'; document.getElementById('mm-results').innerHTML = '<div class="lb"></div>';
-  try {
-    const data = await PixAPI.call('/enterprise/vector-memory/search/' + PixConfig.orgId + '?query=' + encodeURIComponent(q)); const results = data.results || [];
-    document.getElementById('mm-st').textContent = results.length + ' chunks';
-    document.getElementById('mm-results').innerHTML = !results.length ? '<div class="es"><div class="m">No results</div></div>' : '<div style="font-family:var(--mono);font-size:10px;color:var(--tf);margin-bottom:10px">QUERY: "' + q + '" · ' + results.length + ' RESULTS</div>' + results.map(r => '<div class="sr2"><div style="display:flex;align-items:center;gap:10px"><span class="ss2">' + ((r.score || 0) * 100).toFixed(1) + '%</span><div style="flex:1;height:2px;background:var(--panel3)"><div style="height:100%;width:' + (r.score || 0) * 100 + '%;background:var(--ti)"></div></div></div><div class="st2">' + (r.text || r.content || '') + '</div></div>').join('');
-    addEvent('data', 'MEMORY', '"' + q + '" → ' + results.length);
-  } catch (e) { document.getElementById('mm-results').innerHTML = '<div class="es"><div class="m">FAILED</div><div class="s">' + e.message + '</div></div>'; }
-}
+async function searchMem(){const q=document.getElementById('mm-q')?.value||'revenue';document.getElementById('mm-results').innerHTML='<div class="lb"></div>';try{const data=await PixAPI.call('/enterprise/vector-memory/search/'+PixConfig.orgId+'?query='+encodeURIComponent(q));const results=data.results||[];document.getElementById('mm-st').textContent=results.length+' chunks';document.getElementById('mm-results').innerHTML=!results.length?'<div class="es"><div class="m">No results</div></div>':'<div style="font-family:var(--mono);font-size:10px;color:var(--tf);margin-bottom:10px">QUERY: "'+q+'" · '+results.length+' RESULTS</div>'+results.map(r=>'<div class="sr2"><div style="display:flex;align-items:center;gap:10px"><span class="ss2">'+((r.score||0)*100).toFixed(1)+'%</span><div style="flex:1;height:2px;background:var(--panel3)"><div style="height:100%;width:'+(r.score||0)*100+'%;background:var(--ti)"></div></div></div><div class="st2">'+(r.text||r.content||'')+'</div></div>').join('');addEvent('data','MEMORY','"'+q+'" → '+results.length)}catch(e){document.getElementById('mm-results').innerHTML='<div class="es"><div class="m">FAILED</div><div class="s">'+e.message+'</div></div>'}}
 
 /* ═══ QUERY ═══ */
-function setQuery(q) { document.getElementById('nq-input').value = q; }
-async function runQuery() {
-  const q = document.getElementById('nq-input').value.trim(); if (!q) return;
-  document.getElementById('nq-st').textContent = 'EXECUTING…'; const el = document.getElementById('nq-results'); el.innerHTML = '<div class="lb"></div>'; addEvent('decision', 'QUERY', '"' + q.substring(0, 40) + '…"');
-  try {
-    const [cl, ex, an] = await Promise.allSettled([PixAPI.call('/agents/classify', 'POST', { org_id: PixConfig.orgId, input: q }), PixAPI.call('/agents/execute', 'POST', { org_id: PixConfig.orgId, input: q }), PixAPI.call('/enterprise/moat/engine/analyze', 'POST', new URLSearchParams({ pattern: 'root_cause', query: q, context_json: '{}' }))]);
-    let h = '<div class="ichain"><div class="is"><div class="n done">1</div><span class="l">Intent</span></div><div class="ic"></div><div class="is"><div class="n ' + (ex.status === 'fulfilled' ? 'done' : '') + '">2</div><span class="l">Agents</span></div><div class="ic"></div><div class="is"><div class="n ' + (an.status === 'fulfilled' ? 'done' : '') + '">3</div><span class="l">Evidence</span></div><div class="ic"></div><div class="is"><div class="n ' + (an.status === 'fulfilled' ? 'done' : '') + '">4</div><span class="l">Decision</span></div><div class="ic"></div><div class="is"><div class="n ' + (an.status === 'fulfilled' ? 'done' : '') + '">5</div><span class="l">Confidence</span></div></div>';
-    if (cl.status === 'fulfilled') { const c = cl.value, cc = c.classification || {}; h += '<div class="qs" style="margin-bottom:14px"><h4>Intent Classification</h4><div class="ct"><div style="display:flex;gap:10px;margin-bottom:8px"><span class="tag n">' + (cc.category || 'general') + '</span><span style="font-family:var(--mono);font-size:11px;color:var(--ti)">' + ((cc.confidence || 0) * 100).toFixed(0) + '%</span></div><div>' + (cc.reasoning || '') + '</div><div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:6px">' + ((cc.suggested_agents || []).map(a => '<span class="tag i">' + a + '</span>').join('')) + '</div></div></div>'; }
-    if (ex.status === 'fulfilled') { const e = ex.value; h += '<div class="qs" style="margin-bottom:14px"><h4>Agent Response</h4><div class="ct"><div style="margin-bottom:6px">' + (e.success ? '<span class="tag a">SUCCESS</span>' : '<span class="tag s">FAILED</span>') + '</div><div>' + (e.output || e.error || 'No output') + '</div></div></div>'; }
-    if (an.status === 'fulfilled') { const a = an.value; h += '<div class="qs"><h4>Decision Analysis — Root Cause</h4><div class="ct"><div style="margin-bottom:8px;font-size:13px;color:var(--white)">' + (a.conclusion || '') + '</div><div style="font-family:var(--mono);font-size:11px;color:var(--active)">Confidence: ' + ((a.overall_confidence || 0) * 100).toFixed(0) + '%</div>' + ((a.steps || []).map(s => '<div style="margin-top:6px;padding:6px;background:var(--void);border:1px solid var(--border)"><span style="font-family:var(--mono);font-size:10px;color:var(--ti)">' + s.description + '</span><div style="font-size:10px;color:var(--tf)">' + (s.evidence || '') + ' · ' + ((s.confidence || 0) * 100).toFixed(0) + '%</div></div>').join('')) + '</div></div>'; }
-    el.innerHTML = h || '<div class="qs"><h4>No Results</h4></div>'; document.getElementById('nq-st').textContent = 'COMPLETE'; addEvent('data', 'QUERY', 'Complete');
-  } catch (e) { el.innerHTML = '<div class="qs"><h4>Error</h4><div class="ct">' + e.message + '</div></div>'; document.getElementById('nq-st').textContent = 'ERROR'; }
-}
+function setQuery(q){document.getElementById('nq-input').value=q}
+async function runQuery(){const q=document.getElementById('nq-input').value.trim();if(!q)return;document.getElementById('nq-st').textContent='EXECUTING…';const el=document.getElementById('nq-results');el.innerHTML='<div class="lb"></div>';addEvent('decision','QUERY','"'+q.substring(0,40)+'…"');try{const[cl,ex,an]=await Promise.allSettled([PixAPI.call('/agents/classify','POST',{org_id:PixConfig.orgId,input:q}),PixAPI.call('/agents/execute','POST',{org_id:PixConfig.orgId,input:q}),PixAPI.call('/enterprise/moat/engine/analyze','POST',new URLSearchParams({pattern:'root_cause',query:q,context_json:'{}'}))]);let h='<div class="ichain"><div class="is"><div class="n done">1</div><span class="l">Intent</span></div><div class="ic"></div><div class="is"><div class="n '+(ex.status==='fulfilled'?'done':'')+'">2</div><span class="l">Agents</span></div><div class="ic"></div><div class="is"><div class="n '+(an.status==='fulfilled'?'done':'')+'">3</div><span class="l">Evidence</span></div><div class="ic"></div><div class="is"><div class="n '+(an.status==='fulfilled'?'done':'')+'">4</div><span class="l">Decision</span></div><div class="ic"></div><div class="is"><div class="n '+(an.status==='fulfilled'?'done':'')+'">5</div><span class="l">Confidence</span></div></div>';if(cl.status==='fulfilled'){const c=cl.value,cc=c.classification||{};h+='<div class="qs" style="margin-bottom:14px"><h4>Intent Classification</h4><div class="ct"><div style="display:flex;gap:10px;margin-bottom:8px"><span class="tag n">'+(cc.category||'general')+'</span><span style="font-family:var(--mono);font-size:11px;color:var(--ti)">'+((cc.confidence||0)*100).toFixed(0)+'%</span></div><div>'+(cc.reasoning||'')+'</div></div></div>'}if(ex.status==='fulfilled'){const e=ex.value;h+='<div class="qs" style="margin-bottom:14px"><h4>Agent Response</h4><div class="ct"><div style="margin-bottom:6px">'+(e.success?'<span class="tag a">SUCCESS</span>':'<span class="tag s">FAILED</span>')+'</div><div>'+(e.output||e.error||'No output')+'</div></div></div>'}if(an.status==='fulfilled'){const a=an.value;h+='<div class="qs"><h4>Decision Analysis — Root Cause</h4><div class="ct"><div style="margin-bottom:8px;font-size:13px;color:var(--white)">'+(a.conclusion||'')+'</div><div style="font-family:var(--mono);font-size:11px;color:var(--active)">Confidence: '+((a.overall_confidence||0)*100).toFixed(0)+'%</div>'+(a.steps||[]).map(s=>'<div style="margin-top:6px;padding:6px;background:var(--void);border:1px solid var(--border)"><span style="font-family:var(--mono);font-size:10px;color:var(--ti)">'+s.description+'</span><div style="font-size:10px;color:var(--tf)">'+(s.evidence||'')+' · '+((s.confidence||0)*100).toFixed(0)+'%</div></div>').join('')+'</div></div>'}el.innerHTML=h||'<div class="qs"><h4>No Results</h4></div>';document.getElementById('nq-st').textContent='COMPLETE';addEvent('data','QUERY','Complete')}catch(e){el.innerHTML='<div class="qs"><h4>Error</h4><div class="ct">'+e.message+'</div></div>';document.getElementById('nq-st').textContent='ERROR'}}
 
 /* ═══ OBSERVATORY ═══ */
-const obsViews = ['ceo', 'cto', 'cfo', 'ciso'];
-function renderOtabs() { document.getElementById('otabs').innerHTML = obsViews.map(v => '<div class="otab ' + (v === currentObs ? 'act' : '') + '" onclick="switchObs(\'' + v + '\')">' + v.toUpperCase() + '</div>').join(''); }
-function switchObs(v) { currentObs = v; renderOtabs(); loadObs(); }
-async function loadObs() {
-  renderOtabs(); document.getElementById('ob-body').innerHTML = '<div class="lb"></div>';
-  try {
-    const [tr, ov] = await Promise.allSettled([PixAPI.call('/enterprise/analytics/trends'), PixAPI.call('/enterprise/analytics/overview/' + PixConfig.orgId)]);
-    let h = '<div style="padding:12px">';
-    if (currentObs === 'ceo') {
-      if (ov.status === 'fulfilled') { const o = ov.value; h += '<div class="mts" style="margin-bottom:16px"><div class="mt2"><span class="l">Problems</span><span class="v">' + (o.problems_detected || 0) + '</span></div><div class="mt2"><span class="l">Recs</span><span class="v">' + (o.recommendations_generated || 0) + '</span></div><div class="mt2"><span class="l">Actions</span><span class="v">' + (o.actions_taken || 0) + '</span></div><div class="mt2"><span class="l">Impact</span><span class="v">' + ((o.business_impact_score || 0)).toFixed(1) + '</span></div></div>'; }
-      if (tr.status === 'fulfilled' && Array.isArray(tr.value) && tr.value.length) { const t = tr.value; h += '<table class="dg"><thead><tr><th>Date</th><th>Problems</th><th>Recs</th><th>Actions</th><th>Runs</th></tr></thead><tbody>'; t.slice(0, 15).forEach(d => { h += '<tr><td class="v">' + (d.date || '').split('T')[0] + '</td><td>' + (d.problems_detected || 0) + '</td><td>' + (d.recommendations || 0) + '</td><td>' + (d.actions_taken || 0) + '</td><td>' + (d.agent_runs || 0) + '</td></tr>'; }); h += '</tbody></table>'; }
-    } else if (currentObs === 'cto') { h += '<div style="padding:8px 14px;border-bottom:1px solid var(--border);background:var(--panel);margin-bottom:12px"><span style="font-family:var(--mono);font-size:10px;color:var(--ti-dim);text-transform:uppercase;letter-spacing:1.5px">Agent Performance</span></div><div class="es"><div class="m">Agent analytics will appear here</div><div class="s">Connect data sources to populate</div></div>'; }
-    else if (currentObs === 'cfo') { h += '<div class="es"><div class="m">AI Cost Tracking</div><div class="s">Token usage and cost analytics coming soon</div></div>'; }
-    else { h += '<div class="es"><div class="m">Security Events</div><div class="s">Security monitoring and compliance coming soon</div></div>'; }
-    h += '</div>'; document.getElementById('ob-body').innerHTML = h || '<div class="es"><div class="m">No data</div></div>';
-  } catch (e) { document.getElementById('ob-body').innerHTML = '<div class="es"><div class="m">FAILED</div><div class="s">' + e.message + '</div></div>'; }
-}
+const obsViews=['ceo','cto','cfo','ciso'];
+function renderOtabs(){document.getElementById('otabs').innerHTML=obsViews.map(v=>'<div class="otab '+(v===currentObs?'act':'')+'" onclick="switchObs(\''+v+'\')">'+v.toUpperCase()+'</div>').join('')}
+function switchObs(v){currentObs=v;renderOtabs();loadObs()}
+async function loadObs(){renderOtabs();document.getElementById('ob-body').innerHTML='<div class="lb"></div>';try{const[tr,ov]=await Promise.allSettled([PixAPI.call('/enterprise/analytics/trends'),PixAPI.call('/enterprise/analytics/overview/'+PixConfig.orgId)]);let h='<div style="padding:12px">';if(currentObs==='ceo'){if(ov.status==='fulfilled'){const o=ov.value;h+='<div class="mts" style="margin-bottom:16px"><div class="mt2"><span class="l">Problems</span><span class="v">'+(o.problems_detected||0)+'</span></div><div class="mt2"><span class="l">Recs</span><span class="v">'+(o.recommendations_generated||0)+'</span></div><div class="mt2"><span class="l">Actions</span><span class="v">'+(o.actions_taken||0)+'</span></div><div class="mt2"><span class="l">Impact</span><span class="v">'+((o.business_impact_score||0)).toFixed(1)+'</span></div></div>'}if(tr.status==='fulfilled'&&Array.isArray(tr.value)&&tr.value.length){const t=tr.value;h+='<div class="chart-box"><span class="ct">Activity Trend (30 days)</span><span class="cd">problems · recommendations · actions</span><div class="chart-c" id="obs-chart"></div></div>';setTimeout(()=>{const chartData=t.slice(0,15).map(d=>({x:(d.date||'').split('T')[0].slice(5),y:d.agent_runs||0}));makeChart('obs-chart',trendChartOption('Agent Activity',chartData))},100)}}else if(currentObs==='cto'){h+='<div style="padding:8px 14px;border-bottom:1px solid var(--border);background:var(--panel);margin-bottom:12px"><span style="font-family:var(--mono);font-size:10px;color:var(--ti-dim);text-transform:uppercase;letter-spacing:1.5px">Agent Performance</span></div><div class="es"><div class="m">Agent analytics will appear here</div><div class="s">Connect data sources to populate</div></div>'}else if(currentObs==='cfo'){h+='<div class="es"><div class="m">AI Cost Tracking</div><div class="s">Token usage and cost analytics coming soon</div></div>'}else{h+='<div class="es"><div class="m">Security Events</div><div class="s">Security monitoring and compliance coming soon</div></div>'}h+='</div>';document.getElementById('ob-body').innerHTML=h}catch(e){document.getElementById('ob-body').innerHTML='<div class="es"><div class="m">FAILED</div><div class="s">'+e.message+'</div></div>'}}
 
 /* ═══ AUDIT ═══ */
-async function loadAudit() {
-  document.getElementById('at-list').innerHTML = '<div class="lb"></div>';
-  try {
-    const data = await PixAPI.call('/enterprise/audit-log'); const entries = data.entries || [];
-    document.getElementById('at-st').textContent = entries.length + ' events';
-    document.getElementById('at-list').innerHTML = !entries.length ? '<div class="es"><div class="m">No audit events</div></div>' : entries.map(e => '<div class="tl"><span class="t">' + ((e.timestamp || '').split('T')[1]?.split('.')[0] || '--:--') + '</span><div class="c"><span class="a">' + (e.action || e.event_type || 'action') + '</span><span class="ac2">' + (e.resource_type || '') + ' / ' + (e.resource_id || '') + '</span></div></div>').join('');
-  } catch (e) { document.getElementById('at-list').innerHTML = '<div class="es"><div class="m">FAILED</div><div class="s">' + e.message + '</div></div>'; }
-}
+async function loadAudit(){document.getElementById('at-list').innerHTML='<div class="lb"></div>';try{const data=await PixAPI.call('/enterprise/audit-log');const entries=data.entries||[];document.getElementById('at-st').textContent=entries.length+' events';document.getElementById('at-list').innerHTML=!entries.length?'<div class="es"><div class="m">No audit events</div></div>':entries.map(e=>'<div class="tl"><span class="t">'+((e.timestamp||'').split('T')[1]?.split('.')[0]||'--:--')+'</span><div class="c"><span class="a">'+(e.action||e.event_type||'action')+'</span><span class="ac2">'+(e.resource_type||'')+' / '+(e.resource_id||'')+'</span></div></div>').join('')}catch(e){document.getElementById('at-list').innerHTML='<div class="es"><div class="m">FAILED</div><div class="s">'+e.message+'</div></div>'}}
 
 /* ═══ COMMAND BAR ═══ */
-function handleCmd(e) { if (e.key !== 'Enter') return; const v = e.target.value.toLowerCase(); if (v.includes('upload')) switchMod('upload'); else if (v.includes('profile')) switchMod('profile'); else if (v.includes('dash')) switchMod('dashboard'); else if (v.includes('query') || v.includes('ask')) { switchMod('query'); if (v.length > 10) { setQuery(e.target.value); runQuery(); } } else if (v.includes('graph')) switchMod('graph'); else if (v.includes('agent')) switchMod('agents'); else if (v.includes('decision')) switchMod('decisions'); else if (v.includes('memory')) { switchMod('memory'); searchMem(); } else if (v.includes('observ')) switchMod('observatory'); else if (v.includes('audit')) switchMod('audit'); e.target.value = ''; }
+function handleCmd(e){if(e.key!=='Enter')return;const v=e.target.value.toLowerCase();if(v.includes('upload'))switchMod('upload');else if(v.includes('profile'))switchMod('profile');else if(v.includes('dash'))switchMod('dashboard');else if(v.includes('query')||v.includes('ask')){switchMod('query');if(v.length>10){setQuery(e.target.value);runQuery()}}else if(v.includes('graph'))switchMod('graph');else if(v.includes('agent'))switchMod('agents');else if(v.includes('decision'))switchMod('decisions');else if(v.includes('memory')){switchMod('memory');searchMem()}else if(v.includes('observ'))switchMod('observatory');else if(v.includes('audit'))switchMod('audit');e.target.value=''}
 
 /* ═══ CANVAS ═══ */
-function initLandingCanvas() { const c = document.getElementById('landing-canvas'); if (!c) return; const ctx = c.getContext('2d'); c.width = window.innerWidth; c.height = window.innerHeight; const nodes = []; for (let i = 0; i < 80; i++) nodes.push({ x: Math.random() * c.width, y: Math.random() * c.height, vx: (Math.random() - .5) * .3, vy: (Math.random() - .5) * .3, r: Math.random() * 1.5 + .5 }); function draw() { ctx.clearRect(0, 0, c.width, c.height); nodes.forEach(n => { n.x += n.vx; n.y += n.vy; if (n.x < 0 || n.x > c.width) n.vx *= -1; if (n.y < 0 || n.y > c.height) n.vy *= -1; }); ctx.strokeStyle = 'rgba(192,200,208,0.04)'; ctx.lineWidth = .5; for (let i = 0; i < nodes.length; i++) for (let j = i + 1; j < nodes.length; j++) { const dx = nodes[i].x - nodes[j].x, dy = nodes[i].y - nodes[j].y, d = Math.sqrt(dx * dx + dy * dy); if (d < 150) { ctx.globalAlpha = (1 - d / 150) * .3; ctx.beginPath(); ctx.moveTo(nodes[i].x, nodes[i].y); ctx.lineTo(nodes[j].x, nodes[j].y); ctx.stroke(); } } ctx.globalAlpha = 1; nodes.forEach(n => { ctx.beginPath(); ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2); ctx.fillStyle = 'rgba(192,200,208,0.3)'; ctx.fill(); }); requestAnimationFrame(draw); } draw(); window.onresize = () => { c.width = window.innerWidth; c.height = window.innerHeight; }; }
-function initDataFlow() { const stages = [{ l: 'Data Sources', i: '◈' }, { l: 'Intelligence Profile', i: '◉' }, { l: 'AI Agents', i: '⬡' }, { l: 'Decision Engine', i: '⚡' }, { l: 'Business Outcomes', i: '✓' }]; document.getElementById('dflow').innerHTML = stages.map((s, i) => '<div class="dflow-s"><div class="dflow-n pls">' + s.i + '</div><span class="dflow-l">' + s.l + '</span></div>' + (i < stages.length - 1 ? '<div class="dflow-a"><div class="d" style="animation-delay:' + (i * .4) + 's"></div></div>' : '')).join(''); }
-function initAuthCanvas() { const c = document.getElementById('auth-canvas'); if (!c) return; const ctx = c.getContext('2d'); c.width = c.parentElement.offsetWidth; c.height = c.parentElement.offsetHeight; const p = []; for (let i = 0; i < 40; i++) p.push({ x: Math.random() * c.width, y: Math.random() * c.height, vx: (Math.random() - .5) * .2, vy: (Math.random() - .5) * .2, r: Math.random() * 1 + .5 }); function draw() { ctx.clearRect(0, 0, c.width, c.height); p.forEach(n => { n.x += n.vx; n.y += n.vy; if (n.x < 0 || n.x > c.width) n.vx *= -1; if (n.y < 0 || n.y > c.height) n.vy *= -1; ctx.beginPath(); ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2); ctx.fillStyle = 'rgba(192,200,208,0.15)'; ctx.fill(); }); requestAnimationFrame(draw); } draw(); }
+function initLandingCanvas(){const c=document.getElementById('landing-canvas');if(!c)return;const ctx=c.getContext('2d');c.width=window.innerWidth;c.height=window.innerHeight;const nodes=[];for(let i=0;i<80;i++)nodes.push({x:Math.random()*c.width,y:Math.random()*c.height,vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3,r:Math.random()*1.5+.5});function draw(){ctx.clearRect(0,0,c.width,c.height);nodes.forEach(n=>{n.x+=n.vx;n.y+=n.vy;if(n.x<0||n.x>c.width)n.vx*=-1;if(n.y<0||n.y>c.height)n.vy*=-1});ctx.strokeStyle='rgba(200,208,216,0.03)';ctx.lineWidth=.5;for(let i=0;i<nodes.length;i++)for(let j=i+1;j<nodes.length;j++){const dx=nodes[i].x-nodes[j].x,dy=nodes[i].y-nodes[j].y,d=Math.sqrt(dx*dx+dy*dy);if(d<150){ctx.globalAlpha=(1-d/150)*.25;ctx.beginPath();ctx.moveTo(nodes[i].x,nodes[i].y);ctx.lineTo(nodes[j].x,nodes[j].y);ctx.stroke()}}ctx.globalAlpha=1;nodes.forEach(n=>{ctx.beginPath();ctx.arc(n.x,n.y,n.r,0,Math.PI*2);ctx.fillStyle='rgba(200,208,216,0.25)';ctx.fill()});requestAnimationFrame(draw)}draw();window.onresize=()=>{c.width=window.innerWidth;c.height=window.innerHeight}}
+function initDataFlow(){const stages=[{l:'Data Sources',i:'◈'},{l:'Intelligence Profile',i:'◉'},{l:'AI Agents',i:'⬡'},{l:'Decision Engine',i:'⚡'},{l:'Business Outcomes',i:'✓'}];document.getElementById('dflow').innerHTML=stages.map((s,i)=>'<div class="dflow-s"><div class="dflow-n pls">'+s.i+'</div><span class="dflow-l">'+s.l+'</span></div>'+(i<stages.length-1?'<div class="dflow-a"><div class="d" style="animation-delay:'+(i*.4)+'s"></div></div>':'')).join('')}
+function initAuthCanvas(){const c=document.getElementById('auth-canvas');if(!c)return;const ctx=c.getContext('2d');c.width=c.parentElement.offsetWidth;c.height=c.parentElement.offsetHeight;const p=[];for(let i=0;i<40;i++)p.push({x:Math.random()*c.width,y:Math.random()*c.height,vx:(Math.random()-.5)*.2,vy:(Math.random()-.5)*.2,r:Math.random()*1+.5});function draw(){ctx.clearRect(0,0,c.width,c.height);p.forEach(n=>{n.x+=n.vx;n.y+=n.vy;if(n.x<0||n.x>c.width)n.vx*=-1;if(n.y<0||n.y>c.height)n.vy*=-1;ctx.beginPath();ctx.arc(n.x,n.y,n.r,0,Math.PI*2);ctx.fillStyle='rgba(200,208,216,0.12)';ctx.fill()});requestAnimationFrame(draw)}draw()}
 
 /* ═══ DRAG-DROP ═══ */
-document.addEventListener('dragover', e => { e.preventDefault(); document.getElementById('dz')?.classList.add('dragover'); });
-document.addEventListener('dragleave', () => document.getElementById('dz')?.classList.remove('dragover'));
-document.addEventListener('drop', e => { e.preventDefault(); document.getElementById('dz')?.classList.remove('dragover'); if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]); });
-document.getElementById('apass')?.addEventListener('keydown', e => { if (e.key === 'Enter') handleAuth(); });
+document.addEventListener('dragover',e=>{e.preventDefault();document.getElementById('dz')?.classList.add('dragover')});
+document.addEventListener('dragleave',()=>document.getElementById('dz')?.classList.remove('dragover'));
+document.addEventListener('drop',e=>{e.preventDefault();document.getElementById('dz')?.classList.remove('dragover');if(e.dataTransfer.files.length)handleFile(e.dataTransfer.files[0])});
+document.getElementById('apass')?.addEventListener('keydown',e=>{if(e.key==='Enter')handleAuth()});
 
-/* ═══ INIT — PixConfig already initialized above ═══ */
-initLandingCanvas(); initDataFlow();
-// Check for OAuth callback first, then fall back to stored auth
-  (async () => {
-    const oauthOk = await handleOAuthCallback();
-    if (oauthOk) {
-      enterApp();
-    } else if (PixConfig.isAuth()) {
-      enterApp();
-    }
-  })();
-  // Listen for Supabase auth state changes (handles token refresh)
-  if (PixConfig.supabase) {
-    PixConfig.supabase.auth.onAuthStateChange(async (event, session) => {
-      if (event === 'SIGNED_OUT') {
-        PixAPI.logout();
-        showLanding();
-      } else if (event === 'TOKEN_REFRESHED' && session) {
-        // Re-exchange refreshed Supabase token for πX JWT
-        try {
-          const r = await fetch(PixConfig.apiBase + '/auth/google', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ supabase_access_token: session.access_token })
-          });
-          if (r.ok) {
-            const tokens = await r.json();
-            PixConfig.setTokens(tokens.access_token, tokens.refresh_token);
-          }
-        } catch {}
-      }
-    });
-  }
+/* ═══ INIT ═══ */
+initLandingCanvas();initDataFlow();
+(async()=>{const oauthOk=await handleOAuthCallback();if(oauthOk)enterApp();else if(PixConfig.isAuth())enterApp()})();
+if(PixConfig.supabase){PixConfig.supabase.auth.onAuthStateChange(async(event,session)=>{if(event==='SIGNED_OUT'){PixAPI.logout();showLanding()}else if(event==='TOKEN_REFRESHED'&&session){try{const r=await fetch(PixConfig.apiBase+'/auth/google',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({supabase_access_token:session.access_token})});if(r.ok){const tokens=await r.json();PixConfig.setTokens(tokens.access_token,tokens.refresh_token)}}catch{}}})};
+window.addEventListener('resize',()=>{echartInstances.forEach(c=>c.resize())});
 </script>
 </body>
 </html>
