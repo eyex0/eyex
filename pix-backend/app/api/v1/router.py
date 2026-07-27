@@ -8,17 +8,18 @@ from app.api.v1.auth import auth_router
 from app.api.v1.billing import billing_router, dashboard_router
 from app.api.v1.chat import chat_router
 from app.api.v1.cognitive_data import cognitive_data_router
+from app.api.v1.decisions import decisions_router
 from app.api.v1.enterprise import enterprise_router
 from app.api.v1.gtm import gtm_router
 from app.api.v1.health import health_router
 from app.api.v1.intelligence import intelligence_router
+from app.api.v1.intelligence_profile import ip_router
+from app.api.v1.knowledge_graph import knowledge_router
 from app.api.v1.memory import memory_router
 from app.api.v1.status import status_router
 from app.api.v1.trust import trust_router
 from app.api.v1.workspaces import workspaces_router
 from app.api.v1.ingestion import ingestion_router
-from app.api.v1.knowledge_graph import knowledge_router
-from app.api.v1.decisions import decisions_router
 
 api_v1_router = APIRouter(prefix="/api/v1")
 api_v1_router.include_router(health_router)
@@ -41,3 +42,4 @@ api_v1_router.include_router(cognitive_data_router)
 api_v1_router.include_router(ingestion_router)
 api_v1_router.include_router(knowledge_router)
 api_v1_router.include_router(decisions_router)
+api_v1_router.include_router(ip_router)
