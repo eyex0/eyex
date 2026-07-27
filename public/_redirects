@@ -1,0 +1,5 @@
+# SPA fallback — all routes serve index.html
+/*    /index.html   200
+
+# API proxy — forwarded to FastAPI backend
+/api/v1/*  https://pix-api.your-domain.com/api/v1/:splat  200

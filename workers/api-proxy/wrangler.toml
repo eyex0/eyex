@@ -1,0 +1,12 @@
+name = "pix-api-proxy"
+main = "index.ts"
+compatibility_date = "2024-12-01"
+compatibility_flags = ["nodejs_compat"]
+
+# Routes: intercept /api/v1/* and proxy to backend
+routes = [
+  { pattern = "pix.your-domain.com/api/v1/*", zone_name = "your-domain.com" }
+]
+
+[vars]
+BACKEND_URL = "https://pix-api.your-domain.com"
