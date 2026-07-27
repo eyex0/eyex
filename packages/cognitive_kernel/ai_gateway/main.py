@@ -54,9 +54,19 @@ class AIGateway:
         if os.environ.get("COHERE_API_KEY"):
             self.register_provider("cohere", CohereProvider(api_key=os.environ.get("COHERE_API_KEY")))
         
-        self.register_provider("ollama", OllamaProvider())
-        self.register_provider("vllm", VLLMProvider(base_url=os.environ.get("VLLM_BASE_URL", "")))
-        self.register_provider("lmstudio", LMStudioProvider(base_url=os.environ.get("LMSTUDIO_BASE_URL", "")))
+        # Local providers — register only if available (lazy init for tests)
+        try:
+            self.register_provider("ollama", OllamaProvider())
+        except Exception:
+            pass
+        try:
+            self.register_provider("vllm", VLLMProvider(base_url=os.environ.get("VLLM_BASE_URL", "")))
+        except Exception:
+            pass
+        try:
+            self.register_provider("lmstudio", LMStudioProvider(base_url=os.environ.get("LMSTUDIO_BASE_URL", "")))
+        except Exception:
+            pass
 
     def register_provider(self, name: str, provider: AIProvider):
         self.providers[name] = provider

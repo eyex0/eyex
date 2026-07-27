@@ -107,3 +107,22 @@ class AIProvider(ABC):
 
     def capabilities(self) -> set[ProviderCapability]:
         return {ProviderCapability.GENERATION, ProviderCapability.STREAMING}
+
+
+class ProviderError(Exception):
+    """Base error for AI provider failures."""
+    def __init__(self, message: str, status_code: int | None = None):
+        super().__init__(message)
+        self.status_code = status_code
+
+
+class ProviderUnavailableError(ProviderError):
+    """Provider is unavailable (network, auth, or service issue)."""
+    def __init__(self, message: str, status_code: int | None = None):
+        super().__init__(message, status_code=status_code)
+
+
+class RateLimitError(ProviderError):
+    """Provider rate limit exceeded."""
+    def __init__(self, message: str, status_code: int = 429):
+        super().__init__(message, status_code=status_code)
