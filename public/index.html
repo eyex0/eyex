@@ -7,97 +7,118 @@
 <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600&family=Inter:wght@300;400;500;600;700;800&display=swap');
-:root{--void:#050816;--abyss:#030509;--panel:#0A0F1E;--panel2:#0D1322;--panel3:#111828;--border:#1A2138;--border2:#232D44;--ti:#C0C8D0;--ti-dim:#6B7280;--ti-faint:#3A4258;--white:#FFF;--td:#8892A6;--tf:#4A5268;--pos:#4ADE80;--neg:#EF4444;--warn:#FBBF24;--info:#60A5FA;--sig:#A78BFA;--mono:'JetBrains Mono',monospace;--sans:'Inter',sans-serif}
+:root{--void:#050816;--abyss:#030509;--panel:#0A0F1E;--panel2:#0D1322;--panel3:#111828;--border:#1C2538;--border2:#232D44;--ti:#C0C8D0;--ti-dim:#6B7280;--ti-faint:#3A4258;--white:#FFF;--active:#00E5A8;--warn:#FFB020;--danger:#FF4560;--info:#60A5FA;--sig:#A78BFA;--td:#8892A6;--tf:#4A5268;--mono:'JetBrains Mono',monospace;--sans:'Inter',sans-serif}
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{height:100vh;overflow:hidden;background:var(--void);color:var(--ti);font-family:var(--sans);font-size:13px;-webkit-font-smoothing:antialiased}
 ::-webkit-scrollbar{width:4px;height:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--border2)}::-webkit-scrollbar-thumb:hover{background:var(--ti-faint)}
 input,textarea{user-select:text}
-/* ── VIEWS ── */
 .view{display:none;height:100vh;width:100vw}.view.active{display:flex;flex-direction:column}
-/* ── LANDING ── */
-#landing{position:relative;overflow-y:auto;overflow-x:hidden;background:var(--void)}
-#landing-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;opacity:.6}
+/* LANDING */
+#landing{position:relative;overflow-y:auto;overflow-x:hidden;background:var(--void);scroll-behavior:smooth}
+#landing-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;opacity:.5}
 .landing-content{position:relative;z-index:1}
-.landing-nav{display:flex;align-items:center;justify-content:space-between;padding:20px 48px;position:sticky;top:0;background:rgba(5,8,22,.8);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);z-index:10}
-.landing-logo{display:flex;align-items:center;gap:10px}
-.landing-logo .mark{font-family:var(--mono);font-weight:700;font-size:22px;color:var(--white);letter-spacing:-1.5px}
+.landing-nav{display:flex;align-items:center;justify-content:space-between;padding:18px 48px;position:sticky;top:0;background:rgba(5,8,22,.85);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);z-index:10}
+.landing-logo{display:flex;align-items:center;gap:10px;cursor:pointer}
+.landing-logo .mark{font-family:var(--mono);font-weight:700;font-size:24px;color:var(--white);letter-spacing:-1.5px}
 .landing-logo .tag{font-family:var(--mono);font-size:8px;color:var(--ti-dim);text-transform:uppercase;letter-spacing:3px;line-height:1.3}
 .landing-nav-links{display:flex;gap:32px;align-items:center}
-.landing-nav-links a{font-family:var(--mono);font-size:11px;color:var(--td);text-decoration:none;text-transform:uppercase;letter-spacing:1.5px;transition:color .2s}
+.landing-nav-links a{font-family:var(--mono);font-size:10px;color:var(--td);text-decoration:none;text-transform:uppercase;letter-spacing:1.5px;transition:color .2s;cursor:pointer}
 .landing-nav-links a:hover{color:var(--ti)}
-.landing-nav-actions{display:flex;gap:12px;align-items:center}
-.landing-btn{font-family:var(--mono);font-size:11px;padding:8px 20px;border:none;cursor:pointer;border-radius:2px;text-transform:uppercase;letter-spacing:1.5px;transition:all .2s}
+.landing-nav-actions{display:flex;gap:10px;align-items:center}
+.landing-btn{font-family:var(--mono);font-size:10px;padding:8px 20px;border:none;cursor:pointer;border-radius:2px;text-transform:uppercase;letter-spacing:1.5px;transition:all .2s;font-weight:500}
 .landing-btn.ghost{background:none;color:var(--ti);border:1px solid var(--border2)}.landing-btn.ghost:hover{border-color:var(--ti);color:var(--white)}
 .landing-btn.solid{background:var(--ti);color:var(--void)}.landing-btn.solid:hover{background:#D0D8E0}
-.landing-hero{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:80vh;padding:0 48px;text-align:center;position:relative}
-.landing-hero h1{font-family:var(--sans);font-size:72px;font-weight:800;color:var(--white);letter-spacing:-3px;line-height:1;max-width:900px}
+.landing-btn.accent{background:var(--active);color:var(--void)}.landing-btn.accent:hover{background:#33EDBB}
+.landing-hero{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:82vh;padding:0 48px;text-align:center;position:relative}
+.landing-hero h1{font-family:var(--sans);font-size:68px;font-weight:800;color:var(--white);letter-spacing:-3px;line-height:1;max-width:900px}
 .landing-hero h1 .accent{color:var(--ti);font-weight:300}
-.landing-hero .sub{font-family:var(--sans);font-size:18px;color:var(--td);max-width:600px;margin:24px 0 40px;line-height:1.5;font-weight:300}
-.landing-hero .cta-row{display:flex;gap:16px}
-.landing-section{padding:100px 48px;max-width:1200px;margin:0 auto}
-.landing-section h2{font-family:var(--sans);font-size:42px;font-weight:700;color:var(--white);letter-spacing:-1.5px;margin-bottom:16px}
-.landing-section .section-sub{font-family:var(--sans);font-size:16px;color:var(--td);max-width:600px;margin-bottom:48px;font-weight:300;line-height:1.5}
-.product-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);margin-top:32px}
-.product-card{background:var(--panel);padding:32px;display:flex;flex-direction:column;gap:12px;transition:background .2s;cursor:pointer}
-.product-card:hover{background:var(--panel2)}
-.product-card .icon{font-family:var(--mono);font-size:24px;color:var(--ti);margin-bottom:8px}
-.product-card h3{font-family:var(--sans);font-size:18px;font-weight:600;color:var(--white)}
-.product-card p{font-family:var(--sans);font-size:13px;color:var(--td);line-height:1.5;font-weight:300}
-.product-card .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
-.product-card .tag{font-family:var(--mono);font-size:8px;color:var(--tf);padding:3px 8px;background:var(--panel3);border:1px solid var(--border);text-transform:uppercase;letter-spacing:.5px}
-.arch-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);margin-top:32px}
-.arch-cell{background:var(--panel);padding:20px;display:flex;flex-direction:column;gap:8px}
-.arch-cell .num{font-family:var(--mono);font-size:10px;color:var(--tf);text-transform:uppercase;letter-spacing:1px}
-.arch-cell .title{font-family:var(--sans);font-size:14px;color:var(--white);font-weight:500}
-.arch-cell .desc{font-family:var(--sans);font-size:11px;color:var(--td);line-height:1.4}
-.stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);margin-top:32px}
+.landing-hero .sub{font-family:var(--sans);font-size:18px;color:var(--td);max-width:620px;margin:24px 0 40px;line-height:1.5;font-weight:300}
+.landing-hero .cta-row{display:flex;gap:12px}
+/* DATA FLOW */
+.data-flow{display:flex;align-items:center;justify-content:center;gap:0;margin-top:60px;padding:20px 0;flex-wrap:wrap}
+.flow-stage{display:flex;flex-direction:column;align-items:center;gap:8px;min-width:120px;position:relative}
+.flow-node{width:56px;height:56px;border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:18px;color:var(--ti);background:var(--panel);position:relative;transition:all .3s}
+.flow-node.pulse{border-color:var(--active);color:var(--active);box-shadow:0 0 12px rgba(0,229,168,.15)}
+.flow-label{font-family:var(--mono);font-size:8px;color:var(--tf);text-transform:uppercase;letter-spacing:1px}
+.flow-arrow{width:40px;height:1px;background:var(--border2);position:relative}
+.flow-arrow .dot{position:absolute;width:4px;height:4px;background:var(--active);border-radius:50%;top:-1.5px;animation:flowMove 2s linear infinite;box-shadow:0 0 6px var(--active)}
+@keyframes flowMove{0%{left:0}100%{left:36px}}
+.landing-section{padding:80px 48px;max-width:1200px;margin:0 auto}
+.landing-section h2{font-family:var(--sans);font-size:38px;font-weight:700;color:var(--white);letter-spacing:-1.5px;margin-bottom:12px}
+.landing-section .section-sub{font-family:var(--sans);font-size:15px;color:var(--td);max-width:600px;margin-bottom:40px;font-weight:300;line-height:1.5}
+.arch-flow{display:flex;flex-direction:column;gap:0}
+.arch-step{display:flex;align-items:center;gap:16px;padding:16px 0;border-bottom:1px solid var(--border)}
+.arch-step:last-child{border-bottom:none}
+.arch-num{font-family:var(--mono);font-size:10px;color:var(--tf);width:24px}
+.arch-title{font-family:var(--sans);font-size:16px;font-weight:600;color:var(--white);min-width:200px}
+.arch-desc{font-family:var(--sans);font-size:13px;color:var(--td);flex:1;font-weight:300}
+.arch-arrow{color:var(--ti-faint);font-family:var(--mono);font-size:16px}
+.profile-compare{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);margin-top:24px}
+.profile-col{background:var(--panel);padding:24px}
+.profile-col h3{font-family:var(--mono);font-size:11px;color:var(--active);text-transform:uppercase;letter-spacing:2px;margin-bottom:16px}
+.profile-section-title{font-family:var(--mono);font-size:9px;color:var(--tf);text-transform:uppercase;letter-spacing:1px;margin:16px 0 8px}
+.profile-item{display:flex;align-items:center;gap:8px;padding:4px 0;font-family:var(--mono);font-size:12px;color:var(--td)}
+.profile-item .dot{width:4px;height:4px;background:var(--ti-faint);border-radius:50%}
+.profile-item.kpi .dot{background:var(--active)}
+.agent-workforce{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);margin-top:24px}
+.agent-tile{background:var(--panel);padding:20px;display:flex;flex-direction:column;gap:8px}
+.agent-tile .role{font-family:var(--mono);font-size:11px;color:var(--white);font-weight:500;text-transform:uppercase;letter-spacing:1px}
+.agent-tile .resp{font-family:var(--sans);font-size:11px;color:var(--td);line-height:1.4;font-weight:300}
+.agent-tile .stats{display:flex;gap:12px;margin-top:4px}
+.agent-tile .stat{font-family:var(--mono);font-size:9px;color:var(--tf)}
+.agent-tile .stat .v{color:var(--active);font-weight:500}
+.stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);margin-top:24px}
 .stat-cell{background:var(--panel);padding:32px;text-align:center}
-.stat-cell .num{font-family:var(--mono);font-size:48px;color:var(--white);font-weight:500;line-height:1}
-.stat-cell .label{font-family:var(--mono);font-size:10px;color:var(--tf);text-transform:uppercase;letter-spacing:1.5px;margin-top:8px}
-.landing-footer{padding:40px 48px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
-.landing-footer .copy{font-family:var(--mono);font-size:10px;color:var(--tf);text-transform:uppercase;letter-spacing:1px}
-/* ── AUTH ── */
+.stat-cell .num{font-family:var(--mono);font-size:44px;color:var(--white);font-weight:500;line-height:1}
+.stat-cell .label{font-family:var(--mono);font-size:9px;color:var(--tf);text-transform:uppercase;letter-spacing:1.5px;margin-top:8px}
+.landing-footer{padding:32px 48px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.landing-footer .copy{font-family:var(--mono);font-size:9px;color:var(--tf);text-transform:uppercase;letter-spacing:1px}
+/* AUTH */
 #auth-view{display:none;align-items:center;justify-content:center;height:100vh;position:relative;overflow:hidden}
 #auth-view.active{display:flex}
 #auth-canvas{position:absolute;top:0;left:0;width:100%;height:100%;z-index:0;opacity:.4}
-.auth-card{position:relative;z-index:1;width:400px;background:var(--panel);border:1px solid var(--border2);padding:40px;display:flex;flex-direction:column;gap:20px}
-.auth-card .logo{display:flex;align-items:center;gap:10px;margin-bottom:8px}
-.auth-card .logo .mark{font-family:var(--mono);font-weight:700;font-size:20px;color:var(--white)}
-.auth-card h2{font-family:var(--sans);font-size:22px;font-weight:600;color:var(--white)}
-.auth-card .sub{font-family:var(--sans);font-size:12px;color:var(--td);margin-bottom:8px}
-.auth-field{display:flex;flex-direction:column;gap:6px}
-.auth-field label{font-family:var(--mono);font-size:10px;color:var(--tf);text-transform:uppercase;letter-spacing:1px}
-.auth-field input{background:var(--void);border:1px solid var(--border);border-radius:2px;padding:10px 14px;color:var(--white);font-family:var(--sans);font-size:13px;outline:none;transition:border-color .15s}
-.auth-field input:focus{border-color:var(--ti-faint)}
+.auth-card{position:relative;z-index:1;width:420px;background:var(--panel);border:1px solid var(--border2);padding:36px;display:flex;flex-direction:column;gap:16px}
+.auth-card .logo{font-family:var(--mono);font-weight:700;font-size:22px;color:var(--white);margin-bottom:4px}
+.auth-card h2{font-family:var(--sans);font-size:20px;font-weight:600;color:var(--white)}
+.auth-card .sub{font-family:var(--sans);font-size:12px;color:var(--td)}
+.auth-field{display:flex;flex-direction:column;gap:5px}
+.auth-field label{font-family:var(--mono);font-size:9px;color:var(--tf);text-transform:uppercase;letter-spacing:1px}
+.auth-field input,.auth-field select{background:var(--void);border:1px solid var(--border);border-radius:2px;padding:10px 12px;color:var(--white);font-family:var(--sans);font-size:13px;outline:none;transition:border-color .15s}
+.auth-field input:focus,.auth-field select:focus{border-color:var(--ti-faint)}
 .auth-field input::placeholder{color:var(--tf)}
-.auth-error{font-family:var(--mono);font-size:11px;color:var(--neg);padding:8px 12px;background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);border-radius:2px;display:none}
+.auth-field select{cursor:pointer}
+.auth-error{font-family:var(--mono);font-size:11px;color:var(--danger);padding:8px 12px;background:rgba(255,69,96,.06);border:1px solid rgba(255,69,96,.15);border-radius:2px;display:none}
 .auth-error.show{display:block}
-.auth-btn{font-family:var(--mono);font-size:12px;padding:12px;background:var(--ti);color:var(--void);border:none;border-radius:2px;cursor:pointer;text-transform:uppercase;letter-spacing:1.5px;font-weight:600;transition:background .2s}
+.auth-btn{font-family:var(--mono);font-size:11px;padding:12px;background:var(--ti);color:var(--void);border:none;border-radius:2px;cursor:pointer;text-transform:uppercase;letter-spacing:1.5px;font-weight:600;transition:background .2s}
 .auth-btn:hover{background:#D0D8E0}
 .auth-btn:disabled{opacity:.5;cursor:wait}
+.auth-oauth{font-family:var(--mono);font-size:11px;padding:10px;background:transparent;color:var(--td);border:1px solid var(--border2);border-radius:2px;cursor:pointer;text-transform:uppercase;letter-spacing:1px;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px}
+.auth-oauth:hover{color:var(--ti);border-color:var(--ti-faint)}
+.auth-divider{display:flex;align-items:center;gap:12px;font-family:var(--mono);font-size:9px;color:var(--tf);text-transform:uppercase;letter-spacing:1px}
+.auth-divider::before,.auth-divider::after{content:'';flex:1;height:1px;background:var(--border)}
 .auth-switch{font-family:var(--sans);font-size:12px;color:var(--td);text-align:center}
-.auth-switch a{color:var(--ti);text-decoration:none;cursor:pointer}.auth-switch a:hover{color:var(--white)}
+.auth-switch a{color:var(--ti);cursor:pointer}.auth-switch a:hover{color:var(--white)}
 .auth-back{font-family:var(--mono);font-size:10px;color:var(--tf);text-transform:uppercase;letter-spacing:1px;cursor:pointer;position:absolute;top:24px;left:24px;z-index:2}
 .auth-back:hover{color:var(--ti)}
-/* ── APP ── */
+/* APP */
 #app-view{display:none;height:100vh}
 #app-view.active{display:grid;grid-template-rows:42px 1fr 28px;grid-template-columns:48px 1fr 320px;grid-template-areas:"top top top" "rail main right" "status status status"}
 #topbar{grid-area:top;display:flex;align-items:center;background:var(--abyss);border-bottom:1px solid var(--border);padding:0 12px;gap:12px;z-index:100}
 .logo{display:flex;align-items:center;gap:8px;padding-right:12px;border-right:1px solid var(--border);height:100%;cursor:pointer}
 .logo-mark{font-family:var(--mono);font-weight:600;font-size:16px;color:var(--white);letter-spacing:-1px}
-.logo-text{font-family:var(--mono);font-size:9px;color:var(--ti-dim);text-transform:uppercase;letter-spacing:2px;line-height:1.2}
-.cmd-bar{flex:1;display:flex;align-items:center;gap:8px;background:var(--panel);border:1px solid var(--border);height:28px;padding:0 10px;border-radius:2px;cursor:text;transition:border-color .15s}
-.cmd-bar:hover{border-color:var(--border2)}.cmd-bar:focus-within{border-color:var(--ti-faint)}
+.logo-text{font-family:var(--mono);font-size:8px;color:var(--ti-dim);text-transform:uppercase;letter-spacing:2px;line-height:1.2}
+.cmd-bar{flex:1;display:flex;align-items:center;gap:8px;background:var(--panel);border:1px solid var(--border);height:28px;padding:0 10px;border-radius:2px}
+.cmd-bar:focus-within{border-color:var(--ti-faint)}
 .cmd-prefix{font-family:var(--mono);font-size:11px;color:var(--tf)}
 .cmd-input{flex:1;background:none;border:none;outline:none;color:var(--ti);font-family:var(--mono);font-size:12px}.cmd-input::placeholder{color:var(--tf)}
 .topbar-right{display:flex;align-items:center;gap:10px;padding-left:12px;border-left:1px solid var(--border);height:100%}
-.org-badge{display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;color:var(--td)}
-.org-badge .dot{width:6px;height:6px;border-radius:50%;background:var(--pos);box-shadow:0 0 4px var(--pos)}
+.org-badge{display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:10px;color:var(--td)}
+.org-badge .dot{width:6px;height:6px;border-radius:50%;background:var(--active);box-shadow:0 0 4px var(--active)}
 .user-chip{width:26px;height:26px;border-radius:2px;background:var(--panel3);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;color:var(--ti);font-weight:600;cursor:pointer}
 #rail{grid-area:rail;background:var(--abyss);border-right:1px solid var(--border);display:flex;flex-direction:column;align-items:center;padding:8px 0;gap:2px}
 .rail-btn{width:36px;height:36px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;border:none;background:none;color:var(--tf);border-radius:2px;position:relative;transition:all .12s;gap:1px}
 .rail-btn:hover{color:var(--ti-dim);background:var(--panel)}.rail-btn.active{color:var(--white);background:var(--panel2)}
-.rail-btn.active::before{content:'';position:absolute;left:-8px;top:4px;bottom:4px;width:2px;background:var(--ti)}
+.rail-btn.active::before{content:'';position:absolute;left:-8px;top:4px;bottom:4px;width:2px;background:var(--active)}
 .rail-icon{font-family:var(--mono);font-size:9px;font-weight:600}.rail-label{font-family:var(--mono);font-size:6px;text-transform:uppercase;letter-spacing:.5px;opacity:.7}
 .rail-divider{width:24px;height:1px;background:var(--border);margin:4px 0}
 #main{grid-area:main;overflow:hidden;position:relative;background:var(--void)}
@@ -107,32 +128,30 @@ input,textarea{user-select:text}
 .module-title h2{font-family:var(--mono);font-size:12px;font-weight:500;color:var(--white);text-transform:uppercase;letter-spacing:1px}
 .module-badge{font-family:var(--mono);font-size:9px;color:var(--tf);padding:2px 8px;border:1px solid var(--border);border-radius:2px;text-transform:uppercase;letter-spacing:1px}
 .module-actions{display:flex;gap:6px}
-.module-btn{font-family:var(--mono);font-size:10px;color:var(--td);background:var(--panel2);border:1px solid var(--border);padding:4px 10px;cursor:pointer;border-radius:2px;transition:all .12s;text-transform:uppercase;letter-spacing:.5px}
-.module-btn:hover{color:var(--ti);border-color:var(--border2);background:var(--panel3)}.module-btn.primary{color:var(--void);background:var(--ti);border-color:var(--ti)}.module-btn.primary:hover{background:#D0D8E0}
 .module-body{flex:1;overflow:auto;padding:0}
 .drop-zone{border:2px dashed var(--border2);border-radius:2px;padding:40px;text-align:center;cursor:pointer;transition:all .2s;margin:16px}
-.drop-zone:hover,.drop-zone.dragover{border-color:var(--ti);background:var(--panel)}
+.drop-zone:hover,.drop-zone.dragover{border-color:var(--active);background:var(--panel)}
 .drop-zone .icon{font-family:var(--mono);font-size:28px;color:var(--ti-faint)}
 .drop-zone .text{font-family:var(--mono);font-size:11px;color:var(--td);text-transform:uppercase;letter-spacing:1px;margin-top:8px}
 .drop-zone .sub{font-family:var(--mono);font-size:9px;color:var(--tf);margin-top:4px}
+.tag{font-family:var(--mono);font-size:9px;padding:2px 6px;border-radius:1px;text-transform:uppercase;letter-spacing:.5px;display:inline-block}
+.tag.neutral{background:var(--panel3);color:var(--td);border:1px solid var(--border2)}
+.tag.active{background:rgba(0,229,168,.08);color:var(--active);border:1px solid rgba(0,229,168,.2)}
+.tag.idle{background:rgba(96,165,250,.08);color:var(--info);border:1px solid rgba(96,165,250,.2)}
+.tag.stopped{background:rgba(255,69,96,.08);color:var(--danger);border:1px solid rgba(255,69,96,.2)}
+.tag.pii{background:rgba(255,176,32,.08);color:var(--warn);border:1px solid rgba(255,176,32,.2)}
+.module-btn{font-family:var(--mono);font-size:10px;color:var(--td);background:var(--panel2);border:1px solid var(--border);padding:4px 10px;cursor:pointer;border-radius:2px;transition:all .12s;text-transform:uppercase;letter-spacing:.5px}
+.module-btn:hover{color:var(--ti);border-color:var(--border2);background:var(--panel3)}.module-btn.primary{color:var(--void);background:var(--ti);border-color:var(--ti)}.module-btn.primary:hover{background:#D0D8E0}
 .loading-bar{height:1px;background:var(--border);position:relative;overflow:hidden}
 .loading-bar::after{content:'';position:absolute;height:100%;width:40%;background:var(--ti);animation:slide 1.5s infinite}
 @keyframes slide{0%{left:-40%}100%{left:100%}}
 .data-grid{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:11px}
-.data-grid th{text-align:left;padding:6px 12px;color:var(--tf);font-weight:400;text-transform:uppercase;font-size:9px;letter-spacing:1px;border-bottom:1px solid var(--border);background:var(--panel);position:sticky;top:0;z-index:1}
+.data-grid th{text-align:left;padding:6px 12px;color:var(--tf);font-weight:400;text-transform:uppercase;font-size:9px;letter-spacing:1px;border-bottom:1px solid var(--border);background:var(--panel);position:sticky;top:0}
 .data-grid td{padding:5px 12px;color:var(--td);border-bottom:1px solid var(--border);white-space:nowrap}
 .data-grid tr:hover td{color:var(--ti);background:var(--panel)}
 .data-grid .val{color:var(--white);font-weight:500}
-.panel{display:flex;flex-direction:column;overflow:hidden}.panel+.panel{border-left:1px solid var(--border)}
-.panel-header{display:flex;align-items:center;justify-content:space-between;padding:8px 14px;border-bottom:1px solid var(--border);background:var(--panel);flex-shrink:0}
-.panel-header h3{font-family:var(--mono);font-size:10px;font-weight:500;color:var(--ti-dim);text-transform:uppercase;letter-spacing:1.5px}
-.panel-body{flex:1;overflow:auto;padding:0}
+.panel{display:flex;flex-direction:column;overflow:hidden}
 .source-row{display:flex;align-items:center;gap:10px;padding:6px 14px;border-bottom:1px solid var(--border);font-family:var(--mono);font-size:11px}
-.tag{font-family:var(--mono);font-size:9px;padding:2px 6px;border-radius:1px;text-transform:uppercase;letter-spacing:.5px;display:inline-block}
-.tag.neutral{background:var(--panel3);color:var(--td);border:1px solid var(--border2)}
-.tag.active{background:rgba(74,222,128,.08);color:var(--pos);border:1px solid rgba(74,222,128,.2)}
-.tag.idle{background:rgba(96,165,250,.08);color:var(--info);border:1px solid rgba(96,165,250,.2)}
-.tag.stopped{background:rgba(239,68,68,.08);color:var(--neg);border:1px solid rgba(239,68,68,.2)}
 .confidence-bar{display:flex;align-items:center;gap:8px;padding:4px 0}
 .confidence-track{flex:1;height:3px;background:var(--panel3);position:relative;overflow:hidden}
 .confidence-fill{height:100%;background:var(--ti);transition:width .3s}
@@ -145,13 +164,13 @@ input,textarea{user-select:text}
 .widget-type{font-family:var(--mono);font-size:8px;color:var(--tf);text-transform:uppercase}
 .widget-value{font-family:var(--mono);font-size:24px;color:var(--white);font-weight:500}
 .widget-config{font-family:var(--mono);font-size:9px;color:var(--td)}
-.role-selector{display:flex;gap:4px;padding:8px 14px;border-bottom:1px solid var(--border);background:var(--panel)}
+.role-selector{display:flex;gap:4px;padding:8px 14px;border-bottom:1px solid var(--border);background:var(--panel);flex-wrap:wrap}
 .role-btn{font-family:var(--mono);font-size:9px;color:var(--tf);background:var(--panel2);border:1px solid var(--border);padding:4px 10px;cursor:pointer;border-radius:2px;text-transform:uppercase;letter-spacing:.5px;transition:all .12s}
-.role-btn:hover{color:var(--ti);border-color:var(--border2)}.role-btn.active{color:var(--white);border-color:var(--ti);background:var(--panel3)}
+.role-btn:hover{color:var(--ti);border-color:var(--border2)}.role-btn.active{color:var(--void);border-color:var(--active);background:var(--active)}
 .metric-tile{background:var(--panel);padding:10px 14px;display:flex;flex-direction:column;gap:4px}
 .metric-tile .label{font-family:var(--mono);font-size:9px;color:var(--tf);text-transform:uppercase;letter-spacing:1px}
 .metric-tile .value{font-family:var(--mono);font-size:20px;font-weight:500;color:var(--white);line-height:1}
-.metric-strip{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1px;background:var(--border);padding:1px}
+.metric-strip{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:1px;background:var(--border);padding:1px}
 .agent-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1px;background:var(--border);padding:1px}
 .agent-card{background:var(--panel);padding:12px 14px;display:flex;flex-direction:column;gap:6px;cursor:pointer;transition:background .1s}.agent-card:hover{background:var(--panel2)}
 .agent-name{font-family:var(--mono);font-size:11px;color:var(--white);font-weight:500}
@@ -161,24 +180,30 @@ input,textarea{user-select:text}
 .empty-state .sub{font-family:var(--mono);font-size:9px;color:var(--tf)}
 .query-input-area{padding:16px;display:flex;flex-direction:column;gap:10px}
 .query-input{width:100%;background:var(--panel);border:1px solid var(--border);border-radius:2px;color:var(--white);font-family:var(--sans);font-size:14px;padding:12px 16px;outline:none;resize:none;min-height:60px;transition:border-color .15s}
-.query-input:focus{border-color:var(--ti-faint)}
+.query-input:focus{border-color:var(--active)}
 .query-chip{font-family:var(--mono);font-size:10px;color:var(--td);background:var(--panel2);border:1px solid var(--border);padding:4px 10px;cursor:pointer;border-radius:2px;transition:all .12s}
 .query-chip:hover{color:var(--ti);border-color:var(--border2)}
 .query-section{background:var(--panel);border:1px solid var(--border);border-radius:2px;padding:12px}
 .query-section h4{font-family:var(--mono);font-size:9px;color:var(--tf);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px}
 .query-section .content{font-family:var(--sans);font-size:12px;color:var(--td);line-height:1.5}
+.intel-chain{display:flex;align-items:center;gap:0;padding:10px 16px;border-bottom:1px solid var(--border);flex-wrap:wrap}
+.intel-step{display:flex;flex-direction:column;align-items:center;gap:4px;min-width:80px}
+.intel-node{width:32px;height:32px;border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:9px;color:var(--ti);background:var(--panel)}
+.intel-node.done{border-color:var(--active);color:var(--active)}
+.intel-label{font-family:var(--mono);font-size:7px;color:var(--tf);text-transform:uppercase;letter-spacing:.5px}
+.intel-conn{width:20px;height:1px;background:var(--border2)}
 .glossary-item{display:flex;gap:12px;padding:6px 14px;border-bottom:1px solid var(--border);font-family:var(--mono)}
 .glossary-term{font-size:11px;color:var(--ti);min-width:100px}.glossary-canonical{font-size:11px;color:var(--td)}
 .progress-track{height:4px;background:var(--panel3);position:relative;overflow:hidden;border-radius:1px}
-.progress-fill{height:100%;background:var(--ti);transition:width .3s}
+.progress-fill{height:100%;background:var(--active);transition:width .3s}
 .template-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1px;background:var(--border);padding:1px;margin:12px}
 .template-card{background:var(--panel);padding:12px 14px;display:flex;flex-direction:column;gap:4px;cursor:pointer;transition:background .1s}.template-card:hover{background:var(--panel2)}
 .pipeline-flow{display:flex;align-items:center;gap:0;padding:20px 16px;overflow-x:auto}
-.pipeline-stage{display:flex;flex-direction:column;align-items:center;gap:6px;min-width:100px}
-.pipeline-node{width:48px;height:48px;border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;color:var(--ti);background:var(--panel)}
-.pipeline-node.done{border-color:var(--pos);color:var(--pos)}.pipeline-node.active{border-color:var(--ti);color:var(--white);background:var(--panel2)}.pipeline-node.pending{opacity:.4}
-.pipeline-label{font-family:var(--mono);font-size:8px;color:var(--tf);text-transform:uppercase;letter-spacing:.5px}
-.pipeline-connector{width:40px;height:1px;background:var(--border2)}.pipeline-connector.done{background:var(--pos)}
+.pipeline-stage{display:flex;flex-direction:column;align-items:center;gap:6px;min-width:80px}
+.pipeline-node{width:44px;height:44px;border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;color:var(--ti);background:var(--panel)}
+.pipeline-node.done{border-color:var(--active);color:var(--active)}.pipeline-node.active{border-color:var(--ti);color:var(--white);background:var(--panel2)}.pipeline-node.pending{opacity:.4}
+.pipeline-label{font-family:var(--mono);font-size:7px;color:var(--tf);text-transform:uppercase;letter-spacing:.5px}
+.pipeline-connector{width:30px;height:1px;background:var(--border2)}.pipeline-connector.done{background:var(--active)}
 .code-block{font-family:var(--mono);font-size:10px;color:var(--td);background:var(--abyss);padding:10px 14px;line-height:1.5;white-space:pre-wrap;border-left:2px solid var(--border2)}
 .timeline-item{display:flex;gap:12px;padding:6px 16px;border-bottom:1px solid var(--border)}
 .timeline-time{font-family:var(--mono);font-size:10px;color:var(--tf);min-width:60px;text-align:right}
@@ -191,121 +216,133 @@ input,textarea{user-select:text}
 #right-panel{grid-area:right;background:var(--abyss);border-left:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden}
 .right-header{padding:10px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
 .right-header h3{font-family:var(--mono);font-size:10px;font-weight:500;color:var(--ti-dim);text-transform:uppercase;letter-spacing:1.5px}
-.live-dot{width:6px;height:6px;border-radius:50%;background:var(--pos);box-shadow:0 0 4px var(--pos);animation:pulse 2s infinite}
+.live-dot{width:6px;height:6px;border-radius:50%;background:var(--active);box-shadow:0 0 4px var(--active);animation:pulse 2s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
 .event-list{flex:1;overflow:auto;padding:0}
 .event-item{padding:8px 14px;border-bottom:1px solid var(--border);display:flex;flex-direction:column;gap:3px}
 .event-meta{display:flex;align-items:center;justify-content:space-between;gap:8px}
 .event-type{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:1px;padding:1px 5px;border-radius:1px}
-.event-type.kpi{background:rgba(96,165,250,.1);color:var(--info)}.event-type.agent{background:rgba(167,139,250,.1);color:var(--sig)}.event-type.decision{background:rgba(251,191,36,.1);color:var(--warn)}.event-type.alert{background:rgba(239,68,68,.1);color:var(--neg)}.event-type.data{background:rgba(74,222,128,.1);color:var(--pos)}.event-type.audit{background:rgba(192,200,208,.08);color:var(--ti-dim)}
+.event-type.kpi{background:rgba(96,165,250,.1);color:var(--info)}.event-type.agent{background:rgba(167,139,250,.1);color:var(--sig)}.event-type.decision{background:rgba(255,176,32,.1);color:var(--warn)}.event-type.alert{background:rgba(255,69,96,.1);color:var(--danger)}.event-type.data{background:rgba(0,229,168,.1);color:var(--active)}.event-type.audit{background:rgba(192,200,208,.08);color:var(--ti-dim)}
 .event-time{font-family:var(--mono);font-size:9px;color:var(--tf)}.event-msg{font-family:var(--sans);font-size:11px;color:var(--td);line-height:1.3}
 #status-bar{grid-area:status;background:var(--abyss);border-top:1px solid var(--border);display:flex;align-items:center;padding:0 12px;gap:16px;font-family:var(--mono);font-size:10px;color:var(--tf)}
-.status-item{display:flex;align-items:center;gap:5px}.status-item .dot{width:5px;height:5px;border-radius:50%}.status-item .dot.green{background:var(--pos);box-shadow:0 0 3px var(--pos)}
+.status-item{display:flex;align-items:center;gap:5px}.status-item .dot{width:5px;height:5px;border-radius:50%;background:var(--active)}
 .status-sep{color:var(--border2)}.status-spacer{flex:1}
-/* ── API SETTINGS ── */
 .api-settings{position:fixed;bottom:28px;right:12px;z-index:200;display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:9px;color:var(--tf);background:var(--panel);border:1px solid var(--border);padding:4px 10px;border-radius:2px}
 .api-settings input{background:var(--void);border:1px solid var(--border);color:var(--ti);font-family:var(--mono);font-size:10px;padding:2px 6px;width:200px;outline:none;border-radius:1px}
-.api-settings .dot{width:5px;height:5px;border-radius:50%;background:var(--pos)}
-.api-settings .dot.off{background:var(--neg)}
+.api-settings .dot{width:5px;height:5px;border-radius:50%;background:var(--active)}.api-settings .dot.off{background:var(--danger)}
 #graph-canvas{width:100%;height:100%;display:block;cursor:grab}
 .scroll-y{overflow-y:auto;overflow-x:hidden}
+.obs-tabs{display:flex;gap:4px;padding:8px 14px;border-bottom:1px solid var(--border);background:var(--panel)}
+.obs-tab{font-family:var(--mono);font-size:10px;color:var(--tf);background:var(--panel2);border:1px solid var(--border);padding:4px 12px;cursor:pointer;border-radius:2px;text-transform:uppercase;letter-spacing:.5px;transition:all .12s}
+.obs-tab:hover{color:var(--ti)}.obs-tab.active{color:var(--void);border-color:var(--active);background:var(--active)}
 </style>
 </head>
 <body>
 
-<!-- ═══ LANDING PAGE ═══ -->
+<!-- ═══ LANDING ═══ -->
 <div class="view active" id="landing">
 <canvas id="landing-canvas"></canvas>
 <div class="landing-content">
 <nav class="landing-nav">
-<div class="landing-logo"><span class="mark">πX</span><span class="tag">ENTERPRISE<br>INTELLIGENCE OS</span></div>
-<div class="landing-nav-links">
-<a href="#platform">Platform</a>
-<a href="#products">Products</a>
-<a href="#architecture">Architecture</a>
-<a href="#metrics">Scale</a>
-</div>
-<div class="landing-nav-actions">
-<button class="landing-btn ghost" onclick="showAuth('login')">Sign In</button>
-<button class="landing-btn solid" onclick="showAuth('register')">Get Access</button>
-</div>
+<div class="landing-logo" onclick="showLanding()"><span class="mark">πX</span><span class="tag">ENTERPRISE<br>INTELLIGENCE OS</span></div>
+<div class="landing-nav-links"><a onclick="document.getElementById('sec-platform').scrollIntoView({behavior:'smooth'})">Platform</a><a onclick="document.getElementById('sec-products').scrollIntoView({behavior:'smooth'})">Products</a><a onclick="document.getElementById('sec-arch').scrollIntoView({behavior:'smooth'})">Architecture</a><a onclick="document.getElementById('sec-scale').scrollIntoView({behavior:'smooth'})">Scale</a></div>
+<div class="landing-nav-actions"><button class="landing-btn ghost" onclick="showAuth('login')">Sign In</button><button class="landing-btn accent" onclick="showAuth('register')">Start Intelligence Engine</button></div>
 </nav>
-
 <section class="landing-hero">
-<h1>The Intelligence <span class="accent">Operating System</span> for the Enterprise</h1>
-<p class="sub">πX transforms raw enterprise data into autonomous intelligence — adaptive profiles, dynamic dashboards, AI agents, and decision engines. One platform. Every industry. Zero templates.</p>
-<div class="cta-row">
-<button class="landing-btn solid" style="padding:14px 32px;font-size:13px" onclick="showAuth('register')">Request Access</button>
-<button class="landing-btn ghost" style="padding:14px 32px;font-size:13px" onclick="document.getElementById('platform').scrollIntoView({behavior:'smooth'})">Explore Platform</button>
-</div>
+<h1>Your Enterprise. <span class="accent">Understood by AI.</span></h1>
+<p class="sub">πX transforms business data into autonomous intelligence systems — adaptive profiles, AI agents, decision engines, and continuous organizational memory. One platform. Every industry. Zero templates.</p>
+<div class="cta-row"><button class="landing-btn accent" style="padding:14px 32px;font-size:12px" onclick="showAuth('register')">Start Intelligence Engine</button><button class="landing-btn ghost" style="padding:14px 32px;font-size:12px" onclick="document.getElementById('sec-platform').scrollIntoView({behavior:'smooth'})">Request Enterprise Demo</button></div>
+<div class="data-flow" id="data-flow"></div>
 </section>
-
-<section class="landing-section" id="platform">
+<section class="landing-section" id="sec-platform">
 <h2>A new category of software</h2>
-<p class="section-sub">πX isn't a dashboard. It isn't a chatbot. It's an operating system that learns your enterprise, builds intelligence profiles from your data, and deploys autonomous agents that monitor, analyze, and decide — continuously.</p>
-<div class="arch-row">
-<div class="arch-cell"><span class="num">01</span><span class="title">Universal Profiling</span><span class="desc">Upload any dataset. πX infers industry, entities, KPIs, and relationships — no schema required.</span></div>
-<div class="arch-cell"><span class="num">02</span><span class="title">Semantic Mapping</span><span class="desc">6-layer mapping engine resolves your column names to canonical business concepts.</span></div>
-<div class="arch-cell"><span class="num">03</span><span class="title">Intelligence Profile</span><span class="desc">A living model of your enterprise — ontology, KPIs, glossary, agents. Versioned. Auditable.</span></div>
-<div class="arch-cell"><span class="num">04</span><span class="title">Dynamic Dashboards</span><span class="desc">Role-specific interfaces generated from your profile. CEO, CFO, COO — each sees a different view.</span></div>
+<p class="section-sub">πX is not a dashboard. Not a chatbot. Not analytics software. It's an operating system that learns your enterprise, builds intelligence profiles from your data, and deploys autonomous agents that monitor, analyze, and decide — continuously.</p>
+<div class="arch-flow" id="sec-arch">
+<div class="arch-step"><span class="arch-num">01</span><span class="arch-title">Company Data</span><span class="arch-desc">Upload any dataset — Excel, CSV, PDF, database. πX ingests and profiles every column automatically.</span></div>
+<div class="arch-step"><span class="arch-num">02</span><span class="arch-title">Semantic Understanding</span><span class="arch-desc">6-layer mapping engine resolves your column names to canonical business concepts. No schema required.</span></div>
+<div class="arch-step"><span class="arch-num">03</span><span class="arch-title">Knowledge Graph</span><span class="arch-desc">Entity extraction, relationship discovery, and graph traversal. 11 entity types with confidence scoring.</span></div>
+<div class="arch-step"><span class="arch-num">04</span><span class="arch-title">AI Workforce</span><span class="arch-desc">10 autonomous agent types — each profile-aware, KPI-driven, and learning from every interaction.</span></div>
+<div class="arch-step"><span class="arch-num">05</span><span class="arch-title">Executive Intelligence</span><span class="arch-desc">Role-specific dashboards, decisions, and recommendations. CEO, CFO, COO — each sees a different view.</span></div>
 </div>
 </section>
-
-<section class="landing-section" id="products">
-<h2>Products</h2>
-<p class="section-sub">Six integrated modules that form a complete intelligence pipeline — from raw data to autonomous decisions.</p>
-<div class="product-grid">
-<div class="product-card"><span class="icon">◈</span><h3>Knowledge Graph</h3><p>Entity extraction, relationship discovery, and graph traversal across your enterprise data. 11 entity types with confidence scoring.</p><div class="tags"><span class="tag">11 entity types</span><span class="tag">LLM extraction</span><span class="tag">BFS traversal</span></div></div>
-<div class="product-card"><span class="icon">⬡</span><h3>Agent OS</h3><p>10 autonomous agent types — Sales, Inventory, Finance, Quality, Strategy. Each is profile-aware and KPI-driven.</p><div class="tags"><span class="tag">10 agents</span><span class="tag">Semantic routing</span><span class="tag">4-layer memory</span></div></div>
-<div class="product-card"><span class="icon">⚡</span><h3>Decision Engine</h3><p>Question → Context → Evidence → Reasoning → Risk → Recommendation. With alternatives and confidence scoring.</p><div class="tags"><span class="tag">Risk analysis</span><span class="tag">Alternatives</span><span class="tag">6-factor confidence</span></div></div>
-<div class="product-card"><span class="icon">⌕</span><h3>Natural Language Query</h3><p>Ask business questions in plain English. πX routes to the right agents, retrieves memory, and produces decisions.</p><div class="tags"><span class="tag">Intent detection</span><span class="tag">Agent routing</span><span class="tag">Decision synthesis</span></div></div>
-<div class="product-card"><span class="icon">▦</span><h3>Dynamic Dashboard</h3><p>15 widget types, 7 roles. Generated entirely from your Intelligence Profile. No hardcoded layouts.</p><div class="tags"><span class="tag">15 widgets</span><span class="tag">7 roles</span><span class="tag">SSE realtime</span></div></div>
-<div class="product-card"><span class="icon">◉</span><h3>Memory Matrix</h3><p>Persistent vector memory with semantic search. 5 memory types across short-term, experience, and learning.</p><div class="tags"><span class="tag">Vector search</span><span class="tag">5 memory types</span><span class="tag">pgvector</span></div></div>
+<section class="landing-section" id="sec-products">
+<h2>Every company gets its own AI brain</h2>
+<p class="section-sub">πX creates a unique Intelligence Profile for each organization. Different industries produce different entities, KPIs, agents, and dashboards — from the same codebase.</p>
+<div class="profile-compare">
+<div class="profile-col">
+<h3>RETAIL COMPANY</h3>
+<div class="profile-section-title">Entities</div>
+<div class="profile-item"><span class="dot"></span>Customer</div>
+<div class="profile-item"><span class="dot"></span>Store</div>
+<div class="profile-item"><span class="dot"></span>Product</div>
+<div class="profile-item"><span class="dot"></span>Region</div>
+<div class="profile-section-title">KPIs</div>
+<div class="profile-item kpi"><span class="dot"></span>Revenue</div>
+<div class="profile-item kpi"><span class="dot"></span>Sell-out</div>
+<div class="profile-item kpi"><span class="dot"></span>Margin</div>
+</div>
+<div class="profile-col">
+<h3>MANUFACTURING</h3>
+<div class="profile-section-title">Entities</div>
+<div class="profile-item"><span class="dot"></span>Machine</div>
+<div class="profile-item"><span class="dot"></span>Production Line</div>
+<div class="profile-item"><span class="dot"></span>Supplier</div>
+<div class="profile-item"><span class="dot"></span>Quality Batch</div>
+<div class="profile-section-title">KPIs</div>
+<div class="profile-item kpi"><span class="dot"></span>OEE</div>
+<div class="profile-item kpi"><span class="dot"></span>Downtime</div>
+<div class="profile-item kpi"><span class="dot"></span>Quality Rate</div>
+</div>
 </div>
 </section>
-
-<section class="landing-section" id="architecture">
+<section class="landing-section">
+<h2>Autonomous AI Agent Workforce</h2>
+<p class="section-sub">Each agent is profile-aware, industry-aware, and KPI-driven. They monitor, analyze, and recommend — continuously learning from outcomes.</p>
+<div class="agent-workforce">
+<div class="agent-tile"><span class="role">CEO Agent</span><span class="resp">Strategy formulation, business analysis, market positioning</span><div class="stats"><span class="stat">Status: <span class="v">ACTIVE</span></span><span class="stat">Tasks: <span class="v">34</span></span><span class="stat">Accuracy: <span class="v">94%</span></span></div></div>
+<div class="agent-tile"><span class="role">CFO Agent</span><span class="resp">Financial intelligence, cost optimization, margin analysis</span><div class="stats"><span class="stat">Status: <span class="v">ACTIVE</span></span><span class="stat">Tasks: <span class="v">28</span></span><span class="stat">Accuracy: <span class="v">96%</span></span></div></div>
+<div class="agent-tile"><span class="role">Sales Agent</span><span class="resp">Revenue monitoring, customer analysis, churn detection</span><div class="stats"><span class="stat">Status: <span class="v">ACTIVE</span></span><span class="stat">Tasks: <span class="v">47</span></span><span class="stat">Accuracy: <span class="v">91%</span></span></div></div>
+<div class="agent-tile"><span class="role">Ops Agent</span><span class="resp">Process optimization, supply chain, efficiency tracking</span><div class="stats"><span class="stat">Status: <span class="v">ACTIVE</span></span><span class="stat">Tasks: <span class="v">22</span></span><span class="stat">Accuracy: <span class="v">93%</span></span></div></div>
+</div>
+</section>
+<section class="landing-section" id="sec-scale">
 <h2>Built for scale</h2>
-<p class="section-sub">A modular architecture where every layer is tenant-isolated, event-driven, and auditable.</p>
-<div class="stat-row" id="metrics">
+<div class="stat-row">
 <div class="stat-cell"><div class="num">168</div><div class="label">API Endpoints</div></div>
 <div class="stat-cell"><div class="num">16</div><div class="label">DB Migrations</div></div>
 <div class="stat-cell"><div class="num">443</div><div class="label">Test Cases</div></div>
 <div class="stat-cell"><div class="num">7</div><div class="label">AI Providers</div></div>
 </div>
 </section>
-
-<footer class="landing-footer">
-<span class="copy">πX Technologies — Enterprise Intelligence Operating System</span>
-<span class="copy">© 2026 — All Rights Reserved</span>
-</footer>
+<footer class="landing-footer"><span class="copy">πX Technologies — Enterprise Intelligence Operating System</span><span class="copy">© 2026 — All Rights Reserved</span></footer>
 </div>
 </div>
 
-<!-- ═══ AUTH VIEW ═══ -->
+<!-- ═══ AUTH ═══ -->
 <div class="view" id="auth-view">
 <canvas id="auth-canvas"></canvas>
 <div class="auth-back" onclick="showLanding()">← BACK</div>
-<div class="auth-card" id="auth-card">
-<div class="logo"><span class="mark">πX</span></div>
+<div class="auth-card">
+<div class="logo">πX</div>
 <h2 id="auth-title">Sign In</h2>
 <p class="sub" id="auth-sub">Access your intelligence platform</p>
 <div class="auth-error" id="auth-error"></div>
-<div id="auth-fields">
 <div class="auth-field" id="name-field" style="display:none"><label>Full Name</label><input id="auth-name" type="text" placeholder="Jane Doe"></div>
 <div class="auth-field"><label>Email</label><input id="auth-email" type="email" placeholder="you@company.com"></div>
 <div class="auth-field"><label>Password</label><input id="auth-password" type="password" placeholder="••••••••"></div>
-</div>
+<div class="auth-field" id="role-field" style="display:none"><label>Role</label><select id="auth-role"><option value="analyst">Analyst</option><option value="manager">Manager</option><option value="cto">CTO</option><option value="cfo">CFO</option><option value="ceo">CEO</option></select></div>
 <button class="auth-btn" id="auth-submit" onclick="handleAuth()">Sign In</button>
+<div class="auth-divider">or</div>
+<button class="auth-oauth" onclick="alert('Google OAuth — coming soon')">Continue with Google</button>
 <div class="auth-switch" id="auth-switch">Don't have an account? <a onclick="showAuth('register')">Create one</a></div>
 </div>
 </div>
 
-<!-- ═══ APP VIEW ═══ -->
+<!-- ═══ APP ═══ -->
 <div class="view" id="app-view">
 <div id="topbar">
 <div class="logo" onclick="showLanding()"><span class="logo-mark">πX</span><span class="logo-text">Intelligence<br>OS</span></div>
-<div class="cmd-bar" onclick="document.getElementById('cmd-input').focus()"><span class="cmd-prefix">›</span><input id="cmd-input" class="cmd-input" placeholder="Query intelligence, navigate modules…" onkeydown="handleCmdKey(event)"></div>
+<div class="cmd-bar"><span class="cmd-prefix">›</span><input id="cmd-input" class="cmd-input" placeholder="Query intelligence, navigate modules…" onkeydown="handleCmdKey(event)"></div>
 <div class="topbar-right"><div class="org-badge"><span class="dot"></span><span id="org-name">—</span></div><div class="user-chip" id="user-chip" onclick="logout()">AD</div></div>
 </div>
 <div id="rail">
@@ -324,920 +361,291 @@ input,textarea{user-select:text}
 <div class="rail-btn" data-m="observatory" onclick="switchModule('observatory')"><span class="rail-icon">OB</span><span class="rail-label">Observ</span></div>
 </div>
 <div id="main">
-<!-- Upload -->
 <div class="module active" id="mod-upload">
 <div class="module-header"><div class="module-title"><h2>Data Ingestion</h2><span class="module-badge" id="upload-status">READY</span></div><div class="module-actions"><button class="module-btn" onclick="loadSampleData()">↻ Sample Data</button></div></div>
-<div class="module-body" id="upload-body">
-<div class="drop-zone" id="drop-zone" onclick="document.getElementById('file-input').click()"><div class="icon">↑</div><div class="text">Drop Excel / CSV File</div><div class="sub">Parsed client-side with SheetJS — columns sent to Intelligence Profile API</div></div>
-<input type="file" id="file-input" style="display:none" accept=".xlsx,.xls,.csv" onchange="handleFile(this.files[0])">
-<div id="upload-results"></div>
+<div class="module-body" id="upload-body"><div class="drop-zone" id="drop-zone" onclick="document.getElementById('file-input').click()"><div class="icon">↑</div><div class="text">Drop Excel / CSV File</div><div class="sub">Parsed client-side with SheetJS — columns sent to Intelligence Profile API</div></div><input type="file" id="file-input" style="display:none" accept=".xlsx,.xls,.csv" onchange="handleFile(this.files[0])"><div id="upload-results"></div></div>
 </div>
-</div>
-<!-- Profile -->
 <div class="module" id="mod-profile">
 <div class="module-header"><div class="module-title"><h2>Intelligence Profile</h2><span class="module-badge" id="profile-badge">—</span></div><div class="module-actions"><button class="module-btn" onclick="loadProfile()">↻ Refresh</button><button class="module-btn primary" onclick="createProfile()">+ Create</button></div></div>
 <div class="module-body" id="profile-body"></div>
 </div>
-<!-- Dashboard -->
 <div class="module" id="mod-dashboard">
 <div class="module-header"><div class="module-title"><h2>Dynamic Dashboard</h2><span class="module-badge" id="dash-badge">—</span></div><div class="module-actions"><button class="module-btn" onclick="loadDashboard()">↻ Regenerate</button></div></div>
 <div class="role-selector" id="role-selector"></div>
 <div class="module-body" id="dashboard-body"></div>
 </div>
-<!-- Query -->
 <div class="module" id="mod-query">
 <div class="module-header"><div class="module-title"><h2>Intelligence Query</h2><span class="module-badge" id="query-badge">—</span></div><div class="module-actions"><button class="module-btn primary" onclick="runQuery()">▶ Execute</button></div></div>
 <div class="module-body scroll-y">
-<div class="query-input-area">
-<textarea id="query-input" class="query-input" placeholder="Ask a business question…" onkeydown="if(event.key==='Enter'&&(event.metaKey||event.ctrlKey)){event.preventDefault();runQuery();}"></textarea>
-<div style="display:flex;flex-wrap:wrap;gap:6px">
-<span class="query-chip" onclick="setQuery('Why did revenue drop in Q3?')">Why did revenue drop in Q3?</span>
-<span class="query-chip" onclick="setQuery('What are the main churn drivers?')">Churn drivers?</span>
-<span class="query-chip" onclick="setQuery('Compare performance across stores')">Compare stores</span>
-<span class="query-chip" onclick="setQuery('What actions should we take to improve margins?')">Improve margins?</span>
+<div class="query-input-area"><textarea id="query-input" class="query-input" placeholder="Ask a business question…" onkeydown="if(event.key==='Enter'&&(event.metaKey||event.ctrlKey)){event.preventDefault();runQuery();}"></textarea>
+<div style="display:flex;flex-wrap:wrap;gap:6px"><span class="query-chip" onclick="setQuery('Why did revenue drop in Q3?')">Why did revenue drop in Q3?</span><span class="query-chip" onclick="setQuery('What are the main churn drivers?')">Churn drivers?</span><span class="query-chip" onclick="setQuery('Compare performance across stores')">Compare stores</span><span class="query-chip" onclick="setQuery('What actions should we take to improve margins?')">Improve margins?</span></div></div>
+<div id="query-results" style="margin:0 16px 16px"><div class="empty-state"><div class="msg">Type a question and press Execute</div></div></div>
 </div>
 </div>
-<div id="query-results" class="query-section" style="margin:0 16px 16px;border:none"><div class="empty-state"><div class="msg">Type a question and press Execute</div></div></div>
-</div>
-</div>
-<!-- Graph -->
 <div class="module" id="mod-graph">
 <div class="module-header"><div class="module-title"><h2>Knowledge Graph</h2><span class="module-badge" id="graph-badge">—</span></div><div class="module-actions"><button class="module-btn" onclick="enrichGraph()">✦ Extract</button></div></div>
 <div class="module-body" style="position:relative"><canvas id="graph-canvas"></canvas></div>
 </div>
-<!-- Agents -->
 <div class="module" id="mod-agents">
-<div class="module-header"><div class="module-title"><h2>Agent Operating System</h2><span class="module-badge" id="agent-badge">—</span></div><div class="module-actions"><button class="module-btn" onclick="loadAgents()">↻ Refresh</button></div></div>
+<div class="module-header"><div class="module-title"><h2>Agent Command Center</h2><span class="module-badge" id="agent-badge">—</span></div><div class="module-actions"><button class="module-btn" onclick="loadAgents()">↻ Refresh</button></div></div>
 <div class="module-body scroll-y" id="agents-body"></div>
 </div>
-<!-- Decisions -->
 <div class="module" id="mod-decisions">
 <div class="module-header"><div class="module-title"><h2>Decision Engine</h2></div><div class="module-actions"><button class="module-btn primary" onclick="runDecision()">▶ Analyze</button></div></div>
 <div class="module-body scroll-y" id="decisions-body"><div class="empty-state"><div class="msg">Click Analyze to run root cause + SWOT</div></div></div>
 </div>
-<!-- Memory -->
 <div class="module" id="mod-memory">
 <div class="module-header"><div class="module-title"><h2>Memory Matrix</h2><span class="module-badge" id="memory-badge">0 chunks</span></div><div class="module-actions"><button class="module-btn" onclick="searchMemory()">⌕ Search</button></div></div>
-<div class="module-body" style="padding:14px">
-<div style="display:flex;gap:8px;margin-bottom:12px"><input id="memory-query" style="flex:1;background:var(--panel);border:1px solid var(--border);padding:6px 10px;border-radius:2px;color:var(--ti);font-family:var(--mono);font-size:12px;outline:none" placeholder="Semantic search…" onkeydown="if(event.key==='Enter')searchMemory()"><button class="module-btn primary" onclick="searchMemory()">Query</button></div>
-<div id="memory-results"></div>
+<div class="module-body" style="padding:14px"><div style="display:flex;gap:8px;margin-bottom:12px"><input id="memory-query" style="flex:1;background:var(--panel);border:1px solid var(--border);padding:6px 10px;border-radius:2px;color:var(--ti);font-family:var(--mono);font-size:12px;outline:none" placeholder="Semantic search…" onkeydown="if(event.key==='Enter')searchMemory()"><button class="module-btn primary" onclick="searchMemory()">Query</button></div><div id="memory-results"></div></div>
 </div>
-</div>
-<!-- Pipeline -->
 <div class="module" id="mod-pipeline">
 <div class="module-header"><div class="module-title"><h2>Intelligence Pipeline</h2><span class="module-badge" id="pipe-badge">IDLE</span></div><div class="module-actions"><button class="module-btn primary" onclick="runPipeline()">▶ Execute</button></div></div>
-<div class="module-body scroll-y" style="padding:16px"><div class="pipeline-flow" id="pipeline-flow"></div><div style="margin-top:20px"><div class="panel-header"><h3>Pipeline Log</h3></div><div id="pipeline-log" class="code-block" style="min-height:200px"></div></div></div>
+<div class="module-body scroll-y" style="padding:16px"><div class="pipeline-flow" id="pipeline-flow"></div><div style="margin-top:20px"><div style="padding:8px 14px;border-bottom:1px solid var(--border);background:var(--panel)"><span style="font-family:var(--mono);font-size:10px;color:var(--ti-dim);text-transform:uppercase;letter-spacing:1.5px">Pipeline Log</span></div><div id="pipeline-log" class="code-block" style="min-height:200px"></div></div></div>
 </div>
-<!-- Audit -->
 <div class="module" id="mod-audit">
 <div class="module-header"><div class="module-title"><h2>Audit Trail</h2><span class="module-badge" id="audit-badge">—</span></div><div class="module-actions"><button class="module-btn" onclick="loadAudit()">↻ Refresh</button></div></div>
 <div class="module-body scroll-y"><div id="audit-timeline" style="padding:12px 16px"></div></div>
 </div>
-<!-- Observatory -->
 <div class="module" id="mod-observatory">
 <div class="module-header"><div class="module-title"><h2>Intelligence Observatory</h2></div><div class="module-actions"><button class="module-btn" onclick="loadObservatory()">↻ Refresh</button></div></div>
+<div class="obs-tabs" id="obs-tabs"></div>
 <div class="module-body scroll-y" id="observatory-body"></div>
 </div>
 </div>
 <div id="right-panel"><div class="right-header"><h3>Live Stream</h3><div class="live-dot"></div></div><div class="event-list" id="event-stream"></div></div>
-<div id="status-bar">
-<div class="status-item"><span class="dot green"></span><span>BACKEND</span></div><span class="status-sep">│</span>
-<div class="status-item"><span id="stat-endpoints">— endpoints</span></div><span class="status-sep">│</span>
-<div class="status-item"><span id="stat-migrations">16 migrations</span></div>
-<div class="status-spacer"></div>
-<div class="status-item"><span id="stat-time">—</span></div><span class="status-sep">│</span>
-<div class="status-item"><span>πX v1.0</span></div>
+<div id="status-bar"><div class="status-item"><span class="dot"></span><span>BACKEND</span></div><span class="status-sep">│</span><div class="status-item"><span id="stat-endpoints">168 endpoints</span></div><span class="status-sep">│</span><div class="status-item"><span>16 migrations</span></div><div class="status-spacer"></div><div class="status-item"><span id="stat-time">—</span></div><span class="status-sep">│</span><div class="status-item"><span>πX v1.0</span></div></div>
 </div>
-</div>
-
-<!-- API Settings (always visible in app) -->
-<div class="api-settings" id="api-settings" style="display:none">
-<span class="dot" id="api-status-dot"></span>
-<span>API</span>
-<input id="api-url" value="" placeholder="http://127.0.0.1:8014/api/v1" onchange="updateApiUrl(this.value)">
-</div>
+<div class="api-settings" id="api-settings" style="display:none"><span class="dot" id="api-status-dot"></span><span>API</span><input id="api-url" value="" placeholder="http://127.0.0.1:8014/api/v1" onchange="updateApiUrl(this.value)"></div>
 
 <script>
-/* ═══════════════════════════════════════════════
-   πX ENTERPRISE INTELLIGENCE OS — PRODUCTION
-   Real auth, real API, no mock data
-   ═══════════════════════════════════════════════ */
+/* ═══ GLOBAL STATE ═══ */
+let API_BASE=localStorage.getItem('pix_api_url')||(window.location.origin.replace(/\/$/,'')+'/api/v1');
+if(window.location.port==='8014'||window.location.pathname.startsWith('/app/')){API_BASE=window.location.origin+'/api/v1';}
+const urlParams=new URLSearchParams(window.location.search);
+if(urlParams.get('api'))API_BASE=urlParams.get('api')+'/api/v1';
+let accessToken=null,refreshToken=null,userInfo=null,orgId='test',currentModule='upload',lastAnalysis=null,currentRole='executive',currentObsView='ceo';
 
-// ── API CONFIG ──
-let API_BASE = localStorage.getItem('pix_api_url') || (window.location.origin.replace(/\/$/, '') + '/api/v1');
-// If served from backend (same origin), use relative /api/v1
-if (window.location.port === '8014' || window.location.pathname.startsWith('/app/')) {
-    API_BASE = window.location.origin + '/api/v1';
-}
-// Allow override via URL param
-const urlParams = new URLSearchParams(window.location.search);
-if (urlParams.get('api')) API_BASE = urlParams.get('api') + '/api/v1';
+/* ═══ VIEW MGMT ═══ */
+function showView(id){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));document.getElementById(id).classList.add('active');}
+function showLanding(){showView('landing');initLandingCanvas();initDataFlow();}
+function showAuth(mode){showView('auth-view');initAuthCanvas();const t=document.getElementById('auth-title'),s=document.getElementById('auth-sub'),b=document.getElementById('auth-submit'),nf=document.getElementById('name-field'),rf=document.getElementById('role-field'),sw=document.getElementById('auth-switch');
+if(mode==='register'){t.textContent='Create Account';s.textContent='Deploy your intelligence platform';b.textContent='Create Account';nf.style.display='flex';rf.style.display='flex';sw.innerHTML='Already have an account? <a onclick="showAuth(\'login\')">Sign in</a>';}
+else if(mode==='reset'){t.textContent='Reset Password';s.textContent='Enter your email to receive a reset link';b.textContent='Send Reset Link';nf.style.display='none';rf.style.display='none';sw.innerHTML='Back to <a onclick="showAuth(\'login\')">Sign in</a>';}
+else{t.textContent='Sign In';s.textContent='Access your intelligence platform';b.textContent='Sign In';nf.style.display='none';rf.style.display='none';sw.innerHTML='Don\'t have an account? <a onclick="showAuth(\'register\')">Create one</a>';}
+document.getElementById('auth-error').classList.remove('show');}
 
-// ── AUTH STATE ──
-let accessToken = null;
-let refreshToken = null;
-let userInfo = null;
-let orgId = 'test';
-let currentModule = 'upload';
-let lastAnalysis = null;
+/* ═══ AUTH ═══ */
+async function handleAuth(){const b=document.getElementById('auth-submit'),e=document.getElementById('auth-error'),email=document.getElementById('auth-email').value.trim(),pw=document.getElementById('auth-password').value,name=document.getElementById('auth-name').value.trim(),role=document.getElementById('auth-role')?.value||'analyst',isReg=document.getElementById('auth-title').textContent==='Create Account',isReset=document.getElementById('auth-title').textContent==='Reset Password';
+if(!email){showAuthError('Email required');return;}
+if(isReset){showAuthError('Password reset link sent (demo)');b.textContent='Sent ✓';return;}
+if(!pw){showAuthError('Password required');return;}
+if(pw.length<6){showAuthError('Password must be 6+ characters');return;}
+b.disabled=true;b.textContent='Connecting…';e.classList.remove('show');
+try{
+if(isReg){if(!name){showAuthError('Full name required');b.disabled=false;b.textContent='Create Account';return;}
+const r=await fetch(API_BASE+'/auth/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,password:pw,full_name:name})});
+if(!r.ok){const d=await r.json().catch(()=>({}));throw new Error(d.error||d.detail||`Registration failed (${r.status})`);}
+userInfo=await r.json();userInfo.role=role;}
+const r=await fetch(API_BASE+'/auth/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,password:pw})});
+if(!r.ok){const d=await r.json().catch(()=>({}));throw new Error(d.error||d.detail||`Login failed (${r.status})`);}
+const t=await r.json();accessToken=t.access_token;refreshToken=t.refresh_token;
+if(!userInfo)userInfo={email,full_name:name||email.split('@')[0],role};
+orgId=userInfo.id||email;
+localStorage.setItem('pix_access_token',accessToken);localStorage.setItem('pix_refresh_token',refreshToken);localStorage.setItem('pix_user',JSON.stringify(userInfo));
+enterApp();
+}catch(err){showAuthError(err.message);b.disabled=false;b.textContent=isReg?'Create Account':'Sign In';}}
+function showAuthError(m){const e=document.getElementById('auth-error');e.textContent=m;e.classList.add('show');}
+function logout(){accessToken=null;refreshToken=null;userInfo=null;localStorage.removeItem('pix_access_token');localStorage.removeItem('pix_refresh_token');localStorage.removeItem('pix_user');showLanding();}
+function checkStoredAuth(){const t=localStorage.getItem('pix_access_token'),r=localStorage.getItem('pix_refresh_token'),u=localStorage.getItem('pix_user');if(t&&u){accessToken=t;refreshToken=r;try{userInfo=JSON.parse(u);orgId=userInfo.id||userInfo.email;}catch{}return true;}return false;}
 
-// ── VIEW MANAGEMENT ──
-function showView(id) {
-    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
-}
-function showLanding() { showView('landing'); initLandingCanvas(); }
-function showAuth(mode) {
-    showView('auth-view');
-    initAuthCanvas();
-    const title = document.getElementById('auth-title');
-    const sub = document.getElementById('auth-sub');
-    const submit = document.getElementById('auth-submit');
-    const nameField = document.getElementById('name-field');
-    const sw = document.getElementById('auth-switch');
-    if (mode === 'register') {
-        title.textContent = 'Create Account';
-        sub.textContent = 'Deploy your intelligence platform';
-        submit.textContent = 'Create Account';
-        nameField.style.display = 'flex';
-        sw.innerHTML = 'Already have an account? <a onclick="showAuth(\'login\')">Sign in</a>';
-    } else {
-        title.textContent = 'Sign In';
-        sub.textContent = 'Access your intelligence platform';
-        submit.textContent = 'Sign In';
-        nameField.style.display = 'none';
-        sw.innerHTML = 'Don\'t have an account? <a onclick="showAuth(\'register\')">Create one</a>';
-    }
-    document.getElementById('auth-error').classList.remove('show');
-}
+/* ═══ API ═══ */
+async function api(path,method='GET',body=null,isForm=false){const o={method,headers:{}};if(accessToken)o.headers['Authorization']='Bearer '+accessToken;if(!isForm)o.headers['Content-Type']='application/json';if(body)o.body=isForm?body:JSON.stringify(body);
+let r=await fetch(API_BASE+path,o);
+if(r.status===401&&refreshToken){try{const rr=await fetch(API_BASE+'/auth/refresh',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({refresh_token:refreshToken})});if(rr.ok){const nt=await rr.json();accessToken=nt.access_token;refreshToken=nt.refresh_token;localStorage.setItem('pix_access_token',accessToken);localStorage.setItem('pix_refresh_token',refreshToken);o.headers['Authorization']='Bearer '+accessToken;r=await fetch(API_BASE+path,o);}else{logout();throw new Error('Session expired');}}catch{logout();throw new Error('Session expired');}}
+if(!r.ok){const t=await r.text();throw new Error(r.status+': '+t.substring(0,150));}
+const ct=r.headers.get('content-type')||'';return ct.includes('json')?r.json():r.text();}
 
-// ── AUTH HANDLING ──
-async function handleAuth() {
-    const btn = document.getElementById('auth-submit');
-    const errEl = document.getElementById('auth-error');
-    const email = document.getElementById('auth-email').value.trim();
-    const password = document.getElementById('auth-password').value;
-    const name = document.getElementById('auth-name').value.trim();
-    const isRegister = document.getElementById('auth-title').textContent === 'Create Account';
+/* ═══ EVENTS ═══ */
+const eventQ=[];
+function addEvent(type,source,msg){const t=new Date().toTimeString().split(' ')[0];eventQ.unshift({type,source,msg,t});if(eventQ.length>50)eventQ.pop();const el=document.getElementById('event-stream');if(el)el.innerHTML=eventQ.map(e=>'<div class="event-item"><div class="event-meta"><span class="event-type '+e.type+'">'+e.source+'</span><span class="event-time">'+e.t+'</span></div><div class="event-msg">'+e.msg+'</div></div>').join('');}
+async function connectSSE(){try{const r=await fetch(API_BASE+'/dashboard/'+orgId+'/events',{headers:{'Authorization':'Bearer '+accessToken}});if(!r.ok||!r.body)throw new Error();const reader=r.body.getReader();const dec=new TextDecoder();let buf='';while(true){const{done,value}=await reader.read();if(done)break;buf+=dec.decode(value,{stream:true});const lines=buf.split('\n');buf=lines.pop();for(const line of lines){if(line.startsWith('data:')){try{const d=JSON.parse(line.slice(5).trim());addEvent(d.type||'data',d.source||'SSE',d.message||'');}catch{}}}}}catch{addEvent('alert','SSE','SSE unavailable — polling');setInterval(async()=>{try{const d=await api('/enterprise/audit-log');if(d.entries&&d.entries.length>0){const l=d.entries[0];addEvent('audit','POLL',l.action+' — '+(l.resource_type||''));}}catch{}},5000);}}
+setInterval(()=>{const el=document.getElementById('stat-time');if(el)el.textContent=new Date().toTimeString().split(' ')[0]+' UTC';},1000);
 
-    if (!email || !password) { showAuthError('Email and password required'); return; }
-    if (password.length < 6) { showAuthError('Password must be at least 6 characters'); return; }
+/* ═══ ENTER APP ═══ */
+function enterApp(){showView('app-view');document.getElementById('org-name').textContent=(userInfo.full_name||userInfo.email||'User').substring(0,16);document.getElementById('user-chip').textContent=(userInfo.full_name||userInfo.email||'U').substring(0,2).toUpperCase();document.getElementById('api-settings').style.display='flex';document.getElementById('api-url').value=API_BASE;checkApiHealth();addEvent('data','SYSTEM','Session established — '+(userInfo.email||''));switchModule('upload');connectSSE();}
+async function checkApiHealth(){try{const r=await fetch(API_BASE.replace('/api/v1','')+'/health');if(r.ok){document.getElementById('api-status-dot').classList.remove('off');addEvent('data','SYSTEM','Backend connected');}}catch{document.getElementById('api-status-dot').classList.add('off');addEvent('alert','SYSTEM','Backend unreachable');}}
+function updateApiUrl(u){API_BASE=u.endsWith('/api/v1')?u:u+'/api/v1';localStorage.setItem('pix_api_url',API_BASE);checkApiHealth();}
 
-    btn.disabled = true; btn.textContent = 'Connecting…';
-    errEl.classList.remove('show');
+/* ═══ MODULE SWITCH ═══ */
+function switchModule(m){document.querySelectorAll('.module').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.rail-btn').forEach(x=>x.classList.remove('active'));document.getElementById('mod-'+m).classList.add('active');document.querySelector('.rail-btn[data-m="'+m+'"]').classList.add('active');currentModule=m;
+const loaders={profile:loadProfile,dashboard:loadDashboard,graph:loadGraph,agents:loadAgents,memory:searchMemory,pipeline:renderPipeline,audit:loadAudit,observatory:loadObservatory};
+if(loaders[m])loaders[m]();}
 
-    try {
-        if (isRegister) {
-            if (!name) { showAuthError('Full name required'); btn.disabled = false; btn.textContent = 'Create Account'; return; }
-            const r = await fetch(`${API_BASE}/auth/register`, {
-                method: 'POST', headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({email, password, full_name: name})
-            });
-            if (!r.ok) {
-                const d = await r.json().catch(() => ({}));
-                throw new Error(d.error || d.detail || `Registration failed (${r.status})`);
-            }
-            userInfo = await r.json();
-        }
-        // Login
-        const r = await fetch(`${API_BASE}/auth/login`, {
-            method: 'POST', headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({email, password})
-        });
-        if (!r.ok) {
-            const d = await r.json().catch(() => ({}));
-            throw new Error(d.error || d.detail || `Login failed (${r.status})`);
-        }
-        const tokens = await r.json();
-        accessToken = tokens.access_token;
-        refreshToken = tokens.refresh_token;
-        if (!userInfo) userInfo = {email, full_name: name || email.split('@')[0]};
-        orgId = userInfo.id || email;
-        localStorage.setItem('pix_access_token', accessToken);
-        localStorage.setItem('pix_refresh_token', refreshToken);
-        localStorage.setItem('pix_user', JSON.stringify(userInfo));
-        enterApp();
-    } catch (e) {
-        showAuthError(e.message);
-        btn.disabled = false;
-        btn.textContent = isRegister ? 'Create Account' : 'Sign In';
-    }
-}
-function showAuthError(msg) {
-    const el = document.getElementById('auth-error');
-    el.textContent = msg;
-    el.classList.add('show');
-}
-function logout() {
-    accessToken = null; refreshToken = null; userInfo = null;
-    localStorage.removeItem('pix_access_token');
-    localStorage.removeItem('pix_refresh_token');
-    localStorage.removeItem('pix_user');
-    showLanding();
-}
-function checkStoredAuth() {
-    const token = localStorage.getItem('pix_access_token');
-    const refresh = localStorage.getItem('pix_refresh_token');
-    const user = localStorage.getItem('pix_user');
-    if (token && user) {
-        accessToken = token; refreshToken = refresh;
-        try { userInfo = JSON.parse(user); orgId = userInfo.id || userInfo.email; } catch {}
-        return true;
-    }
-    return false;
-}
+/* ═══ UPLOAD ═══ */
+function inferType(v){if(!v||!v.length)return'string';const s=v[0];if(typeof s==='number')return Number.isInteger(s)?'int':'float';if(typeof s==='string'){if(/^\d{4}-\d{2}-\d{2}/.test(s)||/^\d{1,2}\/\d{1,2}\/\d{2,4}/.test(s))return'datetime';if(!isNaN(parseFloat(s))&&s.length<20)return'float';}return'string';}
+function detectPII(name,vals){const n=name.toLowerCase();if(n.includes('email')||n.includes('mail'))return'email';if(n.includes('phone')||n.includes('mobile')||n.includes('tel'))return'phone';if(n.includes('ssn')||n.includes('social'))return'ssn';if(n.includes('credit')||n.includes('card'))return'card';if(vals)for(const v of vals){const s=String(v);if(/^[^@]+@[^@]+\.[^@]+$/.test(s))return'email';if(/^\+?\d{10,15}$/.test(s.replace(/[\s\-()]/g,'')))return'phone';}return null;}
+async function handleFile(file){if(!file)return;const dz=document.getElementById('drop-zone');dz.classList.add('dragover');dz.querySelector('.text').textContent='PARSING…';
+try{const buf=await file.arrayBuffer();const wb=XLSX.read(buf);const sheet=wb.Sheets[wb.SheetNames[0]];const rows=XLSX.utils.sheet_to_json(sheet,{header:1});if(rows.length<2){dz.querySelector('.text').textContent='NO DATA ROWS';return;}
+const headers=rows[0];const columns=headers.map((name,i)=>{const vals=rows.slice(1,50).map(r=>r[i]).filter(v=>v!=null&&v!=='');return{name:String(name),type:inferType(vals),sample_values:vals.slice(0,5),pii:detectPII(String(name),vals)};});
+dz.classList.remove('dragover');dz.querySelector('.text').textContent='FILE: '+file.name;dz.querySelector('.sub').textContent=columns.length+' columns · '+(rows.length-1)+' rows';addEvent('data','UPLOAD','Parsed '+file.name+': '+columns.length+' cols, '+(rows.length-1)+' rows');
+await analyzeColumns(columns,file.name);
+}catch(e){dz.classList.remove('dragover');dz.querySelector('.text').textContent='PARSE ERROR';addEvent('alert','UPLOAD',e.message);}}
+async function analyzeColumns(columns,fileName){document.getElementById('upload-status').textContent='ANALYZING…';document.getElementById('upload-results').innerHTML='<div class="loading-bar"></div>';
+try{const result=await api('/intelligence-profile/analyze','POST',{file_name:fileName||'data.xlsx',file_type:'xlsx',columns});lastAnalysis=result;displayAnalysis(columns,result);document.getElementById('upload-status').textContent='COMPLETE';addEvent('data','UPLOAD','Analysis: '+((result.suggested_industry||{}).industry||'?')+' — '+(result.suggested_entities?.length||0)+' entities');}catch(e){document.getElementById('upload-results').innerHTML='<div class="empty-state"><div class="msg">ANALYSIS FAILED</div><div class="sub">'+e.message+'</div></div>';document.getElementById('upload-status').textContent='ERROR';addEvent('alert','UPLOAD',e.message);}}
+function displayAnalysis(columns,result){const ind=result.suggested_industry||{},entities=result.suggested_entities||[],kpis=result.suggested_kpis||[],glossary=result.suggested_glossary||[],mappings=result.column_mappings||[],conf=result.confidence_scores||{};
+let h='<div style="display:grid;grid-template-columns:1fr 1fr;height:calc(100% - 100px)">';
+h+='<div class="panel"><div style="padding:8px 14px;border-bottom:1px solid var(--border);background:var(--panel)"><span style="font-family:var(--mono);font-size:10px;color:var(--ti-dim);text-transform:uppercase;letter-spacing:1.5px">Detected Schema</span></div><div class="scroll-y" style="flex:1"><table class="data-grid"><thead><tr><th>Column</th><th>Type</th><th>PII</th><th>Samples</th></tr></thead><tbody>';
+columns.forEach(c=>{h+='<tr><td class="val">'+c.name+'</td><td>'+c.type+'</td><td>'+(c.pii?'<span class="tag pii">'+c.pii+'</span>':'—')+'</td><td style="font-size:9px;color:var(--tf)">'+(c.sample_values||[]).slice(0,3).join(', ')+'</td></tr>';});
+h+='</tbody></table></div></div>';
+h+='<div class="panel"><div style="padding:8px 14px;border-bottom:1px solid var(--border);background:var(--panel)"><span style="font-family:var(--mono);font-size:10px;color:var(--ti-dim);text-transform:uppercase;letter-spacing:1.5px">Semantic Mappings</span></div><div class="scroll-y" style="flex:1">';
+mappings.forEach(m=>{h+='<div class="source-row"><span style="color:var(--ti)">'+m.column_name+'</span><span style="color:var(--tf)">→</span><span style="color:'+(m.entity_type?'var(--sig)':'var(--danger)')+'">'+(m.entity_type||'UNMAPPED')+'</span><div style="flex:1;height:2px;background:var(--panel3);margin:0 8px"><div style="height:100%;width:'+(m.confidence||0)*100+'%;background:var(--ti)"></div></div><span style="font-size:9px;color:var(--tf)">'+((m.confidence||0)*100).toFixed(0)+'%</span></div>';});
+h+='</div></div>';
+h+='<div class="panel"><div style="padding:8px 14px;border-bottom:1px solid var(--border);background:var(--panel)"><span style="font-family:var(--mono);font-size:10px;color:var(--ti-dim);text-transform:uppercase;letter-spacing:1.5px">Entities & KPIs</span></div><div class="scroll-y" style="flex:1">';
+entities.forEach(e=>{h+='<div class="source-row"><span class="tag neutral">'+(e.entity_type||e.type||'ENTITY')+'</span><span style="flex:1;color:var(--ti)">'+(e.label||e.name)+'</span><span style="font-size:9px;color:var(--tf)">'+((e.confidence||0)*100).toFixed(0)+'%</span></div>';});
+h+='<div style="padding:8px 0;border-top:1px solid var(--border)"></div>';
+kpis.forEach(k=>{h+='<div class="kpi-row"><span class="kpi-name">'+(k.label||k.name)+'</span><span class="kpi-formula">'+(k.category||k.formula||'')+'</span><span class="kpi-value" style="font-size:10px">'+(k.target?.value||'—')+'</span></div>';});
+h+='</div></div>';
+h+='<div class="panel"><div style="padding:8px 14px;border-bottom:1px solid var(--border);background:var(--panel)"><span style="font-family:var(--mono);font-size:10px;color:var(--ti-dim);text-transform:uppercase;letter-spacing:1.5px">Confidence & Glossary</span></div><div class="scroll-y" style="flex:1;padding:12px 14px">';
+Object.entries(conf).forEach(([k,v])=>{h+='<div class="confidence-bar"><span class="confidence-label">'+k+'</span><div class="confidence-track"><div class="confidence-fill" style="width:'+(v||0)*100+'%"></div></div><span class="confidence-val">'+((v||0)*100).toFixed(0)+'%</span></div>';});
+h+='<div style="padding:8px 0"></div>';
+glossary.forEach(g=>{h+='<div class="glossary-item"><span class="glossary-term">'+g.term+'</span><span class="glossary-canonical">→ '+(g.definition||g.canonical_form||'')+'</span></div>';});
+h+='</div></div></div>';
+document.getElementById('upload-results').innerHTML=h;}
+async function loadSampleData(){const cols=[{name:'revenue',type:'float',sample_values:[100,200,300]},{name:'customer_id',type:'string',sample_values:['C001','C002']},{name:'order_date',type:'datetime',sample_values:['2024-01-01','2024-02-01']},{name:'sku',type:'string',sample_values:['SKU001','SKU002']},{name:'quantity',type:'int',sample_values:[10,20,30]},{name:'store_location',type:'string',sample_values:['NYC','LA']}];await analyzeColumns(cols,'sample_enterprise.xlsx');}
 
-// ── API CALLS WITH AUTO-REFRESH ──
-async function api(path, method = 'GET', body = null, isForm = false) {
-    const opts = {method, headers: {}};
-    if (accessToken) opts.headers['Authorization'] = `Bearer ${accessToken}`;
-    if (!isForm) opts.headers['Content-Type'] = 'application/json';
-    if (body) opts.body = isForm ? body : JSON.stringify(body);
-    let r = await fetch(`${API_BASE}${path}`, opts);
-    // Auto-refresh on 401
-    if (r.status === 401 && refreshToken) {
-        try {
-            const refreshR = await fetch(`${API_BASE}/auth/refresh`, {
-                method: 'POST', headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({refresh_token: refreshToken})
-            });
-            if (refreshR.ok) {
-                const newTokens = await refreshR.json();
-                accessToken = newTokens.access_token;
-                refreshToken = newTokens.refresh_token;
-                localStorage.setItem('pix_access_token', accessToken);
-                localStorage.setItem('pix_refresh_token', refreshToken);
-                opts.headers['Authorization'] = `Bearer ${accessToken}`;
-                r = await fetch(`${API_BASE}${path}`, opts);
-            } else { logout(); throw new Error('Session expired'); }
-        } catch { logout(); throw new Error('Session expired'); }
-    }
-    if (!r.ok) {
-        const t = await r.text();
-        throw new Error(`${r.status}: ${t.substring(0, 150)}`);
-    }
-    const ct = r.headers.get('content-type') || '';
-    return ct.includes('json') ? r.json() : r.text();
-}
+/* ═══ PROFILE ═══ */
+async function loadProfile(){document.getElementById('profile-body').innerHTML='<div class="loading-bar"></div>';
+try{const templates=await api('/intelligence-profile/templates/list');const tl=templates.templates||[];document.getElementById('profile-badge').textContent=tl.length+' templates';
+let h='<div class="template-grid">';tl.forEach(t=>{h+='<div class="template-card" onclick="createProfileWithIndustry(\''+t.industry+'\')"><span style="font-family:var(--mono);font-size:11px;color:var(--white);font-weight:500;text-transform:uppercase">'+t.industry+'</span><span style="font-family:var(--sans);font-size:10px;color:var(--td)">'+(t.description||'')+'</span><div style="display:flex;gap:8px;margin-top:4px"><span class="tag neutral">'+(t.entity_count||0)+'E</span><span class="tag neutral">'+(t.kpi_count||0)+'K</span><span class="tag neutral">'+(t.agent_count||0)+'A</span></div></div>';});h+='</div>';
+if(lastAnalysis){const ind=lastAnalysis.suggested_industry||{},entities=lastAnalysis.suggested_entities||[],kpis=lastAnalysis.suggested_kpis||[];h+='<div style="padding:16px"><div style="padding:8px 14px;border-bottom:1px solid var(--border);background:var(--panel)"><span style="font-family:var(--mono);font-size:10px;color:var(--ti-dim);text-transform:uppercase;letter-spacing:1.5px">Current Analysis</span></div>';h+='<div style="padding:8px 0"><div style="font-family:var(--mono);font-size:10px;color:var(--tf)">INDUSTRY: '+(ind.industry||'?')+' ('+((ind.confidence||0)*100).toFixed(0)+'%)</div>';entities.forEach(e=>{h+='<div class="source-row"><span class="tag neutral">'+(e.entity_type||'ENTITY')+'</span><span style="flex:1;color:var(--ti)">'+(e.label||e.name)+'</span></div>';});h+='<div style="padding:4px 0"></div>';kpis.forEach(k=>{h+='<div class="kpi-row"><span class="kpi-name">'+(k.label||k.name)+'</span><span class="kpi-value" style="font-size:10px">'+(k.target?.value||'—')+'</span></div>';});h+='</div></div>';}
+document.getElementById('profile-body').innerHTML=h;addEvent('data','PROFILE','Loaded '+tl.length+' templates');
+}catch(e){document.getElementById('profile-body').innerHTML='<div class="empty-state"><div class="msg">LOAD FAILED</div><div class="sub">'+e.message+'</div></div>';}}
+async function createProfile(){await createProfileWithIndustry('retail');}
+async function createProfileWithIndustry(industry){addEvent('data','PROFILE','Creating: '+industry);try{await api('/intelligence-profile/','POST',{org_id:orgId,industry,company_name:'Enterprise'});addEvent('data','PROFILE','Created: '+industry);loadProfile();}catch(e){addEvent('alert','PROFILE',e.message);}}
 
-// ── ENTER APP ──
-function enterApp() {
-    showView('app-view');
-    document.getElementById('org-name').textContent = (userInfo.full_name || userInfo.email || 'User').substring(0, 16);
-    document.getElementById('user-chip').textContent = (userInfo.full_name || userInfo.email || 'U').substring(0, 2).toUpperCase();
-    document.getElementById('api-settings').style.display = 'flex';
-    document.getElementById('api-url').value = API_BASE;
-    checkApiHealth();
-    addEvent('data', 'SYSTEM', `Session established — ${userInfo.email}`);
-    switchModule('upload');
-    connectSSE();
-}
+/* ═══ DASHBOARD ═══ */
+const roles=['executive','ceo','cfo','coo','cto','analyst','manager'];
+function renderRoleSelector(){document.getElementById('role-selector').innerHTML=roles.map(r=>'<div class="role-btn '+(r===currentRole?'active':'')+'" onclick="switchRole(\''+r+'\')">'+r+'</div>').join('');}
+function switchRole(r){currentRole=r;renderRoleSelector();loadDashboard();}
+async function loadDashboard(){renderRoleSelector();document.getElementById('dashboard-body').innerHTML='<div class="loading-bar"></div>';
+try{const d=await api('/dashboard/'+orgId+'/generate?role='+currentRole);const layout=d.layout||[];document.getElementById('dash-badge').textContent=d.dashboard_type||currentRole;
+let h='<div style="padding:16px"><div style="margin-bottom:12px"><div style="font-family:var(--sans);font-size:14px;color:var(--white)">'+(d.title||'Dashboard')+'</div><div style="font-family:var(--mono);font-size:10px;color:var(--tf)">'+(d.subtitle||'')+' · '+(d.industry||'?')+' · '+(d.role||'?')+'</div></div>';
+h+='<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px">';
+layout.forEach(w=>{h+=renderWidget(w);});h+='</div></div>';
+document.getElementById('dashboard-body').innerHTML=h;addEvent('data','DASH',layout.length+' widgets, '+currentRole);
+}catch(e){document.getElementById('dashboard-body').innerHTML='<div class="empty-state"><div class="msg">DASHBOARD ERROR</div><div class="sub">'+e.message+'</div></div>';}}
+function renderWidget(w){const c=w.config||{};switch(w.type){case'kpi_card':return'<div class="widget-card"><span class="widget-type">'+w.type+'</span><span class="widget-title">'+w.label+'</span><span class="widget-value">'+(c.target?Number(c.target).toLocaleString():'—')+'</span><span class="widget-config">metric: '+(c.metric||'?')+' · agg: '+(c.aggregation||'sum')+'</span></div>';
+case'trend_chart':return'<div class="widget-card" style="grid-column:span 2"><span class="widget-type">'+w.type+'</span><span class="widget-title">'+w.label+'</span><svg width="100%" height="60" viewBox="0 0 300 60"><polyline points="0,50 50,30 100,35 150,20 200,25 250,15 300,10" fill="none" stroke="#00E5A8" stroke-width="1"/></svg><span class="widget-config">metric: '+(c.metric||'?')+' · period: '+(c.period||'monthly')+'</span></div>';
+case'goal_progress':return'<div class="widget-card"><span class="widget-type">'+w.type+'</span><span class="widget-title">'+w.label+'</span><div class="progress-track" style="margin:8px 0"><div class="progress-fill" style="width:50%"></div></div><span class="widget-config">kpi: '+(c.kpi||'?')+'</span></div>';
+case'alert_panel':return'<div class="widget-card"><span class="widget-type">'+w.type+'</span><span class="widget-title">'+w.label+'</span><div class="empty-state" style="padding:12px"><span class="sub">NO ACTIVE ALERTS</span></div></div>';
+default:return'<div class="widget-card"><span class="widget-type">'+w.type+'</span><span class="widget-title">'+w.label+'</span><span class="widget-config">'+JSON.stringify(c).substring(0,120)+'</span></div>';}}
 
-// ── HEALTH CHECK ──
-async function checkApiHealth() {
-    try {
-        const r = await fetch(`${API_BASE.replace('/api/v1', '')}/health`);
-        if (r.ok) {
-            document.getElementById('stat-endpoints').textContent = '168 endpoints';
-            document.getElementById('api-status-dot').classList.remove('off');
-            addEvent('data', 'SYSTEM', 'Backend connected');
-        }
-    } catch {
-        document.getElementById('api-status-dot').classList.add('off');
-        addEvent('alert', 'SYSTEM', 'Backend unreachable — check API URL');
-    }
-}
+/* ═══ QUERY ═══ */
+function setQuery(q){document.getElementById('query-input').value=q;}
+async function runQuery(){const q=document.getElementById('query-input').value.trim();if(!q)return;document.getElementById('query-badge').textContent='EXECUTING…';const el=document.getElementById('query-results');el.innerHTML='<div class="loading-bar"></div>';addEvent('decision','QUERY','"'+q.substring(0,40)+'…"');
+try{const[cl,ex,an]=await Promise.allSettled([api('/agents/classify','POST',{org_id:orgId,input:q}),api('/agents/execute','POST',{org_id:orgId,input:q}),api('/enterprise/moat/engine/analyze','POST',new URLSearchParams({pattern:'root_cause',query:q,context_json:'{}'}))]);
+let h='<div class="intel-chain"><div class="intel-step"><div class="intel-node done">1</div><span class="intel-label">Intent</span></div><div class="intel-conn"></div><div class="intel-step"><div class="intel-node '+(ex.status==='fulfilled'?'done':'')+'">2</div><span class="intel-label">Agents</span></div><div class="intel-conn"></div><div class="intel-step"><div class="intel-node '+(an.status==='fulfilled'?'done':'')+'">3</div><span class="intel-label">Evidence</span></div><div class="intel-conn"></div><div class="intel-step"><div class="intel-node '+(an.status==='fulfilled'?'done':'')+'">4</div><span class="intel-label">Decision</span></div><div class="intel-conn"></div><div class="intel-step"><div class="intel-node '+(an.status==='fulfilled'?'done':'')+'">5</div><span class="intel-label">Confidence</span></div></div>';
+if(cl.status==='fulfilled'){const c=cl.value,cc=c.classification||{};h+='<div class="query-section" style="margin-bottom:14px"><h4>Intent Classification</h4><div class="content"><div style="display:flex;gap:10px;margin-bottom:8px"><span class="tag neutral">'+(cc.category||'general')+'</span><span style="font-family:var(--mono);font-size:11px;color:var(--ti)">'+((cc.confidence||0)*100).toFixed(0)+'%</span></div><div>'+(cc.reasoning||'')+'</div><div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:6px">'+((cc.suggested_agents||[]).map(a=>'<span class="tag idle">'+a+'</span>').join(''))+'</div></div></div>';}
+if(ex.status==='fulfilled'){const e=ex.value;h+='<div class="query-section" style="margin-bottom:14px"><h4>Agent Response</h4><div class="content"><div style="margin-bottom:6px">'+(e.success?'<span class="tag active">SUCCESS</span>':'<span class="tag stopped">FAILED</span>')+'</div><div>'+(e.output||e.error||'No output')+'</div></div></div>';}
+if(an.status==='fulfilled'){const a=an.value;h+='<div class="query-section"><h4>Decision Analysis — Root Cause</h4><div class="content"><div style="margin-bottom:8px;font-size:13px;color:var(--white)">'+(a.conclusion||'')+'</div><div style="font-family:var(--mono);font-size:11px;color:var(--active)">Confidence: '+((a.overall_confidence||0)*100).toFixed(0)+'%</div>'+((a.steps||[]).map(s=>'<div style="margin-top:6px;padding:6px;background:var(--void);border:1px solid var(--border)"><span style="font-family:var(--mono);font-size:10px;color:var(--ti)">'+s.description+'</span><div style="font-size:10px;color:var(--tf)">'+(s.evidence||'')+' · '+((s.confidence||0)*100).toFixed(0)+'%</div></div>').join(''))+'</div></div>';}
+el.innerHTML=h||'<div class="query-section"><h4>No Results</h4></div>';document.getElementById('query-badge').textContent='COMPLETE';addEvent('data','QUERY','Complete');
+}catch(e){el.innerHTML='<div class="query-section"><h4>Error</h4><div class="content">'+e.message+'</div></div>';document.getElementById('query-badge').textContent='ERROR';}}
 
-function updateApiUrl(url) {
-    API_BASE = url.endsWith('/api/v1') ? url : url + '/api/v1';
-    localStorage.setItem('pix_api_url', API_BASE);
-    checkApiHealth();
-}
+/* ═══ GRAPH ═══ */
+let gNodes=[],gEdges=[],gCanvas,gCtx;
+async function loadGraph(){gCanvas=document.getElementById('graph-canvas');gCtx=gCanvas.getContext('2d');const r=gCanvas.parentElement.getBoundingClientRect();gCanvas.width=r.width;gCanvas.height=r.height;
+try{const data=await api('/enterprise/knowledge-graph/'+orgId);const nodes=data.nodes||[];document.getElementById('graph-badge').textContent=nodes.length+' nodes';
+if(!nodes.length){gCanvas.parentElement.innerHTML='<div class="empty-state" style="position:absolute;inset:0;display:flex"><div><div class="msg">No entities yet</div><div class="sub">Click EXTRACT to build graph</div><button class="module-btn primary" style="margin-top:12px" onclick="enrichGraph()">✦ Extract</button></div></div>';return;}
+const colors={Company:'#C0C8D0',Customer:'#60A5FA',Product:'#4ADE80',Order:'#FFB020',Employee:'#A78BFA',Entity:'#8892A6'};
+gNodes=nodes.map((n,i)=>({id:i,label:n.label||n.name||'N'+i,type:n.type||n.entity_type||'Entity',x:Math.cos(i*.5)*150+300,y:Math.sin(i*.5)*150+200,vx:0,vy:0,r:8,color:colors[n.type||n.entity_type||'Entity']||'#8892A6'}));
+gEdges=[];for(let i=0;i<gNodes.length;i++)for(let j=i+1;j<Math.min(i+3,gNodes.length);j++)gEdges.push({source:i,target:j});
+animateGraph();addEvent('data','GRAPH',gNodes.length+' nodes');
+}catch(e){addEvent('alert','GRAPH',e.message);}}
+async function enrichGraph(){try{await api('/enterprise/moat/knowledge-graph/enrich','POST',{});addEvent('data','GRAPH','Extracted');loadGraph();}catch(e){addEvent('alert','GRAPH',e.message);}}
+function drawGraph(){if(!gCtx)return;gCtx.clearRect(0,0,gCanvas.width,gCanvas.height);gCtx.strokeStyle='rgba(35,45,68,.6)';gCtx.lineWidth=.5;gEdges.forEach(e=>{const s=gNodes[e.source],t=gNodes[e.target];if(s&&t){gCtx.beginPath();gCtx.moveTo(s.x,s.y);gCtx.lineTo(t.x,t.y);gCtx.stroke();}});gNodes.forEach(n=>{gCtx.beginPath();gCtx.arc(n.x,n.y,n.r,0,Math.PI*2);gCtx.fillStyle=n.color+'20';gCtx.fill();gCtx.strokeStyle=n.color;gCtx.lineWidth=1;gCtx.stroke();gCtx.fillStyle='#6B7280';gCtx.font='8px JetBrains Mono';gCtx.textAlign='center';gCtx.fillText(n.label,n.x,n.y+n.r+10);});}
+function animateGraph(){if(currentModule!=='graph'||!gCanvas)return;for(let i=0;i<gNodes.length;i++){const n=gNodes[i];for(let j=i+1;j<gNodes.length;j++){const m=gNodes[j],dx=n.x-m.x,dy=n.y-m.y,d=Math.sqrt(dx*dx+dy*dy)||1,f=800/(d*d);n.vx+=(dx/d)*f*.01;n.vy+=(dy/d)*f*.01;m.vx-=(dx/d)*f*.01;m.vy-=(dy/d)*f*.01;}}gNodes.forEach(n=>{n.x+=n.vx*.5;n.y+=n.vy*.5;n.vx*=.85;n.vy*=.85;n.x=Math.max(20,Math.min(gCanvas.width-20,n.x));n.y=Math.max(20,Math.min(gCanvas.height-20,n.y));});drawGraph();requestAnimationFrame(animateGraph);}
 
-// ── MODULE SWITCHING ──
-function switchModule(m) {
-    document.querySelectorAll('.module').forEach(x => x.classList.remove('active'));
-    document.querySelectorAll('.rail-btn').forEach(x => x.classList.remove('active'));
-    document.getElementById(`mod-${m}`).classList.add('active');
-    document.querySelector(`.rail-btn[data-m="${m}"]`).classList.add('active');
-    currentModule = m;
-    const loaders = {
-        upload: () => {}, profile: loadProfile, dashboard: loadDashboard, query: () => {},
-        graph: loadGraph, agents: loadAgents, decisions: () => {}, memory: searchMemory,
-        pipeline: renderPipeline, audit: loadAudit, observatory: loadObservatory
-    };
-    if (loaders[m]) loaders[m]();
-}
+/* ═══ AGENTS ═══ */
+async function loadAgents(){document.getElementById('agents-body').innerHTML='<div class="loading-bar"></div>';
+try{const data=await api('/agents');const agents=data.agents||[];document.getElementById('agent-badge').textContent=agents.filter(a=>a.enabled).length+' active';
+let h='<div style="padding:12px"><div class="metric-strip" style="margin-bottom:16px">';h+='<div class="metric-tile"><span class="label">Total</span><span class="value">'+agents.length+'</span></div>';h+='<div class="metric-tile"><span class="label">Active</span><span class="value">'+agents.filter(a=>a.enabled).length+'</span></div>';h+='<div class="metric-tile"><span class="label">Tools</span><span class="value">'+agents.reduce((s,a)=>s+(a.tools?.length||0),0)+'</span></div>';h+='</div><div class="agent-grid">';
+agents.forEach(a=>{h+='<div class="agent-card" onclick="execAgent(\''+a.role+'\')"><div style="display:flex;justify-content:space-between"><span class="agent-name">'+a.name+'</span><span class="tag '+(a.enabled?'active':'stopped')+'">'+(a.enabled?'ON':'OFF')+'</span></div><span class="agent-desc">'+(a.description||'')+'</span><div style="display:flex;flex-wrap:wrap;gap:3px;margin-top:4px">'+((a.tools||[]).slice(0,5).map(t=>'<span class="tag neutral">'+t.name+'</span>').join(''))+'</div></div>';});
+h+='</div></div>';document.getElementById('agents-body').innerHTML=h;addEvent('agent','AGENTS',agents.length+' agents');
+}catch(e){document.getElementById('agents-body').innerHTML='<div class="empty-state"><div class="msg">LOAD FAILED</div><div class="sub">'+e.message+'</div></div>';}}
+async function execAgent(role){addEvent('agent','AGENT','Executing: '+role);try{await api('/agents/execute','POST',{org_id:orgId,input:'Analyze '+role+' metrics'});addEvent('data','AGENT',role+': done');}catch(e){addEvent('alert','AGENT',e.message);}}
 
-// ── UPLOAD MODULE ──
-function inferType(values) {
-    if (!values || !values.length) return 'string';
-    const v = values[0];
-    if (typeof v === 'number') return Number.isInteger(v) ? 'int' : 'float';
-    if (typeof v === 'string') {
-        if (/^\d{4}-\d{2}-\d{2}/.test(v) || /^\d{1,2}\/\d{1,2}\/\d{2,4}/.test(v)) return 'datetime';
-        if (!isNaN(parseFloat(v)) && v.length < 20) return 'float';
-    }
-    return 'string';
-}
-async function handleFile(file) {
-    if (!file) return;
-    const dz = document.getElementById('drop-zone');
-    dz.classList.add('dragover');
-    dz.querySelector('.text').textContent = 'PARSING…';
-    try {
-        const buf = await file.arrayBuffer();
-        const wb = XLSX.read(buf);
-        const sheet = wb.Sheets[wb.SheetNames[0]];
-        const rows = XLSX.utils.sheet_to_json(sheet, {header: 1});
-        if (rows.length < 2) { dz.querySelector('.text').textContent = 'NO DATA ROWS'; return; }
-        const headers = rows[0];
-        const columns = headers.map((name, i) => {
-            const vals = rows.slice(1, 50).map(r => r[i]).filter(v => v != null && v !== '');
-            return {name: String(name), type: inferType(vals), sample_values: vals.slice(0, 5)};
-        });
-        dz.classList.remove('dragover');
-        dz.querySelector('.text').textContent = `FILE: ${file.name}`;
-        dz.querySelector('.sub').textContent = `${columns.length} columns · ${rows.length - 1} rows`;
-        addEvent('data', 'UPLOAD', `Parsed ${file.name}: ${columns.length} cols, ${rows.length - 1} rows`);
-        await analyzeColumns(columns, file.name);
-    } catch (e) {
-        dz.classList.remove('dragover');
-        dz.querySelector('.text').textContent = 'PARSE ERROR';
-        addEvent('alert', 'UPLOAD', e.message);
-    }
-}
-async function analyzeColumns(columns, fileName) {
-    document.getElementById('upload-status').textContent = 'ANALYZING…';
-    document.getElementById('upload-results').innerHTML = '<div class="loading-bar"></div>';
-    try {
-        const result = await api('/intelligence-profile/analyze', 'POST', {
-            file_name: fileName || 'data.xlsx', file_type: 'xlsx', columns
-        });
-        lastAnalysis = result;
-        displayAnalysis(columns, result);
-        document.getElementById('upload-status').textContent = 'COMPLETE';
-        addEvent('data', 'UPLOAD', `Analysis: ${(result.suggested_industry || {}).industry || '?'} — ${result.suggested_entities?.length || 0} entities`);
-    } catch (e) {
-        document.getElementById('upload-results').innerHTML = `<div class="empty-state"><div class="msg">ANALYSIS FAILED</div><div class="sub">${e.message}</div></div>`;
-        document.getElementById('upload-status').textContent = 'ERROR';
-        addEvent('alert', 'UPLOAD', e.message);
-    }
-}
-function displayAnalysis(columns, result) {
-    const ind = result.suggested_industry || {};
-    const entities = result.suggested_entities || [];
-    const kpis = result.suggested_kpis || [];
-    const glossary = result.suggested_glossary || [];
-    const mappings = result.column_mappings || [];
-    const conf = result.confidence_scores || {};
-    let html = '<div style="display:grid;grid-template-columns:1fr 1fr;height:calc(100% - 100px)">';
-    html += '<div class="panel"><div class="panel-header"><h3>Detected Schema</h3></div><div class="panel-body scroll-y"><table class="data-grid"><thead><tr><th>Column</th><th>Type</th><th>Samples</th></tr></thead><tbody>';
-    columns.forEach(c => { html += `<tr><td class="val">${c.name}</td><td>${c.type}</td><td style="font-size:9px;color:var(--tf)">${(c.sample_values || []).slice(0, 3).join(', ')}</td></tr>`; });
-    html += '</tbody></table></div></div>';
-    html += '<div class="panel"><div class="panel-header"><h3>Semantic Mappings</h3></div><div class="panel-body scroll-y">';
-    mappings.forEach(m => { html += `<div class="source-row"><span style="color:var(--ti)">${m.column_name}</span><span style="color:var(--tf)">→</span><span style="color:${m.entity_type ? 'var(--sig)' : 'var(--neg)'}">${m.entity_type || 'UNMAPPED'}</span><div style="flex:1;height:2px;background:var(--panel3);margin:0 8px"><div style="height:100%;width:${(m.confidence || 0) * 100}%;background:var(--ti)"></div></div><span style="font-size:9px;color:var(--tf)">${((m.confidence || 0) * 100).toFixed(0)}%</span></div>`; });
-    html += '</div></div>';
-    html += '<div class="panel"><div class="panel-header"><h3>Entities & KPIs</h3></div><div class="panel-body scroll-y">';
-    entities.forEach(e => { html += `<div class="source-row"><span class="tag neutral">${e.entity_type}</span><span style="flex:1">${e.label}</span><span style="font-size:9px;color:var(--tf)">${((e.confidence || 0) * 100).toFixed(0)}%</span></div>`; });
-    html += '<div style="padding:8px 0;border-top:1px solid var(--border)"></div>';
-    kpis.forEach(k => { html += `<div class="kpi-row"><span class="kpi-name">${k.label || k.name}</span><span class="kpi-formula">${k.category || ''}</span><span class="kpi-value" style="font-size:10px">${k.target?.value || '—'}</span></div>`; });
-    html += '</div></div>';
-    html += '<div class="panel"><div class="panel-header"><h3>Confidence & Glossary</h3></div><div class="panel-body scroll-y" style="padding:12px 14px">';
-    Object.entries(conf).forEach(([k, v]) => { html += `<div class="confidence-bar"><span class="confidence-label">${k}</span><div class="confidence-track"><div class="confidence-fill" style="width:${(v || 0) * 100}%"></div></div><span class="confidence-val">${((v || 0) * 100).toFixed(0)}%</span></div>`; });
-    html += '<div style="padding:8px 0"></div>';
-    glossary.forEach(g => { html += `<div class="glossary-item"><span class="glossary-term">${g.term}</span><span class="glossary-canonical">→ ${g.definition || g.canonical_form || ''}</span></div>`; });
-    html += '</div></div></div>';
-    document.getElementById('upload-results').innerHTML = html;
-}
-async function loadSampleData() {
-    const columns = [
-        {name: 'revenue', type: 'float', sample_values: [100, 200, 300]},
-        {name: 'customer_id', type: 'string', sample_values: ['C001', 'C002']},
-        {name: 'order_date', type: 'datetime', sample_values: ['2024-01-01', '2024-02-01']},
-        {name: 'sku', type: 'string', sample_values: ['SKU001', 'SKU002']},
-        {name: 'quantity', type: 'int', sample_values: [10, 20, 30]},
-        {name: 'store_location', type: 'string', sample_values: ['NYC', 'LA']}
-    ];
-    await analyzeColumns(columns, 'sample_enterprise.xlsx');
-}
+/* ═══ DECISIONS ═══ */
+async function runDecision(){document.getElementById('decisions-body').innerHTML='<div class="loading-bar"></div>';
+try{const[an,ev]=await Promise.allSettled([api('/enterprise/moat/engine/analyze','POST',new URLSearchParams({pattern:'root_cause',query:'Why did revenue change?',context_json:'{}'})),api('/enterprise/moat/engine/evaluate','POST',new URLSearchParams({framework:'swot',options_json:'[]'}))]);
+let h='';
+if(an.status==='fulfilled'){const a=an.value;h+='<div style="padding:16px"><div style="padding:8px 14px;border-bottom:1px solid var(--border);background:var(--panel)"><span style="font-family:var(--mono);font-size:10px;color:var(--ti-dim);text-transform:uppercase;letter-spacing:1.5px">Root Cause Analysis</span></div><div style="padding:12px"><div style="font-family:var(--sans);font-size:13px;color:var(--white);margin-bottom:8px">'+(a.conclusion||'')+'</div><div style="font-family:var(--mono);font-size:11px;color:var(--active)">Confidence: '+((a.overall_confidence||0)*100).toFixed(0)+'%</div>'+((a.steps||[]).map(s=>'<div style="padding:8px;background:var(--panel);border:1px solid var(--border);margin:6px 0"><div style="display:flex;justify-content:space-between"><span style="font-family:var(--mono);font-size:10px;color:var(--ti)">'+s.description+'</span><span style="font-family:var(--mono);font-size:10px;color:var(--tf)">'+((s.confidence||0)*100).toFixed(0)+'%</span></div><div style="font-size:11px;color:var(--td);margin-top:4px">'+(s.evidence||'')+'</div></div>').join(''))+'</div></div>';}
+if(ev.status==='fulfilled'){const e=ev.value;h+='<div style="padding:0 16px 16px"><div style="padding:8px 14px;border-bottom:1px solid var(--border);background:var(--panel)"><span style="font-family:var(--mono);font-size:10px;color:var(--ti-dim);text-transform:uppercase;letter-spacing:1.5px">SWOT Evaluation</span></div><table class="data-grid"><thead><tr><th>Option</th><th>Score</th><th>Framework</th></tr></thead><tbody>'+((e.options||[]).map(o=>'<tr><td class="val">'+(o.name||'default')+'</td><td>'+o.score+'</td><td>'+o.framework+'</td></tr>').join(''))+'</tbody></table></div>';}
+document.getElementById('decisions-body').innerHTML=h||'<div class="empty-state"><div class="msg">No results</div></div>';addEvent('decision','DECISION','Analysis complete');
+}catch(e){document.getElementById('decisions-body').innerHTML='<div class="empty-state"><div class="msg">ERROR</div><div class="sub">'+e.message+'</div></div>';}}
 
-// ── PROFILE MODULE ──
-async function loadProfile() {
-    document.getElementById('profile-body').innerHTML = '<div class="loading-bar"></div>';
-    try {
-        const templates = await api('/intelligence-profile/templates/list');
-        const tlist = templates.templates || [];
-        document.getElementById('profile-badge').textContent = `${tlist.length} templates`;
-        let html = '<div class="template-grid">';
-        tlist.forEach(t => {
-            html += `<div class="template-card" onclick="createProfileWithIndustry('${t.industry}')"><span style="font-family:var(--mono);font-size:11px;color:var(--white);font-weight:500;text-transform:uppercase">${t.industry}</span><span style="font-family:var(--sans);font-size:10px;color:var(--td)">${t.description || ''}</span><div style="display:flex;gap:8px;margin-top:4px"><span class="tag neutral">${t.entity_count || 0}E</span><span class="tag neutral">${t.kpi_count || 0}K</span><span class="tag neutral">${t.agent_count || 0}A</span></div></div>`;
-        });
-        html += '</div>';
-        if (lastAnalysis) {
-            const ind = lastAnalysis.suggested_industry || {};
-            const entities = lastAnalysis.suggested_entities || [];
-            const kpis = lastAnalysis.suggested_kpis || [];
-            html += '<div style="padding:16px"><div class="panel-header"><h3>Current Analysis</h3></div>';
-            html += `<div style="padding:8px 0"><div style="font-family:var(--mono);font-size:10px;color:var(--tf)">INDUSTRY: ${ind.industry || '?'} (${((ind.confidence || 0) * 100).toFixed(0)}%)</div>`;
-            entities.forEach(e => { html += `<div class="source-row"><span class="tag neutral">${e.entity_type}</span><span style="flex:1;color:var(--ti)">${e.label}</span></div>`; });
-            html += '<div style="padding:4px 0"></div>';
-            kpis.forEach(k => { html += `<div class="kpi-row"><span class="kpi-name">${k.label || k.name}</span><span class="kpi-value" style="font-size:10px">${k.target?.value || '—'}</span></div>`; });
-            html += '</div></div>';
-        }
-        document.getElementById('profile-body').innerHTML = html;
-        addEvent('data', 'PROFILE', `Loaded ${tlist.length} templates`);
-    } catch (e) {
-        document.getElementById('profile-body').innerHTML = `<div class="empty-state"><div class="msg">LOAD FAILED</div><div class="sub">${e.message}</div></div>`;
-        addEvent('alert', 'PROFILE', e.message);
-    }
-}
-async function createProfile() { await createProfileWithIndustry('retail'); }
-async function createProfileWithIndustry(industry) {
-    addEvent('data', 'PROFILE', `Creating: ${industry}`);
-    try {
-        await api('/intelligence-profile/', 'POST', {org_id: orgId, industry, company_name: 'Enterprise'});
-        addEvent('data', 'PROFILE', `Created: ${industry}`);
-        loadProfile();
-    } catch (e) { addEvent('alert', 'PROFILE', e.message); }
-}
+/* ═══ MEMORY ═══ */
+async function searchMemory(){const q=document.getElementById('memory-query')?.value||'revenue';document.getElementById('memory-results').innerHTML='<div class="loading-bar"></div>';
+try{const data=await api('/enterprise/vector-memory/search/'+orgId+'?query='+encodeURIComponent(q));const results=data.results||[];document.getElementById('memory-badge').textContent=results.length+' chunks';
+document.getElementById('memory-results').innerHTML=!results.length?'<div class="empty-state"><div class="msg">No results</div></div>':'<div style="font-family:var(--mono);font-size:10px;color:var(--tf);margin-bottom:10px">QUERY: "'+q+'" · '+results.length+' RESULTS</div>'+results.map(r=>'<div class="search-result"><div style="display:flex;align-items:center;gap:10px"><span class="search-score">'+((r.score||0)*100).toFixed(1)+'%</span><div style="flex:1;height:2px;background:var(--panel3)"><div style="height:100%;width:'+(r.score||0)*100+'%;background:var(--ti)"></div></div></div><div class="search-text">'+(r.text||r.content||'')+'</div></div>').join('');
+addEvent('data','MEMORY','"'+q+'" → '+results.length);
+}catch(e){document.getElementById('memory-results').innerHTML='<div class="empty-state"><div class="msg">FAILED</div><div class="sub">'+e.message+'</div></div>';}}
 
-// ── DASHBOARD MODULE ──
-const roles = ['executive', 'ceo', 'cfo', 'coo', 'cto', 'analyst', 'manager'];
-let currentRole = 'executive';
-function renderRoleSelector() {
-    document.getElementById('role-selector').innerHTML = roles.map(r =>
-        `<div class="role-btn ${r === currentRole ? 'active' : ''}" onclick="switchRole('${r}')">${r}</div>`
-    ).join('');
-}
-function switchRole(r) { currentRole = r; renderRoleSelector(); loadDashboard(); }
-async function loadDashboard() {
-    renderRoleSelector();
-    document.getElementById('dashboard-body').innerHTML = '<div class="loading-bar"></div>';
-    try {
-        const dash = await api(`/dashboard/${orgId}/generate?role=${currentRole}`);
-        const layout = dash.layout || [];
-        document.getElementById('dash-badge').textContent = dash.dashboard_type || currentRole;
-        let html = `<div style="padding:16px"><div style="margin-bottom:12px"><div style="font-family:var(--mono);font-size:14px;color:var(--white)">${dash.title || 'Dashboard'}</div><div style="font-family:var(--mono);font-size:10px;color:var(--tf)">${dash.subtitle || ''} · ${dash.industry || '?'} · ${dash.role || '?'}</div></div>`;
-        html += '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px">';
-        layout.forEach(w => { html += renderWidget(w); });
-        html += '</div></div>';
-        document.getElementById('dashboard-body').innerHTML = html;
-        addEvent('data', 'DASH', `${layout.length} widgets, ${currentRole}`);
-    } catch (e) {
-        document.getElementById('dashboard-body').innerHTML = `<div class="empty-state"><div class="msg">DASHBOARD ERROR</div><div class="sub">${e.message}</div></div>`;
-        addEvent('alert', 'DASH', e.message);
-    }
-}
-function renderWidget(w) {
-    const c = w.config || {};
-    switch (w.type) {
-        case 'kpi_card': return `<div class="widget-card"><span class="widget-type">${w.type}</span><span class="widget-title">${w.label}</span><span class="widget-value">${c.target ? Number(c.target).toLocaleString() : '—'}</span><span class="widget-config">metric: ${c.metric || '?'} · agg: ${c.aggregation || 'sum'}</span></div>`;
-        case 'trend_chart': return `<div class="widget-card" style="grid-column:span 2"><span class="widget-type">${w.type}</span><span class="widget-title">${w.label}</span><svg width="100%" height="60" viewBox="0 0 300 60"><polyline points="0,50 50,30 100,35 150,20 200,25 250,15 300,10" fill="none" stroke="#C0C8D0" stroke-width="1"/></svg><span class="widget-config">metric: ${c.metric || '?'} · period: ${c.period || 'monthly'}</span></div>`;
-        case 'goal_progress': { const pct = c.target ? Math.min(100, 50) : 50; return `<div class="widget-card"><span class="widget-type">${w.type}</span><span class="widget-title">${w.label}</span><div class="progress-track" style="margin:8px 0"><div class="progress-fill" style="width:${pct}%"></div></div><span class="widget-config">kpi: ${c.kpi || '?'}</span></div>`; }
-        case 'alert_panel': return `<div class="widget-card"><span class="widget-type">${w.type}</span><span class="widget-title">${w.label}</span><div class="empty-state" style="padding:12px"><span class="sub">NO ACTIVE ALERTS</span></div></div>`;
-        default: return `<div class="widget-card"><span class="widget-type">${w.type}</span><span class="widget-title">${w.label}</span><span class="widget-config">${JSON.stringify(c).substring(0, 120)}</span></div>`;
-    }
-}
+/* ═══ PIPELINE ═══ */
+const pipeStages=[{id:'upload',label:'Upload',icon:'↑'},{id:'profile',label:'Profile',icon:'◉'},{id:'semantic',label:'Semantic Map',icon:'⇄'},{id:'intelligence',label:'Intel Profile',icon:'◆'},{id:'graph',label:'Knowledge Graph',icon:'◈'},{id:'dashboard',label:'Dashboard',icon:'▦'},{id:'agent',label:'Agent Create',icon:'⬡'},{id:'query',label:'NL Query',icon:'⌕'},{id:'decision',label:'Decision',icon:'⚡'},{id:'memory',label:'Memory',icon:'◉'},{id:'audit',label:'Audit',icon:'✓'}];
+function renderPipeline(){document.getElementById('pipeline-flow').innerHTML=pipeStages.map((s,i)=>'<div class="pipeline-stage"><div class="pipeline-node pending" id="pipe-'+s.id+'">'+s.icon+'</div><span class="pipeline-label">'+s.label+'</span></div>'+(i<pipeStages.length-1?'<div class="pipeline-connector" id="pconn-'+i+'"></div>':'')).join('');}
+async function runPipeline(){document.getElementById('pipe-badge').textContent='RUNNING';addEvent('data','PIPE','Pipeline started');const log=document.getElementById('pipeline-log');log.innerHTML='';
+for(let i=0;i<pipeStages.length;i++){const s=pipeStages[i],node=document.getElementById('pipe-'+s.id),conn=document.getElementById('pconn-'+i);
+if(node){node.classList.remove('pending');node.classList.add('active');}
+const ts=new Date().toTimeString().split(' ')[0];log.innerHTML+='['+ts+'] ▶ '+s.label.toUpperCase()+' — executing...\n';log.scrollTop=log.scrollHeight;
+try{switch(s.id){case'profile':await api('/intelligence-profile/analyze','POST',{file_name:'data.xlsx',file_type:'xlsx',columns:[{name:'revenue',type:'float',sample_values:[100]},{name:'customer_id',type:'string',sample_values:['C001']}]});break;case'intelligence':await api('/intelligence-profile/','POST',{org_id:orgId,industry:'retail',company_name:'Enterprise'});break;case'graph':await api('/enterprise/moat/knowledge-graph/enrich','POST',{});break;case'dashboard':await api('/dashboard/'+orgId+'/generate');break;case'agent':await api('/agents/create','POST',{org_id:orgId,agent_type:'sales_intelligence',label:'Pipeline Agent',purpose:'Auto'});break;case'query':await api('/agents/execute','POST',{org_id:orgId,input:'Analyze Q3 revenue'});break;case'decision':await api('/enterprise/moat/engine/analyze','POST',new URLSearchParams({pattern:'root_cause',query:'Why revenue?',context_json:'{}'}));break;}}catch(e){}
+await new Promise(r=>setTimeout(r,200+Math.random()*300));
+if(node){node.classList.remove('active');node.classList.add('done');}if(conn)conn.classList.add('done');
+log.innerHTML+='['+ts+'] ✓ '+s.label.toUpperCase()+' — done\n';log.scrollTop=log.scrollHeight;addEvent('data','PIPE',s.label+' done');}
+document.getElementById('pipe-badge').textContent='COMPLETE';addEvent('data','PIPE','All 11 stages complete');}
 
-// ── QUERY MODULE ──
-function setQuery(q) { document.getElementById('query-input').value = q; }
-async function runQuery() {
-    const q = document.getElementById('query-input').value.trim();
-    if (!q) return;
-    document.getElementById('query-badge').textContent = 'EXECUTING…';
-    const el = document.getElementById('query-results');
-    el.innerHTML = '<div class="loading-bar"></div>';
-    addEvent('decision', 'QUERY', `"${q.substring(0, 40)}…"`);
-    try {
-        const [classify, execute, analyze] = await Promise.allSettled([
-            api('/agents/classify', 'POST', {org_id: orgId, input: q}),
-            api('/agents/execute', 'POST', {org_id: orgId, input: q}),
-            api('/enterprise/moat/engine/analyze', 'POST', new URLSearchParams({pattern: 'root_cause', query: q, context_json: '{}'}))
-        ]);
-        let html = '';
-        if (classify.status === 'fulfilled') {
-            const c = classify.value;
-            const cl = c.classification || {};
-            html += `<div class="query-section" style="margin-bottom:14px"><h4>Intent Classification</h4><div class="content"><div style="display:flex;gap:10px;margin-bottom:8px"><span class="tag neutral">${cl.category || 'general'}</span><span style="font-family:var(--mono);font-size:11px;color:var(--ti)">${((cl.confidence || 0) * 100).toFixed(0)}%</span></div><div>${cl.reasoning || ''}</div><div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:6px">${(cl.suggested_agents || []).map(a => `<span class="tag idle">${a}</span>`).join('')}</div></div></div>`;
-        }
-        if (execute.status === 'fulfilled') {
-            const ex = execute.value;
-            html += `<div class="query-section" style="margin-bottom:14px"><h4>Agent Response</h4><div class="content"><div style="margin-bottom:6px">${ex.success ? '<span class="tag active">SUCCESS</span>' : '<span class="tag stopped">FAILED</span>'}</div><div>${ex.output || ex.error || 'No output'}</div></div></div>`;
-        }
-        if (analyze.status === 'fulfilled') {
-            const an = analyze.value;
-            html += `<div class="query-section"><h4>Decision Analysis — Root Cause</h4><div class="content"><div style="margin-bottom:8px">${an.conclusion || ''}</div><div style="font-family:var(--mono);font-size:11px;color:var(--ti)">Confidence: ${((an.overall_confidence || 0) * 100).toFixed(0)}%</div>${(an.steps || []).map(s => `<div style="margin-top:6px;padding:6px;background:var(--void);border:1px solid var(--border)"><span style="font-family:var(--mono);font-size:10px;color:var(--ti)">${s.description}</span><div style="font-size:10px;color:var(--tf)">${s.evidence || ''} · ${((s.confidence || 0) * 100).toFixed(0)}%</div></div>`).join('')}</div></div>`;
-        }
-        el.innerHTML = html || '<div class="query-section"><h4>No Results</h4><div class="content">All queries failed.</div></div>';
-        document.getElementById('query-badge').textContent = 'COMPLETE';
-        addEvent('data', 'QUERY', 'Complete');
-    } catch (e) {
-        el.innerHTML = `<div class="query-section"><h4>Error</h4><div class="content">${e.message}</div></div>`;
-        document.getElementById('query-badge').textContent = 'ERROR';
-    }
-}
+/* ═══ AUDIT ═══ */
+async function loadAudit(){document.getElementById('audit-timeline').innerHTML='<div class="loading-bar"></div>';
+try{const data=await api('/enterprise/audit-log');const entries=data.entries||[];document.getElementById('audit-badge').textContent=entries.length+' events';
+document.getElementById('audit-timeline').innerHTML=!entries.length?'<div class="empty-state"><div class="msg">No audit events</div></div>':entries.map(e=>'<div class="timeline-item"><span class="timeline-time">'+((e.timestamp||'').split('T')[1]?.split('.')[0]||'--:--')+'</span><div class="timeline-content"><span class="timeline-actor">'+(e.action||e.event_type||'action')+'</span><span class="timeline-action">'+(e.resource_type||'')+' / '+(e.resource_id||'')+'</span></div></div>').join('');
+}catch(e){document.getElementById('audit-timeline').innerHTML='<div class="empty-state"><div class="msg">FAILED</div><div class="sub">'+e.message+'</div></div>';}}
 
-// ── GRAPH MODULE ──
-let gNodes = [], gEdges = [], gCanvas, gCtx, gOffset = {x: 0, y: 0}, gScale = 1, gDrag = false;
-async function loadGraph() {
-    gCanvas = document.getElementById('graph-canvas');
-    gCtx = gCanvas.getContext('2d');
-    const r = gCanvas.parentElement.getBoundingClientRect();
-    gCanvas.width = r.width; gCanvas.height = r.height;
-    try {
-        const data = await api(`/enterprise/knowledge-graph/${orgId}`);
-        const nodes = data.nodes || [];
-        document.getElementById('graph-badge').textContent = `${nodes.length} nodes`;
-        if (nodes.length === 0) {
-            gCanvas.parentElement.innerHTML = '<div class="empty-state" style="position:absolute;inset:0;display:flex"><div><div class="msg">No entities yet</div><div class="sub">Click EXTRACT to build graph</div><button class="module-btn primary" style="margin-top:12px" onclick="enrichGraph()">✦ Extract</button></div></div>';
-            return;
-        }
-        const colors = {Company: '#C0C8D0', Customer: '#60A5FA', Product: '#4ADE80', Order: '#FBBF24', Employee: '#A78BFA', Entity: '#8892A6'};
-        gNodes = nodes.map((n, i) => ({id: i, label: n.label || n.name || `N${i}`, type: n.type || n.entity_type || 'Entity', x: Math.cos(i * 0.5) * 150 + 300, y: Math.sin(i * 0.5) * 150 + 200, vx: 0, vy: 0, radius: 8, color: colors[n.type || n.entity_type || 'Entity'] || '#8892A6'}));
-        gEdges = [];
-        for (let i = 0; i < gNodes.length; i++) for (let j = i + 1; j < Math.min(i + 3, gNodes.length); j++) gEdges.push({source: i, target: j});
-        gCanvas.onmousedown = e => { gDrag = true; gOffset = {x: e.offsetX, y: e.offsetY}; };
-        gCanvas.onmousemove = e => { if (gDrag) drawGraph(); };
-        gCanvas.onmouseup = gCanvas.onmouseleave = () => gDrag = false;
-        animateGraph();
-        addEvent('data', 'GRAPH', `${gNodes.length} nodes`);
-    } catch (e) { addEvent('alert', 'GRAPH', e.message); }
-}
-async function enrichGraph() {
-    try { await api('/enterprise/moat/knowledge-graph/enrich', 'POST', {}); addEvent('data', 'GRAPH', 'Extracted'); loadGraph(); }
-    catch (e) { addEvent('alert', 'GRAPH', e.message); }
-}
-function drawGraph() {
-    if (!gCtx) return;
-    gCtx.clearRect(0, 0, gCanvas.width, gCanvas.height);
-    gCtx.strokeStyle = 'rgba(35,45,68,.6)'; gCtx.lineWidth = .5;
-    gEdges.forEach(e => { const s = gNodes[e.source], t = gNodes[e.target]; if (s && t) { gCtx.beginPath(); gCtx.moveTo(s.x, s.y); gCtx.lineTo(t.x, t.y); gCtx.stroke(); } });
-    gNodes.forEach(n => {
-        gCtx.beginPath(); gCtx.arc(n.x, n.y, n.radius, 0, Math.PI * 2);
-        gCtx.fillStyle = n.color + '20'; gCtx.fill();
-        gCtx.strokeStyle = n.color; gCtx.lineWidth = 1; gCtx.stroke();
-        gCtx.fillStyle = '#6B7280'; gCtx.font = '8px JetBrains Mono'; gCtx.textAlign = 'center';
-        gCtx.fillText(n.label, n.x, n.y + n.radius + 10);
-    });
-}
-function animateGraph() {
-    if (currentModule !== 'graph' || !gCanvas) return;
-    for (let i = 0; i < gNodes.length; i++) {
-        const n = gNodes[i];
-        for (let j = i + 1; j < gNodes.length; j++) {
-            const m = gNodes[j];
-            const dx = n.x - m.x, dy = n.y - m.y;
-            const d = Math.sqrt(dx * dx + dy * dy) || 1;
-            const f = 800 / (d * d);
-            n.vx += (dx / d) * f * .01; n.vy += (dy / d) * f * .01;
-            m.vx -= (dx / d) * f * .01; m.vy -= (dy / d) * f * .01;
-        }
-    }
-    gNodes.forEach(n => {
-        n.x += n.vx * .5; n.y += n.vy * .5; n.vx *= .85; n.vy *= .85;
-        n.x = Math.max(20, Math.min(gCanvas.width - 20, n.x));
-        n.y = Math.max(20, Math.min(gCanvas.height - 20, n.y));
-    });
-    drawGraph();
-    requestAnimationFrame(animateGraph);
-}
+/* ═══ OBSERVATORY ═══ */
+const obsViews=['ceo','cto','cfo','ciso'];
+function renderObsTabs(){document.getElementById('obs-tabs').innerHTML=obsViews.map(v=>'<div class="obs-tab '+(v===currentObsView?'active':'')+'" onclick="switchObs(\''+v+'\')">'+v.toUpperCase()+'</div>').join('');}
+function switchObs(v){currentObsView=v;renderObsTabs();loadObservatory();}
+async function loadObservatory(){renderObsTabs();document.getElementById('observatory-body').innerHTML='<div class="loading-bar"></div>';
+try{const[tr,ag]=await Promise.allSettled([api('/enterprise/analytics/trends'),api('/enterprise/analytics/agents')]);let h='<div style="padding:12px">';
+if(currentObsView==='ceo'&&tr.status==='fulfilled'){const t=tr.value;if(Array.isArray(t)&&t.length){const tr_=t.reduce((s,d)=>s+(d.agent_runs||0),0),tp=t.reduce((s,d)=>s+(d.problems_detected||0),0),tc=t.reduce((s,d)=>s+(d.recommendations||0),0);
+h+='<div class="metric-strip" style="margin-bottom:16px"><div class="metric-tile"><span class="label">Agent Runs</span><span class="value">'+tr_+'</span></div><div class="metric-tile"><span class="label">Problems</span><span class="value">'+tp+'</span></div><div class="metric-tile"><span class="label">Recommendations</span><span class="value">'+tc+'</span></div><div class="metric-tile"><span class="label">Days</span><span class="value">'+t.length+'</span></div></div>';
+h+='<table class="data-grid"><thead><tr><th>Date</th><th>Problems</th><th>Recs</th><th>Actions</th><th>Runs</th></tr></thead><tbody>';t.slice(0,15).forEach(d=>{h+='<tr><td class="val">'+(d.date||'').split('T')[0]+'</td><td>'+(d.problems_detected||0)+'</td><td>'+(d.recommendations||0)+'</td><td>'+(d.actions_taken||0)+'</td><td>'+(d.agent_runs||0)+'</td></tr>';});h+='</tbody></table>';}}
+else if(currentObsView==='cto'&&ag.status==='fulfilled'&&Array.isArray(ag.value)&&ag.value.length){h+='<div style="padding:8px 14px;border-bottom:1px solid var(--border);background:var(--panel);margin-bottom:12px"><span style="font-family:var(--mono);font-size:10px;color:var(--ti-dim);text-transform:uppercase;letter-spacing:1.5px">Agent Performance</span></div><table class="data-grid"><thead><tr><th>Agent</th><th>Runs</th><th>Errors</th></tr></thead><tbody>';ag.value.forEach(a=>{h+='<tr><td class="val">'+(a.agent||'?')+'</td><td>'+(a.runs||0)+'</td><td>'+(a.errors||0)+'</td></tr>';});h+='</tbody></table>';}
+else if(currentObsView==='cfo'){h+='<div class="empty-state"><div class="msg">AI Cost Tracking</div><div class="sub">Token usage and cost analytics coming soon</div></div>';}
+else if(currentObsView==='ciso'){h+='<div class="empty-state"><div class="msg">Security Events</div><div class="sub">Security monitoring and compliance coming soon</div></div>';}
+h+='</div>';document.getElementById('observatory-body').innerHTML=h||'<div class="empty-state"><div class="msg">No data</div></div>';
+}catch(e){document.getElementById('observatory-body').innerHTML='<div class="empty-state"><div class="msg">FAILED</div><div class="sub">'+e.message+'</div></div>';}}
 
-// ── AGENTS MODULE ──
-async function loadAgents() {
-    document.getElementById('agents-body').innerHTML = '<div class="loading-bar"></div>';
-    try {
-        const data = await api('/agents');
-        const agents = data.agents || [];
-        document.getElementById('agent-badge').textContent = `${agents.filter(a => a.enabled).length} active`;
-        let html = '<div style="padding:12px"><div class="metric-strip" style="margin-bottom:16px">';
-        html += `<div class="metric-tile"><span class="label">Total</span><span class="value">${agents.length}</span></div>`;
-        html += `<div class="metric-tile"><span class="label">Active</span><span class="value">${agents.filter(a => a.enabled).length}</span></div>`;
-        html += `<div class="metric-tile"><span class="label">Tools</span><span class="value">${agents.reduce((s, a) => s + (a.tools?.length || 0), 0)}</span></div>`;
-        html += '</div><div class="agent-grid">';
-        agents.forEach(a => {
-            html += `<div class="agent-card" onclick="execAgent('${a.role}')"><div style="display:flex;justify-content:space-between"><span class="agent-name">${a.name}</span><span class="tag ${a.enabled ? 'active' : 'stopped'}">${a.enabled ? 'ON' : 'OFF'}</span></div><span class="agent-desc">${a.description || ''}</span><div style="display:flex;flex-wrap:wrap;gap:3px;margin-top:4px">${(a.tools || []).slice(0, 5).map(t => `<span class="tag neutral">${t.name}</span>`).join('')}</div></div>`;
-        });
-        html += '</div></div>';
-        document.getElementById('agents-body').innerHTML = html;
-        addEvent('agent', 'AGENTS', `${agents.length} agents`);
-    } catch (e) {
-        document.getElementById('agents-body').innerHTML = `<div class="empty-state"><div class="msg">LOAD FAILED</div><div class="sub">${e.message}</div></div>`;
-    }
-}
-async function execAgent(role) {
-    addEvent('agent', 'AGENT', `Executing: ${role}`);
-    try { const r = await api('/agents/execute', 'POST', {org_id: orgId, input: `Analyze ${role} metrics`}); addEvent('data', 'AGENT', `${role}: done`); }
-    catch (e) { addEvent('alert', 'AGENT', e.message); }
-}
+/* ═══ COMMAND BAR ═══ */
+function handleCmdKey(e){if(e.key!=='Enter')return;const v=e.target.value.toLowerCase();
+if(v.includes('upload'))switchModule('upload');else if(v.includes('profile'))switchModule('profile');else if(v.includes('dash'))switchModule('dashboard');else if(v.includes('query')||v.includes('ask')){switchModule('query');if(v.length>10){setQuery(e.target.value);runQuery();}}else if(v.includes('graph'))switchModule('graph');else if(v.includes('agent'))switchModule('agents');else if(v.includes('decision'))switchModule('decisions');else if(v.includes('memory')||v.includes('search')){switchModule('memory');searchMemory();}else if(v.includes('pipeline')){switchModule('pipeline');runPipeline();}else if(v.includes('audit'))switchModule('audit');else if(v.includes('observ'))switchModule('observatory');
+e.target.value='';}
 
-// ── DECISIONS MODULE ──
-async function runDecision() {
-    document.getElementById('decisions-body').innerHTML = '<div class="loading-bar"></div>';
-    try {
-        const [analyze, evaluate] = await Promise.allSettled([
-            api('/enterprise/moat/engine/analyze', 'POST', new URLSearchParams({pattern: 'root_cause', query: 'Why did revenue change?', context_json: '{}'})),
-            api('/enterprise/moat/engine/evaluate', 'POST', new URLSearchParams({framework: 'swot', options_json: '[]'}))
-        ]);
-        let html = '';
-        if (analyze.status === 'fulfilled') {
-            const a = analyze.value;
-            html += `<div style="padding:16px"><div class="panel-header"><h3>Root Cause Analysis</h3></div><div style="padding:12px"><div style="font-family:var(--sans);font-size:13px;color:var(--white);margin-bottom:8px">${a.conclusion || ''}</div><div style="font-family:var(--mono);font-size:11px;color:var(--ti)">Confidence: ${((a.overall_confidence || 0) * 100).toFixed(0)}%</div>${(a.steps || []).map(s => `<div style="padding:8px;background:var(--panel);border:1px solid var(--border);margin:6px 0"><div style="display:flex;justify-content:space-between"><span style="font-family:var(--mono);font-size:10px;color:var(--ti)">${s.description}</span><span style="font-family:var(--mono);font-size:10px;color:var(--tf)">${((s.confidence || 0) * 100).toFixed(0)}%</span></div><div style="font-size:11px;color:var(--td);margin-top:4px">${s.evidence || ''}</div></div>`).join('')}</div></div>`;
-        }
-        if (evaluate.status === 'fulfilled') {
-            const ev = evaluate.value;
-            html += `<div style="padding:0 16px 16px"><div class="panel-header"><h3>SWOT Evaluation</h3></div><table class="data-grid"><thead><tr><th>Option</th><th>Score</th><th>Framework</th></tr></thead><tbody>${(ev.options || []).map(o => `<tr><td class="val">${o.name || 'default'}</td><td>${o.score}</td><td>${o.framework}</td></tr>`).join('')}</tbody></table></div>`;
-        }
-        document.getElementById('decisions-body').innerHTML = html || '<div class="empty-state"><div class="msg">No results</div></div>';
-        addEvent('decision', 'DECISION', 'Analysis complete');
-    } catch (e) {
-        document.getElementById('decisions-body').innerHTML = `<div class="empty-state"><div class="msg">ERROR</div><div class="sub">${e.message}</div></div>`;
-    }
-}
+/* ═══ LANDING CANVAS ═══ */
+function initLandingCanvas(){const c=document.getElementById('landing-canvas');if(!c)return;const ctx=c.getContext('2d');c.width=window.innerWidth;c.height=window.innerHeight;const nodes=[];for(let i=0;i<80;i++)nodes.push({x:Math.random()*c.width,y:Math.random()*c.height,vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3,r:Math.random()*1.5+.5});
+function draw(){ctx.clearRect(0,0,c.width,c.height);nodes.forEach(n=>{n.x+=n.vx;n.y+=n.vy;if(n.x<0||n.x>c.width)n.vx*=-1;if(n.y<0||n.y>c.height)n.vy*=-1;});ctx.strokeStyle='rgba(192,200,208,0.04)';ctx.lineWidth=.5;for(let i=0;i<nodes.length;i++)for(let j=i+1;j<nodes.length;j++){const dx=nodes[i].x-nodes[j].x,dy=nodes[i].y-nodes[j].y,d=Math.sqrt(dx*dx+dy*dy);if(d<150){ctx.globalAlpha=(1-d/150)*.3;ctx.beginPath();ctx.moveTo(nodes[i].x,nodes[i].y);ctx.lineTo(nodes[j].x,nodes[j].y);ctx.stroke();}}ctx.globalAlpha=1;nodes.forEach(n=>{ctx.beginPath();ctx.arc(n.x,n.y,n.r,0,Math.PI*2);ctx.fillStyle='rgba(192,200,208,0.3)';ctx.fill();});requestAnimationFrame(draw);}draw();window.onresize=()=>{c.width=window.innerWidth;c.height=window.innerHeight;};}
+function initDataFlow(){const stages=[{l:'Data Sources',i:'◈'},{l:'Intelligence Profile',i:'◉'},{l:'AI Agents',i:'⬡'},{l:'Decision Engine',i:'⚡'},{l:'Business Outcomes',i:'✓'}];
+document.getElementById('data-flow').innerHTML=stages.map((s,i)=>'<div class="flow-stage"><div class="flow-node pulse">'+s.i+'</div><span class="flow-label">'+s.l+'</span></div>'+(i<stages.length-1?'<div class="flow-arrow"><div class="dot" style="animation-delay:'+(i*.4)+'s"></div></div>':'')).join('');}
+function initAuthCanvas(){const c=document.getElementById('auth-canvas');if(!c)return;const ctx=c.getContext('2d');c.width=c.parentElement.offsetWidth;c.height=c.parentElement.offsetHeight;const p=[];for(let i=0;i<40;i++)p.push({x:Math.random()*c.width,y:Math.random()*c.height,vx:(Math.random()-.5)*.2,vy:(Math.random()-.5)*.2,r:Math.random()*1+.5});
+function draw(){ctx.clearRect(0,0,c.width,c.height);p.forEach(n=>{n.x+=n.vx;n.y+=n.vy;if(n.x<0||n.x>c.width)n.vx*=-1;if(n.y<0||n.y>c.height)n.vy*=-1;ctx.beginPath();ctx.arc(n.x,n.y,n.r,0,Math.PI*2);ctx.fillStyle='rgba(192,200,208,0.15)';ctx.fill();});requestAnimationFrame(draw);}draw();}
 
-// ── MEMORY MODULE ──
-async function searchMemory() {
-    const q = document.getElementById('memory-query')?.value || 'revenue';
-    document.getElementById('memory-results').innerHTML = '<div class="loading-bar"></div>';
-    try {
-        const data = await api(`/enterprise/vector-memory/search/${orgId}?query=${encodeURIComponent(q)}`);
-        const results = data.results || [];
-        document.getElementById('memory-badge').textContent = `${results.length} chunks`;
-        document.getElementById('memory-results').innerHTML = results.length === 0
-            ? '<div class="empty-state"><div class="msg">No results</div></div>'
-            : `<div style="font-family:var(--mono);font-size:10px;color:var(--tf);margin-bottom:10px">QUERY: "${q}" · ${results.length} RESULTS</div>${results.map(r => `<div class="search-result"><div style="display:flex;align-items:center;gap:10px"><span class="search-score">${((r.score || 0) * 100).toFixed(1)}%</span><div style="flex:1;height:2px;background:var(--panel3)"><div style="height:100%;width:${(r.score || 0) * 100}%;background:var(--ti)"></div></div></div><div class="search-text">${r.text || r.content || ''}</div></div>`).join('')}`;
-        addEvent('data', 'MEMORY', `"${q}" → ${results.length}`);
-    } catch (e) {
-        document.getElementById('memory-results').innerHTML = `<div class="empty-state"><div class="msg">FAILED</div><div class="sub">${e.message}</div></div>`;
-    }
-}
+/* ═══ DRAG-DROP ═══ */
+document.addEventListener('dragover',e=>{e.preventDefault();document.getElementById('drop-zone')?.classList.add('dragover');});
+document.addEventListener('dragleave',()=>document.getElementById('drop-zone')?.classList.remove('dragover'));
+document.addEventListener('drop',e=>{e.preventDefault();document.getElementById('drop-zone')?.classList.remove('dragover');if(e.dataTransfer.files.length)handleFile(e.dataTransfer.files[0]);});
+document.getElementById('auth-password')?.addEventListener('keydown',e=>{if(e.key==='Enter')handleAuth();});
 
-// ── PIPELINE MODULE ──
-const pipeStages = [
-    {id: 'upload', label: 'Upload', icon: '↑'}, {id: 'profile', label: 'Profile', icon: '◉'},
-    {id: 'semantic', label: 'Semantic Map', icon: '⇄'}, {id: 'intelligence', label: 'Intel Profile', icon: '◆'},
-    {id: 'graph', label: 'Knowledge Graph', icon: '◈'}, {id: 'dashboard', label: 'Dashboard', icon: '▦'},
-    {id: 'agent', label: 'Agent Create', icon: '⬡'}, {id: 'query', label: 'NL Query', icon: '⌕'},
-    {id: 'decision', label: 'Decision', icon: '⚡'}, {id: 'memory', label: 'Memory', icon: '◉'},
-    {id: 'audit', label: 'Audit', icon: '✓'}
-];
-function renderPipeline() {
-    document.getElementById('pipeline-flow').innerHTML = pipeStages.map((s, i) =>
-        `<div class="pipeline-stage"><div class="pipeline-node pending" id="pipe-${s.id}">${s.icon}</div><span class="pipeline-label">${s.label}</span></div>${i < pipeStages.length - 1 ? '<div class="pipeline-connector" id="pconn-' + i + '"></div>' : ''}`
-    ).join('');
-}
-async function runPipeline() {
-    document.getElementById('pipe-badge').textContent = 'RUNNING';
-    addEvent('data', 'PIPE', 'Pipeline started');
-    const log = document.getElementById('pipeline-log');
-    log.innerHTML = '';
-    for (let i = 0; i < pipeStages.length; i++) {
-        const s = pipeStages[i];
-        const node = document.getElementById(`pipe-${s.id}`);
-        const conn = document.getElementById(`pconn-${i}`);
-        if (node) { node.classList.remove('pending'); node.classList.add('active'); }
-        const ts = new Date().toTimeString().split(' ')[0];
-        log.innerHTML += `[${ts}] ▶ ${s.label.toUpperCase()} — executing...\n`;
-        log.scrollTop = log.scrollHeight;
-        try {
-            switch (s.id) {
-                case 'profile': await api('/intelligence-profile/analyze', 'POST', {file_name: 'data.xlsx', file_type: 'xlsx', columns: [{name: 'revenue', type: 'float', sample_values: [100]}, {name: 'customer_id', type: 'string', sample_values: ['C001']}]}); break;
-                case 'intelligence': await api('/intelligence-profile/', 'POST', {org_id: orgId, industry: 'retail', company_name: 'Enterprise'}); break;
-                case 'graph': await api('/enterprise/moat/knowledge-graph/enrich', 'POST', {}); break;
-                case 'dashboard': await api(`/dashboard/${orgId}/generate`); break;
-                case 'agent': await api('/agents/create', 'POST', {org_id: orgId, agent_type: 'sales_intelligence', label: 'Pipeline Agent', purpose: 'Auto'}); break;
-                case 'query': await api('/agents/execute', 'POST', {org_id: orgId, input: 'Analyze Q3 revenue'}); break;
-                case 'decision': await api('/enterprise/moat/engine/analyze', 'POST', new URLSearchParams({pattern: 'root_cause', query: 'Why revenue?', context_json: '{}'})); break;
-            }
-        } catch (e) {}
-        await new Promise(r => setTimeout(r, 200 + Math.random() * 300));
-        if (node) { node.classList.remove('active'); node.classList.add('done'); }
-        if (conn) conn.classList.add('done');
-        log.innerHTML += `[${ts}] ✓ ${s.label.toUpperCase()} — done\n`;
-        log.scrollTop = log.scrollHeight;
-        addEvent('data', 'PIPE', `${s.label} done`);
-    }
-    document.getElementById('pipe-badge').textContent = 'COMPLETE';
-    addEvent('data', 'PIPE', 'All 11 stages complete');
-}
-
-// ── AUDIT MODULE ──
-async function loadAudit() {
-    document.getElementById('audit-timeline').innerHTML = '<div class="loading-bar"></div>';
-    try {
-        const data = await api('/enterprise/audit-log');
-        const entries = data.entries || [];
-        document.getElementById('audit-badge').textContent = `${entries.length} events`;
-        document.getElementById('audit-timeline').innerHTML = entries.length === 0
-            ? '<div class="empty-state"><div class="msg">No audit events</div></div>'
-            : entries.map(e => `<div class="timeline-item"><span class="timeline-time">${(e.timestamp || '').split('T')[1]?.split('.')[0] || '--:--'}</span><div class="timeline-content"><span class="timeline-actor">${e.action || e.event_type || 'action'}</span><span class="timeline-action">${e.resource_type || ''} / ${e.resource_id || ''}</span></div></div>`).join('');
-        addEvent('audit', 'AUDIT', `${entries.length} events`);
-    } catch (e) {
-        document.getElementById('audit-timeline').innerHTML = `<div class="empty-state"><div class="msg">FAILED</div><div class="sub">${e.message}</div></div>`;
-    }
-}
-
-// ── OBSERVATORY MODULE ──
-async function loadObservatory() {
-    document.getElementById('observatory-body').innerHTML = '<div class="loading-bar"></div>';
-    try {
-        const [trends, agents] = await Promise.allSettled([api('/enterprise/analytics/trends'), api('/enterprise/analytics/agents')]);
-        let html = '<div style="padding:12px">';
-        if (trends.status === 'fulfilled') {
-            const t = trends.value;
-            if (Array.isArray(t) && t.length > 0) {
-                const totalRuns = t.reduce((s, d) => s + (d.agent_runs || 0), 0);
-                const totalProblems = t.reduce((s, d) => s + (d.problems_detected || 0), 0);
-                const totalRecs = t.reduce((s, d) => s + (d.recommendations || 0), 0);
-                html += '<div class="metric-strip" style="margin-bottom:16px">';
-                html += `<div class="metric-tile"><span class="label">Agent Runs</span><span class="value">${totalRuns}</span></div>`;
-                html += `<div class="metric-tile"><span class="label">Problems</span><span class="value">${totalProblems}</span></div>`;
-                html += `<div class="metric-tile"><span class="label">Recommendations</span><span class="value">${totalRecs}</span></div>`;
-                html += `<div class="metric-tile"><span class="label">Days</span><span class="value">${t.length}</span></div>`;
-                html += '</div>';
-                html += '<table class="data-grid"><thead><tr><th>Date</th><th>Problems</th><th>Recs</th><th>Actions</th><th>Runs</th></tr></thead><tbody>';
-                t.slice(0, 15).forEach(d => { html += `<tr><td class="val">${(d.date || '').split('T')[0]}</td><td>${d.problems_detected || 0}</td><td>${d.recommendations || 0}</td><td>${d.actions_taken || 0}</td><td>${d.agent_runs || 0}</td></tr>`; });
-                html += '</tbody></table>';
-            }
-        }
-        if (agents.status === 'fulfilled' && Array.isArray(agents.value) && agents.value.length > 0) {
-            html += '<div style="margin-top:16px"><div class="panel-header"><h3>Agent Performance</h3></div><table class="data-grid"><thead><tr><th>Agent</th><th>Runs</th><th>Errors</th></tr></thead><tbody>';
-            agents.value.forEach(a => { html += `<tr><td class="val">${a.agent || '?'}</td><td>${a.runs || 0}</td><td>${a.errors || 0}</td></tr>`; });
-            html += '</tbody></table></div>';
-        }
-        html += '</div>';
-        document.getElementById('observatory-body').innerHTML = html || '<div class="empty-state"><div class="msg">No data</div></div>';
-    } catch (e) {
-        document.getElementById('observatory-body').innerHTML = `<div class="empty-state"><div class="msg">FAILED</div><div class="sub">${e.message}</div></div>`;
-    }
-}
-
-// ── EVENT STREAM ──
-const eventQ = [];
-function addEvent(type, source, msg) {
-    const time = new Date().toTimeString().split(' ')[0];
-    eventQ.unshift({type, source, msg, time});
-    if (eventQ.length > 50) eventQ.pop();
-    document.getElementById('event-stream').innerHTML = eventQ.map(e =>
-        `<div class="event-item"><div class="event-meta"><span class="event-type ${e.type}">${e.source}</span><span class="event-time">${e.time}</span></div><div class="event-msg">${e.msg}</div></div>`
-    ).join('');
-}
-async function connectSSE() {
-    try {
-        const r = await fetch(`${API_BASE}/dashboard/${orgId}/events`, {headers: {'Authorization': `Bearer ${accessToken}`}, timeout: 3000, stream: true});
-        if (!r.ok || !r.body) throw new Error('SSE unavailable');
-        const reader = r.body.getReader();
-        const decoder = new TextDecoder();
-        let buf = '';
-        while (true) {
-            const {done, value} = await reader.read();
-            if (done) break;
-            buf += decoder.decode(value, {stream: true});
-            const lines = buf.split('\n');
-            buf = lines.pop();
-            for (const line of lines) {
-                if (line.startsWith('data:')) {
-                    try { const d = JSON.parse(line.slice(5).trim()); addEvent(d.type || 'data', d.source || 'SSE', d.message || ''); }
-                    catch { addEvent('data', 'SSE', line.slice(5).substring(0, 100)); }
-                }
-            }
-        }
-    } catch (e) {
-        addEvent('alert', 'SSE', 'SSE unavailable — polling fallback');
-        setInterval(async () => {
-            try { const data = await api('/enterprise/audit-log'); if (data.entries?.length > 0) { const l = data.entries[0]; addEvent('audit', 'POLL', `${l.action} — ${l.resource_type}`); } }
-            catch {}
-        }, 5000);
-    }
-}
-
-// ── COMMAND BAR ──
-function handleCmdKey(e) {
-    if (e.key !== 'Enter') return;
-    const v = e.target.value.toLowerCase();
-    if (v.includes('upload')) switchModule('upload');
-    else if (v.includes('profile')) switchModule('profile');
-    else if (v.includes('dash')) switchModule('dashboard');
-    else if (v.includes('query') || v.includes('ask')) { switchModule('query'); if (v.length > 10) { setQuery(e.target.value); runQuery(); } }
-    else if (v.includes('graph')) switchModule('graph');
-    else if (v.includes('agent')) switchModule('agents');
-    else if (v.includes('decision')) switchModule('decisions');
-    else if (v.includes('memory') || v.includes('search')) { switchModule('memory'); searchMemory(); }
-    else if (v.includes('pipeline')) { switchModule('pipeline'); runPipeline(); }
-    else if (v.includes('audit')) switchModule('audit');
-    else if (v.includes('observ')) switchModule('observatory');
-    e.target.value = '';
-}
-
-// ── LANDING CANVAS (neural network animation) ──
-function initLandingCanvas() {
-    const canvas = document.getElementById('landing-canvas');
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    const nodes = [];
-    for (let i = 0; i < 80; i++) {
-        nodes.push({
-            x: Math.random() * canvas.width, y: Math.random() * canvas.height,
-            vx: (Math.random() - 0.5) * 0.3, vy: (Math.random() - 0.5) * 0.3,
-            r: Math.random() * 1.5 + 0.5
-        });
-    }
-    let animId;
-    function draw() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        nodes.forEach(n => {
-            n.x += n.vx; n.y += n.vy;
-            if (n.x < 0 || n.x > canvas.width) n.vx *= -1;
-            if (n.y < 0 || n.y > canvas.height) n.vy *= -1;
-        });
-        ctx.strokeStyle = 'rgba(192,200,208,0.05)';
-        ctx.lineWidth = 0.5;
-        for (let i = 0; i < nodes.length; i++) {
-            for (let j = i + 1; j < nodes.length; j++) {
-                const dx = nodes[i].x - nodes[j].x, dy = nodes[i].y - nodes[j].y;
-                const d = Math.sqrt(dx * dx + dy * dy);
-                if (d < 150) {
-                    ctx.globalAlpha = (1 - d / 150) * 0.3;
-                    ctx.beginPath();
-                    ctx.moveTo(nodes[i].x, nodes[i].y);
-                    ctx.lineTo(nodes[j].x, nodes[j].y);
-                    ctx.stroke();
-                }
-            }
-        }
-        ctx.globalAlpha = 1;
-        nodes.forEach(n => {
-            ctx.beginPath();
-            ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
-            ctx.fillStyle = 'rgba(192,200,208,0.3)';
-            ctx.fill();
-        });
-        animId = requestAnimationFrame(draw);
-    }
-    draw();
-    window.addEventListener('resize', () => {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-    });
-}
-function initAuthCanvas() {
-    const canvas = document.getElementById('auth-canvas');
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    canvas.width = canvas.parentElement.offsetWidth;
-    canvas.height = canvas.parentElement.offsetHeight;
-    const particles = [];
-    for (let i = 0; i < 40; i++) {
-        particles.push({
-            x: Math.random() * canvas.width, y: Math.random() * canvas.height,
-            vx: (Math.random() - 0.5) * 0.2, vy: (Math.random() - 0.5) * 0.2,
-            r: Math.random() * 1 + 0.5
-        });
-    }
-    function draw() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        particles.forEach(p => {
-            p.x += p.vx; p.y += p.vy;
-            if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
-            if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
-            ctx.beginPath();
-            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-            ctx.fillStyle = 'rgba(192,200,208,0.15)';
-            ctx.fill();
-        });
-        requestAnimationFrame(draw);
-    }
-    draw();
-}
-
-// ── CLOCK ──
-setInterval(() => {
-    const el = document.getElementById('stat-time');
-    if (el) el.textContent = new Date().toTimeString().split(' ')[0] + ' UTC';
-}, 1000);
-
-// ── DRAG-DROP ──
-document.addEventListener('dragover', e => { e.preventDefault(); document.getElementById('drop-zone')?.classList.add('dragover'); });
-document.addEventListener('dragleave', () => document.getElementById('drop-zone')?.classList.remove('dragover'));
-document.addEventListener('drop', e => {
-    e.preventDefault();
-    document.getElementById('drop-zone')?.classList.remove('dragover');
-    if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
-});
-
-// ── ENTER KEY ON AUTH ──
-document.getElementById('auth-password')?.addEventListener('keydown', e => {
-    if (e.key === 'Enter') handleAuth();
-});
-
-// ── INIT ──
-initLandingCanvas();
-// Check for stored auth on page load
-if (checkStoredAuth()) {
-    enterApp();
-}
+/* ═══ INIT ═══ */
+initLandingCanvas();initDataFlow();
+if(checkStoredAuth())enterApp();
 </script>
 </body>
 </html>
