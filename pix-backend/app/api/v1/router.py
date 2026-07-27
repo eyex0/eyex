@@ -9,6 +9,7 @@ from app.api.v1.enterprise import enterprise_router
 from app.api.v1.gtm import gtm_router
 from app.api.v1.intelligence_profile import intelligence_profile_router
 from app.api.v1.dashboard import dashboard_router
+from app.api.v1.agent_os import agent_os_router
 
 api_router = APIRouter()
 api_router.include_router(auth_router, prefix="/auth", tags=["Auth"])
@@ -20,3 +21,4 @@ api_router.include_router(agents_v1_router, prefix="/agents", tags=["Agents V1"]
 api_router.include_router(agents_v2_router, prefix="/agents/v2", tags=["Agents V2"])
 api_router.include_router(intelligence_profile_router, prefix="/intelligence-profile", tags=["Intelligence Profile"])
 api_router.include_router(dashboard_router, prefix="/dashboard", tags=["Dashboard"])
+api_router.include_router(agent_os_router, prefix="/agents", tags=["Agent OS"])
