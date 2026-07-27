@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import uuid
+
 from datetime import datetime
 
 from pydantic import BaseModel, Field
@@ -19,8 +21,8 @@ class WorkspaceUpdate(BaseModel):
 
 
 class WorkspaceRead(BaseModel):
-    id: str
-    organization_id: str
+    id: uuid.UUID
+    organization_id: uuid.UUID
     name: str
     slug: str
     description: str | None
@@ -43,7 +45,7 @@ class WorkspaceMemberUpdate(BaseModel):
 
 
 class WorkspaceMemberRead(BaseModel):
-    id: str
+    id: uuid.UUID
     workspace_id: str
     user_id: str
     role: str
@@ -81,7 +83,7 @@ class AgentConfigUpdate(BaseModel):
 
 
 class AgentConfigRead(BaseModel):
-    id: str
+    id: uuid.UUID
     workspace_id: str
     agent_role: str
     display_name: str
@@ -98,7 +100,7 @@ class AgentConfigRead(BaseModel):
 
 
 class TaskExecutionRead(BaseModel):
-    id: str
+    id: uuid.UUID
     workspace_id: str
     user_id: str | None
     session_id: str | None
@@ -131,7 +133,7 @@ class ApiKeyCreate(BaseModel):
 
 
 class ApiKeyRead(BaseModel):
-    id: str
+    id: uuid.UUID
     workspace_id: str
     user_id: str
     name: str

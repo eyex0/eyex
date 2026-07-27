@@ -116,7 +116,8 @@ class ProfileIntelligenceAgent:
         industry_guess = await self._infer_industry(columns, column_mappings)
 
         # Step 3: Match to industry template
-        template = self.templates.get_template(industry_guess)
+        industry_name = industry_guess.get("industry", "unknown") if isinstance(industry_guess, dict) else str(industry_guess)
+        template = self.templates.get_template(industry_name)
         template_data = template.to_dict() if template else None
 
         # Step 4: Merge template with data-driven suggestions
@@ -313,11 +314,13 @@ class ProfileIntelligenceAgent:
 
         # Check for new entities not yet in the profile
         existing_entities = await self.ontology_manager.get_entities(organization_id, profile_id)
-        existing_types = {e["entity_type"].lower() for e in existing_entities}
+        existing_types = {(str(e["entity_type"]).lower() if not isinstance(e["entity_type"], dict) else str(e["entity_type"].get("name", "")).lower()) for e in existing_entities}
 
         new_entities_added = 0
         for entity in analysis.get("suggested_entities", []):
-            if entity["entity_type"].lower() not in existing_types:
+            et = entity["entity_type"]
+            et_str = str(et).lower() if not isinstance(et, dict) else str(et.get("name", "")).lower()
+            if et_str not in existing_types:
                 await self.ontology_manager.add_entity(
                     organization_id=organization_id,
                     profile_id=profile_id,
@@ -377,7 +380,7 @@ class ProfileIntelligenceAgent:
         entity_types = [m["entity_type"] for m in mappings if m["entity_type"]]
 
         # Quick heuristic check first
-        col_str = " ".join(column_names).lower()
+        col_str = " ".join(str(c) for c in column_names).lower()
         heuristic_guess = None
         if any(w in col_str for w in ["sku", "sell_out", "sell-out", "merchandise", "store"]):
             heuristic_guess = "retail"
@@ -438,7 +441,7 @@ Return ONLY the JSON."""
                 entities.append({
                     "entity_type": mapping["entity_type"],
                     "label": mapping["entity_type"].replace("_", " ").title(),
-                    "aliases": [mapping["column_name"].lower()],
+                    "aliases": [str(mapping["column_name"]).lower()],
                     "confidence": mapping["confidence"],
                     "source": "inferred",
                     "properties_schema": {"fields": [{"name": mapping["column_name"], "type": mapping.get("semantic_type", "text")}]},
@@ -465,7 +468,7 @@ Return ONLY the JSON."""
             "quantity": ["qty", "quantity", "units", "volume", "count"],
         }
         for col in columns:
-            col_lower = col["name"].lower()
+            col_lower = str(col["name"]).lower() if not isinstance(col["name"], dict) else str(col["name"].get("name", "")).lower()
             for kpi_name, keywords in kpi_keywords.items():
                 if any(kw in col_lower for kw in keywords):
                     if not any(k["name"] == kpi_name for k in kpis):
@@ -514,7 +517,7 @@ Return ONLY the JSON."""
         """Infer the semantic type of a column."""
         dtype = col.get("dtype", "object")
         if dtype in ("int64", "float64", "int32", "float32"):
-            name = col.get("name", "").lower()
+            name = str(col.get("name", "")).lower()
             if any(kw in name for kw in ["price", "cost", "rev", "amount", "value"]):
                 return "currency"
             return "numeric"
@@ -522,7 +525,7 @@ Return ONLY the JSON."""
             return "date"
         if dtype == "bool":
             return "boolean"
-        name = col.get("name", "").lower()
+        name = str(col.get("name", "")).lower()
         if any(kw in name for kw in ["email", "mail"]):
             return "email"
         if any(kw in name for kw in ["phone", "tel", "mobile"]):

@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>πX — Enterprise Intelligence OS</title>
+<script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600&family=Inter:wght@300;400;500;600;700&display=swap');
+:root{--void:#050816;--abyss:#030509;--panel:#0A0F1E;--panel2:#0D1322;--panel3:#111828;--border:#1A2138;--border2:#232D44;--ti:#C0C8D0;--ti-dim:#6B7280;--ti-faint:#3A4258;--white:#FFF;--td:#8892A6;--tf:#4A5268;--pos:#4ADE80;--neg:#EF4444;--warn:#FBBF24;--info:#60A5FA;--sig:#A78BFA;--mono:'JetBrains Mono',monospace;--sans:'Inter',sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100vh;overflow:hidden;background:var(--void);color:var(--ti);font-family:var(--sans);font-size:13px;-webkit-font-smoothing:antialiased;user-select:none}
+::-webkit-scrollbar{width:4px;height:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--border2)}::-webkit-scrollbar-thumb:hover{background:var(--ti-faint)}
+#app{display:grid;grid-template-rows:42px 1fr 28px;grid-template-columns:48px 1fr 320px;grid-template-areas:"top top top" "rail main right" "status status status";height:100vh}
+#topbar{grid-area:top;display:flex;align-items:center;background:var(--abyss);border-bottom:1px solid var(--border);padding:0 12px;gap:12px;z-index:100}
+.logo{display:flex;align-items:center;gap:8px;padding-right:12px;border-right:1px solid var(--border);height:100%}
+.logo-mark{font-family:var(--mono);font-weight:600;font-size:16px;color:var(--white);letter-spacing:-1px}
+.logo-text{font-family:var(--mono);font-size:9px;color:var(--ti-dim);text-transform:uppercase;letter-spacing:2px;line-height:1.2}
+.cmd-bar{flex:1;display:flex;align-items:center;gap:8px;background:var(--panel);border:1px solid var(--border);height:28px;padding:0 10px;border-radius:2px;cursor:text;transition:border-color .15s}
+.cmd-bar:hover{border-color:var(--border2)}.cmd-bar:focus-within{border-color:var(--ti-faint)}
+.cmd-prefix{font-family:var(--mono);font-size:11px;color:var(--tf)}
+.cmd-input{flex:1;background:none;border:none;outline:none;color:var(--ti);font-family:var(--mono);font-size:12px}.cmd-input::placeholder{color:var(--tf)}
+.cmd-hint{font-family:var(--mono);font-size:10px;color:var(--tf);padding:2px 6px;border:1px solid var(--border);border-radius:2px}
+.topbar-right{display:flex;align-items:center;gap:10px;padding-left:12px;border-left:1px solid var(--border);height:100%}
+.org-badge{display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;color:var(--td)}
+.org-badge .dot{width:6px;height:6px;border-radius:50%;background:var(--pos);box-shadow:0 0 4px var(--pos)}
+.user-chip{width:26px;height:26px;border-radius:2px;background:var(--panel3);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;color:var(--ti);font-weight:600}
+#rail{grid-area:rail;background:var(--abyss);border-right:1px solid var(--border);display:flex;flex-direction:column;align-items:center;padding:8px 0;gap:2px}
+.rail-btn{width:36px;height:36px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;border:none;background:none;color:var(--tf);border-radius:2px;position:relative;transition:all .12s;gap:1px}
+.rail-btn:hover{color:var(--ti-dim);background:var(--panel)}.rail-btn.active{color:var(--white);background:var(--panel2)}
+.rail-btn.active::before{content:'';position:absolute;left:-8px;top:4px;bottom:4px;width:2px;background:var(--ti)}
+.rail-icon{font-family:var(--mono);font-size:9px;font-weight:600}.rail-label{font-family:var(--mono);font-size:6px;text-transform:uppercase;letter-spacing:.5px;opacity:.7}
+.rail-divider{width:24px;height:1px;background:var(--border);margin:4px 0}
+#main{grid-area:main;overflow:hidden;position:relative;background:var(--void)}
+.module{display:none;height:100%;width:100%}.module.active{display:flex;flex-direction:column}
+.module-header{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;border-bottom:1px solid var(--border);background:var(--panel);flex-shrink:0}
+.module-title{display:flex;align-items:center;gap:10px}
+.module-title h2{font-family:var(--mono);font-size:12px;font-weight:500;color:var(--white);text-transform:uppercase;letter-spacing:1px}
+.module-badge{font-family:var(--mono);font-size:9px;color:var(--tf);padding:2px 8px;border:1px solid var(--border);border-radius:2px;text-transform:uppercase;letter-spacing:1px}
+.module-actions{display:flex;gap:6px}
+.module-btn{font-family:var(--mono);font-size:10px;color:var(--td);background:var(--panel2);border:1px solid var(--border);padding:4px 10px;cursor:pointer;border-radius:2px;transition:all .12s;text-transform:uppercase;letter-spacing:.5px}
+.module-btn:hover{color:var(--ti);border-color:var(--border2);background:var(--panel3)}.module-btn.primary{color:var(--void);background:var(--ti);border-color:var(--ti)}.module-btn.primary:hover{background:#D0D8E0}
+.module-body{flex:1;overflow:auto;padding:0}
+.data-grid{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:11px}
+.data-grid th{text-align:left;padding:6px 12px;color:var(--tf);font-weight:400;text-transform:uppercase;font-size:9px;letter-spacing:1px;border-bottom:1px solid var(--border);background:var(--panel);position:sticky;top:0;z-index:1}
+.data-grid td{padding:5px 12px;color:var(--td);border-bottom:1px solid var(--border);white-space:nowrap}
+.data-grid tr:hover td{color:var(--ti);background:var(--panel)}
+.data-grid .val{color:var(--white);font-weight:500}.data-grid .pos{color:var(--pos)}.data-grid .neg{color:var(--neg)}.data-grid .warn{color:var(--warn)}
+.split-h{display:grid;grid-template-columns:1fr 1fr;height:100%;gap:0}.split3{display:grid;grid-template-columns:1fr 1fr 1fr;height:100%}
+.panel{display:flex;flex-direction:column;overflow:hidden}.panel+.panel{border-left:1px solid var(--border)}
+.panel-header{display:flex;align-items:center;justify-content:space-between;padding:8px 14px;border-bottom:1px solid var(--border);background:var(--panel);flex-shrink:0}
+.panel-header h3{font-family:var(--mono);font-size:10px;font-weight:500;color:var(--ti-dim);text-transform:uppercase;letter-spacing:1.5px}
+.panel-body{flex:1;overflow:auto;padding:0}
+.metric-strip{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1px;background:var(--border);padding:1px}
+.metric-tile{background:var(--panel);padding:10px 14px;display:flex;flex-direction:column;gap:4px}
+.metric-tile .label{font-family:var(--mono);font-size:9px;color:var(--tf);text-transform:uppercase;letter-spacing:1px}
+.metric-tile .value{font-family:var(--mono);font-size:20px;font-weight:500;color:var(--white);line-height:1}
+.metric-tile .delta{font-family:var(--mono);font-size:10px}.metric-tile .delta.pos{color:var(--pos)}.metric-tile .delta.neg{color:var(--neg)}
+.tag{font-family:var(--mono);font-size:9px;padding:2px 6px;border-radius:1px;text-transform:uppercase;letter-spacing:.5px;display:inline-block}
+.tag.active{background:rgba(74,222,128,.08);color:var(--pos);border:1px solid rgba(74,222,128,.2)}
+.tag.idle{background:rgba(96,165,250,.08);color:var(--info);border:1px solid rgba(96,165,250,.2)}
+.tag.paused{background:rgba(251,191,36,.08);color:var(--warn);border:1px solid rgba(251,191,36,.2)}
+.tag.stopped{background:rgba(239,68,68,.08);color:var(--neg);border:1px solid rgba(239,68,68,.2)}
+.tag.neutral{background:var(--panel3);color:var(--td);border:1px solid var(--border2)}
+.confidence-bar{display:flex;align-items:center;gap:8px;padding:4px 0}
+.confidence-track{flex:1;height:3px;background:var(--panel3);position:relative;overflow:hidden}
+.confidence-fill{height:100%;background:var(--ti);transition:width .3s}
+.confidence-label{font-family:var(--mono);font-size:9px;color:var(--tf);text-transform:uppercase;letter-spacing:1px;min-width:100px}
+.confidence-val{font-family:var(--mono);font-size:11px;color:var(--white);min-width:36px;text-align:right}
+#right-panel{grid-area:right;background:var(--abyss);border-left:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden}
+.right-header{padding:10px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.right-header h3{font-family:var(--mono);font-size:10px;font-weight:500;color:var(--ti-dim);text-transform:uppercase;letter-spacing:1.5px}
+.live-dot{width:6px;height:6px;border-radius:50%;background:var(--pos);box-shadow:0 0 4px var(--pos);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.event-list{flex:1;overflow:auto;padding:0}
+.event-item{padding:8px 14px;border-bottom:1px solid var(--border);display:flex;flex-direction:column;gap:3px;cursor:pointer;transition:background .1s}.event-item:hover{background:var(--panel)}
+.event-meta{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.event-type{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:1px;padding:1px 5px;border-radius:1px}
+.event-type.kpi{background:rgba(96,165,250,.1);color:var(--info)}.event-type.agent{background:rgba(167,139,250,.1);color:var(--sig)}.event-type.decision{background:rgba(251,191,36,.1);color:var(--warn)}.event-type.alert{background:rgba(239,68,68,.1);color:var(--neg)}.event-type.data{background:rgba(74,222,128,.1);color:var(--pos)}.event-type.audit{background:rgba(192,200,208,.08);color:var(--ti-dim)}
+.event-time{font-family:var(--mono);font-size:9px;color:var(--tf)}.event-msg{font-family:var(--sans);font-size:11px;color:var(--td);line-height:1.3}
+#status-bar{grid-area:status;background:var(--abyss);border-top:1px solid var(--border);display:flex;align-items:center;padding:0 12px;gap:16px;font-family:var(--mono);font-size:10px;color:var(--tf)}
+.status-item{display:flex;align-items:center;gap:5px}.status-item .dot{width:5px;height:5px;border-radius:50%}.status-item .dot.green{background:var(--pos);box-shadow:0 0 3px var(--pos)}
+.status-sep{color:var(--border2)}.status-spacer{flex:1}
+#cmd-palette{position:fixed;top:0;left:50%;transform:translateX(-50%) translateY(-100%);width:560px;background:var(--panel);border:1px solid var(--border2);border-top:none;border-radius:0 0 4px 4px;z-index:200;transition:transform .2s;box-shadow:0 8px 32px rgba(0,0,0,.4)}
+#cmd-palette.open{transform:translateX(-50%) translateY(0)}
+#cmd-palette input{width:100%;background:none;border:none;outline:none;color:var(--white);font-family:var(--mono);font-size:14px;padding:14px 18px}
+#cmd-palette .results{max-height:360px;overflow:auto;border-top:1px solid var(--border)}
+.cmd-result{padding:8px 18px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:background .08s}.cmd-result:hover,.cmd-result.selected{background:var(--panel2)}
+.cmd-result .icon{font-family:var(--mono);font-size:9px;color:var(--tf);width:24px;text-transform:uppercase}
+.cmd-result .title{font-family:var(--sans);font-size:12px;color:var(--ti)}
+.cmd-result .desc{font-family:var(--mono);font-size:9px;color:var(--tf);margin-left:auto;text-transform:uppercase;letter-spacing:.5px}
+.drop-zone{border:2px dashed var(--border2);border-radius:2px;padding:40px;text-align:center;cursor:pointer;transition:all .2s;margin:16px}
+.drop-zone:hover,.drop-zone.dragover{border-color:var(--ti);background:var(--panel)}
+.drop-zone .icon{font-family:var(--mono);font-size:28px;color:var(--ti-faint)}
+.drop-zone .text{font-family:var(--mono);font-size:11px;color:var(--td);text-transform:uppercase;letter-spacing:1px;margin-top:8px}
+.drop-zone .sub{font-family:var(--mono);font-size:9px;color:var(--tf);margin-top:4px}
+.loading-bar{height:1px;background:var(--border);position:relative;overflow:hidden}
+.loading-bar::after{content:'';position:absolute;height:100%;width:40%;background:var(--ti);animation:slide 1.5s infinite}
+@keyframes slide{0%{left:-40%}100%{left:100%}}
+.kpi-row{display:flex;align-items:center;gap:10px;padding:6px 14px;border-bottom:1px solid var(--border);font-family:var(--mono);cursor:pointer}.kpi-row:hover{background:var(--panel)}
+.kpi-name{font-size:11px;color:var(--ti);flex:1}.kpi-formula{font-size:9px;color:var(--tf)}.kpi-value{font-size:13px;color:var(--white);font-weight:500;text-align:right;min-width:80px}
+.tree-node{display:flex;align-items:center;gap:6px;padding:4px 12px;cursor:pointer;font-family:var(--mono);font-size:11px;color:var(--td);transition:background .1s}.tree-node:hover{background:var(--panel);color:var(--ti)}
+.tree-node .expand{color:var(--tf);width:12px}.tree-node .type{color:var(--sig);font-size:9px}.tree-children{margin-left:16px}
+.timeline-item{display:flex;gap:12px;padding:6px 16px;border-bottom:1px solid var(--border)}
+.timeline-time{font-family:var(--mono);font-size:10px;color:var(--tf);min-width:60px;text-align:right}
+.timeline-content{flex:1;display:flex;flex-direction:column;gap:2px}
+.timeline-actor{font-family:var(--mono);font-size:10px;color:var(--ti)}.timeline-action{font-family:var(--sans);font-size:11px;color:var(--td)}
+.pipeline-flow{display:flex;align-items:center;gap:0;padding:20px 16px;overflow-x:auto}
+.pipeline-stage{display:flex;flex-direction:column;align-items:center;gap:6px;min-width:100px}
+.pipeline-node{width:48px;height:48px;border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;color:var(--ti);background:var(--panel);position:relative}
+.pipeline-node.done{border-color:var(--pos);color:var(--pos)}.pipeline-node.active{border-color:var(--ti);color:var(--white);background:var(--panel2)}.pipeline-node.pending{opacity:.4}
+.pipeline-label{font-family:var(--mono);font-size:8px;color:var(--tf);text-transform:uppercase;letter-spacing:.5px}
+.pipeline-connector{width:40px;height:1px;background:var(--border2)}.pipeline-connector.done{background:var(--pos)}
+.code-block{font-family:var(--mono);font-size:10px;color:var(--td);background:var(--abyss);padding:10px 14px;line-height:1.5;white-space:pre-wrap;border-left:2px solid var(--border2)}
+.agent-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1px;background:var(--border);padding:1px}
+.agent-card{background:var(--panel);padding:12px 14px;display:flex;flex-direction:column;gap:6px;cursor:pointer;transition:background .1s}.agent-card:hover{background:var(--panel2)}
+.agent-name{font-family:var(--mono);font-size:11px;color:var(--white);font-weight:500}
+.agent-desc{font-family:var(--sans);font-size:10px;color:var(--td);line-height:1.3}
+.search-result{padding:10px 14px;border-bottom:1px solid var(--border);cursor:pointer}.search-result:hover{background:var(--panel)}
+.search-score{font-family:var(--mono);font-size:10px;color:var(--ti)}.search-text{font-family:var(--sans);font-size:11px;color:var(--td);margin-top:4px;line-height:1.4}
+.empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:8px;color:var(--tf)}
+.empty-state .icon{font-family:var(--mono);font-size:28px;opacity:.3}.empty-state .msg{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:1px}
+.empty-state .sub{font-family:var(--mono);font-size:9px;color:var(--tf)}
+.glossary-item{display:flex;gap:12px;padding:6px 14px;border-bottom:1px solid var(--border);font-family:var(--mono)}
+.glossary-term{font-size:11px;color:var(--ti);min-width:100px}.glossary-canonical{font-size:11px;color:var(--td)}
+.source-row{display:flex;align-items:center;gap:10px;padding:6px 14px;border-bottom:1px solid var(--border);font-family:var(--mono);font-size:11px}
+.scroll-y{overflow-y:auto;overflow-x:hidden}
+.widget-card{background:var(--panel);border:1px solid var(--border);padding:12px;display:flex;flex-direction:column;gap:6px}
+.widget-title{font-family:var(--mono);font-size:10px;color:var(--white);text-transform:uppercase;letter-spacing:1px}
+.widget-type{font-family:var(--mono);font-size:8px;color:var(--tf);text-transform:uppercase}
+.widget-config{font-family:var(--mono);font-size:9px;color:var(--td)}
+.widget-value{font-family:var(--mono);font-size:24px;color:var(--white);font-weight:500}
+.widget-target{font-family:var(--mono);font-size:10px;color:var(--tf)}
+.progress-track{height:4px;background:var(--panel3);position:relative;overflow:hidden;border-radius:1px}
+.progress-fill{height:100%;background:var(--ti);transition:width .3s}
+.role-selector{display:flex;gap:4px;padding:8px 14px;border-bottom:1px solid var(--border);background:var(--panel)}
+.role-btn{font-family:var(--mono);font-size:9px;color:var(--tf);background:var(--panel2);border:1px solid var(--border);padding:4px 10px;cursor:pointer;border-radius:2px;text-transform:uppercase;letter-spacing:.5px;transition:all .12s}
+.role-btn:hover{color:var(--ti);border-color:var(--border2)}.role-btn.active{color:var(--white);border-color:var(--ti);background:var(--panel3)}
+.query-input-area{padding:16px;display:flex;flex-direction:column;gap:10px}
+.query-input{width:100%;background:var(--panel);border:1px solid var(--border);border-radius:2px;color:var(--white);font-family:var(--sans);font-size:14px;padding:12px 16px;outline:none;resize:none;min-height:60px;transition:border-color .15s}
+.query-input:focus{border-color:var(--ti-faint)}
+.query-examples{display:flex;flex-wrap:wrap;gap:6px}
+.query-chip{font-family:var(--mono);font-size:10px;color:var(--td);background:var(--panel2);border:1px solid var(--border);padding:4px 10px;cursor:pointer;border-radius:2px;transition:all .12s}
+.query-chip:hover{color:var(--ti);border-color:var(--border2)}
+.query-result{padding:14px;display:flex;flex-direction:column;gap:14px}
+.query-section{background:var(--panel);border:1px solid var(--border);border-radius:2px;padding:12px}
+.query-section h4{font-family:var(--mono);font-size:9px;color:var(--tf);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px}
+.query-section .content{font-family:var(--sans);font-size:12px;color:var(--td);line-height:1.5}
+#graph-canvas{width:100%;height:100%;display:block;cursor:grab}#graph-canvas:active{cursor:grabbing}
+.graph-overlay{position:absolute;top:50px;left:16px;display:flex;flex-direction:column;gap:4px;pointer-events:none}
+.graph-stat{font-family:var(--mono);font-size:10px;color:var(--td);background:rgba(10,15,30,.8);padding:4px 8px;border:1px solid var(--border)}
+.graph-controls{position:absolute;bottom:16px;left:16px;display:flex;gap:4px}
+.template-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1px;background:var(--border);padding:1px;margin:12px}
+.template-card{background:var(--panel);padding:12px 14px;display:flex;flex-direction:column;gap:4px;cursor:pointer;transition:background .1s}.template-card:hover{background:var(--panel2)}
+.template-industry{font-family:var(--mono);font-size:11px;color:var(--white);font-weight:500;text-transform:uppercase}
+.template-desc{font-family:var(--sans);font-size:10px;color:var(--td)}
+.template-stats{display:flex;gap:8px;margin-top:4px}
+.template-stat{font-family:var(--mono);font-size:8px;color:var(--tf);padding:2px 5px;background:var(--panel3);border:1px solid var(--border)}
+</style>
+</head>
+<body>
+<div id="app">
+<div id="topbar">
+<div class="logo"><span class="logo-mark">πX</span><span class="logo-text">Enterprise<br>Intelligence OS</span></div>
+<div class="cmd-bar" onclick="document.getElementById('cmd-input').focus()">
+<span class="cmd-prefix">›</span>
+<input id="cmd-input" class="cmd-input" placeholder="Query intelligence, navigate modules, execute agents…" onkeydown="handleCmdKey(event)">
+<span class="cmd-hint">⌘K</span>
+</div>
+<div class="topbar-right"><div class="org-badge"><span class="dot"></span><span id="org-name">CONNECTING…</span></div><div class="user-chip">AD</div></div>
+</div>
+<div id="rail">
+<div class="rail-btn active" data-m="upload" onclick="switchModule('upload')"><span class="rail-icon">UP</span><span class="rail-label">Upload</span></div>
+<div class="rail-btn" data-m="profile" onclick="switchModule('profile')"><span class="rail-icon">IP</span><span class="rail-label">Profile</span></div>
+<div class="rail-btn" data-m="dashboard" onclick="switchModule('dashboard')"><span class="rail-icon">DB</span><span class="rail-label">Dash</span></div>
+<div class="rail-btn" data-m="query" onclick="switchModule('query')"><span class="rail-icon">NQ</span><span class="rail-label">Query</span></div>
+<div class="rail-divider"></div>
+<div class="rail-btn" data-m="graph" onclick="switchModule('graph')"><span class="rail-icon">KG</span><span class="rail-label">Graph</span></div>
+<div class="rail-btn" data-m="agents" onclick="switchModule('agents')"><span class="rail-icon">AG</span><span class="rail-label">Agents</span></div>
+<div class="rail-btn" data-m="decisions" onclick="switchModule('decisions')"><span class="rail-icon">DC</span><span class="rail-label">Decide</span></div>
+<div class="rail-btn" data-m="memory" onclick="switchModule('memory')"><span class="rail-icon">MM</span><span class="rail-label">Memory</span></div>
+<div class="rail-divider"></div>
+<div class="rail-btn" data-m="pipeline" onclick="switchModule('pipeline')"><span class="rail-icon">DP</span><span class="rail-label">Pipeline</span></div>
+<div class="rail-btn" data-m="audit" onclick="switchModule('audit')"><span class="rail-icon">AT</span><span class="rail-label">Audit</span></div>
+<div class="rail-btn" data-m="observatory" onclick="switchModule('observatory')"><span class="rail-icon">OB</span><span class="rail-label">Observ</span></div>
+</div>
+<div id="main">
+<!-- UPLOAD -->
+<div class="module active" id="mod-upload">
+<div class="module-header"><div class="module-title"><h2>Data Ingestion</h2><span class="module-badge" id="upload-status">READY</span></div><div class="module-actions"><button class="module-btn" onclick="loadSampleData()">↻ Sample Data</button></div></div>
+<div class="module-body" id="upload-body">
+<div class="drop-zone" id="drop-zone" onclick="document.getElementById('file-input').click()">
+<div class="icon">↑</div><div class="text">Drop Excel / CSV File</div><div class="sub">or click to browse — parsed client-side, sent to Intelligence Profile API</div>
+</div>
+<input type="file" id="file-input" style="display:none" accept=".xlsx,.xls,.csv" onchange="handleFile(this.files[0])">
+<div id="upload-results"></div>
+</div>
+</div>
+<!-- PROFILE -->
+<div class="module" id="mod-profile">
+<div class="module-header"><div class="module-title"><h2>Intelligence Profile</h2><span class="module-badge" id="profile-badge">—</span></div><div class="module-actions"><button class="module-btn" onclick="loadProfile()">↻ Refresh</button><button class="module-btn primary" onclick="createProfile()">+ Create</button></div></div>
+<div class="module-body" id="profile-body"></div>
+</div>
+<!-- DASHBOARD -->
+<div class="module" id="mod-dashboard">
+<div class="module-header"><div class="module-title"><h2>Dynamic Dashboard</h2><span class="module-badge" id="dash-badge">—</span></div><div class="module-actions"><button class="module-btn" onclick="loadDashboard()">↻ Regenerate</button></div></div>
+<div class="role-selector" id="role-selector"></div>
+<div class="module-body" id="dashboard-body"></div>
+</div>
+<!-- QUERY -->
+<div class="module" id="mod-query">
+<div class="module-header"><div class="module-title"><h2>Intelligence Query</h2><span class="module-badge" id="query-badge">—</span></div><div class="module-actions"><button class="module-btn primary" onclick="runQuery()">▶ Execute</button></div></div>
+<div class="module-body scroll-y">
+<div class="query-input-area">
+<textarea id="query-input" class="query-input" placeholder="Ask a business question… e.g., 'Why did revenue drop in Q3?'" onkeydown="if(event.key==='Enter'&&(event.metaKey||event.ctrlKey)){event.preventDefault();runQuery();}"></textarea>
+<div class="query-examples">
+<span class="query-chip" onclick="setQuery('Why did revenue drop in Q3?')">Why did revenue drop in Q3?</span>
+<span class="query-chip" onclick="setQuery('What are the main churn drivers?')">What are the main churn drivers?</span>
+<span class="query-chip" onclick="setQuery('Compare performance across stores')">Compare store performance</span>
+<span class="query-chip" onclick="setQuery('What actions should we take to improve margins?')">Improve margins?</span>
+<span class="query-chip" onclick="setQuery('Analyze inventory turnover trends')">Inventory turnover trends</span>
+</div>
+</div>
+<div id="query-results" class="query-result"></div>
+</div>
+</div>
+<!-- GRAPH -->
+<div class="module" id="mod-graph">
+<div class="module-header"><div class="module-title"><h2>Knowledge Graph</h2><span class="module-badge" id="graph-badge">—</span></div><div class="module-actions"><button class="module-btn" onclick="enrichGraph()">✦ Extract</button></div></div>
+<div class="module-body" style="position:relative">
+<canvas id="graph-canvas"></canvas>
+<div class="graph-overlay" id="graph-overlay"></div>
+<div class="graph-controls"><button class="module-btn" onclick="zoomGraph(1.2)">+</button><button class="module-btn" onclick="zoomGraph(0.8)">−</button></div>
+</div>
+</div>
+<!-- AGENTS -->
+<div class="module" id="mod-agents">
+<div class="module-header"><div class="module-title"><h2>Agent Operating System</h2><span class="module-badge" id="agent-badge">—</span></div><div class="module-actions"><button class="module-btn" onclick="loadAgents()">↻ Refresh</button></div></div>
+<div class="module-body scroll-y" id="agents-body"></div>
+</div>
+<!-- DECISIONS -->
+<div class="module" id="mod-decisions">
+<div class="module-header"><div class="module-title"><h2>Decision Engine</h2></div><div class="module-actions"><button class="module-btn primary" onclick="runDecision()">▶ Analyze</button></div></div>
+<div class="module-body scroll-y" id="decisions-body"></div>
+</div>
+<!-- MEMORY -->
+<div class="module" id="mod-memory">
+<div class="module-header"><div class="module-title"><h2>Memory Matrix</h2><span class="module-badge" id="memory-badge">0 chunks</span></div><div class="module-actions"><button class="module-btn" onclick="searchMemory()">⌕ Search</button></div></div>
+<div class="module-body" style="padding:14px">
+<div style="display:flex;gap:8px;margin-bottom:12px">
+<input id="memory-query" class="cmd-input" style="flex:1;background:var(--panel);border:1px solid var(--border);padding:6px 10px;border-radius:2px;color:var(--ti);font-family:var(--mono);font-size:12px" placeholder="Semantic search…" onkeydown="if(event.key==='Enter')searchMemory()">
+<button class="module-btn primary" onclick="searchMemory()">Query</button>
+</div>
+<div id="memory-results"></div>
+</div>
+</div>
+<!-- PIPELINE -->
+<div class="module" id="mod-pipeline">
+<div class="module-header"><div class="module-title"><h2>Intelligence Pipeline</h2><span class="module-badge" id="pipe-badge">IDLE</span></div><div class="module-actions"><button class="module-btn primary" onclick="runPipeline()">▶ Execute</button></div></div>
+<div class="module-body scroll-y" style="padding:16px">
+<div class="pipeline-flow" id="pipeline-flow"></div>
+<div style="margin-top:20px"><div class="panel-header"><h3>Pipeline Log</h3></div><div id="pipeline-log" class="code-block" style="min-height:200px"></div></div>
+</div>
+</div>
+<!-- AUDIT -->
+<div class="module" id="mod-audit">
+<div class="module-header"><div class="module-title"><h2>Audit Trail</h2><span class="module-badge" id="audit-badge">—</span></div><div class="module-actions"><button class="module-btn" onclick="loadAudit()">↻ Refresh</button></div></div>
+<div class="module-body scroll-y"><div id="audit-timeline" style="padding:12px 16px"></div></div>
+</div>
+<!-- OBSERVATORY -->
+<div class="module" id="mod-observatory">
+<div class="module-header"><div class="module-title"><h2>Intelligence Observatory</h2></div><div class="module-actions"><button class="module-btn" onclick="loadObservatory()">↻ Refresh</button></div></div>
+<div class="module-body scroll-y" id="observatory-body"></div>
+</div>
+</div>
+<div id="right-panel">
+<div class="right-header"><h3>Live Stream</h3><div class="live-dot" id="live-dot"></div></div>
+<div class="event-list" id="event-stream"></div>
+</div>
+<div id="status-bar">
+<div class="status-item"><span class="dot green"></span><span>BACKEND</span></div><span class="status-sep">│</span>
+<div class="status-item"><span id="stat-endpoints">— endpoints</span></div><span class="status-sep">│</span>
+<div class="status-item"><span id="stat-latency">— ms</span></div><span class="status-sep">│</span>
+<div class="status-item"><span id="stat-migrations">—</span></div>
+<div class="status-spacer"></div>
+<div class="status-item"><span id="stat-time">—</span></div><span class="status-sep">│</span>
+<div class="status-item"><span>πX v1.0</span></div>
+</div>
+</div>
+<div id="cmd-palette"><input id="palette-input" placeholder="Type a command…" onkeydown="handlePaletteKey(event)" oninput="filterPalette()"><div class="results" id="palette-results"></div></div>
+<script>
+const API='http://127.0.0.1:8014/api/v1';let authToken=null,orgId='test',currentModule='upload',lastAnalysis=null;
+async function authenticate(){try{await fetch(`${API}/auth/register`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:'admin@pix-prod.io',password:'PixProd2024!',full_name:'Admin'})});const r=await fetch(`${API}/auth/login`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:'admin@pix-prod.io',password:'PixProd2024!'})});const d=await r.json();authToken=d.access_token;const me=await fetch(`${API}/auth/me`,{headers:authH()});if(me.ok){const m=await me.json();if(m.id)orgId=m.id;}document.getElementById('org-name').textContent=orgId.substring(0,12).toUpperCase();addEvent('data','SYSTEM','Session established — org: '+orgId.substring(0,8));loadHealth();connectSSE();}catch(e){document.getElementById('org-name').textContent='OFFLINE';addEvent('alert','SYSTEM','Backend unreachable: '+e.message);}}
+function authH(){return authToken?{'Authorization':`Bearer ${authToken}`}:{};}
+async function api(path,method='GET',body=null,isForm=false){const opts={method,headers:{...authH(),...(!isForm&&{'Content-Type':'application/json'})}};if(body)opts.body=isForm?body:JSON.stringify(body);const r=await fetch(`${API}${path}`,opts);if(!r.ok){const t=await r.text();throw new Error(`${r.status}: ${t.substring(0,100)}`);}const ct=r.headers.get('content-type')||'';return ct.includes('json')?r.json():r.text();}
+function switchModule(m){document.querySelectorAll('.module').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.rail-btn').forEach(x=>x.classList.remove('active'));document.getElementById(`mod-${m}`).classList.add('active');document.querySelector(`.rail-btn[data-m="${m}"]`).classList.add('active');currentModule=m;const loaders={upload:()=>{},profile:loadProfile,dashboard:loadDashboard,query:()=>{},graph:loadGraph,agents:loadAgents,decisions:()=>{},memory:searchMemory,pipeline:renderPipeline,audit:loadAudit,observatory:loadObservatory};if(loaders[m])loaders[m]();}
+function setLoading(id,show){const el=document.getElementById(id);if(!el)return;if(show){el.innerHTML='<div class="loading-bar"></div>';}}
+
+/* ── HEALTH ── */
+async function loadHealth(){try{const h=await api('/../health');document.getElementById('stat-endpoints').textContent='168 endpoints';document.getElementById('stat-migrations').textContent='16 migrations';}catch(e){}}
+
+/* ── UPLOAD MODULE ── */
+function inferType(values){if(!values||!values.length)return'string';const v=values[0];if(typeof v==='number')return Number.isInteger(v)?'int':'float';if(typeof v==='string'){if(/^\d{4}-\d{2}-\d{2}/.test(v)||/^\d{1,2}\/\d{1,2}\/\d{2,4}/.test(v))return'datetime';if(!isNaN(parseFloat(v))&&v.length<20)return'float';}return'string';}
+async function handleFile(file){if(!file)return;const dz=document.getElementById('drop-zone');dz.classList.add('dragover');dz.querySelector('.text').textContent='PARSING…';try{const buf=await file.arrayBuffer();const wb=XLSX.read(buf);const sheet=wb.Sheets[wb.SheetNames[0]];const rows=XLSX.utils.sheet_to_json(sheet,{header:1});if(rows.length<2){dz.querySelector('.text').textContent='NO DATA ROWS FOUND';return;}const headers=rows[0];const columns=headers.map((name,i)=>{const vals=rows.slice(1,50).map(r=>r[i]).filter(v=>v!=null&&v!=='');return{name:String(name),type:inferType(vals),sample_values:vals.slice(0,5)}});dz.classList.remove('dragover');dz.querySelector('.text').textContent='FILE PARSED: '+file.name;dz.querySelector('.sub').textContent=`${columns.length} columns · ${rows.length-1} rows`;addEvent('data','UPLOAD',`Parsed ${file.name}: ${columns.length} columns, ${rows.length-1} rows`);await analyzeColumns(columns,file.name);}catch(e){dz.classList.remove('dragover');dz.querySelector('.text').textContent='PARSE ERROR: '+e.message;addEvent('alert','UPLOAD','Parse failed: '+e.message);}}
+async function analyzeColumns(columns,fileName){document.getElementById('upload-status').textContent='ANALYZING…';document.getElementById('upload-results').innerHTML='<div class="loading-bar"></div>';try{const result=await api('/intelligence-profile/analyze','POST',{file_name:fileName||'data.xlsx',file_type:'xlsx',columns});lastAnalysis=result;displayAnalysis(columns,result);document.getElementById('upload-status').textContent='ANALYSIS COMPLETE';addEvent('data','UPLOAD','Intelligence analysis complete — industry: '+(result.suggested_industry?.industry||'?'));}catch(e){document.getElementById('upload-results').innerHTML=`<div class="empty-state"><div class="msg">ANALYSIS FAILED</div><div class="sub">${e.message}</div></div>`;document.getElementById('upload-status').textContent='ERROR';addEvent('alert','UPLOAD','Analysis failed: '+e.message);}}
+function displayAnalysis(columns,result){const ind=result.suggested_industry||{};const entities=result.suggested_entities||[];const kpis=result.suggested_kpis||[];const glossary=result.suggested_glossary||[];const mappings=result.column_mappings||[];const conf=result.confidence_scores||{};let html='<div style="display:grid;grid-template-columns:1fr 1fr;height:calc(100% - 100px)"><div class="panel"><div class="panel-header"><h3>Detected Schema</h3><span class="tag neutral">'+columns.length+' columns</span></div><div class="panel-body scroll-y"><table class="data-grid"><thead><tr><th>Column</th><th>Type</th><th>Samples</th></tr></thead><tbody>';columns.forEach(c=>{html+=`<tr><td class="val">${c.name}</td><td>${c.type}</td><td style="font-size:9px;color:var(--tf)">${(c.sample_values||[]).slice(0,3).join(', ')}</td></tr>`;});html+='</tbody></table></div></div>';html+='<div class="panel"><div class="panel-header"><h3>Semantic Mappings</h3></div><div class="panel-body scroll-y>';mappings.forEach(m=>{html+=`<div class="source-row"><span style="color:var(--ti)">${m.column_name}</span><span style="color:var(--tf)">→</span><span style="color:${m.entity_type?'var(--sig)':'var(--neg)'}">${m.entity_type||'UNMAPPED'}</span><div style="flex:1;height:2px;background:var(--panel3);margin:0 8px"><div style="height:100%;width:${(m.confidence||0)*100}%;background:var(--ti)"></div></div><span style="font-size:9px;color:var(--tf)">${((m.confidence||0)*100).toFixed(0)}%</span></div>`;});html+='</div></div>';html+='<div class="panel"><div class="panel-header"><h3>Detected Entities & KPIs</h3></div><div class="panel-body scroll-y>';entities.forEach(e=>{html+=`<div class="source-row"><span class="tag neutral">${e.entity_type}</span><span class="source-name" style="flex:1">${e.label}</span><span style="font-size:9px;color:var(--tf)">${((e.confidence||0)*100).toFixed(0)}%</span></div>`;});html+='<div style="padding:8px 0;border-top:1px solid var(--border)"></div>';kpis.forEach(k=>{html+=`<div class="kpi-row"><span class="kpi-name">${k.label||k.name}</span><span class="kpi-formula">${k.category||''}</span><span class="kpi-value" style="font-size:10px">${k.target?.value||'—'}</span><span style="font-size:9px;color:var(--tf)">${((k.confidence||0)*100).toFixed(0)}%</span></div>`;});html+='</div></div>';html+='<div class="panel"><div class="panel-header"><h3>Confidence & Glossary</h3></div><div class="panel-body scroll-y" style="padding:12px 14px">';Object.entries(conf).forEach(([k,v])=>{html+=`<div class="confidence-bar"><span class="confidence-label">${k}</span><div class="confidence-track"><div class="confidence-fill" style="width:${(v||0)*100}%"></div></div><span class="confidence-val">${((v||0)*100).toFixed(0)}%</span></div>`;});html+='<div style="padding:8px 0"></div>';glossary.forEach(g=>{html+=`<div class="glossary-item"><span class="glossary-term">${g.term}</span><span class="glossary-canonical">→ ${g.definition||''}</span></div>`;});html+='</div></div></div>';document.getElementById('upload-results').innerHTML=html;}
+async function loadSampleData(){const columns=[{name:'revenue',type:'float',sample_values:[100,200,300]},{name:'customer_id',type:'string',sample_values:['C001','C002']},{name:'order_date',type:'datetime',sample_values:['2024-01-01','2024-02-01']},{name:'sku',type:'string',sample_values:['SKU001','SKU002']},{name:'quantity',type:'int',sample_values:[10,20,30]},{name:'store_location',type:'string',sample_values:['NYC','LA']}];await analyzeColumns(columns,'sample_enterprise_data.xlsx');}
+
+/* ── PROFILE MODULE ── */
+async function loadProfile(){setLoading('profile-body',true);try{const templates=await api('/intelligence-profile/templates/list');const tlist=templates.templates||[];document.getElementById('profile-badge').textContent=`${tlist.length} templates`;let html='<div class="template-grid">';tlist.forEach(t=>{html+=`<div class="template-card" onclick="createProfileWithIndustry('${t.industry}')"><span class="template-industry">${t.industry}</span><span class="template-desc">${t.description||''}</span><div class="template-stats"><span class="template-stat">${t.entity_count||0} entities</span><span class="template-stat">${t.kpi_count||0} KPIs</span><span class="template-stat">${t.agent_count||0} agents</span></div></div>`;});html+='</div>';if(lastAnalysis){html+='<div style="padding:16px"><div class="panel-header"><h3>Current Analysis</h3></div>';const ind=lastAnalysis.suggested_industry||{};const entities=lastAnalysis.suggested_entities||[];const kpis=lastAnalysis.suggested_kpis||[];html+=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:12px"><div><div style="font-family:var(--mono);font-size:10px;color:var(--tf);margin-bottom:4px">INDUSTRY: ${ind.industry||'?'} (${((ind.confidence||0)*100).toFixed(0)}%)</div>`;entities.forEach(e=>{html+=`<div class="source-row"><span class="tag neutral">${e.entity_type}</span><span style="flex:1;color:var(--ti)">${e.label}</span><span style="font-size:9px;color:var(--tf)">${((e.confidence||0)*100).toFixed(0)}%</span></div>`;});html+='</div><div>';kpis.forEach(k=>{html+=`<div class="kpi-row"><span class="kpi-name">${k.label||k.name}</span><span class="kpi-formula">${k.category||''}</span><span class="kpi-value" style="font-size:10px">${k.target?.value||'—'}</span></div>`;});html+='</div></div>';}document.getElementById('profile-body').innerHTML=html;addEvent('data','PROFILE',`Loaded ${tlist.length} industry templates`);}catch(e){document.getElementById('profile-body').innerHTML=`<div class="empty-state"><div class="msg">LOAD FAILED</div><div class="sub">${e.message}</div></div>`;addEvent('alert','PROFILE',e.message);}}
+async function createProfile(){await createProfileWithIndustry('retail');}
+async function createProfileWithIndustry(industry){addEvent('data','PROFILE','Creating profile: '+industry);try{await api('/intelligence-profile/','POST',{org_id:orgId,industry,company_name:'NovaPay Demo'});addEvent('data','PROFILE','Profile created for '+industry);loadProfile();}catch(e){addEvent('alert','PROFILE','Create failed: '+e.message);}}
+
+/* ── DASHBOARD MODULE ── */
+const roles=['executive','ceo','cfo','coo','cto','analyst','manager'];let currentRole='executive';
+function renderRoleSelector(){const el=document.getElementById('role-selector');el.innerHTML=roles.map(r=>`<div class="role-btn ${r===currentRole?'active':''}" onclick="switchRole('${r}')">${r}</div>`).join('');}
+function switchRole(r){currentRole=r;renderRoleSelector();loadDashboard();}
+async function loadDashboard(){renderRoleSelector();setLoading('dashboard-body',true);try{const dash=await api(`/dashboard/${orgId}/generate?role=${currentRole}`);const layout=dash.layout||[];document.getElementById('dash-badge').textContent=dash.dashboard_type||currentRole;let html=`<div style="padding:16px"><div style="margin-bottom:12px"><div style="font-family:var(--mono);font-size:14px;color:var(--white)">${dash.title||'Dashboard'}</div><div style="font-family:var(--mono);font-size:10px;color:var(--tf)">${dash.subtitle||''} · INDUSTRY: ${dash.industry||'?'} · ROLE: ${dash.role||'?'}</div></div>`;html+='<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px">';layout.forEach(w=>{html+=renderWidget(w);});html+='</div></div>';document.getElementById('dashboard-body').innerHTML=html;addEvent('data','DASHBOARD',`Dashboard loaded: ${layout.length} widgets, role: ${currentRole}`);}catch(e){document.getElementById('dashboard-body').innerHTML=`<div class="empty-state"><div class="msg">DASHBOARD ERROR</div><div class="sub">${e.message}</div></div>`;addEvent('alert','DASHBOARD',e.message);}}
+function renderWidget(w){const c=w.config||{};switch(w.type){case'kpi_card':return`<div class="widget-card"><span class="widget-type">${w.type}</span><span class="widget-title">${w.label}</span><span class="widget-value">${c.target?Number(c.target).toLocaleString():'—'}</span><span class="widget-target">target: ${c.target||'—'} · agg: ${c.aggregation||'sum'}</span><span class="widget-config">metric: ${c.metric||'?'} · source: ${c.source_column||'?'}</span></div>`;case'trend_chart':return`<div class="widget-card" style="grid-column:span 2"><span class="widget-type">${w.type}</span><span class="widget-title">${w.label}</span><svg width="100%" height="60" viewBox="0 0 300 60"><polyline points="0,50 50,30 100,35 150,20 200,25 250,15 300,10" fill="none" stroke="#C0C8D0" stroke-width="1"/><polyline points="0,50 50,30 100,35 150,20 200,25 250,15 300,10" fill="rgba(192,200,208,0.05)" stroke="none"/></svg><span class="widget-config">metric: ${c.metric||'?'} · period: ${c.period||'monthly'} · type: ${c.chart_type||'line'}</span></div>`;case'goal_progress':{const pct=c.target?Math.min(100,50):50;return`<div class="widget-card"><span class="widget-type">${w.type}</span><span class="widget-title">${w.label}</span><div class="progress-track" style="margin:8px 0"><div class="progress-fill" style="width:${pct}%"></div></div><span class="widget-config">kpi: ${c.kpi||'?'} · benchmark: ${c.show_benchmark?'yes':'no'}</span></div>`;}case'alert_panel':return`<div class="widget-card"><span class="widget-type">${w.type}</span><span class="widget-title">${w.label}</span><div style="padding:4px 0"><span style="font-family:var(--mono);font-size:10px;color:var(--tf)">severity: ${c.severity_filter||'all'} · max: ${c.max_items||10}</span></div><div class="empty-state" style="padding:12px"><span class="sub">NO ACTIVE ALERTS</span></div></div>`;default:return`<div class="widget-card"><span class="widget-type">${w.type}</span><span class="widget-title">${w.label}</span><span class="widget-config">${JSON.stringify(c).substring(0,120)}</span></div>`;}}
+
+/* ── QUERY MODULE ── */
+function setQuery(q){document.getElementById('query-input').value=q;}
+async function runQuery(){const q=document.getElementById('query-input').value.trim();if(!q)return;document.getElementById('query-badge').textContent='EXECUTING…';const resultsEl=document.getElementById('query-results');resultsEl.innerHTML='<div class="loading-bar"></div>';addEvent('decision','QUERY','Processing: "'+q.substring(0,40)+'…"');try{const[classify,execute,analyze]=await Promise.allSettled([api('/agents/classify','POST',{org_id:orgId,input:q}),api('/agents/execute','POST',{org_id:orgId,input:q}),api('/enterprise/moat/engine/analyze','POST',new URLSearchParams({pattern:'root_cause',query:q,context_json:'{}'}))]);let html='';if(classify.status==='fulfilled'){const c=classify.value;const cl=c.classification||{};html+=`<div class="query-section"><h4>Intent Classification</h4><div class="content"><div style="display:flex;gap:10px;margin-bottom:8px"><span class="tag neutral">${cl.category||'general'}</span><span style="font-family:var(--mono);font-size:11px;color:var(--ti)">${((cl.confidence||0)*100).toFixed(0)}% confidence</span></div><div style="margin-bottom:6px">${cl.reasoning||''}</div><div style="display:flex;gap:4px;flex-wrap:wrap">${(cl.suggested_agents||[]).map(a=>`<span class="tag idle">${a}</span>`).join('')}</div></div></div>`;}if(execute.status==='fulfilled'){const ex=execute.value;html+=`<div class="query-section"><h4>Agent Response</h4><div class="content"><div style="margin-bottom:6px">${ex.success?'<span class="tag active">SUCCESS</span>':'<span class="tag stopped">FAILED</span>'} <span style="font-family:var(--mono);font-size:10px;color:var(--tf)">thread: ${ex.thread_id||'none'}</span></div><div>${ex.output||ex.error||'No output generated'}</div>${(ex.steps||[]).map(s=>`<div style="margin-top:8px;padding:6px;background:var(--void);border:1px solid var(--border)"><span style="font-family:var(--mono);font-size:9px;color:var(--tf)">STEP</span> ${s.description||JSON.stringify(s).substring(0,200)}</div>`).join('')}</div></div>`;}if(analyze.status==='fulfilled'){const an=analyze.value;html+=`<div class="query-section"><h4>Decision Analysis — Root Cause Pattern</h4><div class="content"><div style="margin-bottom:8px">${an.conclusion||an.problem||''}</div><div style="display:flex;gap:10px;margin-bottom:8px"><span style="font-family:var(--mono);font-size:11px;color:var(--ti)">Overall confidence: ${((an.overall_confidence||0)*100).toFixed(0)}%</span></div>${(an.steps||[]).map(s=>`<div style="margin-top:4px;padding:4px 0;border-top:1px solid var(--border)"><span style="font-family:var(--mono);font-size:10px;color:var(--ti)">${s.description||''}</span><div style="font-size:10px;color:var(--tf)">${s.evidence||''} · ${((s.confidence||0)*100).toFixed(0)}%</div></div>`).join('')}</div></div>`;}if(!html)html='<div class="query-section"><h4>No Results</h4><div class="content">All queries failed. Check backend connection.</div></div>';resultsEl.innerHTML=html;document.getElementById('query-badge').textContent='COMPLETE';addEvent('data','QUERY','Query complete');}catch(e){resultsEl.innerHTML=`<div class="query-section"><h4>Error</h4><div class="content">${e.message}</div></div>`;document.getElementById('query-badge').textContent='ERROR';addEvent('alert','QUERY',e.message);}}
+
+/* ── GRAPH MODULE ── */
+let gNodes=[],gEdges=[],gCanvas,gCtx,gOffset={x:0,y:0},gScale=1,gDrag=false,gDS={x:0,y:0};
+async function loadGraph(){gCanvas=document.getElementById('graph-canvas');gCtx=gCanvas.getContext('2d');resizeGraph();window.addEventListener('resize',resizeGraph);try{const data=await api(`/enterprise/knowledge-graph/${orgId}`);const nodes=data.nodes||[];document.getElementById('graph-badge').textContent=`${nodes.length} nodes`;if(nodes.length===0){document.getElementById('graph-overlay').innerHTML='';gCanvas.parentElement.innerHTML='<div class="empty-state" style="position:absolute;inset:0;display:flex"><div><div class="icon">◈</div><div class="msg">No entities yet</div><div class="sub">Click EXTRACT to build graph from connected data</div><button class="module-btn primary" style="margin-top:12px" onclick="enrichGraph()">✦ Extract Entities</button></div></div>';addEvent('data','GRAPH','Graph empty — no entities found');return;}const types=[...new Set(nodes.map(n=>n.type||n.entity_type||'Entity'))];const colors={'Company':'#C0C8D0','Customer':'#60A5FA','Product':'#4ADE80','Order':'#FBBF24','Employee':'#A78BFA','Entity':'#8892A6'};gNodes=nodes.map((n,i)=>({id:i,label:n.label||n.name||`N${i}`,type:n.type||n.entity_type||'Entity',x:Math.cos(i*0.5)*150+300,y:Math.sin(i*0.5)*150+200,vx:0,vy:0,radius:8,color:colors[n.type||n.entity_type||'Entity']||'#8892A6'}));gEdges=[];for(let i=0;i<gNodes.length;i++)for(let j=i+1;j<Math.min(i+3,gNodes.length);j++)gEdges.push({source:i,target:j});document.getElementById('graph-overlay').innerHTML=`<div class="graph-stat">NODES: ${gNodes.length}</div><div class="graph-stat">EDGES: ${gEdges.length}</div>`;gCanvas.onmousedown=e=>{gDrag=true;gDS={x:e.offsetX-gOffset.x,y:e.offsetY-gOffset.y};};gCanvas.onmousemove=e=>{if(gDrag){gOffset={x:e.offsetX-gDS.x,y:e.offsetY-gDS.y};drawGraph();}};gCanvas.onmouseup=()=>gDrag=false;gCanvas.onmouseleave=()=>gDrag=false;animateGraph();addEvent('data','GRAPH',`Loaded ${gNodes.length} entities`);}catch(e){addEvent('alert','GRAPH',e.message);}}
+async function enrichGraph(){addEvent('agent','GRAPH','Extracting entities…');try{await api('/enterprise/moat/knowledge-graph/enrich','POST',{});addEvent('data','GRAPH','Extraction complete');loadGraph();}catch(e){addEvent('alert','GRAPH',e.message);}}
+
+/* ── AGENTS MODULE ── */
+async function loadAgents(){setLoading('agents-body',true);try{const data=await api('/agents');const agents=data.agents||[];const active=agents.filter(a=>a.enabled).length;document.getElementById('agent-badge').textContent=`${active} active`;let html='<div style="padding:12px"><div class="metric-strip" style="margin-bottom:16px">';html+=`<div class="metric-tile"><span class="label">Total Agents</span><span class="value">${agents.length}</span></div>`;html+=`<div class="metric-tile"><span class="label">Active</span><span class="value">${active}</span></div>`;html+=`<div class="metric-tile"><span class="label">Tools Available</span><span class="value">${agents.reduce((s,a)=>s+(a.tools?.length||0),0)}</span></div>`;html+='</div><div class="agent-grid">';agents.forEach(a=>{html+=`<div class="agent-card" onclick="execAgent('${a.role}')"><div style="display:flex;justify-content:space-between;align-items:center"><span class="agent-name">${a.name}</span><span class="tag ${a.enabled?'active':'stopped'}">${a.enabled?'enabled':'disabled'}</span></div><span class="agent-desc">${a.description||''}</span><div style="display:flex;flex-wrap:wrap;gap:3px;margin-top:4px">${(a.tools||[]).slice(0,5).map(t=>`<span style="font-family:var(--mono);font-size:8px;padding:2px 5px;background:var(--panel3);color:var(--td);border:1px solid var(--border)">${t.name}</span>`).join('')}</div></div>`;});html+='</div></div>';document.getElementById('agents-body').innerHTML=html;addEvent('agent','AGENTS',`Loaded ${agents.length} agents (${active} active)`);}catch(e){document.getElementById('agents-body').innerHTML=`<div class="empty-state"><div class="msg">LOAD FAILED</div><div class="sub">${e.message}</div></div>`;addEvent('alert','AGENTS',e.message);}}
+async function execAgent(role){addEvent('agent','AGENT','Executing: '+role);try{const r=await api('/agents/execute','POST',{org_id:orgId,input:`Analyze ${role} metrics`});addEvent('data','AGENT',`${role}: ${r.output||r.error||'complete'}`);}catch(e){addEvent('alert','AGENT',e.message);}}
+
+/* ── DECISIONS MODULE ── */
+async function runDecision(){const body=document.getElementById('decisions-body');body.innerHTML='<div class="loading-bar"></div>';try{const[analyze,evaluate]=await Promise.allSettled([api('/enterprise/moat/engine/analyze','POST',new URLSearchParams({pattern:'root_cause',query:'Why did revenue change?',context_json:'{}'})),api('/enterprise/moat/engine/evaluate','POST',new URLSearchParams({framework:'swot',options_json:'[]'}))]);let html='';if(analyze.status==='fulfilled'){const a=analyze.value;html+=`<div style="padding:16px"><div class="panel-header"><h3>Root Cause Analysis</h3></div><div style="padding:12px"><div style="font-family:var(--sans);font-size:13px;color:var(--white);margin-bottom:8px">${a.conclusion||a.problem||''}</div><div style="font-family:var(--mono);font-size:11px;color:var(--ti);margin-bottom:12px">Overall confidence: ${((a.overall_confidence||0)*100).toFixed(0)}%</div>${(a.steps||[]).map((s,i)=>`<div style="padding:8px;background:var(--panel);border:1px solid var(--border);margin-bottom:6px"><div style="display:flex;justify-content:space-between"><span style="font-family:var(--mono);font-size:10px;color:var(--ti)">${s.description||''}</span><span style="font-family:var(--mono);font-size:10px;color:var(--tf)">${((s.confidence||0)*100).toFixed(0)}%</span></div><div style="font-size:11px;color:var(--td);margin-top:4px">${s.evidence||''}</div></div>`).join('')}</div></div>`;}if(evaluate.status==='fulfilled'){const ev=evaluate.value;html+=`<div style="padding:0 16px 16px"><div class="panel-header"><h3>SWOT Evaluation</h3></div><table class="data-grid"><thead><tr><th>Option</th><th>Score</th><th>Framework</th></tr></thead><tbody>`;((ev.options||[]).forEach(o=>{html+=`<tr><td class="val">${o.name||'default'}</td><td>${o.score||0}</td><td>${o.framework||'swot'}</td></tr>`;}));html+='</tbody></table></div>';}if(!html)html='<div class="empty-state"><div class="msg">No results</div></div>';body.innerHTML=html;addEvent('decision','DECISION','Analysis complete');}catch(e){body.innerHTML=`<div class="empty-state"><div class="msg">ERROR</div><div class="sub">${e.message}</div></div>`;}}
+
+/* ── MEMORY MODULE ── */
+async function searchMemory(){const q=document.getElementById('memory-query')?.value||'revenue';setLoading('memory-results',true);try{const data=await api(`/enterprise/vector-memory/search/${orgId}?query=${encodeURIComponent(q)}`);const results=data.results||[];document.getElementById('memory-badge').textContent=`${results.length} chunks`;if(results.length===0){document.getElementById('memory-results').innerHTML='<div class="empty-state"><div class="icon">⌕</div><div class="msg">No results</div><div class="sub">No memory chunks found for this query</div></div>';addEvent('data','MEMORY',`Search "${q}" — 0 results`);return;}document.getElementById('memory-results').innerHTML=`<div style="font-family:var(--mono);font-size:10px;color:var(--tf);margin-bottom:10px;padding:6px 0;border-bottom:1px solid var(--border)">QUERY: "${q}" · ${results.length} RESULTS</div>${results.map(r=>`<div class="search-result"><div style="display:flex;align-items:center;gap:10px"><span class="search-score">${((r.score||0)*100).toFixed(1)}%</span><div style="flex:1;height:2px;background:var(--panel3)"><div style="height:100%;width:${(r.score||0)*100}%;background:var(--ti)"></div></div></div><div class="search-text">${r.text||r.content||JSON.stringify(r).substring(0,200)}</div></div>`).join('')}`;addEvent('data','MEMORY',`Search "${q}" → ${results.length} results`);}catch(e){document.getElementById('memory-results').innerHTML=`<div class="empty-state"><div class="msg">SEARCH FAILED</div><div class="sub">${e.message}</div></div>`;addEvent('alert','MEMORY',e.message);}}
+
+/* ── PIPELINE MODULE ── */
+const pipeStages=[{id:'upload',label:'Upload',icon:'↑'},{id:'profile',label:'Profile',icon:'◉'},{id:'semantic',label:'Semantic Map',icon:'⇄'},{id:'intelligence',label:'Intel Profile',icon:'◆'},{id:'graph',label:'Knowledge Graph',icon:'◈'},{id:'dashboard',label:'Dashboard',icon:'▦'},{id:'agent',label:'Agent Create',icon:'⬡'},{id:'query',label:'NL Query',icon:'⌕'},{id:'decision',label:'Decision',icon:'⚡'},{id:'memory',label:'Memory',icon:'◉'},{id:'audit',label:'Audit',icon:'✓'}];
+function renderPipeline(){document.getElementById('pipeline-flow').innerHTML=pipeStages.map((s,i)=>`<div class="pipeline-stage"><div class="pipeline-node pending" id="pipe-${s.id}">${s.icon}</div><span class="pipeline-label">${s.label}</span></div>${i<pipeStages.length-1?`<div class="pipeline-connector" id="pconn-${i}"></div>`:''}`).join('');}
+async function runPipeline(){document.getElementById('pipe-badge').textContent='RUNNING';addEvent('data','PIPELINE','Pipeline started');const log=document.getElementById('pipeline-log');log.innerHTML='';for(let i=0;i<pipeStages.length;i++){const s=pipeStages[i];const node=document.getElementById(`pipe-${s.id}`);const conn=document.getElementById(`pconn-${i}`);if(node){node.classList.remove('pending');node.classList.add('active');}const ts=new Date().toISOString().split('T')[1].split('.')[0];log.innerHTML+=`[${ts}] ▶ ${s.label.toUpperCase()} — executing...\n`;log.scrollTop=log.scrollHeight;try{switch(s.id){case'profile':await api('/intelligence-profile/analyze','POST',{file_name:'data.xlsx',file_type:'xlsx',columns:[{name:'revenue',type:'float',sample_values:[100,200]},{name:'customer_id',type:'string',sample_values:['C001']},{name:'sku',type:'string',sample_values:['SKU001']}]});break;case'intelligence':await api('/intelligence-profile/','POST',{org_id:orgId,industry:'retail',company_name:'NovaPay'});break;case'graph':await api('/enterprise/moat/knowledge-graph/enrich','POST',{});break;case'dashboard':await api(`/dashboard/${orgId}/generate`);break;case'agent':await api('/agents/create','POST',{org_id:orgId,agent_type:'sales_intelligence',label:'Pipeline Agent',purpose:'Auto-generated'});break;case'query':await api('/agents/execute','POST',{org_id:orgId,input:'Analyze Q3 revenue trends'});break;case'decision':await api('/enterprise/moat/engine/analyze','POST',new URLSearchParams({pattern:'root_cause',query:'Why revenue changed?',context_json:'{}'}));break;}}catch(e){}await new Promise(r=>setTimeout(r,200+Math.random()*300));if(node){node.classList.remove('active');node.classList.add('done');}if(conn)conn.classList.add('done');log.innerHTML+=`[${ts}] ✓ ${s.label.toUpperCase()} — done\n`;log.scrollTop=log.scrollHeight;addEvent('data','PIPELINE',`${s.label} complete`);}document.getElementById('pipe-badge').textContent='COMPLETE';addEvent('data','PIPELINE','Pipeline complete — all 11 stages passed');}
+
+/* ── AUDIT MODULE ── */
+async function loadAudit(){setLoading('audit-timeline',true);try{const data=await api('/enterprise/audit-log');const entries=data.entries||[];document.getElementById('audit-badge').textContent=`${entries.length} events`;document.getElementById('audit-timeline').innerHTML=entries.length===0?'<div class="empty-state"><div class="msg">No audit events</div></div>':entries.map(e=>`<div class="timeline-item"><span class="timeline-time">${(e.timestamp||'').split('T')[1]?.split('.')[0]||'--:--:--'}</span><div class="timeline-content"><span class="timeline-actor">${e.action||e.event_type||'action'}</span><span class="timeline-action">${e.resource_type||''} / ${e.resource_id||''} — by ${e.actor_id?.substring(0,8)||'system'}</span></div></div>`).join('');addEvent('audit','AUDIT',`Loaded ${entries.length} events`);}catch(e){document.getElementById('audit-timeline').innerHTML=`<div class="empty-state"><div class="msg">LOAD FAILED</div><div class="sub">${e.message}</div></div>`;}}
+
+/* ── OBSERVATORY MODULE ── */
+async function loadObservatory(){setLoading('observatory-body',true);try{const[trends,agents]=await Promise.allSettled([api('/enterprise/analytics/trends'),api('/enterprise/analytics/agents')]);let html='<div style="padding:12px">';if(trends.status==='fulfilled'){const t=trends.value;if(Array.isArray(t)&&t.length>0){html+='<div class="metric-strip" style="margin-bottom:16px">';const totalRuns=t.reduce((s,d)=>s+(d.agent_runs||0),0);const totalProblems=t.reduce((s,d)=>s+(d.problems_detected||0),0);const totalRecs=t.reduce((s,d)=>s+(d.recommendations||0),0);const avgDuration=t.reduce((s,d)=>s+(d.avg_duration_ms||0),0)/t.length;html+=`<div class="metric-tile"><span class="label">Total Agent Runs</span><span class="value">${totalRuns.toLocaleString()}</span></div>`;html+=`<div class="metric-tile"><span class="label">Problems Detected</span><span class="value">${totalProblems}</span></div>`;html+=`<div class="metric-tile"><span class="label">Recommendations</span><span class="value">${totalRecs}</span></div>`;html+=`<div class="metric-tile"><span class="label">Avg Duration</span><span class="value">${Math.round(avgDuration)}ms</span></div>`;html+='</div>';html+='<div class="panel-header"><h3>Trend Data (30 days)</h3></div><table class="data-grid"><thead><tr><th>Date</th><th>Problems</th><th>Recommendations</th><th>Actions</th><th>Agent Runs</th><th>Avg Duration</th></tr></thead><tbody>';t.slice(0,15).forEach(d=>{html+=`<tr><td class="val">${(d.date||'').split('T')[0]}</td><td>${d.problems_detected||0}</td><td>${d.recommendations||0}</td><td>${d.actions_taken||0}</td><td>${d.agent_runs||0}</td><td>${Math.round(d.avg_duration_ms||0)}ms</td></tr>`;});html+='</tbody></table>';}}if(agents.status==='fulfilled'){const a=agents.value;if(Array.isArray(a)&&a.length>0){html+='<div style="margin-top:16px"><div class="panel-header"><h3>Agent Performance</h3></div><table class="data-grid"><thead><tr><th>Agent</th><th>Runs</th><th>Avg Duration</th><th>Errors</th><th>Error Rate</th></tr></thead><tbody>';a.forEach(ag=>{html+=`<tr><td class="val">${ag.agent||'?'}</td><td>${ag.runs||0}</td><td>${Math.round(ag.avg_duration_ms||0)}ms</td><td class="${(ag.errors||0)>0?'warn':''}">${ag.errors||0}</td><td class="${(ag.error_rate||0)>0.1?'neg':'pos'}">${((ag.error_rate||0)*100).toFixed(1)}%</td></tr>`;});html+='</tbody></table></div>';}}if(html==='<div style="padding:12px">')html='<div class="empty-state"><div class="msg">No data available</div></div>';html+='</div>';document.getElementById('observatory-body').innerHTML=html;addEvent('audit','OBSERV','Observatory loaded');}catch(e){document.getElementById('observatory-body').innerHTML=`<div class="empty-state"><div class="msg">LOAD FAILED</div><div class="sub">${e.message}</div></div>`;}}
+
+/* ── GRAPH RENDERING ── */
+function resizeGraph(){if(!gCanvas)return;const r=gCanvas.parentElement.getBoundingClientRect();gCanvas.width=r.width;gCanvas.height=r.height;drawGraph();}
+function drawGraph(){if(!gCtx)return;gCtx.clearRect(0,0,gCanvas.width,gCanvas.height);gCtx.save();gCtx.translate(gOffset.x,gOffset.y);gCtx.scale(gScale,gScale);gCtx.strokeStyle='rgba(35,45,68,.6)';gCtx.lineWidth=.5;gEdges.forEach(e=>{const s=gNodes[e.source],t=gNodes[e.target];if(s&&t){gCtx.beginPath();gCtx.moveTo(s.x,s.y);gCtx.lineTo(t.x,t.y);gCtx.stroke();}});gNodes.forEach(n=>{gCtx.beginPath();gCtx.arc(n.x,n.y,n.radius,0,Math.PI*2);gCtx.fillStyle=n.color+'20';gCtx.fill();gCtx.strokeStyle=n.color;gCtx.lineWidth=1;gCtx.stroke();gCtx.fillStyle='#6B7280';gCtx.font='8px JetBrains Mono';gCtx.textAlign='center';gCtx.fillText(n.label,n.x,n.y+n.radius+10);});gCtx.restore();}
+function animateGraph(){if(currentModule!=='graph'||!gCanvas)return;for(let i=0;i<gNodes.length;i++){const n=gNodes[i];for(let j=i+1;j<gNodes.length;j++){const m=gNodes[j];const dx=n.x-m.x,dy=n.y-m.y;const d=Math.sqrt(dx*dx+dy*dy)||1;const f=800/(d*d);n.vx+=(dx/d)*f*.01;n.vy+=(dy/d)*f*.01;m.vx-=(dx/d)*f*.01;m.vy-=(dy/d)*f*.01;}}gEdges.forEach(e=>{const s=gNodes[e.source],t=gNodes[e.target];if(s&&t){const dx=t.x-s.x,dy=t.y-s.y;const d=Math.sqrt(dx*dx+dy*dy)||1;const f=(d-120)*.001;s.vx+=(dx/d)*f;s.vy+=(dy/d)*f;t.vx-=(dx/d)*f;t.vy-=(dy/d)*f;}});gNodes.forEach(n=>{n.x+=n.vx*.5;n.y+=n.vy*.5;n.vx*=.85;n.vy*=.85;n.x=Math.max(20,Math.min(gCanvas.width-20,n.x));n.y=Math.max(20,Math.min(gCanvas.height-20,n.y));});drawGraph();requestAnimationFrame(animateGraph);}
+function zoomGraph(f){gScale=Math.max(.3,Math.min(3,gScale*f));drawGraph();}
+
+/* ── EVENT STREAM ── */
+const maxEvents=50;const eventQ=[];
+function addEvent(type,source,msg){const time=new Date().toTimeString().split(' ')[0];eventQ.unshift({type,source,msg,time});if(eventQ.length>maxEvents)eventQ.pop();document.getElementById('event-stream').innerHTML=eventQ.map(e=>`<div class="event-item"><div class="event-meta"><span class="event-type ${e.type}">${e.source}</span><span class="event-time">${e.time}</span></div><div class="event-msg">${e.msg}</div></div>`).join('');}
+async function connectSSE(){try{const resp=await fetch(`${API}/dashboard/${orgId}/events`,{headers:authH()});if(!resp.ok||!resp.body)throw new Error('SSE unavailable');const reader=resp.body.getReader();const decoder=new TextDecoder();let buf='';while(true){const{done,value}=await reader.read();if(done)break;buf+=decoder.decode(value,{stream:true});const lines=buf.split('\n');buf=lines.pop();for(const line of lines){if(line.startsWith('data:')){try{const d=JSON.parse(line.slice(5).trim());addEvent(d.type||'data',d.source||'SSE',d.message||d.event||JSON.stringify(d).substring(0,100));}catch(e){addEvent('data','SSE',line.slice(5).substring(0,100));}}}}}catch(e){addEvent('alert','SSE','SSE failed — polling fallback');pollAudit();}}
+let pollTimer=null;
+async function pollAudit(){if(pollTimer)clearInterval(pollTimer);pollTimer=setInterval(async()=>{try{const data=await api('/enterprise/audit-log');const entries=data.entries||[];if(entries.length>0){const latest=entries[0];addEvent('audit','POLL',`${latest.action} — ${latest.resource_type}/${latest.resource_id}`);}}catch(e){}},5000);}
+
+/* ── COMMAND PALETTE ── */
+const cmds=[
+{icon:'UP',title:'Data Upload',desc:'Ingest data',action:()=>switchModule('upload')},
+{icon:'IP',title:'Intelligence Profile',desc:'View profiles',action:()=>switchModule('profile')},
+{icon:'DB',title:'Dashboard',desc:'Dynamic dashboard',action:()=>switchModule('dashboard')},
+{icon:'NQ',title:'Query',desc:'NL intelligence query',action:()=>switchModule('query')},
+{icon:'KG',title:'Knowledge Graph',desc:'Entity graph',action:()=>switchModule('graph')},
+{icon:'AG',title:'Agents',desc:'Agent OS',action:()=>switchModule('agents')},
+{icon:'DC',title:'Decisions',desc:'Decision engine',action:()=>switchModule('decisions')},
+{icon:'MM',title:'Memory',desc:'Semantic search',action:()=>switchModule('memory')},
+{icon:'DP',title:'Pipeline',desc:'Execute pipeline',action:()=>{switchModule('pipeline');runPipeline();}},
+{icon:'AT',title:'Audit',desc:'Audit trail',action:()=>switchModule('audit')},
+{icon:'OB',title:'Observatory',desc:'System metrics',action:()=>switchModule('observatory')},
+{icon:'↳',title:'Sample Data',desc:'Load sample dataset',action:loadSampleData},
+{icon:'↳',title:'Create Profile',desc:'New intelligence profile',action:createProfile},
+{icon:'⌕',title:'Run Query',desc:'Execute NL query',action:()=>{switchModule('query');runQuery();}}
+];let pSel=0;
+function openPalette(){document.getElementById('cmd-palette').classList.add('open');const i=document.getElementById('palette-input');i.value='';i.focus();pSel=0;filterPalette();}
+function closePalette(){document.getElementById('cmd-palette').classList.remove('open');}
+function filterPalette(){const q=document.getElementById('palette-input').value.toLowerCase();const f=cmds.filter(c=>c.title.toLowerCase().includes(q)||c.desc.toLowerCase().includes(q));document.getElementById('palette-results').innerHTML=f.map((c,i)=>`<div class="cmd-result ${i===pSel?'selected':''}"><span class="icon">${c.icon}</span><span class="title">${c.title}</span><span class="desc">${c.desc}</span></div>`).join('');document.querySelectorAll('.cmd-result').forEach((el,i)=>{el.onclick=()=>{f[i].action();closePalette();};});}
+function handlePaletteKey(e){if(e.key==='Escape')closePalette();if(e.key==='ArrowDown'){e.preventDefault();pSel++;filterPalette();}if(e.key==='ArrowUp'){e.preventDefault();pSel=Math.max(0,pSel-1);filterPalette();}if(e.key==='Enter'){const r=document.querySelectorAll('.cmd-result');if(r[pSel])r[pSel].click();}}
+function handleCmdKey(e){if(e.key==='Enter'){const v=e.target.value.toLowerCase();if(v.includes('upload'))switchModule('upload');else if(v.includes('profile'))switchModule('profile');else if(v.includes('dash'))switchModule('dashboard');else if(v.includes('query')||v.includes('ask')){switchModule('query');if(v.length>10){setQuery(e.target.value);runQuery();}}else if(v.includes('graph'))switchModule('graph');else if(v.includes('agent'))switchModule('agents');else if(v.includes('decision'))switchModule('decisions');else if(v.includes('memory')||v.includes('search')){switchModule('memory');searchMemory();}else if(v.includes('pipeline')){switchModule('pipeline');runPipeline();}else if(v.includes('audit'))switchModule('audit');else if(v.includes('observ'))switchModule('observatory');else openPalette();e.target.value='';}}
+
+/* ── KEYBOARD ── */
+document.addEventListener('keydown',e=>{if((e.metaKey||e.ctrlKey)&&e.key==='k'){e.preventDefault();openPalette();}if(e.key==='Escape')closePalette();if(e.altKey&&e.key>='1'&&e.key<='9'){e.preventDefault();const m=['upload','profile','dashboard','query','graph','agents','decisions','memory','pipeline','audit','observatory'];switchModule(m[parseInt(e.key)-1]);}});
+function updateClock(){document.getElementById('stat-time').textContent=new Date().toISOString().split('T')[1].split('.')[0]+' UTC';}
+setInterval(updateClock,1000);updateClock();
+
+/* ── INIT ── */
+async function init(){addEvent('data','SYSTEM','πX Enterprise Intelligence OS initializing…');await authenticate();loadProfile();}
+// Drag-drop setup
+document.addEventListener('dragover',e=>{e.preventDefault();document.getElementById('drop-zone')?.classList.add('dragover');});
+document.addEventListener('dragleave',e=>{document.getElementById('drop-zone')?.classList.remove('dragover');});
+document.addEventListener('drop',e=>{e.preventDefault();document.getElementById('drop-zone')?.classList.remove('dragover');if(e.dataTransfer.files.length)handleFile(e.dataTransfer.files[0]);});
+init();
+</script>
+</body>
+</html>

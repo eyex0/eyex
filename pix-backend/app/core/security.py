@@ -2,21 +2,29 @@ from __future__ import annotations
 
 from datetime import UTC, datetime, timedelta
 
+import bcrypt
 from jose import JWTError, jwt
-from passlib.context import CryptContext
 
 from app.config import get_settings
 
 settings = get_settings()
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
 def hash_password(password: str) -> str:
-    return pwd_context.hash(password)
+    pw_bytes = password.encode("utf-8")
+    # bcrypt max is 72 bytes
+    pw_bytes = pw_bytes[:72]
+    salt = bcrypt.gensalt()
+    return bcrypt.hashpw(pw_bytes, salt).decode("utf-8")
 
 
 def verify_password(plain: str, hashed: str) -> bool:
-    return pwd_context.verify(plain, hashed)
+    try:
+        pw_bytes = plain.encode("utf-8")[:72]
+        hash_bytes = hashed.encode("utf-8")
+        return bcrypt.checkpw(pw_bytes, hash_bytes)
+    except Exception:
+        return False
 
 
 def create_access_token(subject: str) -> tuple[str, int]:

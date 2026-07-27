@@ -20,6 +20,31 @@ from app.models.gtm import (
     UsageMetric,
 )
 
+def _ev(x):
+    """Safe enum value accessor."""
+    return x.value if hasattr(x, "value") else x
+
+
+def _model_to_dict(obj):
+    """Convert a SQLAlchemy model to a dict for JSON serialization."""
+    if obj is None:
+        return None
+    result = {}
+    for c in obj.__table__.columns:
+        val = getattr(obj, c.name, None)
+        if hasattr(val, "value"):
+            val = val.value
+        result[c.name] = val
+    return result
+
+
+def _models_to_dict(objs):
+    """Convert a list of SQLAlchemy models to a list of dicts."""
+    return [_model_to_dict(o) for o in objs]
+
+
+
+
 logger = logging.getLogger("pix.services.gtm.success")
 
 

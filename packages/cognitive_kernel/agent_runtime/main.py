@@ -15,7 +15,7 @@ from langchain_core.tools import BaseTool
 from langchain_openai import ChatOpenAI
 from pydantic import BaseModel
 
-from packages.cognitive-kernel.memory-engine import PersistentMemory
+from packages.cognitive_kernel.memory_engine import PersistentMemory
 
 logger = logging.getLogger("pix.agents.base")
 

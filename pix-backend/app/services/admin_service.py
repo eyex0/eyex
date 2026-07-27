@@ -8,7 +8,7 @@ from datetime import UTC, datetime, timedelta
 from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from pix_backend.app.models.memory import ConversationMessage
+from app.models.memory import ConversationMessage
 
 logger = logging.getLogger("pix.services.admin")
 
@@ -175,7 +175,7 @@ class AdminService:
         try:
             from redis.asyncio import Redis
 
-            from pix_backend.app.database import get_redis_pool
+            from app.database import get_redis_pool
 
             pool = get_redis_pool()
             r = Redis(connection_pool=pool)

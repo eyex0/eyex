@@ -75,7 +75,7 @@ class DecisionStore:
         async with self.session_factory() as db:
             if approved_by and status in ("approved", "rejected"):
                 await db.execute(
-                    text("UPDATE decisions SET status = :status, approved_by = :ab, approved_at = now() WHERE id = :id"),
+                    text("UPDATE decisions SET status = :status, approved_by = :ab, approved_at = CURRENT_TIMESTAMP WHERE id = :id"),
                     {"status": status, "ab": approved_by, "id": decision_id},
                 )
             else:

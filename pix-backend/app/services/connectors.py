@@ -207,8 +207,8 @@ class ConnectorRegistry:
         if not documents:
             return []
 
-        from packages.cognitive-kernel.knowledge-graph import get_knowledge_graph
-        from packages.cognitive-kernel.memory-engine import get_vector_memory
+        from packages.cognitive_kernel.knowledge_graph import get_knowledge_graph
+        from packages.cognitive_kernel.memory_engine import get_vector_memory
         kg = get_knowledge_graph()
         vm = get_vector_memory()
 

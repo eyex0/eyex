@@ -1,6 +1,6 @@
 import logging
 from fastapi import APIRouter, Depends, File, UploadFile
-from packages.cognitive-kernel.ingestion import run_ingestion_pipeline
+from packages.cognitive_kernel.ingestion import run_ingestion_pipeline
 
 logger = logging.getLogger("pix.api.ingestion")
 

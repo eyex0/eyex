@@ -7,7 +7,7 @@ from typing import Any
 from fastapi import APIRouter, Depends, File, Form, Query, UploadFile
 
 from app.api.dependencies import get_memory_service
-from packages.cognitive-kernel.memory-engine import PersistentMemory
+from packages.cognitive_kernel.memory_engine import PersistentMemory
 from app.dependencies import (
     get_current_org_id,
     get_current_user,

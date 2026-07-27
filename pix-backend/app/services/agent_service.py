@@ -4,7 +4,7 @@ import logging
 
 from app.agents.graph import AgentGraph
 from app.core.context import org_id_ctx
-from packages.cognitive-kernel.memory-engine import PersistentMemory
+from packages.cognitive_kernel.memory_engine import PersistentMemory
 from app.schemas.agent import AgentRequest, AgentStep, WorkflowResult
 
 logger = logging.getLogger("pix.services.agent")

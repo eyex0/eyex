@@ -1,12 +1,14 @@
 from __future__ import annotations
 
+import uuid
+
 from datetime import datetime
 
 from pydantic import BaseModel, Field
 
 
 class SubscriptionPlanRead(BaseModel):
-    id: str
+    id: uuid.UUID
     name: str
     slug: str
     description: str | None
@@ -28,7 +30,7 @@ class SubscriptionPlanList(BaseModel):
 
 
 class SubscriptionCreate(BaseModel):
-    plan_id: str
+    plan_id: uuid.UUID
     billing_interval: str = Field("monthly", pattern=r"^(monthly|yearly)$")
 
 
@@ -38,9 +40,9 @@ class SubscriptionUpdate(BaseModel):
 
 
 class SubscriptionRead(BaseModel):
-    id: str
-    organization_id: str
-    plan_id: str
+    id: uuid.UUID
+    organization_id: uuid.UUID
+    plan_id: uuid.UUID
     status: str
     billing_interval: str
     current_period_start: datetime
@@ -53,9 +55,9 @@ class SubscriptionRead(BaseModel):
 
 
 class InvoiceRead(BaseModel):
-    id: str
-    subscription_id: str
-    organization_id: str
+    id: uuid.UUID
+    subscription_id: uuid.UUID
+    organization_id: uuid.UUID
     amount: float
     currency: str
     status: str

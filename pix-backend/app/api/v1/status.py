@@ -6,7 +6,7 @@ from datetime import UTC, datetime
 from fastapi import APIRouter, Depends, Request
 
 from app.api.dependencies import get_memory_service
-from packages.cognitive-kernel.memory-engine import PersistentMemory
+from packages.cognitive_kernel.memory_engine import PersistentMemory
 
 logger = logging.getLogger("pix.api.status")
 

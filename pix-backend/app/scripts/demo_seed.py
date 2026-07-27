@@ -2,8 +2,8 @@ from __future__ import annotations
 
 import logging
 
-from app.db.knowledge_graph import KnowledgeGraph, get_knowledge_graph
-from app.db.vector_memory import VectorMemory, get_vector_memory
+from packages.cognitive_kernel.knowledge_graph import get_knowledge_graph
+from packages.cognitive_kernel.memory_engine.vector_memory import VectorMemory, get_vector_memory
 
 logger = logging.getLogger("pix.scripts.demo_seed")
 

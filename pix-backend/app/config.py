@@ -48,7 +48,7 @@ class Settings(BaseSettings):
     enable_security_headers: bool = True
 
     # PostgreSQL
-    database_url: str = "postgresql+asyncpg://pix:pix_password@localhost:5432/pix"
+    database_url: str = "sqlite+aiosqlite:///./pix.db"
     database_pool_size: int = 20
     database_max_overflow: int = 10
 
@@ -92,7 +92,7 @@ class Settings(BaseSettings):
     otlp_endpoint: str = ""
 
     # Rate Limiting
-    rate_limit_enabled: bool = True
+    rate_limit_enabled: bool = False
     rate_limit_requests_per_minute: int = 100
 
     # Enterprise Architecture
@@ -197,3 +197,6 @@ def get_settings() -> Settings:
 def generate_secret_key() -> str:
     """Generate a secure random secret key suitable for APP_SECRET_KEY."""
     return secrets.token_urlsafe(48)
+
+# Singleton instance
+settings = get_settings()

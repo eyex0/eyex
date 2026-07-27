@@ -417,7 +417,7 @@ class IndustryTemplateRegistry:
             self._templates[template.industry] = template
 
     def get_template(self, industry: str) -> IndustryTemplate | None:
-        return self._templates.get(industry.lower())
+        return self._templates.get(str(industry).lower() if not isinstance(industry, dict) else str(industry.get("industry", "")).lower())
 
     def list_templates(self) -> list[str]:
         return list(self._templates.keys())

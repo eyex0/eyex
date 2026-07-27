@@ -1,67 +1,61 @@
 from __future__ import annotations
-
-import json
-import logging
+import json, logging
 from typing import Any
 
-from redis.asyncio import Redis
-
-from pix_backend.app.database import get_redis
-
 logger = logging.getLogger("pix.cache")
-
 DEFAULT_TTL = 300
 
-
 class RedisCache:
-    """Simple async Redis cache with JSON serialization."""
-
-    def __init__(self, redis: Redis | None = None, default_ttl: int = DEFAULT_TTL) -> None:
+    def __init__(self, redis=None, default_ttl: int = DEFAULT_TTL):
         self._redis = redis
         self._default_ttl = default_ttl
+        self._local: dict[str, Any] = {}
 
-    async def _get_redis(self) -> Redis:
-        if self._redis is None:
-            self._redis = await get_redis()
-        return self._redis
-
-    async def get(self, key: str) -> Any | None:
+    async def _get_redis(self):
+        if self._redis is not None:
+            return self._redis
         try:
-            redis = await self._get_redis()
-            data = await redis.get(key)
-            if data is None:
+            from app.database import get_redis_pool
+            pool = get_redis_pool()
+            if pool is None:
                 return None
-            return json.loads(data)
-        except Exception as exc:
-            logger.warning("Redis cache get failed for %s: %s", key, exc)
+            import redis.asyncio as aioredis
+            self._redis = aioredis.Redis(connection_pool=pool)
+            return self._redis
+        except Exception:
             return None
 
-    async def set(self, key: str, value: Any, ttl: int | None = None) -> None:
+    async def get(self, key: str):
+        r = await self._get_redis()
+        if r is None:
+            return self._local.get(key)
         try:
-            redis = await self._get_redis()
-            await redis.set(key, json.dumps(value), ex=ttl or self._default_ttl)
-        except Exception as exc:
-            logger.warning("Redis cache set failed for %s: %s", key, exc)
+            val = await r.get(key)
+            return json.loads(val) if val else None
+        except Exception:
+            return self._local.get(key)
 
-    async def delete(self, key: str) -> None:
+    async def set(self, key: str, value: Any, ttl: int = DEFAULT_TTL):
+        self._local[key] = value
+        r = await self._get_redis()
+        if r is None:
+            return
         try:
-            redis = await self._get_redis()
-            await redis.delete(key)
-        except Exception as exc:
-            logger.warning("Redis cache delete failed for %s: %s", key, exc)
+            await r.set(key, json.dumps(value), ex=ttl)
+        except Exception:
+            pass
 
-    async def clear_pattern(self, pattern: str) -> None:
+    async def delete(self, key: str):
+        self._local.pop(key, None)
+        r = await self._get_redis()
+        if r is None:
+            return
         try:
-            redis = await self._get_redis()
-            keys = await redis.keys(pattern)
-            if keys:
-                await redis.delete(*keys)
-        except Exception as exc:
-            logger.warning("Redis cache clear pattern failed for %s: %s", pattern, exc)
-
+            await r.delete(key)
+        except Exception:
+            pass
 
 _cache: RedisCache | None = None
-
 
 def get_cache() -> RedisCache:
     global _cache

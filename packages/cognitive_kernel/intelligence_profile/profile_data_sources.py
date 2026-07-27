@@ -81,7 +81,7 @@ class DataSourceManager:
                 params[key] = json.dumps(value) if isinstance(value, (dict, list)) else value
         if not set_clauses:
             return None
-        set_clauses.append("updated_at = now()")
+        set_clauses.append("updated_at = CURRENT_TIMESTAMP")
 
         async with self.session_factory() as db:
             await db.execute(

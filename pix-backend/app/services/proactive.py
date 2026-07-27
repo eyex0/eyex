@@ -5,8 +5,8 @@ from dataclasses import dataclass, field
 from datetime import UTC, datetime
 from typing import Any
 
-from packages.cognitive-kernel.knowledge-graph import KnowledgeGraph, get_knowledge_graph
-from packages.cognitive-kernel.memory-engine import VectorMemory, get_vector_memory
+from packages.cognitive_kernel.knowledge_graph import KnowledgeGraph, get_knowledge_graph
+from packages.cognitive_kernel.memory_engine import VectorMemory, get_vector_memory
 
 logger = logging.getLogger("pix.services.proactive")
 

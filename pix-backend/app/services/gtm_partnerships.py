@@ -12,6 +12,34 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models.gtm import Partner, PartnershipIntegration, PartnershipType
 
+def _ev(x):
+    """Safe enum value accessor."""
+    return x.value if hasattr(x, "value") else x
+
+
+def _model_to_dict(obj):
+    """Convert a SQLAlchemy model to a dict for JSON serialization."""
+    if obj is None:
+        return None
+    result = {}
+    for c in obj.__table__.columns:
+        val = getattr(obj, c.name, None)
+        if hasattr(val, "value"):
+            val = val.value
+        result[c.name] = val
+    return result
+
+
+def _models_to_dict(objs):
+    """Convert a list of SQLAlchemy models to a list of dicts."""
+    return [_model_to_dict(o) for o in objs]
+
+
+
+
+
+
+
 logger = logging.getLogger("pix.services.gtm.partnerships")
 
 
@@ -161,12 +189,13 @@ class PartnershipService:
 
     async def initialize_default_partners(self) -> list[Partner]:
         partners = []
-        for template in DEFAULT_PARTNERS:
-            existing = await self.db.execute(select(Partner).where(Partner.name == template.name))
-            if existing.scalar_one_or_none():
-                continue
+        with self.db.no_autoflush:
+            for template in DEFAULT_PARTNERS:
+                existing = await self.db.execute(select(Partner).where(Partner.name == template.name))
+                if existing.scalar_one_or_none():
+                    continue
 
-            partner = Partner(
+                partner = Partner(
                 name=template.name,
                 partner_type=template.partner_type,
                 description=template.description,
@@ -198,7 +227,7 @@ class PartnershipService:
 
         for p in partners:
             await self.db.refresh(p)
-        return partners
+        return _models_to_dict(partners)
 
     async def create_partner(
         self,
@@ -316,9 +345,9 @@ class PartnershipService:
 
         by_type = defaultdict(lambda: {"count": 0, "pipeline_value": 0.0, "joint_customers": 0})
         for p in partners:
-            by_type[p.partner_type.value]["count"] += 1
-            by_type[p.partner_type.value]["pipeline_value"] += p.pipeline_value
-            by_type[p.partner_type.value]["joint_customers"] += p.joint_customers
+            by_type[_ev(p.partner_type)]["count"] += 1
+            by_type[_ev(p.partner_type)]["pipeline_value"] += p.pipeline_value
+            by_type[_ev(p.partner_type)]["joint_customers"] += p.joint_customers
 
         integration_result = await self.db.execute(select(PartnershipIntegration))
         integrations = list(integration_result.scalars().all())

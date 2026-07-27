@@ -11,8 +11,8 @@ from sqlalchemy import delete, select
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
 from app.core.context import org_id_ctx
-from pix_backend.app.models.memory import AgentMemoryRecord, ConversationMessage, LongTermMemory
-from pix_backend.app.database import get_redis_pool
+from app.models.memory import AgentMemoryRecord, ConversationMessage, LongTermMemory
+from app.database import get_redis_pool
 
 logger = logging.getLogger("pix.db.memory")
 

@@ -69,7 +69,7 @@ class SemanticHistoryManager:
             await db.execute(
                 text(
                     "UPDATE profile_semantic_history "
-                    "SET corrected_entity = :entity, corrected_by = :by, corrected_at = now() "
+                    "SET corrected_entity = :entity, corrected_by = :by, corrected_at = CURRENT_TIMESTAMP "
                     "WHERE id = :id AND organization_id = :org_id"
                 ),
                 {"id": record_id, "org_id": organization_id, "entity": corrected_entity, "by": corrected_by},
@@ -136,11 +136,14 @@ class SemanticHistoryManager:
                 text("SELECT AVG(inferred_confidence) FROM profile_semantic_history WHERE organization_id = :org_id"),
                 {"org_id": organization_id},
             )
+        total_count = total.scalar() or 0
+        corrected_count = corrected.scalar() or 0
+        avg_confidence = float(avg_conf.scalar() or 0)
         return {
-            "total_mappings": total.scalar() or 0,
-            "user_corrections": corrected.scalar() or 0,
-            "avg_inference_confidence": float(avg_conf.scalar() or 0),
-            "correction_rate": (corrected.scalar() or 0) / max(total.scalar() or 1, 1),
+            "total_mappings": total_count,
+            "user_corrections": corrected_count,
+            "avg_inference_confidence": avg_confidence,
+            "correction_rate": corrected_count / max(total_count, 1),
         }
 
     @staticmethod

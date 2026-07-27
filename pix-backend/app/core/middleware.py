@@ -4,6 +4,7 @@ import logging
 import re
 import time
 import uuid
+import traceback
 from collections import defaultdict
 from collections.abc import Awaitable, Callable
 
@@ -54,7 +55,24 @@ class RequestLogMiddleware(BaseHTTPMiddleware):
                 },
             )
 
-        response = await call_next(request)
+        try:
+            response = await call_next(request)
+        except Exception as exc:
+            elapsed = time.perf_counter() - start
+            tb = traceback.format_exc()
+            logger.error(
+                "[%s] %s %s — UNHANDLED EXCEPTION after %.0fms: %s\n%s",
+                request_id, method, path, elapsed * 1000, exc, tb,
+            )
+            return JSONResponse(
+                status_code=500,
+                content={
+                    "error": str(exc),
+                    "detail": tb,
+                    "status_code": 500,
+                    "request_id": request_id,
+                },
+            )
 
         elapsed = time.perf_counter() - start
         response.headers["X-Request-ID"] = request_id
@@ -68,8 +86,6 @@ class RequestLogMiddleware(BaseHTTPMiddleware):
 
 
 class SecurityHeadersMiddleware(BaseHTTPMiddleware):
-    """Add production security headers to every response."""
-
     async def dispatch(
         self, request: Request, call_next: Callable[[Request], Awaitable[Response]]
     ) -> Response:
@@ -77,7 +93,7 @@ class SecurityHeadersMiddleware(BaseHTTPMiddleware):
         response.headers["X-Content-Type-Options"] = "nosniff"
         response.headers["X-Frame-Options"] = "DENY"
         response.headers["X-XSS-Protection"] = "1; mode=block"
-        response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
+        response.headers["Referrer-Policy"] = "strict-origin-when-cross-cross-origin"
         response.headers["Permissions-Policy"] = "geolocation=(), microphone=(), camera=()"
         response.headers["Content-Security-Policy"] = (
             "default-src 'self'; script-src 'self'; "

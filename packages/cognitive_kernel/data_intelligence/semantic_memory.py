@@ -46,7 +46,7 @@ class SemanticMemory:
                     "INSERT INTO profile_semantic_history "
                     "(id, organization_id, profile_id, column_name, inferred_entity, inferred_confidence, "
                     "corrected_entity, corrected_by, corrected_at) "
-                    "VALUES (:id, :org_id, :pid, :col, NULL, 0.0, :cent, :cby, now())"
+                    "VALUES (:id, :org_id, :pid, :col, NULL, 0.0, :cent, :cby, CURRENT_TIMESTAMP)"
                 ),
                 {
                     "id": record_id, "org_id": organization_id, "pid": profile_id,

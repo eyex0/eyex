@@ -171,7 +171,7 @@ class ProfileManager:
 
         # Increment version
         set_clauses.append("current_version = current_version + 1")
-        set_clauses.append("updated_at = now()")
+        set_clauses.append("updated_at = CURRENT_TIMESTAMP")
 
         async with self.session_factory() as db:
             # Get current state for version snapshot

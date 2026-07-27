@@ -11,6 +11,7 @@ from sqlalchemy import and_, desc, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models.gtm import (
+
     BillingInterval,
     EnterprisePricing,
     MarketplaceRevenue,
@@ -18,6 +19,31 @@ from app.models.gtm import (
     UsageBasedBilling,
 )
 from app.models.workspace import SubscriptionPlan
+
+def _ev(x):
+    """Safe enum value accessor."""
+    return x.value if hasattr(x, "value") else x
+
+
+def _model_to_dict(obj):
+    """Convert a SQLAlchemy model to a dict for JSON serialization."""
+    if obj is None:
+        return None
+    result = {}
+    for c in obj.__table__.columns:
+        val = getattr(obj, c.name, None)
+        if hasattr(val, "value"):
+            val = val.value
+        result[c.name] = val
+    return result
+
+
+def _models_to_dict(objs):
+    """Convert a list of SQLAlchemy models to a list of dicts."""
+    return [_model_to_dict(o) for o in objs]
+
+
+
 
 logger = logging.getLogger("pix.services.gtm.pricing")
 
@@ -105,14 +131,14 @@ class PricingService:
     async def initialize_plans(self) -> list[SubscriptionPlan]:
         plans = []
         for i, config in enumerate(DEFAULT_PLANS):
-            existing = await self.db.execute(select(SubscriptionPlan).where(SubscriptionPlan.tier == config.tier.value))
+            existing = await self.db.execute(select(SubscriptionPlan).where(SubscriptionPlan.tier == _ev(config.tier)))
             if existing.scalar_one_or_none():
                 continue
 
             plan = SubscriptionPlan(
                 name=config.name,
-                slug=config.tier.value,
-                tier=config.tier.value,
+                slug=_ev(config.tier),
+                tier=_ev(config.tier),
                 description=f"{config.name} plan for growing teams",
                 price_monthly=config.monthly_price,
                 price_yearly=config.annual_price,
@@ -231,7 +257,7 @@ class EnterprisePricingService:
             "discount_percent": pricing.discount_percent,
             "discount_amount": round(discount, 2),
             "final_price": round(final_price, 2),
-            "billing_interval": pricing.billing_interval.value,
+            "billing_interval": _ev(pricing.billing_interval),
             "currency": "USD",
             "contract_end": pricing.contract_end.isoformat() if pricing.contract_end else None,
         }

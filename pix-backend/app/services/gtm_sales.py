@@ -11,6 +11,9 @@ from sqlalchemy import and_, desc, func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models.gtm import (
+
+
+
     CustomerOnboarding,
     DealActivity,
     DealStatus,
@@ -24,6 +27,31 @@ from app.models.gtm import (
     PipelineDeal,
     PipelineStage,
 )
+
+def _ev(x):
+    """Safe enum value accessor."""
+    return x.value if hasattr(x, "value") else x
+
+
+def _model_to_dict(obj):
+    """Convert a SQLAlchemy model to a dict for JSON serialization."""
+    if obj is None:
+        return None
+    result = {}
+    for c in obj.__table__.columns:
+        val = getattr(obj, c.name, None)
+        if hasattr(val, "value"):
+            val = val.value
+        result[c.name] = val
+    return result
+
+
+def _models_to_dict(objs):
+    """Convert a list of SQLAlchemy models to a list of dicts."""
+    return [_model_to_dict(o) for o in objs]
+
+
+
 
 logger = logging.getLogger("pix.services.gtm.sales")
 
@@ -224,7 +252,7 @@ class EnterpriseSalesService:
         leads = result.scalars().all()
 
         return {
-            "items": leads,
+            "items": _models_to_dict(leads),
             "total": total,
             "page": page,
             "per_page": per_page,
@@ -349,7 +377,7 @@ class EnterpriseSalesService:
         deals = result.scalars().all()
 
         return {
-            "items": deals,
+            "items": _models_to_dict(deals),
             "total": total,
             "page": page,
             "per_page": per_page,
@@ -373,10 +401,10 @@ class EnterpriseSalesService:
         }
 
         for deal in deals:
-            summary["by_stage"][deal.stage.value]["count"] += 1
-            summary["by_stage"][deal.stage.value]["value"] += deal.value
-            summary["by_stage"][deal.stage.value]["weighted_value"] += deal.value * deal.probability / 100
-            summary["by_status"][deal.status.value] += 1
+            summary["by_stage"][_ev(deal.stage)]["count"] += 1
+            summary["by_stage"][_ev(deal.stage)]["value"] += deal.value
+            summary["by_stage"][_ev(deal.stage)]["weighted_value"] += deal.value * deal.probability / 100
+            summary["by_status"][_ev(deal.status)] += 1
 
         summary["by_stage"] = dict(summary["by_stage"])
         summary["by_status"] = dict(summary["by_status"])

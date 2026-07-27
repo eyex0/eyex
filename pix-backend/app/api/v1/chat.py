@@ -12,7 +12,7 @@ from app.core.context import org_id_ctx
 from app.core.security import decode_token
 from app.core.supabase_auth import decode_supabase_token, extract_user_id, is_supabase_token
 from app.database import async_session_factory
-from packages.cognitive-kernel.memory-engine import PersistentMemory
+from packages.cognitive_kernel.memory_engine import PersistentMemory
 from app.dependencies import get_current_org_id, get_current_user, require_chat_quota
 from app.models.user import User
 from app.schemas.agent import AgentRequest, WorkflowResult

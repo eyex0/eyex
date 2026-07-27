@@ -1,5 +1,11 @@
 from __future__ import annotations
 
+
+def _enum_val(x):
+    """Get the value of an enum or return the string itself (SQLite compat)."""
+    return x.value if hasattr(x, "value") else x
+
+
 import logging
 from datetime import UTC, datetime, timedelta
 from typing import Any
@@ -133,7 +139,7 @@ async def update_lead_status(
     lead = await service.update_lead_status(lead_id, status, notes or None)
     if not lead:
         raise HTTPException(status_code=404, detail="Lead not found")
-    return {"status": "updated", "lead_id": str(lead.id), "new_status": lead.status.value}
+    return {"status": "updated", "lead_id": str(lead.id), "new_status": _enum_val(lead.status)}
 
 
 @gtm_router.post("/deals")
@@ -159,7 +165,7 @@ async def create_deal(
         competitor=competitor or None,
     )
     deal = await service.create_deal(data)
-    return {"status": "created", "deal_id": str(deal.id), "stage": deal.stage.value}
+    return {"status": "created", "deal_id": str(deal.id), "stage": _enum_val(deal.stage)}
 
 
 @gtm_router.get("/deals")
@@ -204,7 +210,7 @@ async def update_deal_stage(
     deal = await service.update_deal_stage(deal_id, stage, notes or None)
     if not deal:
         raise HTTPException(status_code=404, detail="Deal not found")
-    return {"status": "updated", "deal_id": str(deal.id), "stage": deal.stage.value}
+    return {"status": "updated", "deal_id": str(deal.id), "stage": _enum_val(deal.stage)}
 
 
 @gtm_router.post("/deals/{deal_id}/activities")
@@ -301,7 +307,7 @@ async def start_onboarding(
         assigned_csm=assigned_csm or None,
         target_go_live=target_go_live,
     )
-    return {"status": "started", "onboarding_id": str(onboarding.id), "current_stage": onboarding.current_stage.value}
+    return {"status": "started", "onboarding_id": str(onboarding.id), "current_stage": _enum_val(onboarding.current_stage)}
 
 
 @gtm_router.get("/onboarding/{org_id}")
@@ -314,7 +320,7 @@ async def get_onboarding(
     onboarding = await service.get_onboarding(org_id)
     if not onboarding:
         raise HTTPException(status_code=404, detail="Onboarding not found")
-    return {"onboarding_id": str(onboarding.id), "current_stage": onboarding.current_stage.value, "health_score": onboarding.health_score}
+    return {"onboarding_id": str(onboarding.id), "current_stage": _enum_val(onboarding.current_stage), "health_score": onboarding.health_score}
 
 
 @gtm_router.patch("/onboarding/{org_id}/stage")
@@ -332,7 +338,7 @@ async def advance_onboarding_stage(
         raise HTTPException(status_code=400, detail=str(exc))
     if not onboarding:
         raise HTTPException(status_code=404, detail="Onboarding not found")
-    return {"status": "advanced", "current_stage": onboarding.current_stage.value}
+    return {"status": "advanced", "current_stage": _enum_val(onboarding.current_stage)}
 
 
 @gtm_router.post("/onboarding/tasks/{task_id}/complete")
@@ -363,7 +369,7 @@ async def calculate_customer_health(
     return {
         "org_id": org_id,
         "overall_score": health.overall_score,
-        "status": health.status.value,
+        "status": _enum_val(health.status),
         "churn_probability": round(health.churn_probability, 2),
         "risk_factors": health.risk_factors,
     }
@@ -382,7 +388,7 @@ async def get_customer_health(
     return {
         "org_id": org_id,
         "overall_score": health.overall_score,
-        "status": health.status.value,
+        "status": _enum_val(health.status),
         "scores": {
             "usage": health.usage_score,
             "engagement": health.engagement_score,
@@ -402,7 +408,7 @@ async def get_at_risk_customers(
 ) -> dict[str, Any]:
     service = get_health_service(db)
     customers = await service.list_at_risk(threshold)
-    return {"customers": [{"org_id": str(c.org_id), "score": c.overall_score, "status": c.status.value} for c in customers]}
+    return {"customers": [{"org_id": str(c.org_id), "score": c.overall_score, "status": _enum_val(c.status)} for c in customers]}
 
 
 @gtm_router.post("/success/usage/{org_id}")

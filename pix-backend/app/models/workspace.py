@@ -1,11 +1,14 @@
 from __future__ import annotations
+from datetime import UTC, datetime
+
+def _utcnow(): return datetime.now(UTC)
 
 from datetime import datetime
 
-from sqlalchemy import Boolean, DateTime, Float, ForeignKey, Integer, String, Text, func
-from sqlalchemy.dialects.postgresql import JSONB, UUID
+from sqlalchemy import Uuid, text, Boolean, DateTime, Float, ForeignKey, Integer, String, Text, func
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
+from app.models.types import JSONBCompat
 from app.models.base import Base
 
 
@@ -13,13 +16,13 @@ class Workspace(Base):
     __tablename__ = "workspaces"
 
     organization_id: Mapped[str] = mapped_column(
-        UUID(as_uuid=True), ForeignKey("organizations.id"), nullable=False, index=True
+        Uuid, ForeignKey("organizations.id"), nullable=False, index=True
     )
     name: Mapped[str] = mapped_column(String(256), nullable=False)
     slug: Mapped[str] = mapped_column(String(128), nullable=False, index=True)
     description: Mapped[str | None] = mapped_column(Text, nullable=True)
     is_default: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
-    settings: Mapped[dict | None] = mapped_column(JSONB, nullable=True)
+    settings: Mapped[dict | None] = mapped_column(JSONBCompat, nullable=True)
 
     organization = relationship("Organization", backref="workspaces")
     members = relationship("WorkspaceMember", back_populates="workspace", lazy="selectin", cascade="all, delete-orphan")
@@ -31,9 +34,9 @@ class WorkspaceMember(Base):
     __tablename__ = "workspace_members"
 
     workspace_id: Mapped[str] = mapped_column(
-        UUID(as_uuid=True), ForeignKey("workspaces.id"), nullable=False
+        Uuid, ForeignKey("workspaces.id"), nullable=False
     )
-    user_id: Mapped[str] = mapped_column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=False)
+    user_id: Mapped[str] = mapped_column(Uuid, ForeignKey("users.id"), nullable=False)
     role: Mapped[str] = mapped_column(String(64), nullable=False, default="member")
 
     workspace = relationship("Workspace", back_populates="members")
@@ -44,7 +47,7 @@ class AgentConfig(Base):
     __tablename__ = "agent_configs"
 
     workspace_id: Mapped[str] = mapped_column(
-        UUID(as_uuid=True), ForeignKey("workspaces.id"), nullable=False, index=True
+        Uuid, ForeignKey("workspaces.id"), nullable=False, index=True
     )
     agent_role: Mapped[str] = mapped_column(String(100), nullable=False)
     display_name: Mapped[str] = mapped_column(String(256), nullable=False)
@@ -53,7 +56,7 @@ class AgentConfig(Base):
     model: Mapped[str | None] = mapped_column(String(128), nullable=True)
     temperature: Mapped[float | None] = mapped_column(Float, nullable=True)
     max_tokens: Mapped[int | None] = mapped_column(Integer, nullable=True)
-    config: Mapped[dict | None] = mapped_column(JSONB, nullable=True)
+    config: Mapped[dict | None] = mapped_column(JSONBCompat, nullable=True)
 
     workspace = relationship("Workspace", back_populates="agent_configs")
 
@@ -62,16 +65,16 @@ class TaskExecution(Base):
     __tablename__ = "task_executions"
 
     workspace_id: Mapped[str] = mapped_column(
-        UUID(as_uuid=True), ForeignKey("workspaces.id"), nullable=False, index=True
+        Uuid, ForeignKey("workspaces.id"), nullable=False, index=True
     )
-    user_id: Mapped[str | None] = mapped_column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=True)
+    user_id: Mapped[str | None] = mapped_column(Uuid, ForeignKey("users.id"), nullable=True)
     session_id: Mapped[str | None] = mapped_column(String(255), nullable=True, index=True)
     agent_role: Mapped[str | None] = mapped_column(String(100), nullable=True)
     input_text: Mapped[str | None] = mapped_column(Text, nullable=True)
     output_text: Mapped[str | None] = mapped_column(Text, nullable=True)
     status: Mapped[str] = mapped_column(String(50), nullable=False, default="pending", index=True)
     duration_ms: Mapped[int | None] = mapped_column(Integer, nullable=True)
-    steps: Mapped[dict | None] = mapped_column(JSONB, nullable=True)
+    steps: Mapped[dict | None] = mapped_column(JSONBCompat, nullable=True)
     error: Mapped[str | None] = mapped_column(Text, nullable=True)
     tokens_used: Mapped[int | None] = mapped_column(Integer, nullable=True)
     cost: Mapped[float | None] = mapped_column(Float, nullable=True)
@@ -84,16 +87,16 @@ class ApiKey(Base):
     __tablename__ = "api_keys"
 
     workspace_id: Mapped[str] = mapped_column(
-        UUID(as_uuid=True), ForeignKey("workspaces.id"), nullable=False, index=True
+        Uuid, ForeignKey("workspaces.id"), nullable=False, index=True
     )
-    user_id: Mapped[str] = mapped_column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=False)
+    user_id: Mapped[str] = mapped_column(Uuid, ForeignKey("users.id"), nullable=False)
     name: Mapped[str] = mapped_column(String(256), nullable=False)
     key_hash: Mapped[str] = mapped_column(String(256), nullable=False, unique=True)
     key_prefix: Mapped[str] = mapped_column(String(16), nullable=False)
     is_active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
     last_used_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
     expires_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
-    permissions: Mapped[dict | None] = mapped_column(JSONB, nullable=True)
+    permissions: Mapped[dict | None] = mapped_column(JSONBCompat, nullable=True)
 
     workspace = relationship("Workspace", backref="api_keys")
     user = relationship("User", backref="api_keys")
@@ -103,12 +106,12 @@ class UsageRecord(Base):
     __tablename__ = "usage_records"
 
     workspace_id: Mapped[str] = mapped_column(
-        UUID(as_uuid=True), ForeignKey("workspaces.id"), nullable=False, index=True
+        Uuid, ForeignKey("workspaces.id"), nullable=False, index=True
     )
     metric: Mapped[str] = mapped_column(String(100), nullable=False)
     value: Mapped[float] = mapped_column(Float, nullable=False, default=0.0)
     recorded_at: Mapped[datetime] = mapped_column(
-        DateTime(timezone=True), server_default=func.now(), nullable=False, index=True
+        DateTime(timezone=True), default=_utcnow, server_default=text("CURRENT_TIMESTAMP"), nullable=False, index=True
     )
 
     workspace = relationship("Workspace", backref="usage_records")
@@ -129,8 +132,8 @@ class SubscriptionPlan(Base):
     max_tasks_per_month: Mapped[int] = mapped_column(Integer, nullable=False, default=1000)
     max_api_calls_per_month: Mapped[int] = mapped_column(Integer, nullable=False, default=10000)
     max_storage_gb: Mapped[int] = mapped_column(Integer, nullable=False, default=10)
-    features: Mapped[dict | None] = mapped_column(JSONB, nullable=True)
-    ai_model_access: Mapped[list[str] | None] = mapped_column(JSONB, default=list)
+    features: Mapped[dict | None] = mapped_column(JSONBCompat, nullable=True)
+    ai_model_access: Mapped[list[str] | None] = mapped_column(JSONBCompat, default=list)
     support_level: Mapped[str] = mapped_column(String(50), default="email")
     is_active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
     sort_order: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
@@ -140,15 +143,15 @@ class Subscription(Base):
     __tablename__ = "subscriptions"
 
     organization_id: Mapped[str] = mapped_column(
-        UUID(as_uuid=True), ForeignKey("organizations.id"), nullable=False, index=True
+        Uuid, ForeignKey("organizations.id"), nullable=False, index=True
     )
     plan_id: Mapped[str] = mapped_column(
-        UUID(as_uuid=True), ForeignKey("subscription_plans.id"), nullable=False
+        Uuid, ForeignKey("subscription_plans.id"), nullable=False
     )
     status: Mapped[str] = mapped_column(String(50), nullable=False, default="active")
     billing_interval: Mapped[str] = mapped_column(String(20), nullable=False, default="monthly")
     current_period_start: Mapped[datetime] = mapped_column(
-        DateTime(timezone=True), server_default=func.now(), nullable=False
+        DateTime(timezone=True), default=_utcnow, server_default=text("CURRENT_TIMESTAMP"), nullable=False
     )
     current_period_end: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
     trial_end: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
@@ -165,10 +168,10 @@ class Invoice(Base):
     __tablename__ = "invoices"
 
     subscription_id: Mapped[str] = mapped_column(
-        UUID(as_uuid=True), ForeignKey("subscriptions.id"), nullable=False, index=True
+        Uuid, ForeignKey("subscriptions.id"), nullable=False, index=True
     )
     organization_id: Mapped[str] = mapped_column(
-        UUID(as_uuid=True), ForeignKey("organizations.id"), nullable=False, index=True
+        Uuid, ForeignKey("organizations.id"), nullable=False, index=True
     )
     amount: Mapped[float] = mapped_column(Float, nullable=False)
     currency: Mapped[str] = mapped_column(String(3), nullable=False, default="USD")
@@ -180,7 +183,7 @@ class Invoice(Base):
     provider: Mapped[str] = mapped_column(String(50), nullable=False, default="stripe")
     provider_invoice_id: Mapped[str | None] = mapped_column(String(256), nullable=True)
     invoice_url: Mapped[str | None] = mapped_column(String(1024), nullable=True)
-    invoice_metadata: Mapped[dict | None] = mapped_column("metadata", JSONB, nullable=True)
+    invoice_metadata: Mapped[dict | None] = mapped_column("metadata", JSONBCompat, nullable=True)
 
     subscription = relationship("Subscription", back_populates="invoices")
     organization = relationship("Organization", backref="invoices")

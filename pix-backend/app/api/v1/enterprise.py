@@ -11,8 +11,8 @@ from app.agents.graph import AgentGraph
 from app.benchmarks import get_benchmark_suite
 from app.core.enterprise_security import encrypt_value, get_audit_logger
 from app.core.platform import get_platform_monitor
-from packages.cognitive-kernel.knowledge-graph import get_knowledge_graph
-from packages.cognitive-kernel.memory-engine import get_vector_memory
+from packages.cognitive_kernel.knowledge_graph import get_knowledge_graph
+from packages.cognitive_kernel.memory_engine import get_vector_memory
 from app.dependencies import get_current_user
 from app.engine import get_intelligence_engine
 from app.industry import get_industry_manager
@@ -446,7 +446,7 @@ async def setup_company(
             "name": company_name, "industry": industry, "description": description,
         }, org_id=org_id)
         audit = get_audit_logger()
-        audit.log("company_created", user.get("id", "unknown"), "company", org_id, org_id)
+        audit.log("company_created", str(getattr(user, "id", "unknown")), "company", org_id, org_id)
         return {"status": "completed", "org_id": org_id, "company_name": company_name}
     except Exception as exc:
         raise HTTPException(status_code=500, detail=f"Company setup failed: {exc}")
@@ -465,7 +465,7 @@ async def connect_initial_data(
         raise HTTPException(status_code=400, detail=f"Unknown connector: {connector_type}")
     docs = await registry.fetch_and_store(connector_type, source or "initial_metrics.csv", org_id=org_id)
     audit = get_audit_logger()
-    audit.log("data_connected", user.get("id", "unknown"), "connector", connector_type, org_id)
+    audit.log("data_connected", str(getattr(user, "id", "unknown")), "connector", connector_type, org_id)
     return {"status": "completed", "documents_ingested": len(docs), "connector": connector_type}
 
 
@@ -483,7 +483,7 @@ async def initialize_ai_workspace(
     analytics = get_analytics_service()
     analytics.record_action_taken(org_id, "ai_workspace_initialized", "high")
     audit = get_audit_logger()
-    audit.log("ai_workspace_initialized", user.get("id", "unknown"), "workspace", org_id, org_id)
+    audit.log("ai_workspace_initialized", str(getattr(user, "id", "unknown")), "workspace", org_id, org_id)
     return {
         "status": result.get("status"),
         "final_response": result.get("final_response"),
@@ -773,7 +773,7 @@ async def install_marketplace_agent(
     if not installed:
         raise HTTPException(status_code=404, detail=f"Agent not found: {agent_id}")
     audit = get_audit_logger()
-    audit.log("agent_installed", user.get("id", "unknown"), "marketplace_agent", agent_id, org_id)
+    audit.log("agent_installed", str(getattr(user, "id", "unknown")), "marketplace_agent", agent_id, org_id)
     return {"status": "installed", "agent": installed.manifest.name, "org_id": org_id}
 
 

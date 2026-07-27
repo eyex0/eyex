@@ -9,6 +9,34 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models.gtm import IndustrySolution, IndustryVertical
 
+def _ev(x):
+    """Safe enum value accessor."""
+    return x.value if hasattr(x, "value") else x
+
+
+def _model_to_dict(obj):
+    """Convert a SQLAlchemy model to a dict for JSON serialization."""
+    if obj is None:
+        return None
+    result = {}
+    for c in obj.__table__.columns:
+        val = getattr(obj, c.name, None)
+        if hasattr(val, "value"):
+            val = val.value
+        result[c.name] = val
+    return result
+
+
+def _models_to_dict(objs):
+    """Convert a list of SQLAlchemy models to a list of dicts."""
+    return [_model_to_dict(o) for o in objs]
+
+
+
+
+
+
+
 logger = logging.getLogger("pix.services.gtm.industry")
 
 
@@ -238,25 +266,26 @@ class IndustryExpansionService:
 
     async def initialize_default_solutions(self) -> list[IndustrySolution]:
         solutions = []
-        for vertical, playbook in INDUSTRY_PLAYBOOKS.items():
-            existing = await self.db.execute(
-                select(IndustrySolution).where(IndustrySolution.industry == vertical)
-            )
-            if existing.scalar_one_or_none():
-                continue
+        with self.db.no_autoflush:
+            for vertical, playbook in INDUSTRY_PLAYBOOKS.items():
+                existing = await self.db.execute(
+                    select(IndustrySolution).where(IndustrySolution.industry == vertical)
+                )
+                if existing.scalar_one_or_none():
+                    continue
 
-            solution = IndustrySolution(
-                industry=vertical,
-                name=playbook.name,
-                description=playbook.description,
-                key_problems=playbook.key_problems,
-                key_use_cases=playbook.key_use_cases,
-                required_agents=playbook.required_agents,
-                required_connectors=playbook.required_connectors,
-                compliance_requirements=playbook.compliance_requirements,
-                demo_scenarios=playbook.demo_scenarios,
-                roi_metrics=playbook.roi_metrics,
-                case_studies=playbook.case_studies,
+                solution = IndustrySolution(
+                    industry=vertical,
+                    name=playbook.name,
+                    description=playbook.description,
+                    key_problems=playbook.key_problems,
+                    key_use_cases=playbook.key_use_cases,
+                    required_agents=playbook.required_agents,
+                    required_connectors=playbook.required_connectors,
+                    compliance_requirements=playbook.compliance_requirements,
+                    demo_scenarios=playbook.demo_scenarios,
+                    roi_metrics=playbook.roi_metrics,
+                    case_studies=playbook.case_studies,
                 pricing_guidance=playbook.pricing_guidance,
                 is_active=True,
                 sort_order=list(IndustryVertical).index(vertical),
@@ -267,7 +296,7 @@ class IndustryExpansionService:
         await self.db.commit()
         for s in solutions:
             await self.db.refresh(s)
-        return solutions
+        return _models_to_dict(solutions)
 
     async def get_solution(self, industry: IndustryVertical) -> IndustrySolution | None:
         result = await self.db.execute(
@@ -370,7 +399,7 @@ class IndustryExpansionService:
 
     def _playbook_to_dict(self, playbook: IndustryGTMPlaybook) -> dict[str, Any]:
         return {
-            "industry": playbook.industry.value,
+            "industry": _ev(playbook.industry),
             "name": playbook.name,
             "description": playbook.description,
             "key_problems": playbook.key_problems,
@@ -387,7 +416,7 @@ class IndustryExpansionService:
     def _solution_to_dict(self, solution: IndustrySolution) -> dict[str, Any]:
         return {
             "id": str(solution.id),
-            "industry": solution.industry.value,
+            "industry": _ev(solution.industry),
             "name": solution.name,
             "description": solution.description,
             "key_problems": solution.key_problems,

@@ -5,8 +5,8 @@ from typing import Any
 from langchain_core.tools import BaseTool
 from pydantic import BaseModel, Field
 
-from packages.cognitive-kernel.agent-runtime import NodeAgent
-from packages.cognitive-kernel.agent-runtime.tools import get_registry
+from packages.cognitive_kernel.agent_runtime import NodeAgent
+from packages.cognitive_kernel.agent_runtime.tools import get_registry
 
 
 class DocFile(BaseModel):

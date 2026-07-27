@@ -15,7 +15,8 @@ from app.agents.reviewer import create_reviewer_agent
 from app.agents.tester import create_testing_agent
 from app.agents.tools.registry import get_registry
 from app.api.dependencies import get_memory_service
-from packages.cognitive-kernel.memory-engine import PersistentMemory
+from packages.cognitive_kernel.memory_engine import PersistentMemory
+from app.config import settings
 
 logger = logging.getLogger("pix.api.agents_v2")
 
@@ -67,7 +68,7 @@ async def list_agents() -> AgentListResponse:
     agents = []
 
     for role, factory in _AGENT_FACTORIES.items():
-        agent = factory()
+        agent = factory(settings)
         tool_names = registry.get_tool_names_for_role(role)
         tools = [
             ToolInfo(name=t.name, description=t.description[:120])
@@ -91,7 +92,7 @@ async def get_agent_detail(role: str) -> AgentInfo:
     if not factory:
         raise HTTPException(status_code=404, detail=f"Agent role '{role}' not found")
 
-    agent = factory()
+    agent = factory(settings)
     registry = get_registry()
     tool_names = registry.get_tool_names_for_role(role)
     tools = [
@@ -120,7 +121,7 @@ async def execute_agent_by_role(
     if not factory:
         raise HTTPException(status_code=404, detail=f"Agent role '{role}' not found")
 
-    agent = factory(memory_service=memory)
+    agent = factory(settings, memory_service=memory)
     result = await agent.execute(body.input, session_id=body.session_id)
 
     return AgentExecuteResponse(

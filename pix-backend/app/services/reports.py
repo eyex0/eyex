@@ -4,7 +4,7 @@ import logging
 from datetime import UTC, datetime
 from typing import Any
 
-from packages.cognitive-kernel.knowledge-graph import get_knowledge_graph
+from packages.cognitive_kernel.knowledge_graph import get_knowledge_graph
 from app.services.analytics import get_analytics_service
 from app.services.proactive import get_proactive_service
 

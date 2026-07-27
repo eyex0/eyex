@@ -70,15 +70,32 @@ class SupervisorAgent:
         ])
 
     @staticmethod
-    def _default_llm(settings: Any) -> ChatOpenAI:
-        return ChatOpenAI(
-            model=settings.openai_model,
-            temperature=settings.openai_temperature,
-            max_tokens=settings.openai_max_tokens,
-            api_key=settings.openai_api_key,
-        )
+    def _default_llm(settings: Any) -> "ChatOpenAI | None":
+        try:
+            s = settings or type("S", (), {
+                "openai_model": "gpt-4o-mini",
+                "openai_temperature": 0.1,
+                "openai_max_tokens": 2000,
+                "openai_api_key": "",
+            })()
+            return ChatOpenAI(
+                model=getattr(s, "openai_model", "gpt-4o-mini"),
+                temperature=getattr(s, "openai_temperature", 0.1),
+                max_tokens=getattr(s, "openai_max_tokens", 2000),
+                api_key=getattr(s, "openai_api_key", ""),
+            )
+        except Exception:
+            return None
 
     async def classify(self, input_text: str, history: list[dict[str, str]] | None = None) -> SupervisorClassification:
+        if self.llm is None:
+            return SupervisorClassification(
+                category="general",
+                confidence=0.5,
+                reasoning=f"No LLM available — default classification for: {input_text[:100]}",
+                suggested_agents=["sales_intelligence"],
+                requires_decomposition=False,
+            )
         messages = []
         if history:
             for msg in history:
@@ -115,7 +132,17 @@ class SupervisorAgent:
             )
 
     async def analyze(self, input_text: str, history: list[dict[str, str]] | None = None) -> dict[str, Any]:
-        classification = await self.classify(input_text, history)
+        try:
+            classification = await self.classify(input_text, history)
+        except Exception as e:
+            logger.warning(f"LLM classify failed, using default: {e}")
+            classification = SupervisorClassification(
+                category="general",
+                confidence=0.5,
+                reasoning=f"Default classification (LLM unavailable): {input_text[:100]}",
+                suggested_agents=["sales_intelligence"],
+                requires_decomposition=False,
+            )
 
         return {
             "classification": classification.model_dump(),

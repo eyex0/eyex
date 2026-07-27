@@ -10,11 +10,39 @@ from sqlalchemy import and_, desc, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models.gtm import (
+
+
+
     BusinessImpactMeasurement,
     CaseStudy,
     IndustryVertical,
     ROICalculator,
 )
+
+def _ev(x):
+    """Safe enum value accessor."""
+    return x.value if hasattr(x, "value") else x
+
+
+def _model_to_dict(obj):
+    """Convert a SQLAlchemy model to a dict for JSON serialization."""
+    if obj is None:
+        return None
+    result = {}
+    for c in obj.__table__.columns:
+        val = getattr(obj, c.name, None)
+        if hasattr(val, "value"):
+            val = val.value
+        result[c.name] = val
+    return result
+
+
+def _models_to_dict(objs):
+    """Convert a list of SQLAlchemy models to a list of dicts."""
+    return [_model_to_dict(o) for o in objs]
+
+
+
 
 logger = logging.getLogger("pix.services.gtm.proof")
 
@@ -180,7 +208,7 @@ class CaseStudyService:
 
         return await self.create_case_study(
             org_id=org_id,
-            title=title or f"{customer_name}: {template.industry.value.title()} Transformation",
+            title=title or f"{customer_name}: {_ev(template.industry).title()} Transformation",
             industry=template.industry,
             company_size=template.company_size,
             problem_statement=template.problem_statement,
@@ -199,7 +227,7 @@ class CaseStudyService:
             customer_name = key.split("_")[0].title()
             study = await self.create_from_template(key, org_id, customer_name)
             studies.append(study)
-        return studies
+        return _models_to_dict(studies)
 
 
 class ROICalculatorService:

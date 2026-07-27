@@ -6,7 +6,7 @@ from typing import Any
 
 from redis.asyncio import Redis
 
-from pix_backend.app.database import get_redis_pool
+from app.database import get_redis_pool
 
 logger = logging.getLogger("pix.core.quota")
 

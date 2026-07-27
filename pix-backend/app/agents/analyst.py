@@ -4,7 +4,7 @@ import logging
 
 from pydantic import BaseModel, Field
 
-from packages.cognitive-kernel import PX_AI
+from packages.cognitive_kernel import PX_AI
 
 logger = logging.getLogger("pix.agents.analyst")
 

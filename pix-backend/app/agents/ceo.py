@@ -5,7 +5,7 @@ import logging
 from langchain_core.tools import tool as create_tool
 from pydantic import BaseModel, Field
 
-from packages.cognitive-kernel.agent-runtime import NodeAgent, AgentMemory
+from packages.cognitive_kernel.agent_runtime import NodeAgent, AgentMemory
 
 logger = logging.getLogger("pix.agents.ceo")
 

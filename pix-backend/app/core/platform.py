@@ -161,7 +161,7 @@ class PlatformHealthMonitor:
     async def _check_redis(self) -> bool:
         from redis.asyncio import Redis
 
-        from pix_backend.app.database import get_redis_pool
+        from app.database import get_redis_pool
         r = Redis(connection_pool=get_redis_pool())
         return await r.ping()
 
@@ -180,7 +180,7 @@ class PlatformHealthMonitor:
 
     async def _check_memory(self) -> bool:
         try:
-            from packages.cognitive-kernel.memory-engine import get_global_memory
+            from packages.cognitive_kernel.memory_engine import get_global_memory
             mem = get_global_memory()
             if mem is None:
                 return True

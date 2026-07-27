@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import uuid
+
 from datetime import datetime
 
 from pydantic import BaseModel, EmailStr
@@ -17,7 +19,7 @@ class UserUpdate(BaseModel):
 
 
 class UserRead(BaseModel):
-    id: str
+    id: uuid.UUID
     email: str
     full_name: str | None
     is_active: bool

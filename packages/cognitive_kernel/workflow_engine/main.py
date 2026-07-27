@@ -11,7 +11,7 @@ from langgraph.graph import END, START, StateGraph
 from langgraph.graph.state import CompiledStateGraph
 from typing_extensions import TypedDict
 
-from packages.cognitive-kernel.agent-runtime import (
+from packages.cognitive_kernel.agent_runtime import (
     NodeAgent,
     AgentMemory,
     create_analyst_agent,
@@ -29,7 +29,7 @@ from packages.cognitive-kernel.agent-runtime import (
     SupervisorAgent,
     create_testing_agent,
 )
-from packages.cognitive-kernel.decision-engine import create_decision_agent
+from packages.cognitive_kernel.decision_engine import create_decision_agent
 
 logger = logging.getLogger("pix.agents.graph")
 

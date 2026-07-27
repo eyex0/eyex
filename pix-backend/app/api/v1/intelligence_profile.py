@@ -365,9 +365,17 @@ async def create_from_suggestions(body: CreateFromSuggestionsRequest, user: User
     from packages.cognitive_kernel.intelligence_profile.profile_intelligence_agent import ProfileIntelligenceAgent
     agent = ProfileIntelligenceAgent(async_session_factory)
     org_id = _get_org_id(user)
-    profile = await agent.create_profile_from_suggestions(
-        org_id, body.suggestions, body.user_confirmed, user_id=str(user.id)
-    )
+    try:
+        profile = await agent.create_profile_from_suggestions(
+            org_id, body.suggestions, body.user_confirmed, user_id=str(user.id)
+        )
+    except Exception as e:
+        # If profile already exists, return the existing one
+        if "UNIQUE constraint" in str(e) or "already exists" in str(e).lower():
+            existing = await agent.profile_manager.get_by_org(org_id)
+            if existing:
+                return {"profile": existing.to_dict(), "status": "existing"}
+        raise
     return {"profile": profile.to_dict()}
 
 

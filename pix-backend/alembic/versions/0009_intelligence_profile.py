@@ -49,7 +49,7 @@ def upgrade() -> None:
         # sub-component confidences.
         sa.Column("confidence_score", sa.Float(), nullable=False, server_default="0.0"),
         sa.Column("status", sa.Text(), nullable=False, server_default="draft"),  # draft|active|archived
-        sa.Column("current_version", sa.Integer(), nullable=False, server_default=1),
+        sa.Column("current_version", sa.Integer(), nullable=False, server_default="1"),
         sa.Column("created_at", sa.DateTime(timezone=True), server_default=sa.func.now(), nullable=False),
         sa.Column("updated_at", sa.DateTime(timezone=True), server_default=sa.func.now(), nullable=False),
         sa.PrimaryKeyConstraint("id"),
