@@ -127,6 +127,48 @@ class Settings(BaseSettings):
             return [host.strip() for host in value.split(",") if host.strip()]
         return value
 
+
+    # Anthropic
+    anthropic_api_key: str = ""
+    anthropic_model: str = "claude-3-5-sonnet-20241022"
+
+    # Google AI (Gemini)
+    google_api_key: str = ""
+    google_model: str = "gemini-1.5-pro"
+
+    # DeepSeek
+    deepseek_api_key: str = ""
+    deepseek_model: str = "deepseek-chat"
+
+    # Ollama (local)
+    ollama_base_url: str = "http://localhost:11434"
+
+    # Cohere
+    cohere_api_key: str = ""
+
+    # AI Gateway
+    ai_max_retries: int = 3
+    ai_retry_base_delay: float = 1.0
+    ai_rate_limit_per_minute: int = 100
+    ai_cost_budget_daily: float = 50.0
+    ai_enable_streaming: bool = True
+    ai_enable_cost_tracking: bool = True
+    ai_enable_semantic_cache: bool = True
+
+    # Supabase
+    supabase_service_role_key: str = ""
+
+    # Agent runtime
+    agent_max_concurrent: int = 10
+    agent_default_timeout: int = 60
+
+    # Event bus
+    event_bus_type: str = "redis"  # redis | memory
+    event_bus_stream_prefix: str = "pix:events"
+
+    # Worker
+    worker_poll_interval: int = 5
+    worker_max_retries: int = 3
     @model_validator(mode="after")
     def _validate_production_secrets(self) -> Settings:
         is_production = self.app_environment.lower() in {"production", "prod", "staging"}

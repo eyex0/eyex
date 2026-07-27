@@ -1,0 +1,189 @@
+# ══════════════════════════════════════════════════════════════
+# πX Enterprise Intelligence Platform — Production Docker Compose
+# ══════════════════════════════════════════════════════════════
+# Full production stack: Frontend + API + PostgreSQL + Redis + Workers
+#
+# Usage:
+#   docker compose -f docker-compose.production.yml up -d
+#   docker compose -f docker-compose.production.yml down
+#
+# Prerequisites:
+#   - .env.production file with all secrets (see .env.example)
+#   - Supabase project active (or local PostgreSQL)
+# ══════════════════════════════════════════════════════════════
+
+services:
+  # ───────────────────────────────────────────────────────────
+  # Frontend — Vite build served by nginx
+  # ───────────────────────────────────────────────────────────
+  pix-frontend:
+    build:
+      context: .
+      target: production
+    container_name: pix-frontend
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.production.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./certs:/etc/nginx/certs:ro  # SSL certs (mount or use Cloudflare)
+    depends_on:
+      pix-api:
+        condition: service_healthy
+    networks:
+      - pix-network
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost/"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # ───────────────────────────────────────────────────────────
+  # API — FastAPI backend (uvicorn workers)
+  # ───────────────────────────────────────────────────────────
+  pix-api:
+    build:
+      context: ./pix-backend
+      dockerfile: Dockerfile.prod
+    container_name: pix-api
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env.production
+    environment:
+      - APP_ENVIRONMENT=production
+      - PYTHONUNBUFFERED=1
+      - PYTHONDONTWRITEBYTECODE=1
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import httpx; r=httpx.get('http://localhost:8000/api/v1/health'); exit(0 if r.status_code==200 else 1)"]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+    networks:
+      - pix-network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "20m"
+        max-file: "5"
+
+  # ───────────────────────────────────────────────────────────
+  # Background Worker — Runs scheduled agents, event processing
+  # ───────────────────────────────────────────────────────────
+  pix-worker:
+    build:
+      context: ./pix-backend
+      dockerfile: Dockerfile.prod
+    container_name: pix-worker
+    restart: unless-stopped
+    command: python -m app.worker
+    env_file:
+      - .env.production
+    environment:
+      - APP_ENVIRONMENT=production
+      - WORKER_MODE=background
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - pix-network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "20m"
+        max-file: "5"
+
+  # ───────────────────────────────────────────────────────────
+  # Alembic Migration Runner — Runs once on deploy
+  # ───────────────────────────────────────────────────────────
+  pix-migrate:
+    build:
+      context: ./pix-backend
+      dockerfile: Dockerfile.prod
+    container_name: pix-migrate
+    command: alembic upgrade head
+    env_file:
+      - .env.production
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - pix-network
+    restart: "no"  # Run once and exit
+
+  # ───────────────────────────────────────────────────────────
+  # PostgreSQL 16 — Primary database (or use external Supabase)
+  # ───────────────────────────────────────────────────────────
+  postgres:
+    image: postgres:16-alpine
+    container_name: pix-postgres
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-pix}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-pix_password}
+      POSTGRES_DB: ${POSTGRES_DB:-pix}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./pix-backend/alembic/versions:/migrations:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-pix}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      - pix-network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # ───────────────────────────────────────────────────────────
+  # Redis 7 — Cache + Event Bus (Redis Streams)
+  # ───────────────────────────────────────────────────────────
+  redis:
+    image: redis:7-alpine
+    container_name: pix-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    command: redis-server --maxmemory 512mb --maxmemory-policy allkeys-lru --appendonly yes --stream-node-max-bytes 4096
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    networks:
+      - pix-network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+networks:
+  pix-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  redis_data:
